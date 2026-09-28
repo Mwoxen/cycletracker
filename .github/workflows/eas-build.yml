@@ -1,0 +1,125 @@
+# Builds a native iOS app on EAS and submits it to TestFlight.
+#
+# Runs automatically when files that change the native app are pushed to main
+# (dependencies, config, assets) and on demand via "Run workflow".
+# JavaScript-only changes never need this: eas-update.yml delivers them over the air.
+#
+# Requires secrets: EXPO_TOKEN, ASC_KEY_ID, ASC_ISSUER_ID, ASC_API_KEY_P8, APPLE_TEAM_ID.
+# Optional: ASC_APP_ID (enables auto-submit to TestFlight), APPLE_TEAM_TYPE (default INDIVIDUAL).
+name: EAS Build (iOS)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - package.json
+      - package-lock.json
+      - app.config.ts
+      - eas.json
+      - assets/**
+      - .github/workflows/eas-build.yml
+  workflow_dispatch:
+    inputs:
+      submit:
+        description: Submit to TestFlight when the build finishes
+        type: boolean
+        default: true
+
+concurrency:
+  group: eas-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and submit
+    runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      ASC_APP_ID: ${{ secrets.ASC_APP_ID }}
+    steps:
+      - name: Check required secrets
+        id: secrets
+        run: |
+          missing=""
+          for name in EXPO_TOKEN ASC_KEY_ID ASC_ISSUER_ID APPLE_TEAM_ID; do
+            if [ -z "${!name}" ]; then missing="$missing $name"; fi
+          done
+          if [ -z "${{ secrets.ASC_API_KEY_P8 }}" ]; then missing="$missing ASC_API_KEY_P8"; fi
+          if [ -n "$missing" ]; then
+            echo "::warning::Skipping iOS build. Missing secrets:$missing. See SETUP.md."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.secrets.outputs.ready == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.secrets.outputs.ready == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: expo/expo-github-action@v8
+        if: steps.secrets.outputs.ready == 'true'
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - run: npm ci
+        if: steps.secrets.outputs.ready == 'true'
+
+      - name: Require a linked EAS project
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          if [ ! -s .eas-project-id ]; then
+            echo "::error::No .eas-project-id yet. Run the 'EAS Update' workflow once first (it links the project)."
+            exit 1
+          fi
+
+      - name: Write the App Store Connect API key and submit profile
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          printf '%s' "${{ secrets.ASC_API_KEY_P8 }}" > asc-api-key.p8
+          node -e '
+            const fs = require("fs");
+            const eas = JSON.parse(fs.readFileSync("eas.json", "utf8"));
+            eas.submit.production.ios = {
+              ascApiKeyPath: "./asc-api-key.p8",
+              ascApiKeyId: process.env.ASC_KEY_ID,
+              ascApiKeyIssuerId: process.env.ASC_ISSUER_ID,
+              appleTeamId: process.env.APPLE_TEAM_ID,
+              ...(process.env.ASC_APP_ID ? { ascAppId: process.env.ASC_APP_ID } : {}),
+            };
+            fs.writeFileSync("eas.json", JSON.stringify(eas, null, 2) + "\n");
+          '
+
+      - name: Build on EAS and submit to TestFlight
+        if: steps.secrets.outputs.ready == 'true'
+        env:
+          # Lets EAS create the bundle identifier, certificate and provisioning
+          # profile on Apple's side without any interactive login.
+          EXPO_ASC_API_KEY_PATH: ${{ github.workspace }}/asc-api-key.p8
+          EXPO_ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          EXPO_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          EXPO_APPLE_TEAM_TYPE: ${{ secrets.APPLE_TEAM_TYPE || 'INDIVIDUAL' }}
+          SUBMIT_INPUT: ${{ github.event.inputs.submit || 'true' }}
+        run: |
+          if [ "$SUBMIT_INPUT" = "true" ] && [ -n "$ASC_APP_ID" ]; then
+            echo "Building and auto-submitting to TestFlight (ASC app $ASC_APP_ID)."
+            eas build --platform ios --profile production --non-interactive --no-wait --auto-submit
+          else
+            if [ -z "$ASC_APP_ID" ]; then
+              echo "::warning::ASC_APP_ID secret is not set, so the build will not be submitted. Create the app in App Store Connect and add the secret (SETUP.md step 3)."
+            fi
+            eas build --platform ios --profile production --non-interactive --no-wait
+          fi
+
+      - name: Remove the API key file
+        if: always()
+        run: rm -f asc-api-key.p8

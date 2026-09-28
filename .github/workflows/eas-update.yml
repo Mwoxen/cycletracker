@@ -1,0 +1,90 @@
+# Publishes every push to main as an over-the-air update:
+#   - channel "production": picked up by the TestFlight / App Store build on next launch
+#   - channel "expo-go":    loadable in the Expo Go app without any build
+#
+# The first run creates the EAS project and commits its id to `.eas-project-id`.
+# Requires the EXPO_TOKEN repository secret (see SETUP.md).
+name: EAS Update
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: eas-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    name: Publish OTA update
+    runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - name: Stop early when EXPO_TOKEN is missing
+        if: env.EXPO_TOKEN == ''
+        run: |
+          echo "::warning::EXPO_TOKEN secret is not set. Follow SETUP.md step 1 to enable OTA updates."
+          exit 0
+
+      - uses: actions/checkout@v4
+        if: env.EXPO_TOKEN != ''
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        if: env.EXPO_TOKEN != ''
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: expo/expo-github-action@v8
+        if: env.EXPO_TOKEN != ''
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - run: npm ci
+        if: env.EXPO_TOKEN != ''
+
+      - name: Create the EAS project on first run
+        if: env.EXPO_TOKEN != ''
+        run: |
+          if [ -s .eas-project-id ]; then
+            echo "EAS project id: $(cat .eas-project-id)"
+            exit 0
+          fi
+          ACCOUNT=$(eas whoami 2>/dev/null | tail -n 1 | tr -d '[:space:]')
+          echo "Creating or linking EAS project for account: $ACCOUNT"
+          eas init --account "$ACCOUNT" --non-interactive --force --json > eas-init.json || true
+          cat eas-init.json || true
+          PROJECT_ID=$(node -e "try{const j=require('./eas-init.json');console.log(j.id||j.projectId||'')}catch(e){console.log('')}")
+          if [ -z "$PROJECT_ID" ]; then
+            # Fall back to reading the id from the linked project config.
+            PROJECT_ID=$(eas project:info 2>/dev/null | grep -i "ID" | head -n 1 | awk '{print $NF}')
+          fi
+          rm -f eas-init.json
+          if [ -z "$PROJECT_ID" ]; then
+            echo "::error::Could not determine the EAS project id. Run 'npx eas-cli init' locally once and commit .eas-project-id."
+            exit 1
+          fi
+          echo "$PROJECT_ID" > .eas-project-id
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .eas-project-id
+          git commit -m "Link EAS project (${PROJECT_ID})"
+          git push origin HEAD:main
+
+      - name: Publish update for real builds (fingerprint runtime)
+        if: env.EXPO_TOKEN != ''
+        run: eas update --channel production --platform ios --auto --non-interactive
+
+      - name: Publish update for Expo Go preview (SDK runtime)
+        if: env.EXPO_TOKEN != ''
+        env:
+          EXPO_GO_PREVIEW: '1'
+        run: eas update --channel expo-go --platform ios --auto --non-interactive

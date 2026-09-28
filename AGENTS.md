@@ -1,41 +1,41 @@
-This is an Expo/React Native mobile application. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
+This is an Expo (React Native) iOS app written in TypeScript. Read `README.md` for the purpose and
+`SETUP.md` for the deployment pipeline before changing anything.
 
-## Expo has changed — do not trust your training data
+## Ground rules
 
-Expo ships breaking changes every SDK release. APIs you remember are likely renamed, moved, or removed. Before writing any code that touches an Expo, EAS, or React Native API:
-
-1. Read the major version of the `expo` package in `package.json`.
-2. Fetch the matching versioned docs: `https://docs.expo.dev/versions/v<major>.0.0/`
-3. For anything else, fetch https://docs.expo.dev/llms.txt — an index of all Expo docs with corrections to common LLM misconceptions. Follow its links to the specific page you need; never answer from memory.
+- Expo SDK 57. Check the `expo` version in `package.json` before touching any Expo, EAS or React
+  Native API; docs for this SDK live at https://docs.expo.dev/versions/v57.0.0/. Do not trust memory.
+- Native-first UI: Expo Router `NativeTabs` for tabs, native stack with large titles, `formSheet`
+  presentation for logging, `@expo/ui` and system controls (`Switch`, `Alert`) over JS look-alikes.
+  Visual design is deliberately minimal until the design phase; keep it neutral and consistent.
+- Routes live in `src/app/`. Non-route code goes in `src/engine`, `src/store`, `src/content`,
+  `src/i18n`, `src/ui`, `src/hooks`, `src/notifications`.
+- The cycle engine (`src/engine/cycle.ts`) is pure and fully unit tested. Change tests with behavior.
+- Content is authored per language in `src/content/<lang>/month-NN.ts` and validated by
+  `src/content/content.test.ts` (card length, an action on every card, weekly reading time, quiz
+  validity, language parity). Every daily card must end in something the partner can do.
+- Every UI string goes through i18n (`src/i18n/da.ts` is the source of truth; `en.ts` is typed
+  against it so missing keys fail typecheck).
+- Privacy: no analytics, no crash reporting, no network calls besides EAS Update and iCloud.
+- Predictions are educational; never present them as contraception.
 
 ## Commands
 
-Use `bunx` instead of `npx` if the project uses bun (`bun.lock` present).
-
 ```bash
-npx expo install <package>  # ALWAYS use instead of npm/yarn/pnpm/bun add — resolves SDK-compatible versions
-npx expo start              # start the dev server
-npx expo lint               # lint
-npx tsc --noEmit            # typecheck
-npx expo-doctor             # diagnose dependency and config issues
-npx expo install --fix      # fix incompatible package versions
+npm ci
+npm run lint        # eslint
+npm run typecheck   # tsc --noEmit
+npm test            # jest
+npm run check       # all three
+npx expo config --type public   # verify app.config.ts resolves
 ```
 
-Run lint and typecheck before declaring any task done.
+Run `npm run check` before every commit. CI runs the same on every push.
 
-## Navigation & Routing
+## Deployment
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
-- Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
-- Docs: https://docs.expo.dev/router/introduction.md
-
-## Building with EAS
-
-Use EAS to build, sign, and submit the app in the cloud (`eas build`, `eas submit`) and to ship over-the-air updates (`eas update`) — no local Xcode or Android Studio required. Run EAS CLI as `bunx eas-cli <command>` in Bun projects, or `npx eas-cli@latest <command>` otherwise; substitute that for bare `eas` in docs examples.
-Docs: https://docs.expo.dev/eas/index.md
-
-## Rules
-
-- If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
-- Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
-- Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+- Push to `main` publishes an OTA update (`.github/workflows/eas-update.yml`) to the `production`
+  channel (TestFlight builds) and the `expo-go` channel (Expo Go preview).
+- Native builds (`.github/workflows/eas-build.yml`) run only when native-affecting files change or
+  on demand. `ios/` and `android/` are generated; never commit them.
+- `.eas-project-id` is written by the first EAS Update run. Do not invent a project id.
