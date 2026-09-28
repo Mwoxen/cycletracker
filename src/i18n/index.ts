@@ -16,6 +16,7 @@ export function deviceLanguage(): Language {
 }
 
 if (!i18n.isInitialized) {
+  // eslint-disable-next-line import/no-named-as-default-member
   void i18n.use(initReactI18next).init({
     resources: { da: { translation: da }, en: { translation: en } },
     lng: deviceLanguage(),
@@ -26,6 +27,7 @@ if (!i18n.isInitialized) {
 }
 
 export function setLanguage(lang: Language) {
+  // eslint-disable-next-line import/no-named-as-default-member
   if (i18n.language !== lang) void i18n.changeLanguage(lang);
 }
 
