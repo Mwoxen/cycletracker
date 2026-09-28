@@ -1,4 +1,4 @@
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -62,46 +62,40 @@ export default function HomeScreen() {
       )}
 
       {phaseInfo && isTracker ? (
-        <Link href={`/(tabs)/learn/phase/${phaseInfo.phase}`} asChild>
-          <Card>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Txt variant="footnote">{t('home.whatYouCanDo')}</Txt>
-              <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
-            </View>
-            <Bullets items={phaseInfo.whatYouCanDo.slice(0, 3)} />
-          </Card>
-        </Link>
+        <Card onPress={() => router.push(`/(tabs)/learn/phase/${phaseInfo.phase}`)}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Txt variant="footnote">{t('home.whatYouCanDo')}</Txt>
+            <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
+          </View>
+          <Bullets items={phaseInfo.whatYouCanDo.slice(0, 3)} />
+        </Card>
       ) : null}
 
       {phaseInfo && !isTracker ? (
-        <Link href={`/(tabs)/learn/phase/${phaseInfo.phase}`} asChild>
-          <Card>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Txt variant="footnote">{t('home.whatHappensNow')}</Txt>
-              <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
-            </View>
-            <Bullets items={phaseInfo.howSheMayFeel.slice(0, 3)} />
-          </Card>
-        </Link>
+        <Card onPress={() => router.push(`/(tabs)/learn/phase/${phaseInfo.phase}`)}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Txt variant="footnote">{t('home.whatHappensNow')}</Txt>
+            <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
+          </View>
+          <Bullets items={phaseInfo.howSheMayFeel.slice(0, 3)} />
+        </Card>
       ) : null}
 
       {program.weekly ? (
-        <Link href={`/(tabs)/learn/weekly/${program.weekly.id}`} asChild>
-          <Card>
-            <Txt variant="footnote">{t('home.conversation')}</Txt>
-            <Txt variant="headline">{program.weekly.conversationQuestion}</Txt>
-          </Card>
-        </Link>
+        <Card onPress={() => router.push(`/(tabs)/learn/weekly/${program.weekly!.id}`)}>
+          <Txt variant="footnote">{t('home.conversation')}</Txt>
+          <Txt variant="headline">{program.weekly.conversationQuestion}</Txt>
+        </Card>
       ) : null}
 
       {snapshot.hasData ? (

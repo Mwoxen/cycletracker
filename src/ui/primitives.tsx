@@ -61,7 +61,21 @@ const textColor: Record<TextVariant, ColorValue> = {
 };
 
 /** Grouped inset card, like a section in Settings. */
-export function Card({ children, style }: PropsWithChildren<{ style?: StyleProp<ViewStyle> }>) {
+export function Card({
+  children,
+  style,
+  onPress,
+}: PropsWithChildren<{ style?: StyleProp<ViewStyle>; onPress?: () => void }>) {
+  if (onPress) {
+    return (
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="button"
+        style={({ pressed }) => [styles.card, style, pressed && styles.pressed]}>
+        {children}
+      </Pressable>
+    );
+  }
   return <View style={[styles.card, style]}>{children}</View>;
 }
 

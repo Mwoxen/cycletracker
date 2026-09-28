@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
@@ -18,6 +18,7 @@ export function PhaseCard({
   isTracker: boolean;
 }) {
   const { t } = useTranslation();
+  const router = useRouter();
   const today = snapshot.today;
   const prediction = snapshot.prediction;
   if (!today || !prediction) return null;
@@ -47,37 +48,35 @@ export function PhaseCard({
         : t('home.regularity.irregular', { n: stats.averageCycleLength, v: stats.variability });
 
   return (
-    <Link href={`/(tabs)/learn/phase/${phase}`} asChild>
-      <Card>
-        <View style={styles.header}>
-          <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
-            <Symbol name={phaseSymbol[phase] as SFSymbol} size={22} color={colors.white} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Txt variant="title">
-              {isTracker
-                ? t('home.sheIsIn', { name, phase: phaseName.toLowerCase() })
-                : t('home.youAreIn', { phase: phaseName.toLowerCase() })}
-            </Txt>
-            <Txt variant="footnote">
-              {t('common.cycleDay', { n: today.cycleDay })} · {t(`phases.short.${phase}`)}
-            </Txt>
-          </View>
-          <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
+    <Card onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}>
+      <View style={styles.header}>
+        <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
+          <Symbol name={phaseSymbol[phase] as SFSymbol} size={22} color={colors.white} />
         </View>
-        <View style={styles.badges}>
-          {today.isPms ? <Badge label={t('home.pmsWindow')} color={colors.purple} /> : null}
-          {today.isOvulation ? (
-            <Badge label={t('home.ovulationToday')} color={colors.orange} />
-          ) : null}
-          {today.isFertile && !today.isOvulation ? (
-            <Badge label={t('home.fertileWindow')} color={colors.teal} />
-          ) : null}
+        <View style={{ flex: 1 }}>
+          <Txt variant="title">
+            {isTracker
+              ? t('home.sheIsIn', { name, phase: phaseName.toLowerCase() })
+              : t('home.youAreIn', { phase: phaseName.toLowerCase() })}
+          </Txt>
+          <Txt variant="footnote">
+            {t('common.cycleDay', { n: today.cycleDay })} · {t(`phases.short.${phase}`)}
+          </Txt>
         </View>
-        <Txt variant="callout">{nextLine}</Txt>
-        <Txt variant="footnote">{regularity}</Txt>
-      </Card>
-    </Link>
+        <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
+      </View>
+      <View style={styles.badges}>
+        {today.isPms ? <Badge label={t('home.pmsWindow')} color={colors.purple} /> : null}
+        {today.isOvulation ? (
+          <Badge label={t('home.ovulationToday')} color={colors.orange} />
+        ) : null}
+        {today.isFertile && !today.isOvulation ? (
+          <Badge label={t('home.fertileWindow')} color={colors.teal} />
+        ) : null}
+      </View>
+      <Txt variant="callout">{nextLine}</Txt>
+      <Txt variant="footnote">{regularity}</Txt>
+    </Card>
   );
 }
 

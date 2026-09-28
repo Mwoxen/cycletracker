@@ -26,6 +26,13 @@ export default function RootLayout() {
     if (hydrated) void SplashScreen.hideAsync();
   }, [hydrated]);
 
+  // Never leave the user on a blank screen if storage fails to rehydrate.
+  const setHydrated = useStore((s) => s.setHydrated);
+  useEffect(() => {
+    const handle = setTimeout(() => setHydrated(true), 4000);
+    return () => clearTimeout(handle);
+  }, [setHydrated]);
+
   // Keep local notifications in step with the data; debounced so rapid edits only schedule once.
   useEffect(() => {
     if (!hydrated) return;

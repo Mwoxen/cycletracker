@@ -1,4 +1,4 @@
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -82,24 +82,20 @@ export default function LearnScreen() {
           const done =
             isMonthWrapUnlocked(position, m) && !!month && !!progress[month.wrap.id]?.quizScore;
           return (
-            <Link key={m} href={`/(tabs)/learn/month/${m}`} asChild>
-              <View>
-                <Row
-                  title={
-                    month
-                      ? t('learn.monthTheme', { n: m, theme: month.theme })
-                      : t('learn.month', { n: m })
-                  }
-                  subtitle={!available ? t('learn.contentMissing') : month?.focus}
-                  symbol={
-                    done ? 'checkmark.seal.fill' : unlocked ? 'book.closed.fill' : 'lock.fill'
-                  }
-                  symbolColor={done ? colors.green : unlocked ? colors.tint : colors.tertiaryLabel}
-                  chevron
-                  last={m === MONTHS_IN_PROGRAM}
-                />
-              </View>
-            </Link>
+            <View key={m}>
+              <Row
+                title={
+                  month
+                    ? t('learn.monthTheme', { n: m, theme: month.theme })
+                    : t('learn.month', { n: m })
+                }
+                subtitle={!available ? t('learn.contentMissing') : month?.focus}
+                symbol={done ? 'checkmark.seal.fill' : unlocked ? 'book.closed.fill' : 'lock.fill'}
+                symbolColor={done ? colors.green : unlocked ? colors.tint : colors.tertiaryLabel}
+                onPress={() => router.push(`/(tabs)/learn/month/${m}`)}
+                last={m === MONTHS_IN_PROGRAM}
+              />
+            </View>
           );
         })}
       </Card>
