@@ -1,0 +1,168 @@
+import { DEFAULT_SETTINGS, type PeriodEvent, type Profile } from '@/domain/types';
+
+import {
+  createSnapshot,
+  createSyncSnapshot,
+  mergeSnapshot,
+  parseSnapshot,
+  serializeSnapshot,
+  type SnapshotData,
+} from './snapshot';
+
+const profile: Profile = {
+  id: 'me',
+  role: 'user',
+  language: 'da',
+  partnerName: 'Anna',
+  programStartDate: '2026-03-01',
+  plan: 'free',
+  onboardedAt: 1,
+};
+
+function data(overrides: Partial<SnapshotData> = {}): SnapshotData {
+  return {
+    profile,
+    settings: DEFAULT_SETTINGS,
+    periods: {},
+    logs: {},
+    progress: {},
+    pairing: {},
+    ...overrides,
+  };
+}
+
+const p = (id: string, startDate: string, updatedAt: number, extra = {}): PeriodEvent => ({
+  id,
+  startDate,
+  updatedAt,
+  ...extra,
+});
+
+describe('snapshot round trip', () => {
+  it('serializes and parses back the same content', () => {
+    const d = data({ periods: { a: p('a', '2026-03-01', 10) } });
+    const snap = createSnapshot(d, 'dev1', 123);
+    const parsed = parseSnapshot(serializeSnapshot(snap));
+    expect(parsed).toEqual(snap);
+  });
+
+  it('rejects garbage', () => {
+    expect(() => parseSnapshot('nope')).toThrow('invalid-json');
+    expect(() => parseSnapshot('42')).toThrow('not-an-object');
+    expect(() => parseSnapshot('{"version": 99}')).toThrow('unsupported-version');
+  });
+
+  it('drops malformed records instead of failing', () => {
+    const parsed = parseSnapshot(
+      JSON.stringify({ version: 1, periods: [{ id: 'x' }, p('ok', '2026-01-01', 1)], logs: 'no' }),
+    );
+    expect(parsed.periods.map((x) => x.id)).toEqual(['ok']);
+    expect(parsed.logs).toEqual([]);
+  });
+});
+
+describe('mergeSnapshot', () => {
+  it('applies last-write-wins per record', () => {
+    const current = data({
+      periods: { a: p('a', '2026-03-01', 10), b: p('b', '2026-03-29', 20) },
+    });
+    const incoming = createSnapshot(
+      data({
+        periods: {
+          a: p('a', '2026-03-02', 5), // older: ignored
+          b: p('b', '2026-03-30', 25), // newer: wins
+          c: p('c', '2026-04-27', 1), // new
+        },
+      }),
+      'dev2',
+    );
+    const r = mergeSnapshot(current, incoming, { includeProfile: false, includeProgress: false });
+    expect(r.data.periods.a.startDate).toBe('2026-03-01');
+    expect(r.data.periods.b.startDate).toBe('2026-03-30');
+    expect(r.data.periods.c).toBeDefined();
+    expect(r.periodsChanged).toBe(2);
+  });
+
+  it('carries deletions', () => {
+    const current = data({ periods: { a: p('a', '2026-03-01', 10) } });
+    const incoming = createSnapshot(
+      data({ periods: { a: p('a', '2026-03-01', 11, { deleted: true }) } }),
+      'dev2',
+    );
+    const r = mergeSnapshot(current, incoming, { includeProfile: false, includeProgress: false });
+    expect(r.data.periods.a.deleted).toBe(true);
+  });
+
+  it('keeps own profile and progress on partner sync', () => {
+    const other: Profile = { ...profile, id: 'other', role: 'tracker' };
+    const current = data({ progress: { l1: { lessonId: 'l1', readAt: 5 } } });
+    const incoming = createSnapshot(
+      data({ profile: other, progress: { l2: { lessonId: 'l2', readAt: 6 } } }),
+      'dev2',
+    );
+    const r = mergeSnapshot(current, incoming, { includeProfile: false, includeProgress: false });
+    expect(r.data.profile?.id).toBe('me');
+    expect(Object.keys(r.data.progress)).toEqual(['l1']);
+  });
+
+  it('restores profile, settings and progress from a backup', () => {
+    const current: SnapshotData = data({ profile: undefined });
+    const incoming = createSnapshot(
+      data({
+        settings: { ...DEFAULT_SETTINGS, defaultCycleLength: 30 },
+        progress: {
+          l1: { lessonId: 'l1', readAt: 5, quizScore: 3, quizTotal: 5 },
+        },
+      }),
+      'dev2',
+    );
+    const r = mergeSnapshot(current, incoming, { includeProfile: true, includeProgress: true });
+    expect(r.data.profile?.id).toBe('me');
+    expect(r.data.settings.defaultCycleLength).toBe(30);
+    expect(r.data.progress.l1.quizScore).toBe(3);
+  });
+
+  it('merges progress keeping earliest read and best quiz', () => {
+    const current = data({
+      progress: { l1: { lessonId: 'l1', readAt: 9, quizScore: 2, quizTotal: 5 } },
+    });
+    const incoming = createSnapshot(
+      data({
+        progress: {
+          l1: { lessonId: 'l1', readAt: 4, actionDoneAt: 7, quizScore: 4, quizTotal: 5 },
+        },
+      }),
+      'dev2',
+    );
+    const r = mergeSnapshot(current, incoming, { includeProfile: true, includeProgress: true });
+    expect(r.data.progress.l1).toEqual({
+      lessonId: 'l1',
+      readAt: 4,
+      actionDoneAt: 7,
+      quizScore: 4,
+      quizTotal: 5,
+    });
+  });
+
+  it('is idempotent', () => {
+    const current = data({ periods: { a: p('a', '2026-03-01', 10) } });
+    const snap = createSnapshot(current, 'dev1');
+    const once = mergeSnapshot(current, snap, { includeProfile: true, includeProgress: true });
+    const twice = mergeSnapshot(once.data, snap, { includeProfile: true, includeProgress: true });
+    expect(twice.data).toEqual(once.data);
+    expect(twice.periodsChanged).toBe(0);
+  });
+});
+
+describe('createSyncSnapshot', () => {
+  it('only includes cycle data changed since the given time', () => {
+    const d = data({
+      periods: { a: p('a', '2026-03-01', 10), b: p('b', '2026-03-29', 20) },
+      progress: { l1: { lessonId: 'l1', readAt: 1 } },
+    });
+    const snap = createSyncSnapshot(d, 'dev1', 15);
+    expect(snap.periods.map((x) => x.id)).toEqual(['b']);
+    expect(snap.profile).toBeUndefined();
+    expect(snap.progress).toEqual([]);
+  });
+});
