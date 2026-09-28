@@ -96,3 +96,5 @@ export const dailyId = (month: number, day: number) =>
 export const weeklyId = (month: number, week: number) =>
   `m${String(month).padStart(2, '0')}-w${week}`;
 export const wrapId = (month: number) => `m${String(month).padStart(2, '0')}-wrap`;
+
+export const PHASE_ORDER: Phase[] = ['menstrual', 'follicular', 'ovulation', 'luteal'];

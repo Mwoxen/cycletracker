@@ -5,6 +5,7 @@ import {
   cycleSnapshot,
   dayStatus,
   isPredictedPeriodDay,
+  projectedPeriods,
   phaseForCycleDay,
   predict,
 } from './cycle';
@@ -244,5 +245,20 @@ describe('phaseForCycleDay', () => {
     [28, 'luteal'],
   ])('day %i of a 28-day cycle is %s', (day, phase) => {
     expect(phaseForCycleDay(day, 28, 5, 14)).toBe(phase);
+  });
+});
+
+describe('projectedPeriods', () => {
+  it('adds predicted periods after the last real one', () => {
+    const real = [period('2026-03-01', '2026-03-05')];
+    const all = projectedPeriods(real, settings, '2026-03-10', 2);
+    expect(all.map((p) => p.startDate)).toEqual(['2026-03-01', '2026-03-29', '2026-04-26']);
+    expect(all[1].id).toBe('predicted-0');
+    expect(all[1].endDate).toBe('2026-04-02');
+    // Days in the projected cycle resolve to phases.
+    expect(dayStatus(all, settings, '2026-04-12')?.phase).toBe('ovulation');
+  });
+  it('returns real periods only when there is no data', () => {
+    expect(projectedPeriods([], settings, '2026-03-10')).toEqual([]);
   });
 });

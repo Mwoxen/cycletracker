@@ -8,6 +8,7 @@ export type ISODate = string;
 export type Role = 'user' | 'tracker';
 
 export type Language = 'da' | 'en';
+export const LANGUAGES: Language[] = ['da', 'en'];
 
 export type Phase = 'menstrual' | 'follicular' | 'ovulation' | 'luteal';
 

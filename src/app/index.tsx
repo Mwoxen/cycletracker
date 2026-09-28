@@ -1,10 +1,8 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Redirect } from 'expo-router';
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <ThemedText type="title">Cycle Tracker</ThemedText>
-    </ThemedView>
-  );
+import { useStore } from '@/store/store';
+
+export default function Index() {
+  const profile = useStore((s) => s.profile);
+  return <Redirect href={profile ? '/(tabs)/home' : '/onboarding'} />;
 }

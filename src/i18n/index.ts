@@ -3,12 +3,12 @@ import { getLocales } from 'expo-localization';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import type { Language } from '@/domain/types';
+import { LANGUAGES, type Language } from '@/domain/types';
 
 import da from './da';
 import en from './en';
 
-export const LANGUAGES: Language[] = ['da', 'en'];
+export { LANGUAGES };
 
 export function deviceLanguage(): Language {
   const code = getLocales()[0]?.languageCode ?? 'en';

@@ -291,3 +291,34 @@ export function phaseForCycleDay(
   if (cycleDay <= ovulationDay + 1) return 'ovulation';
   return 'luteal';
 }
+
+/**
+ * Real periods plus predicted future period starts, so the calendar can show
+ * phases beyond the current cycle. Predicted events get ids starting with "predicted-".
+ */
+export function projectedPeriods(
+  periods: PeriodEvent[],
+  settings: Settings,
+  today: ISODate,
+  cycles = 3,
+): PeriodEvent[] {
+  const real = sortedPeriods(periods);
+  const prediction = predict(real, settings, today);
+  if (!prediction) return real;
+  const stats = computeStats(real, settings);
+  const out = [...real];
+  let start = prediction.nextPeriodStart;
+  const lastReal = real[real.length - 1];
+  for (let i = 0; i < cycles; i++) {
+    if (compareISO(start, lastReal.startDate) > 0 && !real.some((p) => p.startDate === start)) {
+      out.push({
+        id: `predicted-${i}`,
+        startDate: start,
+        endDate: addDaysISO(start, stats.averagePeriodLength - 1),
+        updatedAt: 0,
+      });
+    }
+    start = addDaysISO(start, stats.averageCycleLength);
+  }
+  return out;
+}
