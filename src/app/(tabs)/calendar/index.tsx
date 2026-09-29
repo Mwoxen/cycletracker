@@ -8,6 +8,7 @@ import { useCycle } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { Legend, MonthGrid } from '@/ui/month-grid';
 import { Button, Screen } from '@/ui/primitives';
+import { TabSwipe } from '@/ui/tab-swipe';
 
 const MONTHS_AHEAD = 2;
 const MONTHS_PER_PRESS = 3;
@@ -35,21 +36,23 @@ export default function CalendarScreen() {
       : t('home.regularity.unknown');
 
   return (
-    <Screen title={t('calendar.title')} subtitle={subtitle}>
-      <Legend />
-      <Button
-        title={t('calendar.showEarlier')}
-        variant="plain"
-        onPress={() => setEarlier((n) => n + MONTHS_PER_PRESS)}
-      />
-      {months.map((m) => (
-        <MonthGrid
-          key={m.toISOString()}
-          month={m}
-          today={today}
-          onSelectDay={(date) => router.push(`/log/${date}`)}
+    <TabSwipe tab="calendar">
+      <Screen title={t('calendar.title')} subtitle={subtitle}>
+        <Legend />
+        <Button
+          title={t('calendar.showEarlier')}
+          variant="plain"
+          onPress={() => setEarlier((n) => n + MONTHS_PER_PRESS)}
         />
-      ))}
-    </Screen>
+        {months.map((m) => (
+          <MonthGrid
+            key={m.toISOString()}
+            month={m}
+            today={today}
+            onSelectDay={(date) => router.push(`/log/${date}`)}
+          />
+        ))}
+      </Screen>
+    </TabSwipe>
   );
 }

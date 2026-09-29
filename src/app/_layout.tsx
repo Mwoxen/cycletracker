@@ -9,6 +9,7 @@ import {
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useCloudBackup } from '@/hooks/use-cloud-backup';
 import { useWidgetSync } from '@/hooks/use-widget-sync';
@@ -71,21 +72,23 @@ export default function RootLayout() {
   if (!hydrated) return null;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <CatchBoundary>
-        <Stack>
-          <Stack.Protected guard={!!profile}>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="log/[date]" options={sheet} />
-            <Stack.Screen name="share" options={sheet} />
-            <Stack.Screen name="scan" options={sheet} />
-            <Stack.Screen name="import" options={sheet} />
-          </Stack.Protected>
-          <Stack.Protected guard={!profile}>
-            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-          </Stack.Protected>
-        </Stack>
-      </CatchBoundary>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <CatchBoundary>
+          <Stack>
+            <Stack.Protected guard={!!profile}>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="log/[date]" options={sheet} />
+              <Stack.Screen name="share" options={sheet} />
+              <Stack.Screen name="scan" options={sheet} />
+              <Stack.Screen name="import" options={sheet} />
+            </Stack.Protected>
+            <Stack.Protected guard={!profile}>
+              <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+            </Stack.Protected>
+          </Stack>
+        </CatchBoundary>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
