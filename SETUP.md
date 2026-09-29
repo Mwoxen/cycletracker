@@ -37,9 +37,24 @@ _Projects_ i Expo Go. Vælg kanalen `expo-go`. Det virker fra første grønne EA
 Er din Apple Developer-konto en virksomhed, så tilføj også secret `APPLE_TEAM_TYPE` = `COMPANY_OR_ORGANIZATION`.
 Ellers bruges `INDIVIDUAL`.
 
-6. Kør workflowet **EAS Build (iOS)** én gang: https://github.com/Mwoxen/cycletracker/actions/workflows/eas-build.yml
-   → **Run workflow**. Første kørsel opretter bundle-id'et `com.mwoxen.cycletracker`, certifikat og
-   provisioning profile hos Apple og laver det første build. Buildet kan følges på https://expo.dev.
+6. Opret signeringsnøglerne én gang fra din egen computer (EAS nægter at oprette certifikat og
+   provisioning profiles uden en person ved tastaturet; herefter genbruges de af GitHub):
+
+   ```bash
+   git clone https://github.com/Mwoxen/cycletracker.git && cd cycletracker
+   npm ci
+   npx eas-cli login
+   export APPLE_TEAM_ID=DIT_TEAM_ID        # PowerShell: $env:APPLE_TEAM_ID="DIT_TEAM_ID"
+   npx eas-cli build --platform ios --profile production --no-wait
+   ```
+
+   Svar **Y** til at logge ind med dit Apple ID (tofaktorkode på telefonen) og tryk Enter til
+   resten. Det opretter bundle-id'erne `com.mwoxen.cycletracker` og `.widget`, certifikat og
+   provisioning profiles hos Apple og starter det første build.
+
+7. Herefter kører workflowet **EAS Build (iOS)** selv ved push til `main`, eller på
+   https://github.com/Mwoxen/cycletracker/actions/workflows/eas-build.yml → **Run workflow**.
+   Builds kan følges på https://expo.dev/accounts/mwoxen/projects/cycletracker/builds.
 
 ## 3. Opret appen i App Store Connect (én gang, så builds kan sendes til TestFlight)
 
@@ -94,6 +109,7 @@ med de samme secrets. Det tager 20-30 minutter.
 ## Hvis noget driller
 
 - **EAS Update fejler med "project not found"**: slet `.eas-project-id` fra repoet og kør workflowet igen.
-- **EAS Build fejler på credentials**: tjek at `.p8`-indholdet er kopieret komplet, og at nøglen har rollen App Manager.
+- **EAS Build fejler med "Credentials are not set up"**: kør trin 2.6 fra din computer igen.
+- **EAS Build fejler på API-nøglen**: tjek at `.p8`-indholdet er kopieret komplet, og at nøglen har rollen App Manager.
 - **Buildet er grønt men kommer ikke i TestFlight**: `ASC_APP_ID` mangler eller er forkert (trin 3).
 - **Expo Go viser gammel version**: luk Expo Go helt og åbn igen; opdateringer hentes ved start.
