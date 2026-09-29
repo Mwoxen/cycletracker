@@ -173,7 +173,11 @@ export const useStore = create<AppState>()(
         const logs = { ...get().logs };
         const existing = Object.values(logs).find((l) => l.date === date);
         if (existing) {
-          logs[existing.id] = { ...existing, ...patch, deleted: false, updatedAt: now };
+          // A cleared log starts over instead of bringing back its old entries.
+          const base = existing.deleted
+            ? { id: existing.id, date: existing.date, symptoms: [] as DayLog['symptoms'] }
+            : existing;
+          logs[existing.id] = { ...base, ...patch, deleted: false, updatedAt: now };
         } else {
           const id = newId();
           logs[id] = { id, date, symptoms: [], ...patch, updatedAt: now };

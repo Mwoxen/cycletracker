@@ -23,7 +23,7 @@ export function DailyCardPreview({ card, isTracker }: { card: DailyCard; isTrack
         ) : null}
       </View>
       <Link href={`/(tabs)/learn/daily/${card.id}`} asChild>
-        <Pressable style={({ pressed }) => pressed && { opacity: 0.7 }}>
+        <Pressable>
           <Txt variant="title">{card.title}</Txt>
           <Txt numberOfLines={3} style={{ marginTop: spacing.xs }} color={colors.secondaryLabel}>
             {card.insight}

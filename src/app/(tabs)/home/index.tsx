@@ -57,15 +57,17 @@ export default function HomeScreen() {
             {t('home.programNotStarted', { date: fmt.short(profile?.programStartDate ?? today) })}
           </Txt>
         </Card>
+      ) : program.position.completed ? (
+        <Card>
+          <Txt>{t('home.programCompleted')}</Txt>
+        </Card>
       ) : program.card ? (
         <Reveal index={1}>
           <DailyCardPreview card={program.card} isTracker={isTracker} />
         </Reveal>
       ) : (
         <Card>
-          <Txt>
-            {program.position.completed ? t('home.programCompleted') : t('home.contentMissing')}
-          </Txt>
+          <Txt>{t('home.contentMissing')}</Txt>
         </Card>
       )}
 
@@ -118,7 +120,7 @@ export default function HomeScreen() {
         </Card>
       ) : null}
 
-      {program.weekly ? (
+      {program.weekly && !program.position.notStarted ? (
         <Card onPress={() => router.push(`/(tabs)/learn/weekly/${program.weekly!.id}`)}>
           <Txt variant="footnote">{t('home.conversation')}</Txt>
           <Txt variant="headline">{program.weekly.conversationQuestion}</Txt>

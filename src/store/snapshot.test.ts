@@ -53,6 +53,58 @@ describe('snapshot round trip', () => {
     expect(() => parseSnapshot('{"version": 99}')).toThrow('unsupported-version');
   });
 
+  it('sanitizes foreign or corrupt data so screens cannot crash on it', () => {
+    const parsed = parseSnapshot(
+      JSON.stringify({
+        version: 1,
+        exportedAt: 'yesterday',
+        deviceId: 'x',
+        senderName: 'Anna',
+        profile: { role: 'admin', language: 'da', programStartDate: '2026-03-01' },
+        settings: { defaultCycleLength: 0, lutealLength: '14', reminders: { dailyCardHour: 99 } },
+        periods: [
+          { id: 'p1', updatedAt: 1, startDate: 'not-a-date' },
+          { id: 'p2', updatedAt: 1, startDate: '2026-03-01', endDate: 42 },
+          { id: 'p3', updatedAt: 1, startDate: '2026-03-01' },
+        ],
+        logs: [
+          { id: 'l1', updatedAt: 1 },
+          { id: 'l2', updatedAt: 1, date: '2026-03-02', symptoms: ['cramps', 'teleportation'] },
+          { id: 'l3', updatedAt: 1, date: '2026-03-03' },
+        ],
+        progress: [],
+        pairing: { partnerName: 5, lastSyncAt: 'now' },
+      }),
+    );
+    expect(parsed.exportedAt).toBe(0);
+    expect(parsed.senderName).toBe('Anna');
+    expect(parsed.profile).toBeUndefined();
+    expect(parsed.settings).toEqual({
+      ...DEFAULT_SETTINGS,
+      defaultCycleLength: 21,
+      reminders: { ...DEFAULT_SETTINGS.reminders, dailyCardHour: 23 },
+    });
+    expect(parsed.periods.map((p) => p.id)).toEqual(['p3']);
+    expect(parsed.logs.map((l) => l.id)).toEqual(['l2', 'l3']);
+    expect(parsed.logs[0].symptoms).toEqual(['cramps']);
+    expect(parsed.logs[1].symptoms).toEqual([]);
+    expect(parsed.pairing).toEqual({});
+  });
+
+  it('signs sync payloads with the sender name only for the user role', () => {
+    const base: SnapshotData = {
+      profile: { ...profile, role: 'user', partnerName: 'Anna' },
+      settings: DEFAULT_SETTINGS,
+      periods: {},
+      logs: {},
+      progress: {},
+      pairing: {},
+    };
+    expect(createSyncSnapshot(base, 'd1').senderName).toBe('Anna');
+    const tracker = { ...base, profile: { ...base.profile!, role: 'tracker' as const } };
+    expect(createSyncSnapshot(tracker, 'd1').senderName).toBeUndefined();
+  });
+
   it('drops malformed records instead of failing', () => {
     const parsed = parseSnapshot(
       JSON.stringify({ version: 1, periods: [{ id: 'x' }, p('ok', '2026-01-01', 1)], logs: 'no' }),

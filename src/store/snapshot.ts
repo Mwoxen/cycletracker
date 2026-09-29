@@ -4,14 +4,17 @@
  */
 import type {
   DayLog,
+  ISODate,
   LessonProgress,
   PairingInfo,
   PeriodEvent,
   Profile,
   Settings,
+  Symptom,
   Syncable,
 } from '@/domain/types';
-import { DEFAULT_SETTINGS } from '@/domain/types';
+import { DEFAULT_SETTINGS, SYMPTOMS } from '@/domain/types';
+import { isValidISODate } from '@/engine/dates';
 
 export const SNAPSHOT_VERSION = 1;
 
@@ -20,6 +23,8 @@ export interface Snapshot {
   exportedAt: number;
   /** Device that produced the snapshot. */
   deviceId: string;
+  /** Display name of the person who shared a sync payload, when known. */
+  senderName?: string;
   profile?: Profile;
   settings?: Settings;
   periods: PeriodEvent[];
@@ -69,6 +74,8 @@ export function createSyncSnapshot(
     version: SNAPSHOT_VERSION,
     exportedAt: now,
     deviceId,
+    // A user's partnerName is their own name; a tracker's is the user's, so only the user signs.
+    senderName: data.profile?.role === 'user' ? data.profile.partnerName : undefined,
     periods: Object.values(data.periods).filter((p) => p.updatedAt > since),
     logs: Object.values(data.logs).filter((l) => l.updatedAt > since),
     progress: [],
@@ -152,7 +159,9 @@ export function serializeSnapshot(snapshot: Snapshot): string {
   return JSON.stringify(snapshot);
 }
 
-export class SnapshotParseError extends Error {}
+export class SnapshotParseError extends Error {
+  override name = 'SnapshotParseError';
+}
 
 export function parseSnapshot(text: string): Snapshot {
   let raw: unknown;
@@ -169,16 +178,100 @@ export function parseSnapshot(text: string): Snapshot {
   const arr = (v: unknown) => (Array.isArray(v) ? v : []);
   return {
     version: obj.version,
-    exportedAt: typeof obj.exportedAt === 'number' ? obj.exportedAt : 0,
+    exportedAt:
+      typeof obj.exportedAt === 'number' && Number.isFinite(obj.exportedAt) ? obj.exportedAt : 0,
     deviceId: typeof obj.deviceId === 'string' ? obj.deviceId : 'unknown',
-    profile: obj.profile as Profile | undefined,
-    settings: obj.settings as Settings | undefined,
-    periods: arr(obj.periods).filter(isSyncable) as PeriodEvent[],
-    logs: arr(obj.logs).filter(isSyncable) as DayLog[],
+    senderName: typeof obj.senderName === 'string' ? obj.senderName.slice(0, 60) : undefined,
+    profile: sanitizeProfile(obj.profile),
+    settings: sanitizeSettings(obj.settings),
+    periods: arr(obj.periods).filter(isPeriod),
+    logs: arr(obj.logs)
+      .filter(isSyncable)
+      .flatMap((l) => sanitizeLog(l)),
     progress: arr(obj.progress).filter(
       (p) => p && typeof p === 'object' && typeof (p as LessonProgress).lessonId === 'string',
     ) as LessonProgress[],
-    pairing: obj.pairing as PairingInfo | undefined,
+    pairing: sanitizePairing(obj.pairing),
+  };
+}
+
+/*
+ * Imported data comes from another phone, a file or iCloud, possibly written by a newer or
+ * corrupted version. Anything a screen dereferences is checked here so a bad payload is
+ * skipped or clamped rather than crashing the app.
+ */
+
+const isDate = (v: unknown): v is ISODate => typeof v === 'string' && isValidISODate(v);
+
+function isPeriod(v: unknown): v is PeriodEvent {
+  if (!isSyncable(v)) return false;
+  const p = v as Partial<PeriodEvent>;
+  return isDate(p.startDate) && (p.endDate === undefined || isDate(p.endDate));
+}
+
+function sanitizeLog(v: Syncable): DayLog[] {
+  const l = v as Partial<DayLog> & Syncable;
+  if (!isDate(l.date)) return [];
+  const symptoms = (Array.isArray(l.symptoms) ? l.symptoms : []).filter((x): x is Symptom =>
+    (SYMPTOMS as string[]).includes(x as string),
+  );
+  return [{ ...l, date: l.date, symptoms } as DayLog];
+}
+
+function sanitizeProfile(v: unknown): Profile | undefined {
+  if (!v || typeof v !== 'object') return undefined;
+  const p = v as Partial<Profile>;
+  if (p.role !== 'tracker' && p.role !== 'user') return undefined;
+  if (p.language !== 'da' && p.language !== 'en') return undefined;
+  if (!isDate(p.programStartDate)) return undefined;
+  return {
+    id: typeof p.id === 'string' ? p.id : 'imported',
+    role: p.role,
+    language: p.language,
+    partnerName: typeof p.partnerName === 'string' ? p.partnerName.slice(0, 60) : '',
+    programStartDate: p.programStartDate,
+    plan: 'free',
+    onboardedAt: typeof p.onboardedAt === 'number' ? p.onboardedAt : 0,
+  };
+}
+
+const int = (v: unknown, fallback: number, min: number, max: number): number =>
+  typeof v === 'number' && Number.isFinite(v)
+    ? Math.min(max, Math.max(min, Math.round(v)))
+    : fallback;
+
+function sanitizeSettings(v: unknown): Settings | undefined {
+  if (!v || typeof v !== 'object') return undefined;
+  const s = v as Partial<Settings>;
+  const r = (s.reminders && typeof s.reminders === 'object' ? s.reminders : {}) as Partial<
+    Settings['reminders']
+  >;
+  const d = DEFAULT_SETTINGS;
+  return {
+    defaultCycleLength: int(s.defaultCycleLength, d.defaultCycleLength, 21, 45),
+    defaultPeriodLength: int(s.defaultPeriodLength, d.defaultPeriodLength, 2, 10),
+    lutealLength: int(s.lutealLength, d.lutealLength, 10, 16),
+    cloudBackup: typeof s.cloudBackup === 'boolean' ? s.cloudBackup : d.cloudBackup,
+    reminders: {
+      dailyCard: typeof r.dailyCard === 'boolean' ? r.dailyCard : d.reminders.dailyCard,
+      dailyCardHour: int(r.dailyCardHour, d.reminders.dailyCardHour, 0, 23),
+      dailyCardMinute: int(r.dailyCardMinute, d.reminders.dailyCardMinute, 0, 59),
+      periodSoon: typeof r.periodSoon === 'boolean' ? r.periodSoon : d.reminders.periodSoon,
+      pmsWindow: typeof r.pmsWindow === 'boolean' ? r.pmsWindow : d.reminders.pmsWindow,
+    },
+  };
+}
+
+function sanitizePairing(v: unknown): PairingInfo | undefined {
+  if (!v || typeof v !== 'object') return undefined;
+  const p = v as Partial<PairingInfo>;
+  const str = (x: unknown) => (typeof x === 'string' ? x : undefined);
+  const num = (x: unknown) => (typeof x === 'number' && Number.isFinite(x) ? x : undefined);
+  return {
+    partnerDeviceId: str(p.partnerDeviceId),
+    partnerName: str(p.partnerName),
+    lastSyncAt: num(p.lastSyncAt),
+    lastSharedAt: num(p.lastSharedAt),
   };
 }
 

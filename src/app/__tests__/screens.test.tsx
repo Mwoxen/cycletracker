@@ -321,11 +321,12 @@ describe('later in the program', () => {
     expect(await learnTab().findByText(content.months[6].theme)).toBeTruthy();
   });
 
-  it('keeps showing the last card after the program has completed', async () => {
+  it('says the program is completed after day 360', async () => {
     onboard('tracker', addDaysISO(TODAY, -400));
     await renderApp('/home');
+    expect(await homeTab().findByText(/gennemført hele årsprogrammet/)).toBeTruthy();
     const last = content.months[11].daily.find((c) => c.day === 30)!;
-    expect(await homeTab().findByText(last.title)).toBeTruthy();
+    expect(homeTab().queryByText(last.title)).toBeNull();
   });
 
   it('renders home before the program has started', async () => {

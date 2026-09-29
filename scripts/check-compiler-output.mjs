@@ -9,7 +9,7 @@ import { createRequire } from 'node:module';
 import { globSync } from 'node:fs';
 
 const require = createRequire(import.meta.url);
-const files = globSync('src/**/*.tsx');
+const files = globSync('src/**/*.{ts,tsx}').filter((f) => !/\.test\.tsx?$/.test(f));
 const problems = [];
 
 for (const file of files) {

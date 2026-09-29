@@ -54,11 +54,11 @@ export default function SettingsScreen() {
     updateProfile({ language });
   };
   const toggleReminder = async (key: 'dailyCard' | 'periodSoon' | 'pmsWindow', value: boolean) => {
-    if (value && !(await requestNotificationPermission())) {
-      setNotifGranted(false);
-      return;
+    if (value) {
+      const granted = await requestNotificationPermission();
+      setNotifGranted(granted);
+      if (!granted) return;
     }
-    setNotifGranted(true);
     updateReminders({ [key]: value });
   };
   const reminderTime = new Date();

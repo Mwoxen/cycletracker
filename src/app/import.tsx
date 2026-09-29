@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 
+import { toISODate } from '@/engine/dates';
 import { useFormat } from '@/hooks/use-format';
 import { previewMerge, selectSnapshotData, useStore, type Snapshot } from '@/store';
 import { decodePayload } from '@/sync/payload';
@@ -37,7 +38,7 @@ export default function ImportSheet() {
   );
   const snapshot = parsed.snapshot;
   const fromSelf = snapshot?.deviceId === deviceId;
-  const senderName = snapshot?.profile?.partnerName;
+  const senderName = snapshot?.senderName;
   const nothingNew =
     !!preview &&
     preview.newPeriods + preview.updatedPeriods + preview.newLogs + preview.updatedLogs === 0;
@@ -87,9 +88,7 @@ export default function ImportSheet() {
                 ? t('sync.importFrom', { name: senderName })
                 : t('sync.importUnknownSender')}
             </Txt>
-            <Txt variant="footnote">
-              {fmt.long(new Date(snapshot.exportedAt).toISOString().slice(0, 10))}
-            </Txt>
+            <Txt variant="footnote">{fmt.long(toISODate(new Date(snapshot.exportedAt)))}</Txt>
             {nothingNew ? (
               <Txt color={colors.secondaryLabel}>{t('sync.importNothing')}</Txt>
             ) : (

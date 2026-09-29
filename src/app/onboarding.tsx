@@ -107,7 +107,7 @@ export default function Onboarding() {
             <Txt variant="headline">{t('onboarding.restoreTitle')}</Txt>
             <Txt variant="footnote">
               {t('onboarding.restoreBody', {
-                when: fmt.short(new Date(backup.exportedAt).toISOString().slice(0, 10)),
+                when: fmt.short(toISODate(new Date(backup.exportedAt))),
                 name: backup.profile?.partnerName ?? '',
                 periods: backup.periods.filter((p) => !p.deleted).length,
                 logs: backup.logs.filter((l) => !l.deleted).length,

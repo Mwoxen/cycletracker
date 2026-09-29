@@ -8,6 +8,7 @@ import { Platform } from 'react-native';
 import {
   createSnapshot,
   parseSnapshot,
+  SnapshotParseError,
   serializeSnapshot,
   type Snapshot,
   type SnapshotData,
@@ -63,7 +64,7 @@ export async function readCloudBackup(): Promise<Snapshot | undefined> {
     const text = await mod.CloudStorage.readFile(BACKUP_PATH, mod.CloudStorageScope.Documents);
     return parseSnapshot(text);
   } catch (e) {
-    if (e instanceof Error && e.name === 'SnapshotParseError') throw e;
+    if (e instanceof SnapshotParseError) throw e;
     return undefined;
   }
 }

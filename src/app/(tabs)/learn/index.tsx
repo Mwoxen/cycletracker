@@ -23,9 +23,15 @@ export default function LearnScreen() {
     [content, position, progress],
   );
 
-  const readCount = Object.values(progress).filter((p) => p.readAt).length;
+  const dailyIds = useMemo(
+    () => new Set(content.months.flatMap((m) => m.daily.map((c) => c.id))),
+    [content],
+  );
+  const readCount = Object.values(progress).filter(
+    (p) => p.readAt && dailyIds.has(p.lessonId),
+  ).length;
   const doneCount = Object.values(progress).filter((p) => p.actionDoneAt).length;
-  const totalCards = content.months.reduce((n, m) => n + m.daily.length, 0);
+  const totalCards = dailyIds.size;
 
   return (
     <Screen>
