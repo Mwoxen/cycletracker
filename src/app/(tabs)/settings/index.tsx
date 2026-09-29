@@ -73,6 +73,7 @@ export default function SettingsScreen() {
   const [name, setName] = useState(profile?.partnerName ?? '');
   const [openPicker, setOpenPicker] = useState<'start' | 'time' | null>(null);
   const [focusDrafts, setFocusDrafts] = useState<Partial<Record<CycleWeek, string>>>({});
+  const [updateState, setUpdateState] = useState<'idle' | 'checking' | 'downloading'>('idle');
 
   useEffect(() => {
     void hasNotificationPermission().then(setNotifGranted);
@@ -156,6 +157,30 @@ export default function SettingsScreen() {
       ]);
     } catch {
       Alert.alert(t('settings.cloudRestore'), t('settings.importFailed'));
+    }
+  };
+
+  /**
+   * Fetches the newest OTA update and restarts on it, so TestFlight testers do not have to
+   * relaunch the app twice. Disabled in Expo Go and development builds, where updates are off.
+   */
+  const fetchUpdate = async () => {
+    if (updateState !== 'idle') return;
+    setUpdateState('checking');
+    try {
+      const check = await Updates.checkForUpdateAsync();
+      if (!check.isAvailable) {
+        Alert.alert(t('settings.fetchUpdate'), t('settings.updateNone'));
+        return;
+      }
+      setUpdateState('downloading');
+      await Updates.fetchUpdateAsync();
+      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      await Updates.reloadAsync();
+    } catch (e) {
+      Alert.alert(t('settings.fetchUpdate'), e instanceof Error ? e.message : String(e));
+    } finally {
+      setUpdateState('idle');
     }
   };
 
@@ -492,8 +517,24 @@ export default function SettingsScreen() {
           <Row
             title={t('settings.update')}
             value={updateLabel(t('settings.updateEmbedded'))}
-            last
+            last={!Updates.isEnabled}
           />
+          {Updates.isEnabled ? (
+            <Row
+              title={t('settings.fetchUpdate')}
+              symbol="arrow.down.circle"
+              value={
+                updateState === 'checking'
+                  ? t('settings.updateChecking')
+                  : updateState === 'downloading'
+                    ? t('settings.updateDownloading')
+                    : undefined
+              }
+              onPress={() => void fetchUpdate()}
+              chevron={false}
+              last
+            />
+          ) : null}
         </Card>
 
         <SectionTitle>{t('settings.danger')}</SectionTitle>

@@ -5,6 +5,7 @@
  */
 import { render } from '@testing-library/react-native';
 import { fireEvent, screen, waitFor } from 'expo-router/testing-library';
+import * as Updates from 'expo-updates';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { getContent, dailyId, weeklyId, wrapId } from '@/content';
@@ -251,6 +252,16 @@ describe('tabs', () => {
     expect(useStore.getState().profile?.language).toBe('en');
     // The root layout follows the profile language, so the UI re-renders in English.
     expect(await settings.findByText('PROFILE')).toBeTruthy();
+  });
+
+  it('fetches the latest update and restarts on it from the About section', async () => {
+    onboard('tracker');
+    await renderApp('/settings');
+    const settings = settingsTab();
+    await fireEvent.press(await settings.findByText(da.settings.fetchUpdate));
+    await waitFor(() => expect(Updates.reloadAsync).toHaveBeenCalledTimes(1));
+    expect(Updates.checkForUpdateAsync).toHaveBeenCalledTimes(1);
+    expect(Updates.fetchUpdateAsync).toHaveBeenCalledTimes(1);
   });
 
   it('lets the user pick a light, dark or system appearance', async () => {

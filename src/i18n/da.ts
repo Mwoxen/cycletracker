@@ -372,6 +372,10 @@ const da = {
     version: 'Version',
     update: 'Opdatering',
     updateEmbedded: 'Indbygget i buildet',
+    fetchUpdate: 'Hent seneste opdatering',
+    updateChecking: 'Søger …',
+    updateDownloading: 'Henter …',
+    updateNone: 'Du har allerede den nyeste version.',
     disclaimer: 'Ansvarsfraskrivelse',
     disclaimerBody:
       'Cycle Tracker er en lærings- og informationsapp. Den stiller ikke diagnoser og erstatter ikke læge eller jordemoder. Forudsigelser af menstruation, ægløsning og frugtbart vindue er skøn baseret på gennemsnit og må ikke bruges som prævention.',

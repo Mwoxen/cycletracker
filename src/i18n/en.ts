@@ -374,6 +374,10 @@ const en: Translation = {
     version: 'Version',
     update: 'Update',
     updateEmbedded: 'Built into the app',
+    fetchUpdate: 'Get the latest update',
+    updateChecking: 'Checking …',
+    updateDownloading: 'Downloading …',
+    updateNone: 'You already have the latest version.',
     disclaimer: 'Disclaimer',
     disclaimerBody:
       'Cycle Tracker is a learning and information app. It does not diagnose and does not replace a doctor or midwife. Predictions of periods, ovulation and the fertile window are estimates based on averages and must not be used as contraception.',

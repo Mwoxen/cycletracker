@@ -105,10 +105,14 @@ jest.mock('expo-file-system', () => {
 });
 
 jest.mock('expo-updates', () => ({
+  isEnabled: true,
   isEmbeddedLaunch: true,
   updateId: null,
   manifest: null,
   createdAt: null,
+  checkForUpdateAsync: jest.fn(async () => ({ isAvailable: true })),
+  fetchUpdateAsync: jest.fn(async () => ({ isNew: true })),
+  reloadAsync: jest.fn(async () => undefined),
 }));
 
 jest.mock('expo-localization', () => ({
