@@ -13,19 +13,18 @@ import {
   type TextProps,
   type ViewStyle,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
 import { colors, fonts, radius, spacing } from './colors';
 
 /**
  * Page title drawn in the content instead of a native large title, which iOS 26 under native
- * tabs either hides or pushes down. Sits a fixed 8pt under the status bar on every tab.
+ * tabs either hides or pushes down. The status-bar distance comes from the scroll view's
+ * automatic content inset (native tabs force it on), so nothing is added here.
  */
 export function PageTitle({ title, subtitle }: { title: string; subtitle?: string }) {
-  const insets = useSafeAreaInsets();
   return (
-    <View style={{ paddingTop: insets.top + spacing.sm, gap: 2 }} accessibilityRole="header">
+    <View style={{ paddingTop: spacing.xs, gap: 2 }} accessibilityRole="header">
       <Txt variant="largeTitle">{title}</Txt>
       {subtitle ? <Txt variant="footnote">{subtitle}</Txt> : null}
     </View>
@@ -43,7 +42,7 @@ export function Screen({
   return (
     <ScrollView
       style={styles.screen}
-      contentInsetAdjustmentBehavior={title ? 'never' : 'automatic'}
+      contentInsetAdjustmentBehavior="automatic"
       keyboardDismissMode="on-drag"
       contentContainerStyle={[styles.screenContent, contentContainerStyle]}
       {...rest}>
