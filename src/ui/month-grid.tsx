@@ -60,13 +60,24 @@ export function MonthGrid({
   return (
     <Card style={{ gap: spacing.sm }}>
       <View style={styles.header}>
-        <Pressable onPress={() => move(-1)} hitSlop={12} accessibilityRole="button">
+        <Pressable
+          onPress={() => move(-1)}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel={t('calendar.previousMonth')}>
           <Symbol name="chevron.left" size={18} />
         </Pressable>
-        <Pressable onPress={() => setOffset(0)}>
+        <Pressable
+          onPress={() => setOffset(0)}
+          accessibilityRole="button"
+          accessibilityLabel={t('common.today')}>
           <Txt variant="headline">{fmt.monthYear(monthStart)}</Txt>
         </Pressable>
-        <Pressable onPress={() => move(1)} hitSlop={12} accessibilityRole="button">
+        <Pressable
+          onPress={() => move(1)}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel={t('calendar.nextMonth')}>
           <Symbol name="chevron.right" size={18} />
         </Pressable>
       </View>

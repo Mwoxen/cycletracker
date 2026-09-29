@@ -1,9 +1,11 @@
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 
 import type { CycleSnapshot } from '@/engine/cycle';
-import { colors, phaseColor, phaseSymbol, spacing } from '@/ui/colors';
+import { useStore } from '@/store/store';
+import { colors, phaseColor, phaseGradient, phaseSymbol, spacing } from '@/ui/colors';
+import { CycleRing } from '@/ui/cycle-ring';
 import { Badge, Card, Symbol, Txt } from '@/ui/primitives';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
@@ -19,6 +21,8 @@ export function PhaseCard({
 }) {
   const { t } = useTranslation();
   const router = useRouter();
+  const scheme = useColorScheme();
+  const settings = useStore((s) => s.settings);
   const today = snapshot.today;
   const prediction = snapshot.prediction;
   if (!today || !prediction) return null;
@@ -48,10 +52,23 @@ export function PhaseCard({
         : t('home.regularity.irregular', { n: stats.averageCycleLength, v: stats.variability });
 
   return (
-    <Card onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}>
+    <Card
+      onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}
+      style={{
+        experimental_backgroundImage:
+          scheme === 'dark' ? phaseGradient[phase].dark : phaseGradient[phase].light,
+      }}>
       <View style={styles.header}>
-        <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
-          <Symbol name={phaseSymbol[phase] as SFSymbol} size={22} color={colors.white} />
+        <View style={styles.ringWrap}>
+          <CycleRing
+            today={today}
+            periodLength={snapshot.stats.averagePeriodLength}
+            lutealLength={settings.lutealLength}
+            size={84}
+          />
+          <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
+            <Symbol name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
+          </View>
         </View>
         <View style={{ flex: 1 }}>
           <Txt variant="title">
@@ -82,6 +99,14 @@ export function PhaseCard({
 
 const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  icon: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  ringWrap: { width: 84, height: 84, alignItems: 'center', justifyContent: 'center' },
+  icon: {
+    position: 'absolute',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   badges: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs },
 });

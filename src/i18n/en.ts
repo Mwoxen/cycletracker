@@ -187,6 +187,9 @@ const en: Translation = {
   calendar: {
     title: 'Calendar',
     legend: 'Legend',
+    previousMonth: 'Previous month',
+    nextMonth: 'Next month',
+
     period: 'Period',
     predictedPeriod: 'Predicted period',
     fertile: 'Fertile window',

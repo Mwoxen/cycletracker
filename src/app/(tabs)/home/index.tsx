@@ -11,6 +11,7 @@ import { colors, spacing } from '@/ui/colors';
 import { DailyCardPreview } from '@/ui/daily-card';
 import { PhaseCard } from '@/ui/phase-card';
 import { Bullets, Button, Card, Screen, Symbol, Txt } from '@/ui/primitives';
+import { Reveal } from '@/ui/reveal';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -33,7 +34,9 @@ export default function HomeScreen() {
       </Txt>
 
       {snapshot.hasData ? (
-        <PhaseCard snapshot={snapshot} name={name} isTracker={isTracker} />
+        <Reveal>
+          <PhaseCard snapshot={snapshot} name={name} isTracker={isTracker} />
+        </Reveal>
       ) : (
         <Card>
           <Txt variant="title">{t('home.noDataTitle')}</Txt>
@@ -55,7 +58,9 @@ export default function HomeScreen() {
           </Txt>
         </Card>
       ) : program.card ? (
-        <DailyCardPreview card={program.card} isTracker={isTracker} />
+        <Reveal index={1}>
+          <DailyCardPreview card={program.card} isTracker={isTracker} />
+        </Reveal>
       ) : (
         <Card>
           <Txt>

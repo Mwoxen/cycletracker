@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
-import { colors, radius, spacing } from './colors';
+import { colors, fonts, radius, spacing } from './colors';
 
 /** Scrolling screen body that plays with large titles and native tab insets. */
 export function Screen({ children, contentContainerStyle, ...rest }: ScrollViewProps) {
@@ -43,7 +43,7 @@ export function Txt({
   return (
     <Text
       allowFontScaling
-      maxFontSizeMultiplier={1.6}
+      maxFontSizeMultiplier={2}
       style={[styles[variant], { color: color ?? textColor[variant] }, style]}
       {...rest}
     />
@@ -284,8 +284,8 @@ export function Gap({ size = spacing.md }: { size?: number }) {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
   screenContent: { padding: spacing.md, gap: spacing.md, paddingBottom: spacing.xl },
-  largeTitle: { fontSize: 34, fontWeight: '700', letterSpacing: 0.4 },
-  title: { fontSize: 22, fontWeight: '700' },
+  largeTitle: { fontSize: 34, fontWeight: '700', letterSpacing: 0.2, fontFamily: fonts?.rounded },
+  title: { fontSize: 22, fontWeight: '700', fontFamily: fonts?.rounded },
   headline: { fontSize: 17, fontWeight: '600' },
   body: { fontSize: 17 },
   callout: { fontSize: 16 },
@@ -296,6 +296,10 @@ const styles = StyleSheet.create({
     borderRadius: radius.card,
     padding: spacing.md,
     gap: spacing.sm,
+    shadowColor: '#5A3A30',
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
   },
   sectionTitle: { marginLeft: spacing.md, marginBottom: -spacing.sm },
   row: {

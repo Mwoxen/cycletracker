@@ -185,6 +185,9 @@ const da = {
   calendar: {
     title: 'Kalender',
     legend: 'Forklaring',
+    previousMonth: 'Forrige måned',
+    nextMonth: 'Næste måned',
+
     period: 'Menstruation',
     predictedPeriod: 'Forventet menstruation',
     fertile: 'Frugtbart vindue',

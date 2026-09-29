@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { searchIndex, searchItems, type SearchItem } from '@/engine/insights';
 import { useProgram } from '@/hooks/use-program';
 import { colors } from '@/ui/colors';
-import { Card, Row, Screen, Txt } from '@/ui/primitives';
+import { Empty } from '@/ui/empty';
+import { Card, Row, Screen } from '@/ui/primitives';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -56,9 +57,7 @@ export default function ArchiveScreen() {
       />
       <Screen>
         {results.length === 0 ? (
-          <Card>
-            <Txt color={colors.secondaryLabel}>{t('learn.searchEmpty')}</Txt>
-          </Card>
+          <Empty symbol="magnifyingglass" text={t('learn.searchEmpty')} />
         ) : (
           <Card style={{ padding: 0, paddingHorizontal: 16 }}>
             {results.slice(0, 80).map((item, i) => (

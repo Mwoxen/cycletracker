@@ -33,7 +33,7 @@ export default function LearnScreen() {
         {t('common.dayN', { n: position.programDay })} ·{' '}
         {t('learn.progress', { read: readCount, total: totalCards })} ·{' '}
         {t('learn.actionsDone', { n: doneCount })} ·{' '}
-        {streak > 0 ? t('learn.streak', { n: streak }) : t('learn.streakNone')}
+        {streak > 0 ? `🔥 ${t('learn.streak', { n: streak })}` : t('learn.streakNone')}
       </Txt>
 
       <SectionTitle>{t('learn.today')}</SectionTitle>
