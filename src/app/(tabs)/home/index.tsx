@@ -28,11 +28,7 @@ export default function HomeScreen() {
   const phaseInfo = phase ? program.content.phases[phase] : undefined;
 
   return (
-    <Screen>
-      <Txt variant="footnote" style={{ marginLeft: spacing.xs }}>
-        {fmt.long(today)}
-      </Txt>
-
+    <Screen title={t('home.title')} subtitle={fmt.long(today)}>
       {snapshot.hasData ? (
         <Reveal>
           <PhaseCard snapshot={snapshot} name={name} isTracker={isTracker} />

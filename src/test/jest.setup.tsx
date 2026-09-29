@@ -104,6 +104,13 @@ jest.mock('expo-file-system', () => {
   return { File, Paths: { cache: 'file:///cache', document: 'file:///documents' } };
 });
 
+jest.mock('expo-updates', () => ({
+  isEmbeddedLaunch: true,
+  updateId: null,
+  manifest: null,
+  createdAt: null,
+}));
+
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'da', languageTag: 'da-DK', regionCode: 'DK' }],
 }));

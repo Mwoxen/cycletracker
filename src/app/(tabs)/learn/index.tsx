@@ -72,11 +72,9 @@ export default function LearnScreen() {
   const cardPhase = card?.phaseTags[0];
 
   return (
-    <Screen>
-      <Txt variant="footnote" style={{ marginLeft: spacing.xs }}>
-        {t('learn.subtitle', { day: position.programDay, month: position.month })}
-      </Txt>
-
+    <Screen
+      title={t('learn.title')}
+      subtitle={t('learn.subtitle', { day: position.programDay, month: position.month })}>
       <View style={styles.stats}>
         <Stat value={String(readCount)} label={t('learn.stats.read')} />
         <Stat value={String(doneCount)} label={t('learn.stats.done')} />
@@ -112,10 +110,7 @@ export default function LearnScreen() {
                 : t('learn.thisWeek')
             }
             lead={
-              <LeadText
-                color={colors.purple}
-                label={t('learn.weekBadge', { n: weekly.week })}
-              />
+              <LeadText color={colors.purple} label={t('learn.weekBadge', { n: weekly.week })} />
             }
             onPress={() => router.push(`/(tabs)/learn/weekly/${weekly.id}`)}
           />

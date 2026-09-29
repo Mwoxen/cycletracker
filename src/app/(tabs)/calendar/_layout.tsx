@@ -7,7 +7,7 @@ export default function CalendarLayout() {
   const { t } = useTranslation();
   return (
     <Stack screenOptions={largeTitleScreenOptions}>
-      <Stack.Screen name="index" options={{ title: t('calendar.title') }} />
+      <Stack.Screen name="index" options={{ title: t('calendar.title'), headerShown: false }} />
     </Stack>
   );
 }

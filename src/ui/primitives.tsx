@@ -13,19 +13,41 @@ import {
   type TextProps,
   type ViewStyle,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
 import { colors, fonts, radius, spacing } from './colors';
 
-/** Scrolling screen body that plays with large titles and native tab insets. */
-export function Screen({ children, contentContainerStyle, ...rest }: ScrollViewProps) {
+/**
+ * Page title drawn in the content instead of a native large title, which iOS 26 under native
+ * tabs either hides or pushes down. Sits a fixed 8pt under the status bar on every tab.
+ */
+export function PageTitle({ title, subtitle }: { title: string; subtitle?: string }) {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={{ paddingTop: insets.top + spacing.sm, gap: 2 }} accessibilityRole="header">
+      <Txt variant="largeTitle">{title}</Txt>
+      {subtitle ? <Txt variant="footnote">{subtitle}</Txt> : null}
+    </View>
+  );
+}
+
+/** Scrolling screen body. With `title` it draws its own page title and skips the native inset. */
+export function Screen({
+  children,
+  contentContainerStyle,
+  title,
+  subtitle,
+  ...rest
+}: ScrollViewProps & { title?: string; subtitle?: string }) {
   return (
     <ScrollView
       style={styles.screen}
-      contentInsetAdjustmentBehavior="automatic"
+      contentInsetAdjustmentBehavior={title ? 'never' : 'automatic'}
       keyboardDismissMode="on-drag"
       contentContainerStyle={[styles.screenContent, contentContainerStyle]}
       {...rest}>
+      {title ? <PageTitle title={title} subtitle={subtitle} /> : null}
       {children}
     </ScrollView>
   );

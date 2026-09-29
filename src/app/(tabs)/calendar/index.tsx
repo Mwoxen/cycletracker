@@ -36,10 +36,7 @@ export default function CalendarScreen() {
       : t('home.regularity.unknown');
 
   return (
-    <Screen>
-      <Txt variant="footnote" style={{ marginHorizontal: spacing.xs }}>
-        {subtitle}
-      </Txt>
+    <Screen title={t('calendar.title')} subtitle={subtitle}>
       <Legend />
       <Button
         title={t('calendar.showEarlier')}

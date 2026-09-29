@@ -1,5 +1,6 @@
 import { DateTimePicker } from '@expo/ui/community/datetime-picker';
 import Constants from 'expo-constants';
+import * as Updates from 'expo-updates';
 import * as Haptics from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
@@ -20,6 +21,25 @@ import { colors, palette, spacing } from '@/ui/colors';
 import { Button, Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Segmented } from '@/ui/segmented';
 import { Stepper } from '@/ui/stepper';
+
+/** "1.0.0 (7)" from the native build. */
+function appVersionLabel(): string {
+  const version = Constants.expoConfig?.version ?? '0.0.0';
+  const build = Constants.expoConfig?.ios?.buildNumber ?? Constants.nativeBuildVersion;
+  return build ? `${version} (${build})` : version;
+}
+
+/** Short commit of the running OTA update, so it is visible which JavaScript is live. */
+function updateLabel(embedded: string): string {
+  if (Updates.isEmbeddedLaunch || !Updates.updateId) return embedded;
+  const manifest = Updates.manifest as {
+    extra?: { expoClient?: { extra?: { commit?: unknown } } };
+  };
+  const commit = manifest?.extra?.expoClient?.extra?.commit;
+  const stamp = Updates.createdAt ? ` · ${Updates.createdAt.toLocaleDateString()}` : '';
+  const id = typeof commit === 'string' ? commit.slice(0, 7) : Updates.updateId.slice(0, 8);
+  return `${id}${stamp}`;
+}
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
@@ -145,7 +165,7 @@ export default function SettingsScreen() {
   }));
 
   return (
-    <Screen>
+    <Screen title={t('settings.title')}>
       <SectionTitle>{t('settings.profile')}</SectionTitle>
       <Card style={styles.rowsCard}>
         <Row
@@ -385,10 +405,10 @@ export default function SettingsScreen() {
           {t('settings.disclaimer')}
         </Txt>
         <Txt variant="footnote">{t('settings.disclaimerBody')}</Txt>
-        <Txt variant="footnote" style={{ marginTop: spacing.sm }}>
-          {t('settings.version')} {Constants.expoConfig?.version ?? '0.0.0'} ·{' '}
-          {t('settings.programStart')}: {fmt.short(profile.programStartDate)}
-        </Txt>
+      </Card>
+      <Card style={styles.rowsCard}>
+        <Row title={t('settings.version')} value={appVersionLabel()} />
+        <Row title={t('settings.update')} value={updateLabel(t('settings.updateEmbedded'))} last />
       </Card>
 
       <SectionTitle>{t('settings.danger')}</SectionTitle>
