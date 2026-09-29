@@ -115,6 +115,7 @@ const da = {
     actionDone: 'Gjort',
     readCard: 'Læs dagens kort',
     conversation: 'Ugens samtalespørgsmål',
+    weeklyRead: 'Ugens artikel · snak om det',
     programNotStarted: 'Programmet starter {{date}}',
     programCompleted: 'Du har gennemført hele årsprogrammet',
     contentMissing: 'Indholdet for denne måned er på vej.',

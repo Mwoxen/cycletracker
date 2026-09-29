@@ -1,5 +1,5 @@
 import { SymbolView } from 'expo-symbols';
-import type { PropsWithChildren, ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode, RefObject } from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -37,10 +37,16 @@ export function Screen({
   contentContainerStyle,
   title,
   subtitle,
+  scrollRef,
   ...rest
-}: ScrollViewProps & { title?: string; subtitle?: string }) {
+}: ScrollViewProps & {
+  title?: string;
+  subtitle?: string;
+  scrollRef?: RefObject<ScrollView | null>;
+}) {
   return (
     <ScrollView
+      ref={scrollRef}
       style={styles.screen}
       contentInsetAdjustmentBehavior="automatic"
       keyboardDismissMode="on-drag"

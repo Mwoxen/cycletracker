@@ -1,6 +1,6 @@
 /**
  * Article-style reading: a phase-tinted hero, serif body text drawn straight on the screen
- * background, lede, drop cap, pull quote, a scroll progress bar and a "next" row. Shared by the
+ * background, lede, pull quote, a scroll progress bar and a "next" row. Shared by the
  * daily card, weekly read, monthly wrap and phase pages.
  */
 import { usePathname, useRouter } from 'expo-router';
@@ -79,11 +79,6 @@ export function ReadingHero({
 }
 
 /** Whether the paragraph can open with a drop cap: a letter, not a quote or a digit. */
-function canDropCap(text: string): boolean {
-  const first = text.charAt(0);
-  return /\p{L}/u.test(first);
-}
-
 /**
  * The pull quote for a body: the first sentence of the middle paragraph when it is 60-160
  * characters, else the nearest paragraph whose first sentence is. Undefined for short bodies.
@@ -105,17 +100,9 @@ export function pullQuoteFor(paragraphs: string[]): string | undefined {
   return undefined;
 }
 
-function Paragraph({ text, dropCap }: { text: string; dropCap?: boolean }) {
-  if (dropCap && canDropCap(text)) {
-    return (
-      <Text allowFontScaling maxFontSizeMultiplier={BODY_MAX_SCALE} style={styles.paragraph}>
-        <Text style={styles.dropCap}>{text.charAt(0)}</Text>
-        {text.slice(1)}
-      </Text>
-    );
-  }
+function Paragraph({ text }: { text: string }) {
   return (
-    <Text allowFontScaling maxFontSizeMultiplier={BODY_MAX_SCALE} style={styles.paragraph}>
+    <Text style={styles.paragraph} allowFontScaling maxFontSizeMultiplier={1.6}>
       {text}
     </Text>
   );
@@ -133,18 +120,16 @@ export function PullQuote({ text }: { text: string }) {
 
 /**
  * Body paragraphs on the screen background. `lede` styles the first paragraph as an opening,
- * `dropCap` opens the first paragraph with a large initial, `pullQuote` is drawn after the
+ * `pullQuote` is drawn after the
  * second paragraph without removing it from its paragraph.
  */
 export function ReadingBody({
   paragraphs,
   lede,
-  dropCap,
   pullQuote,
 }: {
   paragraphs: string[];
   lede?: boolean;
-  dropCap?: boolean;
   pullQuote?: string;
 }) {
   return (
@@ -160,7 +145,7 @@ export function ReadingBody({
               {p}
             </Text>
           ) : (
-            <Paragraph key={i} text={p} dropCap={dropCap && i === 0} />
+            <Paragraph key={i} text={p} />
           );
         if (pullQuote && i === 1) {
           return [block, <PullQuote key="quote" text={pullQuote} />];
@@ -345,13 +330,6 @@ const styles = StyleSheet.create({
     fontSize: 21,
     lineHeight: 31,
     color: colors.readingLede,
-  },
-  dropCap: {
-    fontFamily: fonts?.rounded,
-    fontSize: 44,
-    lineHeight: 44,
-    fontWeight: '700',
-    color: colors.tint,
   },
   pullQuote: {
     borderLeftWidth: 3,

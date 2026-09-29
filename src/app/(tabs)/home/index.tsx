@@ -171,12 +171,20 @@ export default function HomeScreen() {
 
             {program.weekly && !program.position.notStarted ? (
               <Card
-                onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}
+                onPress={() =>
+                  router.push({
+                    pathname: '/(tabs)/home/weekly/[id]',
+                    params: { id: program.weekly!.id, to: 'question' },
+                  })
+                }
                 style={{ paddingVertical: 12 }}>
                 <View style={styles.weeklyRow}>
                   <View style={{ flex: 1, gap: 2 }}>
-                    <Txt variant="footnote">{t('home.conversation')}</Txt>
-                    <Txt variant="headline">{program.weekly.conversationQuestion}</Txt>
+                    <Txt variant="footnote">{t('home.weeklyRead')}</Txt>
+                    <Txt variant="headline">{program.weekly.title}</Txt>
+                    <Txt color={colors.secondaryLabel} style={{ fontStyle: 'italic' }}>
+                      {program.weekly.conversationQuestion}
+                    </Txt>
                   </View>
                   <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
                 </View>

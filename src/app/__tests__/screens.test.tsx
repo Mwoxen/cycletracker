@@ -112,7 +112,7 @@ describe('home', () => {
     expect(home.getByText(month1.daily[0].title)).toBeTruthy();
     expect(home.getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
     expect(home.queryByText(da.home.markActionDone)).toBeNull();
-    expect(home.queryByText(da.home.conversation)).toBeNull();
+    expect(home.queryByText(da.home.weeklyRead)).toBeNull();
     expect(home.queryByText(da.home.whatYouCanDo)).toBeNull();
     expect(home.getByText(da.home.neverShared)).toBeTruthy();
   });

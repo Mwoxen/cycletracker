@@ -117,6 +117,7 @@ const en: Translation = {
     actionDone: 'Done',
     readCard: "Read today's card",
     conversation: "This week's conversation question",
+    weeklyRead: "This week's read · talk about it",
     programNotStarted: 'The program starts {{date}}',
     programCompleted: 'You have completed the full year program',
     contentMissing: 'Content for this month is on its way.',
