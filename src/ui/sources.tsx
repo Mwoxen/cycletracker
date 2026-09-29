@@ -1,33 +1,29 @@
 import { openBrowserAsync } from 'expo-web-browser';
+import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
 
 import type { Source } from '@/content';
 import { colors, spacing } from '@/ui/colors';
-import { Icon, Txt } from '@/ui/primitives';
+import { Txt } from '@/ui/primitives';
 
+/** One centered footnote line, "Kilde: A · B", where each linked source opens in the browser. */
 export function Sources({ sources }: { sources: Source[] }) {
   const { t } = useTranslation();
   return (
-    <View style={{ gap: spacing.xs, paddingHorizontal: spacing.sm }}>
-      <Txt variant="footnote" style={{ fontWeight: '600' }}>
-        {t('learn.sources').toUpperCase()}
-      </Txt>
-      {sources.map((s) => (
-        <Pressable
-          key={s.label}
-          disabled={!s.url}
-          onPress={() => s.url && void openBrowserAsync(s.url)}
-          style={({ pressed }) => [
-            { flexDirection: 'row', alignItems: 'center', gap: 6 },
-            pressed && { opacity: 0.6 },
-          ]}>
-          <Txt variant="footnote" color={s.url ? colors.tint : colors.secondaryLabel}>
+    <Txt variant="footnote" style={{ textAlign: 'center', paddingHorizontal: spacing.sm }}>
+      {t('reading.source')}:{' '}
+      {sources.map((s, i) => (
+        <Fragment key={s.label}>
+          {i > 0 ? ' · ' : null}
+          <Txt
+            variant="footnote"
+            color={s.url ? colors.tint : colors.secondaryLabel}
+            accessibilityRole={s.url ? 'link' : undefined}
+            onPress={s.url ? () => void openBrowserAsync(s.url as string) : undefined}>
             {s.label}
           </Txt>
-          {s.url ? <Icon name="arrow.up.right" size={10} color={colors.tint} /> : null}
-        </Pressable>
+        </Fragment>
       ))}
-    </View>
+    </Txt>
   );
 }

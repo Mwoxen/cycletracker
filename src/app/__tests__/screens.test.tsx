@@ -16,6 +16,7 @@ import { createSyncSnapshot, selectActivePeriods, selectSnapshotData, useStore }
 import { encodePayload } from '@/sync/payload';
 import { renderApp, withinTab } from '@/test/render-app';
 import { AppErrorBoundary } from '@/ui/error-boundary';
+import { pullQuoteFor } from '@/ui/reading';
 
 /** Fixed clock so the program position and the cycle phase are the same on every run. */
 const TODAY = '2026-05-10';
@@ -361,8 +362,29 @@ describe('learn sub-screens', () => {
     await renderApp(`/learn/daily/${id}`);
     const learn = learnTab();
     expect(await learn.findByText(month1.daily[0].insight)).toBeTruthy();
+    // Hero kicker: today's card with its phase tags; the card id caption is gone.
+    expect(
+      learn.getByText(new RegExp(`^${upper(da.home.todaysCardDay.replace('{{day}}', '1'))}`)),
+    ).toBeTruthy();
+    expect(learn.queryByText(id)).toBeNull();
     expect(learn.getByText(upper(da.home.action))).toBeTruthy();
+    // Day 2 is still locked on day 1, so there is no "tomorrow" row yet.
+    expect(learn.queryByText(upper(da.reading.tomorrow))).toBeNull();
+    expect(learn.queryByText(month1.daily[1].title)).toBeNull();
     expect(useStore.getState().progress[id]?.readAt).toBeDefined();
+  });
+
+  it('links to the next card once it is unlocked', async () => {
+    onboard('tracker', addDaysISO(TODAY, -200));
+    // Day 201 is month 7, day 21: day 20 is an earlier card whose successor is unlocked.
+    const month7 = content.months[6];
+    const app = await renderApp(`/learn/daily/${dailyId(7, 20)}`);
+    const learn = learnTab();
+    expect(await learn.findByText(upper(da.reading.tomorrow))).toBeTruthy();
+    const next = month7.daily.find((c) => c.day === 21)!;
+    await fireEvent.press(learn.getByText(next.title));
+    expect(app.getPathname()).toBe(`/learn/daily/${next.id}`);
+    expect(await learn.findByText(next.insight)).toBeTruthy();
   });
 
   it('opens the daily card inside the home tab so Back returns to Home', async () => {
@@ -379,8 +401,17 @@ describe('learn sub-screens', () => {
     onboard('tracker');
     await renderApp(`/learn/weekly/${weeklyId(1, 1)}`);
     const learn = learnTab();
-    expect(await learn.findByText(month1.weekly[0].body[0])).toBeTruthy();
+    const read = month1.weekly[0];
+    expect(await learn.findByText(read.body[0])).toBeTruthy();
+    // The conversation card and, for a long read, one pull quote lifted from the body.
     expect(learn.getByText(upper(da.learn.conversationQuestion))).toBeTruthy();
+    expect(learn.getByText(read.conversationQuestion)).toBeTruthy();
+    const quote = pullQuoteFor(read.body);
+    expect(quote).toBeDefined();
+    expect(learn.getByText(quote!)).toBeTruthy();
+    expect(learn.getByTestId('pull-quote')).toBeTruthy();
+    // Week 2 is locked on day 1.
+    expect(learn.queryByText(upper(da.reading.nextWeek))).toBeNull();
   });
 
   it('renders a monthly wrap and plays the quiz', async () => {
@@ -421,7 +452,7 @@ describe('learn sub-screens', () => {
     await renderApp(`/learn/daily/${id}`);
     const learn = learnTab();
     expect(await learn.findByText(month1.daily[0].insight)).toBeTruthy();
-    expect(learn.getByText(da.learn.writtenForPartner)).toBeTruthy();
+    expect(learn.getByText(new RegExp(`^${da.learn.writtenForPartner} · `))).toBeTruthy();
     expect(learn.queryByText(da.home.markActionDone)).toBeNull();
     expect(learn.queryByText(upper(da.home.action))).toBeNull();
     expect(useStore.getState().progress[id]?.readAt).toBeUndefined();
@@ -432,7 +463,7 @@ describe('learn sub-screens', () => {
     await renderApp(`/learn/wrap/${wrapId(1)}`);
     const learn = learnTab();
     expect(await learn.findByText(month1.wrap.summary[0])).toBeTruthy();
-    expect(learn.getByText(da.learn.writtenForPartner)).toBeTruthy();
+    expect(learn.getByText(new RegExp(`^${da.learn.writtenForPartner} · `))).toBeTruthy();
     expect(learn.queryByText(da.learn.startQuiz)).toBeNull();
   });
 

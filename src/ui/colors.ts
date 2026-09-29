@@ -21,6 +21,7 @@ export const palette = {
     separator: '#E8DDD5',
     fill: '#EFE5DD',
     tint: '#C4655A',
+    readingLede: '#5A4C46',
   },
   dark: {
     background: '#161311',
@@ -32,6 +33,7 @@ export const palette = {
     separator: '#3A302B',
     fill: '#352C27',
     tint: '#E08A7E',
+    readingLede: '#CFC1BA',
   },
 } as const;
 
@@ -45,6 +47,8 @@ export const colors = {
   separator: dyn(palette.light.separator, palette.dark.separator),
   fill: dyn(palette.light.fill, palette.dark.fill),
   tint: dyn(palette.light.tint, palette.dark.tint),
+  /** Warm grey for the opening paragraph of a long read. */
+  readingLede: dyn(palette.light.readingLede, palette.dark.readingLede),
   red: dyn('#D96C6C', '#E58787'),
   green: dyn('#6F9A6A', '#8DB887'),
   orange: dyn('#D9994A', '#E7B06A'),
@@ -119,6 +123,6 @@ export const radius = {
 } as const;
 
 export const fonts = Platform.select({
-  ios: { rounded: 'ui-rounded' as const, sans: undefined },
-  default: { rounded: undefined, sans: undefined },
+  ios: { rounded: 'ui-rounded' as const, serif: 'ui-serif' as const, sans: undefined },
+  default: { rounded: undefined, serif: undefined, sans: undefined },
 });

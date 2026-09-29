@@ -219,6 +219,16 @@ const da = {
     kindWrap: 'Opsamling',
     kindPhase: 'Fase',
   },
+  reading: {
+    tomorrow: 'I morgen',
+    nextWeek: 'Næste uge',
+    minute: '1 minut',
+    minutes: '{{n}} min',
+    conversationAtEnd: 'Et samtalespørgsmål til sidst',
+    questions: '{{n}} spørgsmål',
+    source: 'Kilde',
+    cardDay: 'Kort · dag {{day}} af 360',
+  },
   calendar: {
     title: 'Kalender',
     legend: 'Forklaring',

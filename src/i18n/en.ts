@@ -221,6 +221,16 @@ const en: Translation = {
     kindWrap: 'Wrap-up',
     kindPhase: 'Phase',
   },
+  reading: {
+    tomorrow: 'Tomorrow',
+    nextWeek: 'Next week',
+    minute: '1 minute',
+    minutes: '{{n}} min',
+    conversationAtEnd: 'A conversation question at the end',
+    questions: '{{n}} questions',
+    source: 'Source',
+    cardDay: 'Card · day {{day}} of 360',
+  },
   calendar: {
     title: 'Calendar',
     legend: 'Legend',

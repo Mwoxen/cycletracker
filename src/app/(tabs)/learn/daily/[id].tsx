@@ -1,20 +1,19 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
 
-import { findDaily } from '@/content';
-import { useContent } from '@/hooks/use-program';
+import { DAYS_PER_MONTH, findDaily, getMonth } from '@/content';
+import { useProgram } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
-import { colors, phaseColor, spacing } from '@/ui/colors';
 import { ActionBox } from '@/ui/daily-card';
-import { Badge, Card, Screen, Txt } from '@/ui/primitives';
+import { Screen, Txt } from '@/ui/primitives';
+import { NextDailyRow, ReadingBody, ReadingHero, readingMinutes } from '@/ui/reading';
 import { Sources } from '@/ui/sources';
 
 export default function DailyCardScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const content = useContent();
+  const { content, position } = useProgram();
   const card = findDaily(content, id);
   const markRead = useStore((s) => s.markRead);
   const isTracker = useStore((s) => s.profile?.role === 'tracker');
@@ -31,6 +30,22 @@ export default function DailyCardScreen() {
     );
   }
 
+  const programDay = (card.month - 1) * DAYS_PER_MONTH + card.day;
+  const kicker = [
+    programDay === position.programDay
+      ? t('home.todaysCardDay', { day: programDay })
+      : t('reading.cardDay', { day: programDay }),
+    ...card.phaseTags.map((p) => t(`phases.${p}`)),
+  ].join(' · ');
+  const minutes = readingMinutes([card.insight]);
+  const meta = [
+    isTracker ? undefined : t('learn.writtenForPartner'),
+    minutes === 1 ? t('reading.minute') : t('reading.minutes', { n: minutes }),
+    getMonth(content, card.month)?.theme,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
   return (
     <>
       <Stack.Screen
@@ -39,27 +54,11 @@ export default function DailyCardScreen() {
         }}
       />
       <Screen>
-        {isTracker ? null : <Txt variant="footnote">{t('learn.writtenForPartner')}</Txt>}
-        <View style={{ gap: spacing.sm }}>
-          <Txt variant="largeTitle" style={{ fontSize: 28, lineHeight: 34 }}>
-            {card.title}
-          </Txt>
-          {card.phaseTags.length ? (
-            <View style={{ flexDirection: 'row', gap: spacing.xs, flexWrap: 'wrap' }}>
-              {card.phaseTags.map((p) => (
-                <Badge key={p} label={t(`phases.${p}`)} color={phaseColor[p]} />
-              ))}
-            </View>
-          ) : null}
-        </View>
-        <Card>
-          <Txt style={{ lineHeight: 26 }}>{card.insight}</Txt>
-        </Card>
+        <ReadingHero kicker={kicker} title={card.title} meta={meta} phase={card.phaseTags[0]} />
+        <ReadingBody paragraphs={[card.insight]} dropCap />
         {isTracker ? <ActionBox card={card} /> : null}
+        <NextDailyRow content={content} position={position} card={card} />
         {card.sources?.length ? <Sources sources={card.sources} /> : null}
-        <Txt variant="caption" color={colors.tertiaryLabel} style={{ textAlign: 'center' }}>
-          {card.id}
-        </Txt>
       </Screen>
     </>
   );

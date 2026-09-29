@@ -17,3 +17,10 @@ export const largeTitleScreenOptions: NativeStackNavigationOptions = {
   headerStyle: { backgroundColor: colors.background as string },
   headerLargeStyle: { backgroundColor: colors.background as string },
 };
+
+/** Reading screens: no large title and a back button without the previous screen's title. */
+export const readingScreenOptions: NativeStackNavigationOptions = {
+  title: '',
+  headerLargeTitleEnabled: false,
+  headerBackButtonDisplayMode: 'minimal',
+};

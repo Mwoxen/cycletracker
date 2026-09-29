@@ -1,21 +1,32 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 
 import { findWeekly } from '@/content';
-import { useContent } from '@/hooks/use-program';
+import { useProgram } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
 import { colors } from '@/ui/colors';
-import { Card, Paragraphs, Screen, Txt } from '@/ui/primitives';
+import { Card, Screen, Txt } from '@/ui/primitives';
+import {
+  NextWeeklyRow,
+  pullQuoteFor,
+  ReadingBody,
+  ReadingHero,
+  ReadingProgressBar,
+  readingMinutes,
+  useReadingProgress,
+} from '@/ui/reading';
 import { Sources } from '@/ui/sources';
 
 export default function WeeklyReadScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const content = useContent();
+  const { content, position } = useProgram();
   const read = findWeekly(content, id);
   const markRead = useStore((s) => s.markRead);
   const isTracker = useStore((s) => s.profile?.role === 'tracker');
+  const { progress, onScroll } = useReadingProgress();
 
   useEffect(() => {
     if (read && isTracker) markRead(read.id);
@@ -29,30 +40,43 @@ export default function WeeklyReadScreen() {
     );
   }
 
-  const minutes = Math.max(2, Math.round(read.body.join(' ').split(/\s+/).length / 200));
+  const minutes = Math.max(2, readingMinutes(read.body));
+  const kicker = [
+    t('learn.thisWeek'),
+    t('learn.month', { n: read.month }),
+    t('learn.week', { n: read.week }),
+  ].join(' · ');
+  const meta = [
+    isTracker ? undefined : t('learn.writtenForPartner'),
+    t('reading.minutes', { n: minutes }),
+    t('reading.conversationAtEnd'),
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     <>
       <Stack.Screen options={{ title: t('learn.week', { n: read.week }) }} />
-      <Screen>
-        {isTracker ? null : <Txt variant="footnote">{t('learn.writtenForPartner')}</Txt>}
-        <Txt variant="largeTitle" style={{ fontSize: 28, lineHeight: 34 }}>
-          {read.title}
-        </Txt>
-        <Txt variant="footnote">{t('learn.minutes', { n: minutes })}</Txt>
-        <Card>
-          <Paragraphs items={read.body} />
-        </Card>
-        <Card style={{ backgroundColor: colors.tint }}>
-          <Txt variant="footnote" color={colors.white} style={{ fontWeight: '600', opacity: 0.85 }}>
-            {t('learn.conversationQuestion').toUpperCase()}
-          </Txt>
-          <Txt variant="title" color={colors.white}>
-            {read.conversationQuestion}
-          </Txt>
-        </Card>
-        {read.sources?.length ? <Sources sources={read.sources} /> : null}
-      </Screen>
+      <View style={{ flex: 1 }}>
+        <Screen onScroll={onScroll} scrollEventThrottle={32}>
+          <ReadingHero kicker={kicker} title={read.title} meta={meta} />
+          <ReadingBody paragraphs={read.body} lede pullQuote={pullQuoteFor(read.body)} />
+          <Card style={{ backgroundColor: colors.tint }}>
+            <Txt
+              variant="footnote"
+              color={colors.white}
+              style={{ fontWeight: '600', opacity: 0.85 }}>
+              {t('learn.conversationQuestion').toUpperCase()}
+            </Txt>
+            <Txt variant="title" color={colors.white}>
+              {read.conversationQuestion}
+            </Txt>
+          </Card>
+          <NextWeeklyRow content={content} position={position} read={read} />
+          {read.sources?.length ? <Sources sources={read.sources} /> : null}
+        </Screen>
+        <ReadingProgressBar progress={progress} />
+      </View>
     </>
   );
 }

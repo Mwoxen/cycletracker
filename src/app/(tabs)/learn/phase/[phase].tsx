@@ -1,14 +1,24 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { PHASES, type Phase } from '@/domain/types';
 import { useContent } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
-import { colors, phaseColor, phaseSymbol, spacing } from '@/ui/colors';
-import { Bullets, Card, Screen, SectionTitle, Icon, Txt } from '@/ui/primitives';
+import { spacing } from '@/ui/colors';
+import { Card, Screen, SectionTitle } from '@/ui/primitives';
+import { ReadingBullets, ReadingHero } from '@/ui/reading';
 
-import type { SFSymbol } from 'sf-symbols-typescript';
+function Section({ title, items }: { title: string; items: string[] }) {
+  return (
+    <>
+      <SectionTitle style={styles.sectionTitle}>{title}</SectionTitle>
+      <Card style={styles.card}>
+        <ReadingBullets items={items} />
+      </Card>
+    </>
+  );
+}
 
 export default function PhaseScreen() {
   const { t } = useTranslation();
@@ -22,55 +32,25 @@ export default function PhaseScreen() {
     <>
       <Stack.Screen options={{ title: info.name }} />
       <Screen>
-        <View style={styles.header}>
-          <View style={[styles.icon, { backgroundColor: phaseColor[key] }]}>
-            <Icon name={phaseSymbol[key] as SFSymbol} size={26} color={colors.white} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Txt variant="title">{info.name}</Txt>
-            <Txt variant="footnote">
-              {t('learn.timing')}: {info.timing}
-            </Txt>
-          </View>
-        </View>
-
+        <ReadingHero
+          kicker={t('learn.phaseLibrary')}
+          title={info.name}
+          meta={`${t('learn.timing')}: ${info.timing}`}
+          phase={key}
+        />
         {isTracker ? (
           <>
-            <SectionTitle>{t('learn.whatYouCanDo')}</SectionTitle>
-            <Card>
-              <Bullets items={info.whatYouCanDo} />
-            </Card>
-            <SectionTitle>{t('learn.whatHappens')}</SectionTitle>
-            <Card>
-              <Bullets items={info.whatHappens} />
-            </Card>
-            <SectionTitle>{t('learn.howSheMayFeel')}</SectionTitle>
-            <Card>
-              <Bullets items={info.howSheMayFeel} />
-            </Card>
-            <SectionTitle>{t('learn.avoid')}</SectionTitle>
-            <Card>
-              <Bullets items={info.avoid} />
-            </Card>
+            <Section title={t('learn.whatYouCanDo')} items={info.whatYouCanDo} />
+            <Section title={t('learn.whatHappens')} items={info.whatHappens} />
+            <Section title={t('learn.howSheMayFeel')} items={info.howSheMayFeel} />
+            <Section title={t('learn.avoid')} items={info.avoid} />
           </>
         ) : (
           <>
-            <SectionTitle>{t('learn.whatHappensInBody')}</SectionTitle>
-            <Card>
-              <Bullets items={info.whatHappens} />
-            </Card>
-            <SectionTitle>{t('learn.howYouMayFeel')}</SectionTitle>
-            <Card>
-              <Bullets items={info.howSheMayFeel} />
-            </Card>
-            <SectionTitle>{t('learn.selfCare')}</SectionTitle>
-            <Card>
-              <Bullets items={info.selfCare} />
-            </Card>
-            <SectionTitle>{t('learn.partnerCanDo')}</SectionTitle>
-            <Card>
-              <Bullets items={info.whatYouCanDo} />
-            </Card>
+            <Section title={t('learn.whatHappensInBody')} items={info.whatHappens} />
+            <Section title={t('learn.howYouMayFeel')} items={info.howSheMayFeel} />
+            <Section title={t('learn.selfCare')} items={info.selfCare} />
+            <Section title={t('learn.partnerCanDo')} items={info.whatYouCanDo} />
           </>
         )}
       </Screen>
@@ -79,6 +59,6 @@ export default function PhaseScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  icon: { width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center' },
+  sectionTitle: { marginLeft: spacing.lg },
+  card: { marginHorizontal: spacing.sm },
 });
