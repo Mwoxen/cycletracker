@@ -82,6 +82,13 @@ https://mwoxen.github.io/cycletracker/privacy.html og `/terms.html`, `/support.h
 Når appen virker i TestFlight, følg `store/CHECKLIST.md`. Alle tekster ligger klar i
 `store/metadata/`. Det eneste, der kræver en iPhone, er skærmbillederne.
 
+## Nødplan: byg på GitHub Actions i stedet for EAS
+
+Er de 15 gratis EAS-builds brugt op en måned, kør workflowet **iOS build (macOS fallback)**:
+https://github.com/Mwoxen/cycletracker/actions/workflows/ios-build-macos.yml → **Run workflow**.
+Det bygger på GitHubs egne Mac-maskiner (gratis på et offentligt repo) og uploader til TestFlight
+med de samme secrets. Det tager 20-30 minutter.
+
 ## Hvis noget driller
 
 - **EAS Update fejler med "project not found"**: slet `.eas-project-id` fra repoet og kør workflowet igen.
