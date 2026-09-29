@@ -1,0 +1,121 @@
+:root {
+  color-scheme: light dark;
+  --bg: #fbf7f2;
+  --card: #ffffff;
+  --text: #2a211d;
+  --muted: #7a6a63;
+  --tint: #c4655a;
+  --border: #eadfd8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161311;
+    --card: #221d1a;
+    --text: #f4ede8;
+    --muted: #b7a79f;
+    --tint: #e08a7e;
+    --border: #352c27;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+header img {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+}
+header strong {
+  font-size: 18px;
+}
+header nav {
+  margin-left: auto;
+  display: flex;
+  gap: 14px;
+  font-size: 14px;
+}
+a {
+  color: var(--tint);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin: 16px 0;
+}
+h1 {
+  font-size: 30px;
+  margin: 8px 0 4px;
+}
+h2 {
+  font-size: 20px;
+  margin: 22px 0 8px;
+}
+p,
+li {
+  font-size: 16px;
+}
+.muted {
+  color: var(--muted);
+}
+.lang {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 0;
+}
+.lang button {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.lang button[aria-pressed='true'] {
+  background: var(--tint);
+  border-color: var(--tint);
+  color: #fff;
+}
+[lang='en'],
+[lang='da'] {
+  display: none;
+}
+html[data-lang='da'] [lang='da'],
+html[data-lang='en'] [lang='en'] {
+  display: block;
+}
+footer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px;
+  font-size: 13px;
+  color: var(--muted);
+}

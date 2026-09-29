@@ -71,6 +71,17 @@ Kun når native afhængigheder ændres, kører der et nyt build (automatisk), og
 - iCloud-containeren `iCloud.com.mwoxen.cycletracker` oprettes automatisk af EAS ud fra
   app-konfigurationen, når det første build med iCloud kører. Den kræver ikke noget fra dig.
 
+## 5. GitHub Pages (privatlivspolitik og support-side til App Store)
+
+Gå til https://github.com/Mwoxen/cycletracker/settings/pages og sæt **Source** til **GitHub Actions**.
+Det er alt. Herefter publicerer workflowet **Pages** siderne i `docs/site/` automatisk:
+https://mwoxen.github.io/cycletracker/privacy.html og `/terms.html`, `/support.html`.
+
+## 6. App Store
+
+Når appen virker i TestFlight, følg `store/CHECKLIST.md`. Alle tekster ligger klar i
+`store/metadata/`. Det eneste, der kræver en iPhone, er skærmbillederne.
+
 ## Hvis noget driller
 
 - **EAS Update fejler med "project not found"**: slet `.eas-project-id` fra repoet og kør workflowet igen.
