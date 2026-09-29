@@ -53,23 +53,22 @@ jobs:
 
       - name: Create the EAS project on first run
         if: env.EXPO_TOKEN != ''
+        env:
+          EXPO_ACCOUNT_OVERRIDE: ${{ vars.EXPO_ACCOUNT }}
         run: |
           if [ -s .eas-project-id ]; then
             echo "EAS project id: $(cat .eas-project-id)"
             exit 0
           fi
-          ACCOUNT=$(eas whoami 2>/dev/null | tail -n 1 | tr -d '[:space:]')
+          # `eas whoami` prints the username on the first line, followed by the accounts list.
+          ACCOUNT="${EXPO_ACCOUNT_OVERRIDE:-$(eas whoami 2>/dev/null | head -n 1 | tr -d '[:space:]')}"
           echo "Creating or linking EAS project for account: $ACCOUNT"
           eas init --account "$ACCOUNT" --non-interactive --force --json > eas-init.json || true
           cat eas-init.json || true
           PROJECT_ID=$(node -e "try{const j=require('./eas-init.json');console.log(j.id||j.projectId||'')}catch(e){console.log('')}")
-          if [ -z "$PROJECT_ID" ]; then
-            # Fall back to reading the id from the linked project config.
-            PROJECT_ID=$(eas project:info 2>/dev/null | grep -i "ID" | head -n 1 | awk '{print $NF}')
-          fi
           rm -f eas-init.json
-          if [ -z "$PROJECT_ID" ]; then
-            echo "::error::Could not determine the EAS project id. Run 'npx eas-cli init' locally once and commit .eas-project-id."
+          if ! echo "$PROJECT_ID" | grep -Eq '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'; then
+            echo "::error::Could not determine the EAS project id (got '$PROJECT_ID'). Set a repository variable EXPO_ACCOUNT to your Expo username and re-run."
             exit 1
           fi
           echo "$PROJECT_ID" > .eas-project-id
