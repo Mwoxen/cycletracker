@@ -41,6 +41,10 @@ src/ui           Genbrugelige komponenter
 src/notifications Lokale påmindelser
 src/backup       iCloud-backup og fil-eksport/import
 src/sync         Payload-format til QR og deep links
+src/widget       Data til hjemmeskærms-widgetten (App Group)
+targets/widget   WidgetKit-widget i Swift (bygges af EAS)
+docs/site        Privatlivspolitik, vilkår og support (GitHub Pages)
+store/           App Store-metadata og tjekliste
 ```
 
 ## Status
@@ -48,7 +52,10 @@ src/sync         Payload-format til QR og deep links
 Fase 1 (fundament, pipeline og funktionel MVP), Fase 2 (iCloud-backup, eksport/import, QR- og
 link-deling mellem partnernes telefoner) og Fase 3 (hele årsprogrammet: 12 måneder, 360 daglige
 kort, 48 ugentlige artikler og 12 quizzer på dansk og engelsk, plus arkiv, søgning, streak og en
-personlig årsoversigt) er bygget. Næste faser: App Store og design.
+personlig årsoversigt), Fase 4 (ikon, splash, privatlivspolitik, App Store-metadata og tjekliste,
+macOS-fallback-build) og Fase 5 (varmt design, cyklusring, animationer, tilgængelighed og en
+hjemmeskærms-widget) er bygget. Tilbage: App Store-indsendelse (dit klik) og den valgfrie
+abonnementsfase.
 
 ## Ansvarsfraskrivelse
 

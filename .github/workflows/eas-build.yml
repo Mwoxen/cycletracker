@@ -88,6 +88,7 @@ jobs:
           node -e '
             const fs = require("fs");
             const eas = JSON.parse(fs.readFileSync("eas.json", "utf8"));
+            eas.build.production.env = { ...(eas.build.production.env || {}), APPLE_TEAM_ID: process.env.APPLE_TEAM_ID };
             eas.submit.production.ios = {
               ascApiKeyPath: "./asc-api-key.p8",
               ascApiKeyId: process.env.ASC_KEY_ID,

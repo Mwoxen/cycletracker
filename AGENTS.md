@@ -18,6 +18,11 @@ This is an Expo (React Native) iOS app written in TypeScript. Read `README.md` f
   partner can do.
 - Every UI string goes through i18n (`src/i18n/da.ts` is the source of truth; `en.ts` is typed
   against it so missing keys fail typecheck).
+- The home-screen widget lives in `targets/widget` (Swift, built by `@bacons/apple-targets`) and
+  reads JSON written by `src/widget/sync.ts` to the App Group. Keep `phase(forCycleDay:)` in Swift
+  in step with `phaseForCycleDay` in `src/engine/cycle.ts`.
+- Design tokens live in `src/ui/colors.ts` (warm palette via `DynamicColorIOS`). Do not hardcode
+  colours in screens.
 - Privacy: no analytics, no crash reporting, no network calls besides EAS Update and iCloud.
 - Predictions are educational; never present them as contraception.
 

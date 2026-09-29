@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
 import { useCloudBackup } from '@/hooks/use-cloud-backup';
+import { useWidgetSync } from '@/hooks/use-widget-sync';
 import { setLanguage } from '@/i18n';
 import { installNotificationHandler, syncNotifications } from '@/notifications';
 import { selectActivePeriods, useStore } from '@/store/store';
@@ -35,6 +36,7 @@ export default function RootLayout() {
   const periods = useStore(selectActivePeriods);
   const language = profile?.language;
   useCloudBackup();
+  useWidgetSync();
 
   useEffect(() => {
     if (language) setLanguage(language);

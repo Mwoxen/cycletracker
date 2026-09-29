@@ -68,6 +68,8 @@ Kun når native afhængigheder ændres, kører der et nyt build (automatisk), og
 - **iCloud-backup** og **deep links** (`cycletracker://import?…`) virker kun i den rigtige app fra
   TestFlight, ikke i Expo Go. Første gang `package.json` ændres, bygger EAS automatisk en ny version.
 - **QR-scanning**, **eksport/import af fil** og **Del som link** virker også i Expo Go.
+- **Hjemmeskærms-widgetten** kræver ligeledes et rigtigt build. Tilføj den fra hjemmeskærmen (hold
+  fingeren nede → + → Cycle Tracker), når appen er installeret fra TestFlight.
 - iCloud-containeren `iCloud.com.mwoxen.cycletracker` oprettes automatisk af EAS ud fra
   app-konfigurationen, når det første build med iCloud kører. Den kræver ikke noget fra dig.
 

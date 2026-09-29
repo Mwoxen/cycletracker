@@ -46,6 +46,9 @@ const config: ExpoConfig = {
     bundleIdentifier: 'com.mwoxen.cycletracker',
     supportsTablet: false,
     usesIcloudStorage: true,
+    entitlements: {
+      'com.apple.security.application-groups': ['group.com.mwoxen.cycletracker'],
+    },
     icon: './assets/app.icon',
     appleTeamId: process.env.APPLE_TEAM_ID || undefined,
     privacyManifests: {
@@ -99,6 +102,7 @@ const config: ExpoConfig = {
       },
     ],
     ['react-native-cloud-storage', { iCloudContainerEnvironment: 'Production' }],
+    '@bacons/apple-targets',
   ],
   experiments: {
     typedRoutes: true,
