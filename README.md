@@ -45,9 +45,10 @@ src/sync         Payload-format til QR og deep links
 
 ## Status
 
-Fase 1 (fundament, pipeline og funktionel MVP) og Fase 2 (iCloud-backup, eksport/import,
-QR- og link-deling mellem partnernes telefoner) er bygget. Næste faser: resten af årets indhold,
-App Store, design.
+Fase 1 (fundament, pipeline og funktionel MVP), Fase 2 (iCloud-backup, eksport/import, QR- og
+link-deling mellem partnernes telefoner) og Fase 3 (hele årsprogrammet: 12 måneder, 360 daglige
+kort, 48 ugentlige artikler og 12 quizzer på dansk og engelsk, plus arkiv, søgning, streak og en
+personlig årsoversigt) er bygget. Næste faser: App Store og design.
 
 ## Ansvarsfraskrivelse
 
