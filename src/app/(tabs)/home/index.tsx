@@ -91,7 +91,7 @@ export default function HomeScreen() {
       ) : null}
 
       {phaseInfo && isTracker ? (
-        <Card onPress={() => router.push(`/(tabs)/learn/phase/${phaseInfo.phase}`)}>
+        <Card onPress={() => router.push(`/(tabs)/home/phase/${phaseInfo.phase}`)}>
           <View
             style={{
               flexDirection: 'row',
@@ -106,7 +106,7 @@ export default function HomeScreen() {
       ) : null}
 
       {phaseInfo && !isTracker ? (
-        <Card onPress={() => router.push(`/(tabs)/learn/phase/${phaseInfo.phase}`)}>
+        <Card onPress={() => router.push(`/(tabs)/home/phase/${phaseInfo.phase}`)}>
           <View
             style={{
               flexDirection: 'row',
@@ -121,7 +121,7 @@ export default function HomeScreen() {
       ) : null}
 
       {program.weekly && !program.position.notStarted ? (
-        <Card onPress={() => router.push(`/(tabs)/learn/weekly/${program.weekly!.id}`)}>
+        <Card onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}>
           <Txt variant="footnote">{t('home.conversation')}</Txt>
           <Txt variant="headline">{program.weekly.conversationQuestion}</Txt>
         </Card>

@@ -53,7 +53,7 @@ export function PhaseCard({
 
   return (
     <Card
-      onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}
+      onPress={() => router.push(`/(tabs)/home/phase/${phase}`)}
       style={{
         experimental_backgroundImage:
           scheme === 'dark' ? phaseGradient[phase].dark : phaseGradient[phase].light,

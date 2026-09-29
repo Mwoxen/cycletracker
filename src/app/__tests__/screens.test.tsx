@@ -186,6 +186,13 @@ describe('learn sub-screens', () => {
     expect(useStore.getState().progress[id]?.readAt).toBeDefined();
   });
 
+  it('opens the daily card inside the home tab so Back returns to Home', async () => {
+    onboard('tracker');
+    const id = content.months[0].daily[0].id;
+    await renderApp(`/home/daily/${id}`);
+    expect(await screen.findByText(content.months[0].daily[0].title)).toBeTruthy();
+  });
+
   it('renders a weekly read', async () => {
     onboard('tracker');
     await renderApp(`/learn/weekly/${weeklyId(1, 1)}`);

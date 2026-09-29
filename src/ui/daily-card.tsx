@@ -22,7 +22,7 @@ export function DailyCardPreview({ card, isTracker }: { card: DailyCard; isTrack
           <Icon name="checkmark.circle.fill" size={16} color={colors.green} />
         ) : null}
       </View>
-      <Link href={`/(tabs)/learn/daily/${card.id}`} asChild>
+      <Link href={`/(tabs)/home/daily/${card.id}`} asChild>
         <Pressable>
           <Txt variant="title">{card.title}</Txt>
           <Txt numberOfLines={3} style={{ marginTop: spacing.xs }} color={colors.secondaryLabel}>
