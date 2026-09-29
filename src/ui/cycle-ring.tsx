@@ -36,7 +36,9 @@ export function CycleRing({
 }) {
   const scheme = useColorScheme();
   const stroke = 9;
-  const r = (size - stroke) / 2;
+  const markerR = stroke / 2 + 3;
+  // Leave room for the marker, which is larger than the stroke, so it is never clipped.
+  const r = size / 2 - markerR;
   const c = size / 2;
   const total = Math.max(today.cycleLength, today.cycleDay);
 
@@ -75,12 +77,7 @@ export function CycleRing({
             />
           ) : null,
         )}
-        <Circle
-          cx={marker.x}
-          cy={marker.y}
-          r={stroke / 2 + 3}
-          fill={isDark ? '#F4EDE8' : '#2A211D'}
-        />
+        <Circle cx={marker.x} cy={marker.y} r={markerR} fill={isDark ? '#F4EDE8' : '#2A211D'} />
         <Circle
           cx={marker.x}
           cy={marker.y}
