@@ -1,0 +1,3 @@
+# eas.json is rewritten by the build workflow (submit profile injected from secrets), so it must
+# not count towards the native fingerprint, or OTA updates never match the builds.
+eas.json
