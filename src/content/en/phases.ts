@@ -25,6 +25,13 @@ export const phases: Record<Phase, PhaseInfo> = {
       'Slow down the plans for the first two days. Cancel something without making a thing of it.',
       'Keep painkillers and pads or tampons in the house so she does not have to think about it.',
     ],
+    selfCare: [
+      'Heat on your belly or lower back: a heating pad, a warm bath or a hot water bottle eases the cramps.',
+      'Take painkillers early if you usually get cramps. Ibuprofen works best before the pain peaks.',
+      'Eat iron-rich food the first days: meat, lentils, spinach, ideally with some vitamin C.',
+      'Gentle movement, like a walk or light stretching, often helps cramps more than lying still.',
+      'Slow down without guilt. Say no to something on the first two days.',
+    ],
     avoid: [
       'Taking low energy or cancellations personally.',
       'Answering an opinion with "is it because you have your period?".',
@@ -52,6 +59,13 @@ export const phases: Record<Phase, PhaseInfo> = {
       'Notice the shift from the period and say it out loud: "You seem to have your energy back."',
       'Use the surplus to agree on the practical things that cause friction later in the cycle.',
     ],
+    selfCare: [
+      'Put the things that take courage or energy here: the hard conversation, the interview, the tough workout.',
+      'Use the energy to make plans and agreements so the last week of the cycle gets easier.',
+      'Say yes to social things. In this phase they usually give more than they take.',
+      'Try something new. The brain is more open to learning and challenges while estrogen rises.',
+      'Notice how you feel and write it down. It makes the PMS week easier to put in perspective.',
+    ],
     avoid: [
       'Assuming the high energy lasts all month.',
       'Pushing every hard thing to "when she feels good". Spread them out.',
@@ -78,6 +92,13 @@ export const phases: Record<Phase, PhaseInfo> = {
       'If you want a pregnancy: the five days before ovulation and the day itself matter most.',
       'Notice if she mentions discharge or a twinge in her side. They are useful signs to know.',
     ],
+    selfCare: [
+      "Notice your own signs: clear, stretchy discharge and a twinge in your side say more than the app's date.",
+      "If you do not want a pregnancy: use contraception now. The app's estimate is not a measurement.",
+      'If you want a pregnancy: the five days before ovulation and the day itself matter most.',
+      'Enjoy the surplus. It is a good week for closeness, and for doing something just for yourself.',
+      'Drink plenty and keep regular meals. Some feel a little bloated right after ovulation.',
+    ],
     avoid: [
       "Using the app's ovulation date as contraception. It is an average, not a measurement.",
     ],
@@ -103,6 +124,14 @@ export const phases: Record<Phase, PhaseInfo> = {
       'Respond to the need underneath, not the tone.',
       'Make sure meals are on time and there are snacks in the house. Hunger amplifies everything.',
       'Suggest a quiet evening plan rather than asking "what do you want?".',
+    ],
+    selfCare: [
+      'Eat on time and keep good snacks around. Blood sugar dips amplify irritation and sadness.',
+      'Cut back on caffeine and alcohol in the last week. Both make sleep and mood worse.',
+      'Keep moving, even when you do not feel like it. A walk eases both bloating and restlessness.',
+      'Prioritise sleep: a fixed bedtime and a quiet evening. The progesterone drop makes sleep fragile.',
+      'Say it out loud when the PMS week starts: "I am closer to tears this week." It takes the pressure off.',
+      'If PMS wrecks everyday life every month, talk to your doctor. It can be treated.',
     ],
     avoid: [
       'Starting big discussions in the last 4-5 days before the period.',

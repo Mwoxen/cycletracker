@@ -25,6 +25,13 @@ export const phases: Record<Phase, PhaseInfo> = {
       'Sænk tempoet i planerne de første to dage. Aflys gerne noget uden at gøre et nummer ud af det.',
       'Hav smertestillende og bind/tamponer i huset, så hun ikke skal tænke på det.',
     ],
+    selfCare: [
+      'Varme på maven eller lænden: varmepude, varmt bad eller en varm flaske dæmper kramperne.',
+      'Tag smertestillende tidligt, hvis du plejer at få kramper. Ibuprofen virker bedst, før smerten topper.',
+      'Spis jernrigt de første dage: kød, linser, spinat, og gerne noget med C-vitamin til.',
+      'Let bevægelse, fx en gåtur eller blid udstrækning, hjælper ofte mere på kramper end at ligge stille.',
+      'Sæt tempoet ned uden dårlig samvittighed. Sig nej til noget de første to dage.',
+    ],
     avoid: [
       'At tage lav energi eller aflysninger personligt.',
       'At spørge "er det fordi du har menstruation?" som svar på en holdning.',
@@ -52,6 +59,13 @@ export const phases: Record<Phase, PhaseInfo> = {
       'Læg mærke til skiftet fra menstruationen, og sig det højt: "Du virker til at have fået energien tilbage."',
       'Brug overskuddet til at få aftalt de praktiske ting, der driller senere i cyklussen.',
     ],
+    selfCare: [
+      'Læg det, der kræver mod eller energi, her: den svære samtale, jobsamtalen, det hårde træningspas.',
+      'Brug energien på at få lavet aftaler og planer, så den sidste uge i cyklussen bliver lettere.',
+      'Sig ja til det sociale. Det giver typisk mere, end det tager, i denne fase.',
+      'Prøv noget nyt. Hjernen er mere åben for læring og udfordringer, når østrogen stiger.',
+      'Læg mærke til, hvordan du har det, og skriv det ned. Det gør PMS-ugen nemmere at sætte i perspektiv.',
+    ],
     avoid: [
       'At antage at den høje energi holder hele måneden.',
       'At skubbe alle svære ting til "når hun har det godt". Fordel dem.',
@@ -78,6 +92,13 @@ export const phases: Record<Phase, PhaseInfo> = {
       'Hvis I ønsker graviditet: de fem dage før ægløsning og selve dagen er de vigtigste.',
       'Læg mærke til, om hun nævner udflåd eller et jag i siden. Det er nyttige tegn at kende.',
     ],
+    selfCare: [
+      'Læg mærke til dine egne tegn: klart, strækbart udflåd og et jag i siden fortæller mere end appens dato.',
+      'Hvis du ikke ønsker graviditet: brug prævention nu. Appens skøn er ikke en måling.',
+      'Hvis du ønsker graviditet: de fem dage før ægløsning og selve dagen er de vigtigste.',
+      'Nyd overskuddet. Det er en god uge til nærhed, og til at gøre noget kun for dig selv.',
+      'Drik rigeligt og hold et jævnt måltidsmønster. Nogle mærker lidt oppustethed lige efter ægløsning.',
+    ],
     avoid: ['At bruge appens ægløsningsdato som prævention. Den er et gennemsnit, ikke en måling.'],
   },
   luteal: {
@@ -101,6 +122,14 @@ export const phases: Record<Phase, PhaseInfo> = {
       'Reager på det bagvedliggende behov, ikke på tonen.',
       'Sørg for mad til tiden og snacks i huset. Sult forstærker alt.',
       'Foreslå et roligt aftenprogram frem for at spørge "hvad vil du?".',
+    ],
+    selfCare: [
+      'Spis til tiden og hav gode snacks klar. Blodsukkerfald forstærker irritation og tristhed.',
+      'Skær ned på koffein og alkohol den sidste uge. Begge dele gør søvnen og humøret dårligere.',
+      'Hold fast i bevægelse, også når lysten er lille. En gåtur dæmper både oppustethed og uro.',
+      'Prioritér søvn: fast sengetid og en rolig aften. Progesteronfaldet gør søvnen skrøbelig.',
+      'Sig det højt, når PMS-ugen begynder: "Jeg er tættere på tårerne i denne uge." Det tager trykket af.',
+      'Hvis PMS ødelægger hverdagen hver måned, så tal med din læge. Det kan behandles.',
     ],
     avoid: [
       'At starte store diskussioner de sidste 4-5 dage før menstruation.',

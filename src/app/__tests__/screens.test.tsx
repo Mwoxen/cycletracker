@@ -96,8 +96,27 @@ describe('home', () => {
     await renderApp('/home');
     const home = homeTab();
     expect(await home.findByText(/^Du (har overskud|har brug for|er på toppen)/)).toBeTruthy();
+    // Her own cards: how she may feel and what she can do for herself in the current phase.
+    expect(home.getByText(da.home.howYouMayFeel)).toBeTruthy();
+    expect(home.getByText(da.home.selfCare)).toBeTruthy();
+    expect(home.getByText(content.phases.follicular.selfCare[0])).toBeTruthy();
+    // The partner's program is a compact read-only pointer, not the action card.
     expect(home.getByText(da.home.partnerLearnsToday)).toBeTruthy();
+    expect(home.getByText(month1.daily[0].title)).toBeTruthy();
+    expect(home.getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
+    expect(home.queryByText(da.home.markActionDone)).toBeNull();
+    expect(home.queryByText(da.home.conversation)).toBeNull();
+    expect(home.queryByText(da.home.whatYouCanDo)).toBeNull();
     expect(home.getByText(da.home.neverShared)).toBeTruthy();
+  });
+
+  it('shows a logged symptom without the partner tip for the user role', async () => {
+    onboard('user');
+    useStore.getState().upsertLog(todayISO(), { symptoms: ['cramps'] });
+    await renderApp('/home');
+    const home = homeTab();
+    expect(await home.findByText(content.symptomTips.cramps.what)).toBeTruthy();
+    expect(home.queryByText(content.symptomTips.cramps.doThis)).toBeNull();
   });
 
   it('renders without cycle data', async () => {
@@ -157,6 +176,27 @@ describe('tabs', () => {
     expect(learn.getByText(da.learn.todaysCard)).toBeTruthy();
     // Today's card and this week's read are unread, so the catch-up list is never empty on day 1.
     expect(learn.getByText('2 ulæste')).toBeTruthy();
+  });
+
+  it('renders learn for the user role without the partner stats and lists', async () => {
+    onboard('user');
+    await renderApp('/learn');
+    const learn = learnTab();
+    expect(await learn.findByText(upper(da.learn.partnerProgram))).toBeTruthy();
+    expect(learn.getByText(da.learn.subtitleUser)).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.phaseLibrary))).toBeTruthy();
+    expect(
+      learn.getByText(da.learn.partnerTodayCard.replace('{{title}}', month1.daily[0].title)),
+    ).toBeTruthy();
+    expect(
+      learn.getByText(da.learn.monthTheme.replace('{{n}}', '1').replace('{{theme}}', month1.theme)),
+    ).toBeTruthy();
+    expect(learn.queryByText(da.learn.stats.read)).toBeNull();
+    expect(learn.queryByText(da.learn.stats.done)).toBeNull();
+    expect(learn.queryByText(upper(da.learn.today))).toBeNull();
+    expect(learn.queryByText(da.learn.catchUp)).toBeNull();
+    expect(learn.queryByText(da.learn.archive)).toBeNull();
+    expect(learn.queryByText(da.learn.overview)).toBeNull();
   });
 
   it('renders calendar with stacked months and shows earlier ones on demand', async () => {
@@ -236,6 +276,39 @@ describe('learn sub-screens', () => {
     const learn = learnTab();
     expect(await learn.findByText(content.phases[phase].avoid[0])).toBeTruthy();
     expect(learn.getByText(upper(da.learn.avoid))).toBeTruthy();
+  });
+
+  it('renders the phase page for the user role with self-care and without avoid', async () => {
+    onboard('user');
+    await renderApp('/learn/phase/luteal');
+    const learn = learnTab();
+    expect(await learn.findByText(upper(da.learn.selfCare))).toBeTruthy();
+    expect(learn.getByText(content.phases.luteal.selfCare[0])).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.partnerCanDo))).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.howYouMayFeel))).toBeTruthy();
+    expect(learn.queryByText(upper(da.learn.avoid))).toBeNull();
+    expect(learn.queryByText(content.phases.luteal.avoid[0])).toBeNull();
+  });
+
+  it('renders a daily card read-only for the user role', async () => {
+    onboard('user');
+    const id = dailyId(1, 1);
+    await renderApp(`/learn/daily/${id}`);
+    const learn = learnTab();
+    expect(await learn.findByText(month1.daily[0].insight)).toBeTruthy();
+    expect(learn.getByText(da.learn.writtenForPartner)).toBeTruthy();
+    expect(learn.queryByText(da.home.markActionDone)).toBeNull();
+    expect(learn.queryByText(upper(da.home.action))).toBeNull();
+    expect(useStore.getState().progress[id]?.readAt).toBeUndefined();
+  });
+
+  it('renders a monthly wrap without the quiz for the user role', async () => {
+    onboard('user');
+    await renderApp(`/learn/wrap/${wrapId(1)}`);
+    const learn = learnTab();
+    expect(await learn.findByText(month1.wrap.summary[0])).toBeTruthy();
+    expect(learn.getByText(da.learn.writtenForPartner)).toBeTruthy();
+    expect(learn.queryByText(da.learn.startQuiz)).toBeNull();
   });
 
   it('renders a program month', async () => {

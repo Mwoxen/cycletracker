@@ -73,8 +73,8 @@ export async function syncNotifications(
       await Notifications.scheduleNotificationAsync({
         identifier: 'daily-card',
         content: {
-          title: t('notifications.dailyCardTitle'),
-          body: t('notifications.dailyCardBody'),
+          title: t(isTracker ? 'notifications.dailyCardTitle' : 'notifications.logTitle'),
+          body: t(isTracker ? 'notifications.dailyCardBody' : 'notifications.logBody'),
         },
         trigger: {
           type: Notifications.SchedulableTriggerInputTypes.DAILY,

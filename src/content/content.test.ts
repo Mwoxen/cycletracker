@@ -13,6 +13,8 @@ describe.each(Object.entries(content))('%s content', (lang, data) => {
       expect(info.whatHappens.length).toBeGreaterThan(0);
       expect(info.howSheMayFeel.length).toBeGreaterThan(0);
       expect(info.whatYouCanDo.length).toBeGreaterThanOrEqual(3);
+      expect(info.selfCare.length).toBeGreaterThanOrEqual(4);
+      expect(info.selfCare.length).toBeLessThanOrEqual(6);
       expect(info.avoid.length).toBeGreaterThan(0);
     }
   });

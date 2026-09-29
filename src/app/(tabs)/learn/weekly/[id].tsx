@@ -15,10 +15,11 @@ export default function WeeklyReadScreen() {
   const content = useContent();
   const read = findWeekly(content, id);
   const markRead = useStore((s) => s.markRead);
+  const isTracker = useStore((s) => s.profile?.role === 'tracker');
 
   useEffect(() => {
-    if (read) markRead(read.id);
-  }, [read, markRead]);
+    if (read && isTracker) markRead(read.id);
+  }, [read, isTracker, markRead]);
 
   if (!read) {
     return (
@@ -34,6 +35,7 @@ export default function WeeklyReadScreen() {
     <>
       <Stack.Screen options={{ title: t('learn.week', { n: read.week }) }} />
       <Screen>
+        {isTracker ? null : <Txt variant="footnote">{t('learn.writtenForPartner')}</Txt>}
         <Txt variant="largeTitle" style={{ fontSize: 28, lineHeight: 34 }}>
           {read.title}
         </Txt>

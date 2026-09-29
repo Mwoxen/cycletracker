@@ -7,6 +7,7 @@ import { MONTHS_IN_PROGRAM, isMonthAvailable, isMonthWrapUnlocked, PHASE_ORDER }
 import { catchUpItems, readingStreak } from '@/engine/insights';
 import { useProgram } from '@/hooks/use-program';
 import { useToday } from '@/hooks/use-today';
+import { useStore } from '@/store/store';
 import { TabSwipe } from '@/ui/tab-swipe';
 import { colors, phaseColor, spacing } from '@/ui/colors';
 import { Card, Icon, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
@@ -52,6 +53,7 @@ export default function LearnScreen() {
   const router = useRouter();
   const { content, position, card, weekly, wrap, progress } = useProgram();
   const today = useToday();
+  const isTracker = useStore((s) => s.profile?.role === 'tracker');
   const streak = useMemo(() => readingStreak(progress, today), [progress, today]);
   const catchUp = useMemo(
     () => catchUpItems(content, position, progress),
@@ -71,6 +73,73 @@ export default function LearnScreen() {
     : undefined;
   const cardRead = !!card && !!progress[card.id]?.readAt;
   const cardPhase = card?.phaseTags[0];
+
+  const phaseSection = (
+    <>
+      <SectionTitle>{t('learn.phaseLibrary')}</SectionTitle>
+      <Card style={styles.list}>
+        {PHASE_ORDER.map((phase, i) => (
+          <Row
+            key={phase}
+            title={content.phases[phase].name}
+            subtitle={content.phases[phase].timing}
+            lead={<Lead color={phaseColor[phase]} />}
+            onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}
+            last={i === PHASE_ORDER.length - 1}
+          />
+        ))}
+      </Card>
+    </>
+  );
+
+  const monthRows = Array.from({ length: MONTHS_IN_PROGRAM }, (_, i) => i + 1).map((m) => {
+    const month = content.months.find((x) => x.month === m);
+    const available = isMonthAvailable(content, m);
+    const unlocked = position.month >= m;
+    const done =
+      isMonthWrapUnlocked(position, m) && !!month && !!progress[month.wrap.id]?.quizScore;
+    return (
+      <View key={m}>
+        <Row
+          title={
+            month ? t('learn.monthTheme', { n: m, theme: month.theme }) : t('learn.month', { n: m })
+          }
+          subtitle={!available ? t('learn.contentMissing') : month?.focus}
+          symbol={done ? 'checkmark.seal.fill' : unlocked ? 'book.closed.fill' : 'lock.fill'}
+          symbolColor={done ? colors.green : unlocked ? colors.tint : colors.tertiaryLabel}
+          onPress={() => router.push(`/(tabs)/learn/month/${m}`)}
+          last={m === MONTHS_IN_PROGRAM}
+        />
+      </View>
+    );
+  });
+
+  if (!isTracker) {
+    return (
+      <TabSwipe tab="learn">
+        <Screen title={t('learn.title')} subtitle={t('learn.subtitleUser')}>
+          {phaseSection}
+          <SectionTitle>{t('learn.partnerProgram')}</SectionTitle>
+          <Card style={styles.list}>
+            {card ? (
+              <Row
+                title={t('learn.partnerTodayCard', { title: card.title })}
+                subtitle={t('home.todaysCardDay', { day: position.programDay })}
+                lead={
+                  <LeadText
+                    color={cardPhase ? phaseColor[cardPhase] : colors.tint}
+                    label={String(position.dayInMonth)}
+                  />
+                }
+                onPress={() => router.push(`/(tabs)/learn/daily/${card.id}`)}
+              />
+            ) : null}
+            {monthRows}
+          </Card>
+        </Screen>
+      </TabSwipe>
+    );
+  }
 
   return (
     <TabSwipe tab="learn">
@@ -167,48 +236,10 @@ export default function LearnScreen() {
           />
         </Card>
 
-        <SectionTitle>{t('learn.phaseLibrary')}</SectionTitle>
-        <Card style={styles.list}>
-          {PHASE_ORDER.map((phase, i) => (
-            <Row
-              key={phase}
-              title={content.phases[phase].name}
-              subtitle={content.phases[phase].timing}
-              lead={<Lead color={phaseColor[phase]} />}
-              onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}
-              last={i === PHASE_ORDER.length - 1}
-            />
-          ))}
-        </Card>
+        {phaseSection}
 
         <SectionTitle>{t('learn.program')}</SectionTitle>
-        <Card style={styles.list}>
-          {Array.from({ length: MONTHS_IN_PROGRAM }, (_, i) => i + 1).map((m) => {
-            const month = content.months.find((x) => x.month === m);
-            const available = isMonthAvailable(content, m);
-            const unlocked = position.month >= m;
-            const done =
-              isMonthWrapUnlocked(position, m) && !!month && !!progress[month.wrap.id]?.quizScore;
-            return (
-              <View key={m}>
-                <Row
-                  title={
-                    month
-                      ? t('learn.monthTheme', { n: m, theme: month.theme })
-                      : t('learn.month', { n: m })
-                  }
-                  subtitle={!available ? t('learn.contentMissing') : month?.focus}
-                  symbol={
-                    done ? 'checkmark.seal.fill' : unlocked ? 'book.closed.fill' : 'lock.fill'
-                  }
-                  symbolColor={done ? colors.green : unlocked ? colors.tint : colors.tertiaryLabel}
-                  onPress={() => router.push(`/(tabs)/learn/month/${m}`)}
-                  last={m === MONTHS_IN_PROGRAM}
-                />
-              </View>
-            );
-          })}
-        </Card>
+        <Card style={styles.list}>{monthRows}</Card>
       </Screen>
     </TabSwipe>
   );

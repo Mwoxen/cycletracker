@@ -40,32 +40,39 @@ export default function PhaseScreen() {
             <Card>
               <Bullets items={info.whatYouCanDo} />
             </Card>
+            <SectionTitle>{t('learn.whatHappens')}</SectionTitle>
+            <Card>
+              <Bullets items={info.whatHappens} />
+            </Card>
+            <SectionTitle>{t('learn.howSheMayFeel')}</SectionTitle>
+            <Card>
+              <Bullets items={info.howSheMayFeel} />
+            </Card>
+            <SectionTitle>{t('learn.avoid')}</SectionTitle>
+            <Card>
+              <Bullets items={info.avoid} />
+            </Card>
           </>
-        ) : null}
-
-        <SectionTitle>{t('learn.whatHappens')}</SectionTitle>
-        <Card>
-          <Bullets items={info.whatHappens} />
-        </Card>
-
-        <SectionTitle>{t('learn.howSheMayFeel')}</SectionTitle>
-        <Card>
-          <Bullets items={info.howSheMayFeel} />
-        </Card>
-
-        {!isTracker ? (
+        ) : (
           <>
-            <SectionTitle>{t('learn.whatYouCanDo')}</SectionTitle>
+            <SectionTitle>{t('learn.whatHappensInBody')}</SectionTitle>
+            <Card>
+              <Bullets items={info.whatHappens} />
+            </Card>
+            <SectionTitle>{t('learn.howYouMayFeel')}</SectionTitle>
+            <Card>
+              <Bullets items={info.howSheMayFeel} />
+            </Card>
+            <SectionTitle>{t('learn.selfCare')}</SectionTitle>
+            <Card>
+              <Bullets items={info.selfCare} />
+            </Card>
+            <SectionTitle>{t('learn.partnerCanDo')}</SectionTitle>
             <Card>
               <Bullets items={info.whatYouCanDo} />
             </Card>
           </>
-        ) : null}
-
-        <SectionTitle>{t('learn.avoid')}</SectionTitle>
-        <Card>
-          <Bullets items={info.avoid} />
-        </Card>
+        )}
       </Screen>
     </>
   );

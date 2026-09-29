@@ -67,6 +67,7 @@ export default function SettingsScreen() {
 
   if (!profile) return null;
   const r = settings.reminders;
+  const isTracker = profile.role === 'tracker';
 
   const setRole = (role: Role) => {
     void Haptics.selectionAsync();
@@ -269,7 +270,8 @@ export default function SettingsScreen() {
         <SectionTitle>{t('settings.reminders')}</SectionTitle>
         <Card style={styles.rowsCard}>
           <Row
-            title={t('settings.dailyCard')}
+            title={isTracker ? t('settings.dailyCard') : t('settings.dailyReminder')}
+            subtitle={isTracker ? undefined : t('settings.dailyReminderHint')}
             trailing={
               <Switch
                 value={r.dailyCard}

@@ -17,10 +17,11 @@ export default function DailyCardScreen() {
   const content = useContent();
   const card = findDaily(content, id);
   const markRead = useStore((s) => s.markRead);
+  const isTracker = useStore((s) => s.profile?.role === 'tracker');
 
   useEffect(() => {
-    if (card) markRead(card.id);
-  }, [card, markRead]);
+    if (card && isTracker) markRead(card.id);
+  }, [card, isTracker, markRead]);
 
   if (!card) {
     return (
@@ -38,6 +39,7 @@ export default function DailyCardScreen() {
         }}
       />
       <Screen>
+        {isTracker ? null : <Txt variant="footnote">{t('learn.writtenForPartner')}</Txt>}
         <View style={{ gap: spacing.sm }}>
           <Txt variant="largeTitle" style={{ fontSize: 28, lineHeight: 34 }}>
             {card.title}
@@ -53,7 +55,7 @@ export default function DailyCardScreen() {
         <Card>
           <Txt style={{ lineHeight: 26 }}>{card.insight}</Txt>
         </Card>
-        <ActionBox card={card} />
+        {isTracker ? <ActionBox card={card} /> : null}
         {card.sources?.length ? <Sources sources={card.sources} /> : null}
         <Txt variant="caption" color={colors.tertiaryLabel} style={{ textAlign: 'center' }}>
           {card.id}

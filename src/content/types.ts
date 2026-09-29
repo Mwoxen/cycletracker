@@ -77,6 +77,8 @@ export interface PhaseInfo {
   howSheMayFeel: string[];
   /** Concrete things the partner can do. */
   whatYouCanDo: string[];
+  /** Concrete things she can do for herself in this phase. */
+  selfCare: string[];
   /** Things to avoid. */
   avoid: string[];
 }
