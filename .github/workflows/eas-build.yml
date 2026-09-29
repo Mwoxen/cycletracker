@@ -3,7 +3,7 @@
 # Runs automatically when files that change the native app are pushed to main
 # (dependencies, config, assets) and on demand via "Run workflow".
 # JavaScript-only changes never need this: eas-update.yml delivers them over the air.
-# To force a build without a native change, edit this file (it is in the watched paths) or use "Run workflow".
+# Signing credentials are created once interactively (SETUP.md step 2) and then reused here.
 #
 # Requires secrets: EXPO_TOKEN, ASC_KEY_ID, ASC_ISSUER_ID, ASC_API_KEY_P8, APPLE_TEAM_ID.
 # Optional: ASC_APP_ID (enables auto-submit to TestFlight), APPLE_TEAM_TYPE (default INDIVIDUAL).
