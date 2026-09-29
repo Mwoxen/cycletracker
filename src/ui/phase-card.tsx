@@ -74,9 +74,7 @@ export function PhaseCard({
     fertileLine = t('home.ovulationAround', { date: fmt.short(prediction.ovulationDate) });
   }
 
-  const headline = isTracker
-    ? t(`home.needs.${phase}`, { name })
-    : t(`home.needsSelf.${phase}`);
+  const headline = isTracker ? t(`home.needs.${phase}`, { name }) : t(`home.needsSelf.${phase}`);
 
   return (
     <Card

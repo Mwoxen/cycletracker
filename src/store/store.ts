@@ -4,7 +4,9 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import {
   DEFAULT_SETTINGS,
+  WEEK_FOCUS_MAX_LENGTH,
   type BackupStatus,
+  type CycleWeek,
   type DayLog,
   type ISODate,
   type Language,
@@ -57,6 +59,10 @@ export interface AppState extends SnapshotData {
   toggleActionDone: (lessonId: string) => void;
   recordQuiz: (lessonId: string, score: number, total: number) => void;
 
+  /** The couple's own focus for a cycle week; empty text clears it. */
+  setWeekFocus: (week: CycleWeek, text: string) => void;
+  toggleWeekAction: (cycleStart: ISODate, week: CycleWeek, index: number) => void;
+
   applySnapshot: (snapshot: Snapshot, options: MergeOptions) => { periods: number; logs: number };
   setPairing: (patch: Partial<PairingInfo>) => void;
   resetAll: () => void;
@@ -69,6 +75,8 @@ const initialData = (): SnapshotData & { deviceId: string } => ({
   logs: {},
   progress: {},
   pairing: {},
+  weekFocus: {},
+  weekActionsDone: {},
   deviceId: newId(),
 });
 
@@ -233,6 +241,27 @@ export const useStore = create<AppState>()(
         });
       },
 
+      setWeekFocus: (week, text) => {
+        const trimmed = text.trim().slice(0, WEEK_FOCUS_MAX_LENGTH);
+        const key = String(week);
+        if ((get().weekFocus[key]?.text ?? '') === trimmed) return;
+        set({
+          weekFocus: { ...get().weekFocus, [key]: { week, text: trimmed, updatedAt: Date.now() } },
+        });
+      },
+
+      toggleWeekAction: (cycleStart, week, index) => {
+        const all = get().weekActionsDone;
+        const key = String(week);
+        const done = all[cycleStart]?.[key] ?? [];
+        const next = done.includes(index)
+          ? done.filter((i) => i !== index)
+          : [...done, index].sort((a, b) => a - b);
+        set({
+          weekActionsDone: { ...all, [cycleStart]: { ...all[cycleStart], [key]: next } },
+        });
+      },
+
       applySnapshot: (snapshot, options) => {
         const s = get();
         const current: SnapshotData = {
@@ -242,6 +271,8 @@ export const useStore = create<AppState>()(
           logs: s.logs,
           progress: s.progress,
           pairing: s.pairing,
+          weekFocus: s.weekFocus,
+          weekActionsDone: s.weekActionsDone,
         };
         const result = mergeSnapshot(current, snapshot, options);
         set({ ...result.data });
@@ -265,6 +296,8 @@ export const useStore = create<AppState>()(
         logs: state.logs,
         progress: state.progress,
         pairing: state.pairing,
+        weekFocus: state.weekFocus,
+        weekActionsDone: state.weekActionsDone,
       }),
       migrate: (persisted, version) => {
         // Future schema migrations go here, keyed on `version`.
@@ -277,6 +310,8 @@ export const useStore = create<AppState>()(
         return {
           ...current,
           ...p,
+          weekFocus: p.weekFocus ?? {},
+          weekActionsDone: p.weekActionsDone ?? {},
           settings: {
             ...DEFAULT_SETTINGS,
             ...p.settings,
@@ -331,4 +366,6 @@ export const selectSnapshotData = stable((s): SnapshotData => ({
   logs: s.logs,
   progress: s.progress,
   pairing: s.pairing,
+  weekFocus: s.weekFocus,
+  weekActionsDone: s.weekActionsDone,
 }));

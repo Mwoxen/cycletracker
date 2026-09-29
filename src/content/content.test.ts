@@ -1,7 +1,14 @@
-import { PHASES, SYMPTOMS } from '@/domain/types';
+import { CYCLE_WEEKS, PHASES, SYMPTOMS } from '@/domain/types';
 
 import { content } from './index';
-import { DAYS_PER_MONTH, WEEKS_PER_MONTH, dailyId, weeklyId, wrapId } from './types';
+import {
+  CYCLE_WEEK_ACTIONS,
+  DAYS_PER_MONTH,
+  WEEKS_PER_MONTH,
+  dailyId,
+  weeklyId,
+  wrapId,
+} from './types';
 
 const words = (s: string) => s.trim().split(/\s+/).length;
 
@@ -23,6 +30,17 @@ describe.each(Object.entries(content))('%s content', (lang, data) => {
     for (const s of SYMPTOMS) {
       expect(data.symptomTips[s].what.length).toBeGreaterThan(10);
       expect(data.symptomTips[s].doThis.length).toBeGreaterThan(10);
+    }
+  });
+
+  it('has a focus for each of the four cycle weeks with exactly three actions', () => {
+    expect(data.cycleWeeks.map((w) => w.week)).toEqual(CYCLE_WEEKS);
+    for (const w of data.cycleWeeks) {
+      expect(w.title.trim().length).toBeGreaterThan(3);
+      expect(w.why.trim().length).toBeGreaterThan(20);
+      expect(w.partnerFocus.trim().length).toBeGreaterThan(20);
+      expect(w.actions).toHaveLength(CYCLE_WEEK_ACTIONS);
+      for (const a of w.actions) expect(a.trim().length).toBeGreaterThan(10);
     }
   });
 

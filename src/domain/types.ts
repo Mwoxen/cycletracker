@@ -89,6 +89,22 @@ export interface LessonProgress {
   quizTotal?: number;
 }
 
+/** The cycle split into four weeks; week 4 runs to the end of the cycle. */
+export type CycleWeek = 1 | 2 | 3 | 4;
+export const CYCLE_WEEKS: CycleWeek[] = [1, 2, 3, 4];
+
+/** The couple's own focus sentence for a cycle week; keyed by `String(week)` in the store. */
+export interface WeekFocus {
+  week: CycleWeek;
+  text: string;
+  /** Milliseconds since epoch. Last-write-wins on merge. */
+  updatedAt: number;
+}
+export const WEEK_FOCUS_MAX_LENGTH = 120;
+
+/** Ticked week actions: cycle start date -> week -> indexes of the done actions. */
+export type WeekActionsDone = Record<ISODate, Record<string, number[]>>;
+
 export interface Reminders {
   dailyCard: boolean;
   /** Hour of day, 0-23. */
@@ -96,6 +112,8 @@ export interface Reminders {
   dailyCardMinute: number;
   periodSoon: boolean;
   pmsWindow: boolean;
+  /** The morning a new cycle week begins. */
+  cycleWeek: boolean;
 }
 
 export interface Settings {
@@ -149,6 +167,7 @@ export const DEFAULT_SETTINGS: Settings = {
     dailyCardMinute: 30,
     periodSoon: true,
     pmsWindow: true,
+    cycleWeek: true,
   },
   cloudBackup: true,
   appearance: 'system',

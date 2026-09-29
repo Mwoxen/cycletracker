@@ -8,10 +8,19 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet, Switch, TextInput } from 'react-native';
 
-import { APPEARANCES, LANGUAGES, type Language, type Role } from '@/domain/types';
+import {
+  APPEARANCES,
+  CYCLE_WEEKS,
+  LANGUAGES,
+  WEEK_FOCUS_MAX_LENGTH,
+  type CycleWeek,
+  type Language,
+  type Role,
+} from '@/domain/types';
 import { fromISODate, toISODate } from '@/engine/dates';
 import { readCloudBackup } from '@/backup/cloud';
 import { exportSnapshotFile, pickSnapshotFile } from '@/backup/file';
+import { useContent } from '@/hooks/use-program';
 import { useFormat } from '@/hooks/use-format';
 import { relativeTime } from '@/hooks/use-relative-time';
 import { useToday } from '@/hooks/use-today';
@@ -56,10 +65,14 @@ export default function SettingsScreen() {
   const updateProfile = useStore((s) => s.updateProfile);
   const updateSettings = useStore((s) => s.updateSettings);
   const updateReminders = useStore((s) => s.updateReminders);
+  const weekFocus = useStore((s) => s.weekFocus);
+  const setWeekFocus = useStore((s) => s.setWeekFocus);
   const resetAll = useStore((s) => s.resetAll);
+  const content = useContent();
   const [notifGranted, setNotifGranted] = useState<boolean | undefined>();
   const [name, setName] = useState(profile?.partnerName ?? '');
   const [openPicker, setOpenPicker] = useState<'start' | 'time' | null>(null);
+  const [focusDrafts, setFocusDrafts] = useState<Partial<Record<CycleWeek, string>>>({});
 
   useEffect(() => {
     void hasNotificationPermission().then(setNotifGranted);
@@ -77,7 +90,10 @@ export default function SettingsScreen() {
     void Haptics.selectionAsync();
     updateProfile({ language });
   };
-  const toggleReminder = async (key: 'dailyCard' | 'periodSoon' | 'pmsWindow', value: boolean) => {
+  const toggleReminder = async (
+    key: 'dailyCard' | 'periodSoon' | 'pmsWindow' | 'cycleWeek',
+    value: boolean,
+  ) => {
     if (value) {
       const granted = await requestNotificationPermission();
       setNotifGranted(granted);
@@ -286,6 +302,35 @@ export default function SettingsScreen() {
           {t('settings.cycleHelp')}
         </Txt>
 
+        <SectionTitle>{t('weeks.section')}</SectionTitle>
+        <Card style={styles.rowsCard}>
+          {CYCLE_WEEKS.map((week) => (
+            <Row
+              key={week}
+              title={t('weeks.weekN', { n: week })}
+              subtitle={content.cycleWeeks.find((w) => w.week === week)?.title}
+              last={week === CYCLE_WEEKS[CYCLE_WEEKS.length - 1]}
+              trailing={
+                <TextInput
+                  value={focusDrafts[week] ?? weekFocus[String(week)]?.text ?? ''}
+                  onChangeText={(text) => setFocusDrafts({ ...focusDrafts, [week]: text })}
+                  onEndEditing={() => {
+                    const draft = focusDrafts[week];
+                    if (draft !== undefined) setWeekFocus(week, draft);
+                  }}
+                  placeholder={t('weeks.ownFocusPlaceholder')}
+                  placeholderTextColor={colors.tertiaryLabel}
+                  maxLength={WEEK_FOCUS_MAX_LENGTH}
+                  style={styles.input}
+                  autoCapitalize="sentences"
+                  returnKeyType="done"
+                  accessibilityLabel={t('weeks.weekN', { n: week })}
+                />
+              }
+            />
+          ))}
+        </Card>
+
         <SectionTitle>{t('settings.reminders')}</SectionTitle>
         <Card style={styles.rowsCard}>
           <Row
@@ -338,11 +383,21 @@ export default function SettingsScreen() {
           />
           <Row
             title={t('settings.pmsWindow')}
-            last={notifGranted !== false}
             trailing={
               <Switch
                 value={r.pmsWindow}
                 onValueChange={(v) => void toggleReminder('pmsWindow', v)}
+              />
+            }
+          />
+          <Row
+            title={t('settings.cycleWeekReminder')}
+            subtitle={t('settings.cycleWeekReminderHint')}
+            last={notifGranted !== false}
+            trailing={
+              <Switch
+                value={r.cycleWeek}
+                onValueChange={(v) => void toggleReminder('cycleWeek', v)}
               />
             }
           />

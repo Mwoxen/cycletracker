@@ -102,6 +102,66 @@ describe('store', () => {
     expect(useStore.getState().progress['m01-wrap'].quizScore).toBe(4);
   });
 
+  it("stores the couple's own week focus, trimmed and capped", () => {
+    onboard();
+    useStore.getState().setWeekFocus(2, '  Mere tid sammen  ');
+    const first = useStore.getState().weekFocus['2'];
+    expect(first).toMatchObject({ week: 2, text: 'Mere tid sammen' });
+    expect(first.updatedAt).toBeGreaterThan(0);
+    useStore.getState().setWeekFocus(2, 'Mere tid sammen');
+    expect(useStore.getState().weekFocus['2']).toBe(first); // unchanged text: no new write
+    useStore.getState().setWeekFocus(3, 'x'.repeat(200));
+    expect(useStore.getState().weekFocus['3'].text).toHaveLength(120);
+    useStore.getState().setWeekFocus(2, '');
+    expect(useStore.getState().weekFocus['2'].text).toBe('');
+  });
+
+  it('toggles week actions per cycle start', () => {
+    onboard();
+    const toggle = useStore.getState().toggleWeekAction;
+    toggle('2026-02-20', 1, 2);
+    toggle('2026-02-20', 1, 0);
+    expect(useStore.getState().weekActionsDone['2026-02-20']['1']).toEqual([0, 2]);
+    toggle('2026-02-20', 1, 2);
+    expect(useStore.getState().weekActionsDone['2026-02-20']['1']).toEqual([0]);
+    toggle('2026-02-20', 4, 1);
+    toggle('2026-03-20', 1, 1);
+    expect(useStore.getState().weekActionsDone).toEqual({
+      '2026-02-20': { '1': [0], '4': [1] },
+      '2026-03-20': { '1': [1] },
+    });
+  });
+
+  it('round-trips the week focus and actions through a snapshot', () => {
+    onboard();
+    useStore.getState().setWeekFocus(1, 'Ro');
+    useStore.getState().toggleWeekAction('2026-02-20', 1, 1);
+    const snap = createSnapshot(selectSnapshotData(useStore.getState()), 'dev');
+    expect(snap.weekFocus).toHaveLength(1);
+    useStore.getState().resetAll();
+    expect(useStore.getState().weekFocus).toEqual({});
+    expect(useStore.getState().weekActionsDone).toEqual({});
+    useStore.getState().applySnapshot(snap, { includeProfile: true, includeProgress: true });
+    expect(useStore.getState().weekFocus['1'].text).toBe('Ro');
+    expect(useStore.getState().weekActionsDone['2026-02-20']['1']).toEqual([1]);
+  });
+
+  it('persists the week focus and actions and fills them in for older state', () => {
+    const persisted = useStore.persist.getOptions().partialize!(useStore.getState()) as object;
+    expect(Object.keys(persisted)).toEqual(
+      expect.arrayContaining(['weekFocus', 'weekActionsDone']),
+    );
+    const merge = useStore.persist.getOptions().merge!;
+    const merged = merge(
+      { settings: { reminders: { pmsWindow: false } } },
+      useStore.getState(),
+    ) as typeof useStore extends { getState: () => infer S } ? S : never;
+    expect(merged.weekFocus).toEqual({});
+    expect(merged.weekActionsDone).toEqual({});
+    expect(merged.settings.reminders.cycleWeek).toBe(true);
+    expect(merged.settings.reminders.pmsWindow).toBe(false);
+  });
+
   it('applies a partner snapshot without touching the own profile', () => {
     onboard();
     const other = createSnapshot(

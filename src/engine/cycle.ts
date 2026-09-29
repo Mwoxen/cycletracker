@@ -4,7 +4,7 @@
  * The single source of truth is the list of period start dates. Everything else
  * (cycle length, predictions, phases) is derived from it plus the settings.
  */
-import type { ISODate, PeriodEvent, Phase, Settings } from '@/domain/types';
+import type { CycleWeek, ISODate, PeriodEvent, Phase, Settings } from '@/domain/types';
 
 import { addDaysISO, compareISO, daysBetween } from './dates';
 
@@ -291,6 +291,43 @@ export function phaseForCycleDay(
   if (cycleDay <= ovulationDay + 1) return 'ovulation';
   return 'luteal';
 }
+
+/* Cycle weeks: the cycle split into four weeks, the last one running to the end of the cycle. */
+
+export const DAYS_PER_CYCLE_WEEK = 7;
+/** Week 4 always covers at least days 22-28, even in a shorter cycle. */
+export const MIN_CYCLE_WEEK_4_END = 28;
+
+/** Which cycle week a 1-based cycle day falls in; every day from 22 onward is week 4. */
+export function cycleWeekFor(cycleDay: number): CycleWeek {
+  const week = Math.ceil(Math.max(1, cycleDay) / DAYS_PER_CYCLE_WEEK);
+  return Math.min(4, Math.max(1, week)) as CycleWeek;
+}
+
+/** Inclusive 1-based cycle day range of a cycle week in a cycle of the given length. */
+export function cycleWeekRange(week: CycleWeek, cycleLength: number): { from: number; to: number } {
+  const from = (week - 1) * DAYS_PER_CYCLE_WEEK + 1;
+  if (week < 4) return { from, to: week * DAYS_PER_CYCLE_WEEK };
+  return { from, to: Math.max(MIN_CYCLE_WEEK_4_END, Math.round(cycleLength)) };
+}
+
+/** Calendar dates on which each cycle week begins (cycle days 1, 8, 15 and 22). */
+export function cycleWeekStartDates(cycleStart: ISODate): Record<CycleWeek, ISODate> {
+  return {
+    1: cycleStart,
+    2: addDaysISO(cycleStart, DAYS_PER_CYCLE_WEEK),
+    3: addDaysISO(cycleStart, 2 * DAYS_PER_CYCLE_WEEK),
+    4: addDaysISO(cycleStart, 3 * DAYS_PER_CYCLE_WEEK),
+  };
+}
+
+/** The phase that dominates each cycle week, for colouring. */
+export const CYCLE_WEEK_PHASE: Record<CycleWeek, Phase> = {
+  1: 'menstrual',
+  2: 'follicular',
+  3: 'ovulation',
+  4: 'luteal',
+};
 
 /**
  * Real periods plus predicted future period starts, so the calendar can show

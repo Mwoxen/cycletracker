@@ -29,7 +29,15 @@ function yearOfData(): SnapshotData {
     }
     day = addDaysISO(day, 1);
   }
-  return { settings: DEFAULT_SETTINGS, periods, logs, progress: {}, pairing: {} };
+  return {
+    settings: DEFAULT_SETTINGS,
+    periods,
+    logs,
+    progress: {},
+    pairing: {},
+    weekFocus: {},
+    weekActionsDone: {},
+  };
 }
 
 describe('payload', () => {

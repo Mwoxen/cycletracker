@@ -3,13 +3,16 @@ import { DEFAULT_SETTINGS, type PeriodEvent, type Settings } from '@/domain/type
 import {
   computeStats,
   cycleSnapshot,
+  cycleWeekFor,
+  cycleWeekRange,
+  cycleWeekStartDates,
   dayStatus,
   isPredictedPeriodDay,
   projectedPeriods,
   phaseForCycleDay,
   predict,
 } from './cycle';
-import { addDaysISO, daysBetween, isValidISODate } from './dates';
+import { addDaysISO, daysBetween, isValidISODate, isoWeekOf } from './dates';
 
 const settings: Settings = { ...DEFAULT_SETTINGS };
 
@@ -36,6 +39,11 @@ describe('dates', () => {
     expect(isValidISODate('2026-02-28')).toBe(true);
     expect(isValidISODate('2026-02-30')).toBe(false);
     expect(isValidISODate('26-02-28')).toBe(false);
+  });
+  it('gives the ISO calendar week', () => {
+    expect(isoWeekOf('2026-01-01')).toBe(1);
+    expect(isoWeekOf('2026-05-10')).toBe(19);
+    expect(isoWeekOf('2027-01-01')).toBe(53);
   });
 });
 
@@ -260,5 +268,48 @@ describe('projectedPeriods', () => {
   });
   it('returns real periods only when there is no data', () => {
     expect(projectedPeriods([], settings, '2026-03-10')).toEqual([]);
+  });
+});
+
+describe('cycle weeks', () => {
+  it.each([
+    [1, 1],
+    [7, 1],
+    [8, 2],
+    [14, 2],
+    [15, 3],
+    [21, 3],
+    [22, 4],
+    [28, 4],
+    [35, 4],
+  ])('cycle day %i is in cycle week %i', (day, week) => {
+    expect(cycleWeekFor(day)).toBe(week);
+  });
+
+  it('never goes below week 1', () => {
+    expect(cycleWeekFor(0)).toBe(1);
+    expect(cycleWeekFor(-3)).toBe(1);
+  });
+
+  it('gives fixed ranges for weeks 1-3 and runs week 4 to the end of the cycle', () => {
+    expect(cycleWeekRange(1, 28)).toEqual({ from: 1, to: 7 });
+    expect(cycleWeekRange(2, 28)).toEqual({ from: 8, to: 14 });
+    expect(cycleWeekRange(3, 28)).toEqual({ from: 15, to: 21 });
+    expect(cycleWeekRange(4, 28)).toEqual({ from: 22, to: 28 });
+    expect(cycleWeekRange(4, 33)).toEqual({ from: 22, to: 33 });
+  });
+
+  it('keeps week 4 at least 22-28 in short cycles', () => {
+    expect(cycleWeekRange(4, 24)).toEqual({ from: 22, to: 28 });
+    expect(cycleWeekRange(4, 20)).toEqual({ from: 22, to: 28 });
+  });
+
+  it('gives the start dates of days 1, 8, 15 and 22', () => {
+    expect(cycleWeekStartDates('2026-04-28')).toEqual({
+      1: '2026-04-28',
+      2: '2026-05-05',
+      3: '2026-05-12',
+      4: '2026-05-19',
+    });
   });
 });

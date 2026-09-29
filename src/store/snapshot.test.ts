@@ -28,6 +28,8 @@ function data(overrides: Partial<SnapshotData> = {}): SnapshotData {
     logs: {},
     progress: {},
     pairing: {},
+    weekFocus: {},
+    weekActionsDone: {},
     ...overrides,
   };
 }
@@ -74,6 +76,16 @@ describe('snapshot round trip', () => {
         ],
         progress: [],
         pairing: { partnerName: 5, lastSyncAt: 'now' },
+        weekFocus: [
+          { week: 2, text: 'x'.repeat(200), updatedAt: 3 },
+          { week: 7, text: 'no', updatedAt: 3 },
+          { week: 1, text: 42, updatedAt: 3 },
+          { week: 3, text: 'ok', updatedAt: 'now' },
+        ],
+        weekActionsDone: {
+          '2026-03-01': { '1': [0, 2, 2, 5, -1, 1.5, 'x'], '9': [0], x: [1] },
+          'not-a-date': { '1': [0] },
+        },
       }),
     );
     expect(parsed.exportedAt).toBe(0);
@@ -89,6 +101,20 @@ describe('snapshot round trip', () => {
     expect(parsed.logs[0].symptoms).toEqual(['cramps']);
     expect(parsed.logs[1].symptoms).toEqual([]);
     expect(parsed.pairing).toEqual({});
+    expect(parsed.weekFocus).toEqual([{ week: 2, text: 'x'.repeat(120), updatedAt: 3 }]);
+    expect(parsed.weekActionsDone).toEqual({ '2026-03-01': { '1': [0, 2] } });
+  });
+
+  it('defaults week focus and actions when a snapshot predates them', () => {
+    const parsed = parseSnapshot(JSON.stringify({ version: 1, periods: [], logs: [] }));
+    expect(parsed.weekFocus).toEqual([]);
+    expect(parsed.weekActionsDone).toEqual({});
+    expect(parsed.settings).toBeUndefined();
+    const older = parseSnapshot(
+      JSON.stringify({ version: 1, settings: { reminders: { pmsWindow: false } } }),
+    );
+    expect(older.settings?.reminders.cycleWeek).toBe(true);
+    expect(older.settings?.reminders.pmsWindow).toBe(false);
   });
 
   it('signs sync payloads with the sender name only for the user role', () => {
@@ -99,6 +125,8 @@ describe('snapshot round trip', () => {
       logs: {},
       progress: {},
       pairing: {},
+      weekFocus: {},
+      weekActionsDone: {},
     };
     expect(createSyncSnapshot(base, 'd1').senderName).toBe('Anna');
     const tracker = { ...base, profile: { ...base.profile!, role: 'tracker' as const } };
@@ -197,6 +225,52 @@ describe('mergeSnapshot', () => {
     });
   });
 
+  it('applies last-write-wins to the week focus on every merge', () => {
+    const current = data({
+      weekFocus: {
+        '1': { week: 1, text: 'mine', updatedAt: 10 },
+        '2': { week: 2, text: 'ours', updatedAt: 10 },
+      },
+    });
+    const incoming = createSnapshot(
+      data({
+        weekFocus: {
+          '1': { week: 1, text: 'older', updatedAt: 5 },
+          '2': { week: 2, text: 'newer', updatedAt: 15 },
+          '3': { week: 3, text: 'new', updatedAt: 1 },
+        },
+      }),
+      'dev2',
+    );
+    const r = mergeSnapshot(current, incoming, { includeProfile: false, includeProgress: false });
+    expect(r.data.weekFocus['1'].text).toBe('mine');
+    expect(r.data.weekFocus['2'].text).toBe('newer');
+    expect(r.data.weekFocus['3'].text).toBe('new');
+  });
+
+  it('unions ticked week actions only when progress is included', () => {
+    const current = data({ weekActionsDone: { '2026-03-01': { '1': [0] } } });
+    const incoming = createSnapshot(
+      data({
+        weekActionsDone: { '2026-03-01': { '1': [2], '2': [1] }, '2026-03-29': { '1': [0] } },
+      }),
+      'dev2',
+    );
+    const sync = mergeSnapshot(current, incoming, {
+      includeProfile: false,
+      includeProgress: false,
+    });
+    expect(sync.data.weekActionsDone).toEqual({ '2026-03-01': { '1': [0] } });
+    const restore = mergeSnapshot(current, incoming, {
+      includeProfile: true,
+      includeProgress: true,
+    });
+    expect(restore.data.weekActionsDone).toEqual({
+      '2026-03-01': { '1': [0, 2], '2': [1] },
+      '2026-03-29': { '1': [0] },
+    });
+  });
+
   it('is idempotent', () => {
     const current = data({ periods: { a: p('a', '2026-03-01', 10) } });
     const snap = createSnapshot(current, 'dev1');
@@ -217,6 +291,19 @@ describe('createSyncSnapshot', () => {
     expect(snap.periods.map((x) => x.id)).toEqual(['b']);
     expect(snap.profile).toBeUndefined();
     expect(snap.progress).toEqual([]);
+  });
+
+  it('shares the week focus but never the ticked actions', () => {
+    const d = data({
+      weekFocus: {
+        '1': { week: 1, text: 'old', updatedAt: 10 },
+        '4': { week: 4, text: 'new', updatedAt: 20 },
+      },
+      weekActionsDone: { '2026-03-01': { '1': [0] } },
+    });
+    const snap = createSyncSnapshot(d, 'dev1', 15);
+    expect(snap.weekFocus.map((f) => f.week)).toEqual([4]);
+    expect(snap.weekActionsDone).toEqual({});
   });
 });
 

@@ -1,5 +1,6 @@
 import type { Language } from '@/domain/types';
 
+import { cycleWeeks as daCycleWeeks } from './da/cycle-weeks';
 import { month01 as da01 } from './da/month-01';
 import { month02 as da02 } from './da/month-02';
 import { month03 as da03 } from './da/month-03';
@@ -14,6 +15,7 @@ import { month11 as da11 } from './da/month-11';
 import { month12 as da12 } from './da/month-12';
 import { phases as daPhases } from './da/phases';
 import { symptomTips as daTips } from './da/symptom-tips';
+import { cycleWeeks as enCycleWeeks } from './en/cycle-weeks';
 import { month01 as en01 } from './en/month-01';
 import { month02 as en02 } from './en/month-02';
 import { month03 as en03 } from './en/month-03';
@@ -35,11 +37,13 @@ export const content: Record<Language, LanguageContent> = {
     phases: daPhases,
     symptomTips: daTips,
     months: [da01, da02, da03, da04, da05, da06, da07, da08, da09, da10, da11, da12],
+    cycleWeeks: daCycleWeeks,
   },
   en: {
     phases: enPhases,
     symptomTips: enTips,
     months: [en01, en02, en03, en04, en05, en06, en07, en08, en09, en10, en11, en12],
+    cycleWeeks: enCycleWeeks,
   },
 };
 

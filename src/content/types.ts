@@ -1,4 +1,4 @@
-import type { Phase, Symptom } from '@/domain/types';
+import type { CycleWeek, Phase, Symptom } from '@/domain/types';
 
 /** A source the content leans on; shown as a short reference. */
 export interface Source {
@@ -90,10 +90,25 @@ export interface SymptomTip {
   doThis: string;
 }
 
+/** The partner's focus for one of the four cycle weeks. */
+export interface CycleWeekFocus {
+  week: CycleWeek;
+  title: string;
+  /** Why this focus fits the week, hormonally and practically. */
+  why: string;
+  /** Exactly three concrete things the partner can do this week. */
+  actions: string[];
+  /** One sentence for the user role: what her partner focuses on this week. */
+  partnerFocus: string;
+}
+
+export const CYCLE_WEEK_ACTIONS = 3;
+
 export interface LanguageContent {
   phases: Record<Phase, PhaseInfo>;
   symptomTips: Record<Symptom, SymptomTip>;
   months: MonthContent[];
+  cycleWeeks: CycleWeekFocus[];
 }
 
 export const DAYS_PER_MONTH = 30;

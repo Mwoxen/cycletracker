@@ -1,13 +1,24 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-import type { PeriodEvent, Profile, Settings } from '@/domain/types';
-import { addDaysISO, compareISO, fromISODate, todayISO } from '@/engine/dates';
+import { getContent } from '@/content';
 import { programPosition } from '@/content/program';
-import { predict } from '@/engine/cycle';
+import {
+  CYCLE_WEEKS,
+  type CycleWeek,
+  type ISODate,
+  type PeriodEvent,
+  type Profile,
+  type Settings,
+} from '@/domain/types';
+import { cycleWeekStartDates, predict } from '@/engine/cycle';
+import { addDaysISO, compareISO, fromISODate, todayISO } from '@/engine/dates';
 import i18n from '@/i18n';
 
 const REMINDER_HOUR = 9;
+/** A new cycle week is announced in the morning. */
+const CYCLE_WEEK_HOUR = 8;
+const CYCLE_WEEK_MINUTE = 30;
 
 let handlerInstalled = false;
 
@@ -44,9 +55,9 @@ export async function hasNotificationPermission(): Promise<boolean> {
   }
 }
 
-function at(iso: string, hour: number): Date {
+function at(iso: string, hour: number, minute = 0): Date {
   const d = fromISODate(iso);
-  d.setHours(hour, 0, 0, 0);
+  d.setHours(hour, minute, 0, 0);
   return d;
 }
 
@@ -121,6 +132,39 @@ export async function syncNotifications(
           trigger: {
             type: Notifications.SchedulableTriggerInputTypes.DATE,
             date: at(day, REMINDER_HOUR),
+          },
+        });
+      }
+    }
+
+    if (r.cycleWeek) {
+      // Weeks 2-4 of the current cycle plus week 1 of the predicted next one; past dates skip.
+      const cycleWeeks = getContent(profile.language).cycleWeeks;
+      const starts = cycleWeekStartDates(prediction.lastPeriodStart);
+      const upcoming: { week: CycleWeek; date: ISODate; id: string }[] = [
+        ...CYCLE_WEEKS.filter((w) => w > 1).map((w) => ({
+          week: w,
+          date: starts[w],
+          id: `cycle-week-${w}`,
+        })),
+        { week: 1, date: prediction.nextPeriodStart, id: 'cycle-week-next-1' },
+      ];
+      for (const item of upcoming) {
+        if (compareISO(item.date, today) <= 0) continue;
+        const weekContent = cycleWeeks.find((w) => w.week === item.week);
+        if (!weekContent) continue;
+        await Notifications.scheduleNotificationAsync({
+          identifier: item.id,
+          content: {
+            title: t('notifications.cycleWeekTitle'),
+            body: t('notifications.cycleWeekBody', {
+              n: item.week,
+              title: isTracker ? weekContent.title : weekContent.partnerFocus,
+            }),
+          },
+          trigger: {
+            type: Notifications.SchedulableTriggerInputTypes.DATE,
+            date: at(item.date, CYCLE_WEEK_HOUR, CYCLE_WEEK_MINUTE),
           },
         });
       }

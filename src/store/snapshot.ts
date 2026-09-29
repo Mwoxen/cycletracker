@@ -4,9 +4,12 @@
  */
 import {
   APPEARANCES,
+  CYCLE_WEEKS,
   DEFAULT_SETTINGS,
   SYMPTOMS,
+  WEEK_FOCUS_MAX_LENGTH,
   type Appearance,
+  type CycleWeek,
   type DayLog,
   type ISODate,
   type LessonProgress,
@@ -16,7 +19,10 @@ import {
   type Settings,
   type Symptom,
   type Syncable,
+  type WeekActionsDone,
+  type WeekFocus,
 } from '@/domain/types';
+import { CYCLE_WEEK_ACTIONS } from '@/content/types';
 import { isValidISODate } from '@/engine/dates';
 
 export const SNAPSHOT_VERSION = 1;
@@ -34,6 +40,10 @@ export interface Snapshot {
   logs: DayLog[];
   progress: LessonProgress[];
   pairing?: PairingInfo;
+  /** The couple's own focus per cycle week; shared with the partner like cycle data. */
+  weekFocus: WeekFocus[];
+  /** Ticked week actions; personal like lesson progress, so only restored from a backup. */
+  weekActionsDone: WeekActionsDone;
 }
 
 export interface SnapshotData {
@@ -43,6 +53,9 @@ export interface SnapshotData {
   logs: Record<string, DayLog>;
   progress: Record<string, LessonProgress>;
   pairing: PairingInfo;
+  /** Keyed by `String(week)`. */
+  weekFocus: Record<string, WeekFocus>;
+  weekActionsDone: WeekActionsDone;
 }
 
 export interface MergeOptions {
@@ -63,6 +76,8 @@ export function createSnapshot(data: SnapshotData, deviceId: string, now = Date.
     logs: Object.values(data.logs),
     progress: Object.values(data.progress),
     pairing: data.pairing,
+    weekFocus: Object.values(data.weekFocus),
+    weekActionsDone: data.weekActionsDone,
   };
 }
 
@@ -82,6 +97,8 @@ export function createSyncSnapshot(
     periods: Object.values(data.periods).filter((p) => p.updatedAt > since),
     logs: Object.values(data.logs).filter((l) => l.updatedAt > since),
     progress: [],
+    weekFocus: Object.values(data.weekFocus).filter((f) => f.updatedAt > since),
+    weekActionsDone: {},
   };
 }
 
@@ -128,6 +145,36 @@ function mergeProgress(
   return result;
 }
 
+/** Newer focus text wins per week, like any other syncable record. */
+function mergeWeekFocus(
+  current: Record<string, WeekFocus>,
+  incoming: WeekFocus[],
+): Record<string, WeekFocus> {
+  const result = { ...current };
+  for (const item of incoming) {
+    const key = String(item.week);
+    const existing = result[key];
+    if (!existing || item.updatedAt > existing.updatedAt) result[key] = item;
+  }
+  return result;
+}
+
+/** Union of ticked actions per cycle and week; a tick on either device stays ticked. */
+function mergeWeekActionsDone(
+  current: WeekActionsDone,
+  incoming: WeekActionsDone,
+): WeekActionsDone {
+  const result: WeekActionsDone = { ...current };
+  for (const [cycleStart, weeks] of Object.entries(incoming)) {
+    const merged = { ...result[cycleStart] };
+    for (const [week, indexes] of Object.entries(weeks)) {
+      merged[week] = [...new Set([...(merged[week] ?? []), ...indexes])].sort((a, b) => a - b);
+    }
+    result[cycleStart] = merged;
+  }
+  return result;
+}
+
 export interface MergeResult {
   data: SnapshotData;
   periodsChanged: number;
@@ -154,6 +201,10 @@ export function mergeSnapshot(
     logs: logs.result,
     progress,
     pairing: options.includeProfile && snapshot.pairing ? snapshot.pairing : current.pairing,
+    weekFocus: mergeWeekFocus(current.weekFocus, snapshot.weekFocus),
+    weekActionsDone: options.includeProgress
+      ? mergeWeekActionsDone(current.weekActionsDone, snapshot.weekActionsDone)
+      : current.weekActionsDone,
   };
   return { data, periodsChanged: periods.changed, logsChanged: logs.changed };
 }
@@ -195,6 +246,8 @@ export function parseSnapshot(text: string): Snapshot {
       (p) => p && typeof p === 'object' && typeof (p as LessonProgress).lessonId === 'string',
     ) as LessonProgress[],
     pairing: sanitizePairing(obj.pairing),
+    weekFocus: arr(obj.weekFocus).flatMap((f) => sanitizeWeekFocus(f)),
+    weekActionsDone: sanitizeWeekActionsDone(obj.weekActionsDone),
   };
 }
 
@@ -219,6 +272,36 @@ function sanitizeLog(v: Syncable): DayLog[] {
     (SYMPTOMS as string[]).includes(x as string),
   );
   return [{ ...l, date: l.date, symptoms } as DayLog];
+}
+
+const isCycleWeek = (v: unknown): v is CycleWeek => (CYCLE_WEEKS as unknown[]).includes(v);
+
+function sanitizeWeekFocus(v: unknown): WeekFocus[] {
+  if (!v || typeof v !== 'object') return [];
+  const f = v as Partial<WeekFocus>;
+  if (!isCycleWeek(f.week) || typeof f.text !== 'string') return [];
+  if (typeof f.updatedAt !== 'number' || !Number.isFinite(f.updatedAt)) return [];
+  return [{ week: f.week, text: f.text.slice(0, WEEK_FOCUS_MAX_LENGTH), updatedAt: f.updatedAt }];
+}
+
+/** Keeps only valid cycle start dates, weeks 1-4 and integer action indexes 0-2. */
+function sanitizeWeekActionsDone(v: unknown): WeekActionsDone {
+  const out: WeekActionsDone = {};
+  if (!v || typeof v !== 'object') return out;
+  for (const [cycleStart, weeks] of Object.entries(v as Record<string, unknown>)) {
+    if (!isDate(cycleStart) || !weeks || typeof weeks !== 'object') continue;
+    const cleaned: Record<string, number[]> = {};
+    for (const [week, indexes] of Object.entries(weeks as Record<string, unknown>)) {
+      if (!isCycleWeek(Number(week)) || !Array.isArray(indexes)) continue;
+      const valid = indexes.filter(
+        (i): i is number =>
+          typeof i === 'number' && Number.isInteger(i) && i >= 0 && i < CYCLE_WEEK_ACTIONS,
+      );
+      cleaned[week] = [...new Set(valid)].sort((a, b) => a - b);
+    }
+    out[cycleStart] = cleaned;
+  }
+  return out;
 }
 
 function sanitizeProfile(v: unknown): Profile | undefined {
@@ -264,6 +347,7 @@ function sanitizeSettings(v: unknown): Settings | undefined {
       dailyCardMinute: int(r.dailyCardMinute, d.reminders.dailyCardMinute, 0, 59),
       periodSoon: typeof r.periodSoon === 'boolean' ? r.periodSoon : d.reminders.periodSoon,
       pmsWindow: typeof r.pmsWindow === 'boolean' ? r.pmsWindow : d.reminders.pmsWindow,
+      cycleWeek: typeof r.cycleWeek === 'boolean' ? r.cycleWeek : d.reminders.cycleWeek,
     },
   };
 }

@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
-import { useCycle } from '@/hooks/use-cycle';
+import { useCycle, useCycleWeek } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { useProgram } from '@/hooks/use-program';
 import { relativeTime } from '@/hooks/use-relative-time';
@@ -35,6 +35,23 @@ function BulletsCard({
   );
 }
 
+/** Compact pointer to the current cycle week; the details live on the calendar tab. */
+function CycleWeekRow({ onPress }: { onPress: () => void }) {
+  const { t } = useTranslation();
+  const cycleWeek = useCycleWeek();
+  if (!cycleWeek) return null;
+  return (
+    <Card onPress={onPress} style={{ paddingVertical: 12 }}>
+      <View style={styles.weeklyRow}>
+        <Txt variant="headline" style={{ flex: 1 }}>
+          {t('weeks.homeRow', { n: cycleWeek.week, title: cycleWeek.focus.title })}
+        </Txt>
+        <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
+      </View>
+    </Card>
+  );
+}
+
 export default function HomeScreen() {
   const { t } = useTranslation();
   const router = useRouter();
@@ -51,6 +68,7 @@ export default function HomeScreen() {
   const openPhase = () =>
     phaseInfo ? router.push(`/(tabs)/home/phase/${phaseInfo.phase}`) : undefined;
   const openLog = () => router.push(`/log/${today}`);
+  const openCalendar = () => router.navigate('/(tabs)/calendar');
 
   const programStatus = program.position.notStarted ? (
     <Card>
@@ -126,6 +144,7 @@ export default function HomeScreen() {
                 />
               </Reveal>
             ) : null}
+            <CycleWeekRow onPress={openCalendar} />
 
             {todayLog && todayLog.symptoms.length > 0 ? (
               <Card onPress={openLog}>
@@ -193,6 +212,7 @@ export default function HomeScreen() {
                 />
               </Reveal>
             ) : null}
+            <CycleWeekRow onPress={openCalendar} />
 
             {snapshot.hasData ? (
               <Button
