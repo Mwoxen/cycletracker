@@ -1,398 +1,345 @@
 import type { MonthContent, Source } from '../types';
 import { dailyId, weeklyId, wrapId } from '../types';
 
+const NHS_PMS: Source = {
+  label: 'NHS: PMS',
+  url: 'https://www.nhs.uk/conditions/pre-menstrual-syndrome/',
+};
 const NHS_PERIODS: Source = {
   label: 'NHS: Periods',
   url: 'https://www.nhs.uk/conditions/periods/',
-};
-const NHS_PAIN: Source = {
-  label: 'NHS: Period pain',
-  url: 'https://www.nhs.uk/conditions/period-pain/',
-};
-const NHS_HEAVY: Source = {
-  label: 'NHS: Heavy periods',
-  url: 'https://www.nhs.uk/conditions/heavy-periods/',
-};
-const NHS_ENDO: Source = {
-  label: 'NHS: Endometriosis',
-  url: 'https://www.nhs.uk/conditions/endometriosis/',
-};
-const NHS_IRON: Source = {
-  label: 'NHS: Iron deficiency anaemia',
-  url: 'https://www.nhs.uk/conditions/iron-deficiency-anaemia/',
-};
-const NHS_TSS: Source = {
-  label: 'NHS: Toxic shock syndrome',
-  url: 'https://www.nhs.uk/conditions/toxic-shock-syndrome/',
-};
-const NHS_FIBROIDS: Source = {
-  label: 'NHS: Fibroids',
-  url: 'https://www.nhs.uk/conditions/fibroids/',
-};
-const NHS_IRREGULAR: Source = {
-  label: 'NHS: Irregular periods',
-  url: 'https://www.nhs.uk/conditions/irregular-periods/',
-};
-const ACOG_DYSMENORRHEA: Source = {
-  label: 'ACOG: Dysmenorrhea: Painful Periods',
-  url: 'https://www.acog.org/womens-health/faqs/dysmenorrhea-painful-periods',
-};
-const ACOG_HEAVY: Source = {
-  label: 'ACOG: Heavy Menstrual Bleeding',
-  url: 'https://www.acog.org/womens-health/faqs/heavy-menstrual-bleeding',
-};
-const SUNDHED_DK: Source = {
-  label: 'Sundhed.dk: Menstruationscyklus',
-  url: 'https://www.sundhed.dk/borger/patienthaandbogen/kvindesygdomme/om-kvindesygdomme/menstruationscyklus/',
 };
 
 const M = 2;
 
 export const month02: MonthContent = {
   month: M,
-  theme: 'Menstruationsfasen',
+  theme: 'Kommunikation og støtte',
   focus:
-    'Smerte, træthed og blødning: praktisk hjælp, varme, ro, og hvad du ikke skal sige i de første dage.',
+    'Lær at spørge i stedet for at gætte, at lytte før du løser, og at bruge din viden om faserne til at give mere, aldrig som argument.',
   daily: [
     {
       id: dailyId(M, 1),
       month: M,
       day: 1,
-      title: 'Denne måned: de dage, hvor det er sværest',
+      title: 'Spørg, i stedet for at gætte',
       insight:
-        'I måned 1 lærte du, at menstruationen er dag 1-5, at hormonerne er i bund, og at varme virker. Denne måned går vi i dybden. Menstruationen er den fase, hvor hun har mest brug for konkret hjælp og mindst overskud til at bede om den. Det, du gør her, bliver husket, fordi det er så tydeligt, når det mangler. Vi skal igennem kramper og smertestillende, kraftig blødning og jern, produkterne i skabet, søvn, arbejde, sex, humør, og de sætninger, der aldrig hjælper. Målet er ikke, at du bliver ekspert. Målet er, at hendes næste menstruation bliver lidt lettere end den sidste, fordi du vidste, hvad der skulle til.',
+        'Allerede efter én måned ved du en del om cyklussen. Det er godt, og det er også en fælde. Jo mere du ved, jo mere fristende bliver det at gætte: hun er stille, altså er hun i lutealfasen og vil have ro. Men viden om faser er viden om gennemsnit, og hun er ikke et gennemsnit. Den samme dag kan hun ønske selskab eller fred, hjælp eller at blive ladt i ro. Det eneste, der virker hver gang, er at spørge. Et godt spørgsmål er kort, konkret og let at svare på: "Vil du have selskab, eller skal jeg give dig lidt plads?" Det er ikke et tegn på, at du ikke forstår hende. Det er tegn på, at du tager hende alvorligt som mere end sin fase.',
       action:
-        'Se i appen, hvornår næste menstruation forventes, og skriv datoen ind i din egen kalender, så du ikke bliver overrasket.',
+        'Stil ét konkret spørgsmål i dag i stedet for at gætte: "Hvad har du mest brug for lige nu: selskab, ro eller en hånd med noget?"',
       phaseTags: [],
-      sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 2),
       month: M,
       day: 2,
-      title: 'Kramper: hvad der egentlig sker',
+      title: '"Løsninger eller et øre?" i praksis',
       insight:
-        'Livmoderen er en muskel. Når slimhinden skal ud, frigives prostaglandiner, som får muskelvæggen til at trække sig sammen i bølger. Under kraftige sammentrækninger klemmes blodkarrene i muskelvæggen, så den kortvarigt mangler ilt, og det er den dybe, murrende eller jagende smerte, hun mærker. Prostaglandiner går også ud i blodet og forklarer, hvorfor nogle får kvalme, løs mave og hovedpine samtidig. Smerten er typisk værst de første 24-48 timer, hvor mest prostaglandin frigives, og aftager derefter. Den kan stråle ud i lænden og ned i lårene. Det er ikke indbildning eller lav smertetærskel; det er en muskel, der arbejder hårdt uden nok ilt.',
+        'Du kender spørgsmålet fra måned 1: "Vil du have forslag, eller skal jeg bare lytte?" Nu går vi et lag dybere, for det svære er ikke at spørge, det er at gøre det, hun svarer. Svarer hun "bare lyt", vil hjernen alligevel producere løsninger, og de vil trænge sig på. Læg dem til side. Nik, spørg "hvad var det værste ved det?", og lad hende blive færdig. Svarer hun "forslag", så kom med ét, ikke fem, og spørg om det passer. Svaret skifter med fasen: i follikelfasen vil mange gerne have sparring, i lutealfasen oftere et øre. Og det skifter fra dag til dag. Derfor skal du spørge hver gang, ikke huske svaret fra sidst.',
       action:
-        'Fortæl hende, at du nu ved, hvorfor kramperne stråler ud i lænd og lår, og spørg, hvor det plejer at sidde hos hende.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
+        'Næste gang hun fortæller om noget svært: spørg "øre eller forslag?", og hvis svaret er øre, så stil kun spørgsmål i ti minutter.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 3),
       month: M,
       day: 3,
-      title: 'Smertestillende: timing slår dosis',
+      title: 'Validér, før du løser',
       insight:
-        'Ibuprofen og naproxen hæmmer dannelsen af prostaglandiner. De virker derfor bedst, når de tages ved de allerførste tegn, eller den dag blødningen forventes, før smerten er bygget op. Tages de, når smerten er på toppen, skal de først indhente det prostaglandin, der allerede er i blodet. De skal tages med mad, og pakkens maksimumdosis må ikke overskrides. Har hun astma, mavesår eller nyreproblemer, skal hun spørge apoteket eller lægen, om ibuprofen er okay; paracetamol er et alternativ, som også kan kombineres. Din rolle er ikke at dosere, men at sørge for, at pillerne er i huset og inden for rækkevidde, når dag 1 kommer.',
+        'At validere betyder at anerkende, at følelsen giver mening, før du gør noget ved den. Det er ikke det samme som at være enig i alt. "Det giver mening, at du er træt af det" kan siges, selv om du ser sagen anderledes. Når hormonerne falder i ugen før menstruationen, er behovet for validering størst, og tolerancen for at blive sprunget over mindst. Springer du direkte til løsningen, hører hun: din følelse er et problem, der skal væk. Validerer du først, falder pulsen, og løsningen kan bagefter findes i fællesskab. Rækkefølgen er alt: først "jeg forstår", så "hvad gør vi?". Ofte er det første nok, og det andet bliver overflødigt.',
       action:
-        'Tjek, at der er det smertestillende, hun plejer at bruge, og at det ikke er udløbet. Læg det et sted, hun kan nå uden at rejse sig.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN],
+        'Brug i dag sætningen "det giver mening, at du har det sådan" én gang, uden at følge op med et "men".',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 4),
       month: M,
       day: 4,
-      title: 'Varme: hvordan og hvor',
+      title: 'Navngiv fasen uden at bruge den som våben',
       insight:
-        'Varme på maven eller lænden afslapper livmoderens muskelvæg og øger blodgennemstrømningen, så musklen får den ilt, den mangler. I studier virker vedvarende varme omtrent lige så godt som ibuprofen, og de to kan kombineres. Det praktiske betyder noget: varmen skal ligge på nedre mave eller lænd, ikke på brystkassen, og den skal holde i 20-30 minutter ad gangen. En varmedunk med håndklæde om, en elektrisk varmepude, et varmt bad eller et brusebad direkte på lænden virker alle. Varmeplastre til at sætte på huden kan bruges på arbejde. Det, der oftest fejler, er ikke metoden, men at ingen får den frem.',
+        'Der er en verden til forskel på "er det PMS?" og "jeg kan se i appen, at det er dag 25, vil du have, at jeg tager lidt mere fra i dag?". Den første sætning bruger fasen til at forklare hende væk. Den anden bruger den til at tilbyde hjælp. Reglen er enkel: fasen må aldrig nævnes som argument i en uenighed, og aldrig som svar på en følelse. Den må gerne nævnes som grund til, at du gør noget: laver mad, flytter en aftale, holder igen med kritik. Hvis du er i tvivl, så spørg dig selv, om sætningen handler om, hvad hun er, eller om hvad du vil gøre. Kun det sidste er brugbart.',
       action:
-        'Læg varmepuden eller varmedunken frem synligt, gerne ved sofaen eller sengen, så den er klar uden at nogen skal lede.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN],
+        'Sig i dag én sætning, der bruger fasen som grund til din egen handling: "Jeg tager aftensmaden i denne uge, du skal ikke tænke på det."',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 5),
       month: M,
       day: 5,
-      title: 'Hvile eller bevægelse? Begge dele',
+      title: 'Et signal for de hårde dage',
       insight:
-        'To ting virker mod kramper, og de lyder som modsætninger: hvile og bevægelse. Let bevægelse, som en gåtur, forsigtig udstrækning eller cykling i roligt tempo, øger blodgennemstrømningen til underlivet og frigiver endorfiner, kroppens egne smertestillende. Hård træning på dag 1 er derimod for meget for de fleste. Hvile virker, fordi smerte og blodtab trætter, og fordi stress spænder muskler op. Kunsten er at tilbyde begge uden at presse: en gåtur rundt om blokken, hvis hun har lyst, ellers sofaen. Det er hende, der mærker, hvad kroppen har brug for i dag. Din opgave er at gøre begge dele lette at vælge.',
+        'Mange par sliber sig op på de dage, hvor hun har det svært, men ikke har energi til at forklare det. Så bliver hun kort for hovedet, du bliver forvirret, og ingen får sagt, hvad der er galt. En aftalt kode løser det. Det kan være et ord ("grå dag"), et tal fra 1 til 5, en emoji eller en bestemt kop, der stilles frem. Betydningen aftales på forhånd, når I begge er rolige: "Når jeg siger det, har jeg brug for, at du tager det praktiske og ikke stiller spørgsmål." Signalet fjerner behovet for at forklare og forsvare på en dag, hvor der ikke er overskud til det. Det giver hende en nem udgang og dig en klar opgave.',
       action:
-        'Tilbyd en kort gåtur sammen, og gør det tydeligt, at et nej er lige så godt et svar som et ja.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN],
+        'Foreslå et signal i dag, mens I begge har det fint: "Skal vi have et ord for de dage, hvor du bare har brug for, at jeg tager over?"',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 6),
       month: M,
       day: 6,
-      title: '"Menstruationsinfluenza" er en rigtig ting',
+      title: 'Lyt uden at forsvare',
       insight:
-        'Mange kvinder beskriver dagene lige før og omkring dag 1 som at være ved at få influenza: ømme muskler, kuldegysninger, tung hovedpine, kvalme, træthed ned i knoglerne. Det kaldes populært menstruationsinfluenza. Det er ikke en diagnose og ikke en infektion, men symptomerne er ægte. Forklaringen er formentlig, at prostaglandiner går fra livmoderen ud i blodet og påvirker hele kroppen, samtidig med at østrogen og progesteron rammer bunden. Det aftager typisk, når blødningen er i gang. Egentlig feber hører ikke med; feber er noget andet og skal tages alvorligt. Det vigtigste for dig er at vide, at hun ikke er "bare lidt træt", men reelt sløj.',
+        'Når hun siger noget kritisk, reagerer kroppen, som om du bliver angrebet. Det første instinkt er at forklare, hvorfor det ikke passer, eller hvorfor det ikke var meningen. Det føles rimeligt, men det stopper samtalen, fordi hun nu skal kæmpe for at blive hørt oven i det, hun allerede var frustreret over. Prøv i stedet at lytte færdigt, gentage kernen med dine egne ord ("så du oplever, at jeg forsvinder, når det bliver svært") og spørge, om du har forstået det rigtigt. Først når hun siger ja, har du fortjent at give din version, og ofte er behovet for det så forsvundet. I lutealfasen, hvor stressrobustheden er lavest, afgør den rækkefølge, om det bliver en samtale eller et skænderi.',
       action:
-        'Spørg, om hun kender følelsen af at være influenzaramt op til menstruationen. Behandl de dage, som du ville behandle en forkølet partner.',
-      phaseTags: ['luteal', 'menstrual'],
-      sources: [NHS_PAIN],
+        'Næste gang du får kritik: gentag hendes pointe med dine egne ord, og spørg "har jeg forstået det rigtigt?", før du siger noget om dig selv.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 7),
       month: M,
       day: 7,
-      title: 'Kraftig blødning: hvad det er',
+      title: 'Selskab eller ro?',
       insight:
-        'Hvor meget er for meget? Lægerne bruger konkrete tegn: bind eller tampon skal skiftes hver time eller hver anden time i flere timer, blødning gennem tøj eller sengetøj, behov for at bruge to produkter samtidig, klumper større end en 2-krone, blødning over 7 dage, eller at hun må stå op om natten for at skifte. Det kaldes kraftig menstruation og rammer omkring hver fjerde kvinde. Årsagen kan være hormonel, fibromer eller polypper, eller sjældnere en blødningsforstyrrelse. Det kan behandles med alt fra tranexamsyre til hormonspiral. Mange lever med det i årevis, fordi de tror, at deres normale er alles normale. Du ser det udefra, og det gør din stemme værdifuld.',
+        'De første menstruationsdage er lav energi og ofte smerte, og behovet for nærhed varierer enormt. Nogle vil have en krop ved siden af sig i sofaen, andre vil have huset for sig selv i en time. Det er let at gætte forkert i begge retninger: at sætte sig tæt på, når hun vil have ro, eller at trække sig, når hun havde brug for, at du blev. Spørg direkte, og gør det let at svare: "Vil du have selskab i sofaen, eller skal jeg gå en tur, så du får ro?" Et valg mellem to konkrete ting er lettere at svare på end et åbent "hvad vil du?", når kroppen har ondt, og energien er brugt op.',
       action:
-        'Læs tegnene på listen, og spørg roligt, om hun genkender nogen af dem. Hvis ja, så foreslå en tid hos lægen.',
+        'Hvis hun har menstruation: giv hende valget mellem to konkrete ting i dag. Hvis ikke: spørg, hvad hun typisk foretrækker dag 1 og 2.',
       phaseTags: ['menstrual'],
-      sources: [NHS_HEAVY, ACOG_HEAVY],
+      sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 8),
       month: M,
       day: 8,
-      title: 'Jern: mere end en bøf',
+      title: 'Tavshed er ikke afvisning',
       insight:
-        'Blodtab er jerntab, og kraftige menstruationer er den mest almindelige årsag til jernmangel hos kvinder i den fødedygtige alder. Tegnene er træthed, der ikke forsvinder med søvn, åndenød på trapper, blege læber, hjertebanken, hovedpine og kolde hænder. Det ligner almindelig travlhed, og derfor bliver det overset. Jern fra kød, fisk og æg optages bedst. Jern fra linser, bønner, havregryn og grønne blade optages bedre med C-vitamin til, og dårligere med kaffe, te eller mælk lige ved måltidet. Jerntilskud skal ikke tages i blinde; en blodprøve hos lægen viser, om der er behov, og for meget jern er heller ikke sundt.',
+        'Under menstruationen, og igen i de sidste dage før, trækker mange sig ind i sig selv. Færre ord, kortere svar, mere telefon, mindre øjenkontakt. For en partner kan det føles som kold luft, og fristelsen er at spørge "er der noget galt?" fem gange, hvilket kun gør det værre. Oftest er det ikke noget imellem jer. Det er en krop, der bruger sin energi på smerte og træthed, og som ikke har overskud til at være social. Det bedste svar er at sige det højt én gang, roligt og uden krav: "Jeg kan mærke, at du har brug for lidt ro. Jeg er her, når du vil." Og så faktisk være der, uden at holde regnskab.',
       action:
-        'Læg mærke til, om hun er usædvanligt træt og forpustet uden for menstruationen. Hvis ja, så foreslå en blodprøve i stedet for at gætte.',
-      phaseTags: ['menstrual', 'follicular'],
-      sources: [NHS_IRON, NHS_HEAVY],
+        'Sig én gang i dag: "Du behøver ikke være social med mig i dag, jeg er her alligevel." Og lad så være med at spørge igen.',
+      phaseTags: ['menstrual'],
     },
     {
       id: dailyId(M, 9),
       month: M,
       day: 9,
-      title: 'Bind: hvad de forskellige er til',
+      title: 'Det ugentlige tjek-ind',
       insight:
-        'Bind kommer i mange varianter, og forskellen er ikke pynt. Trusseindlæg er til pletblødning og de sidste dage. Normale bind er til almindelige dage, og "super" eller "natbind" er længere og tykkere til kraftige dage og til natten, hvor man ligger ned, og blodet løber bagud. Vinger holder bindet på plads. Genanvendelige stofbind vaskes og bruges igen. Et bind skiftes typisk hver 4-6 timer og oftere på kraftige dage, ikke primært af hygiejnegrunde, men fordi det bliver ubehageligt. Hvis du ved, hvilken type og størrelse hun bruger, kan du købe ind uden at spørge. Det er en overraskende stor lettelse for mange.',
+        'De fleste vigtige samtaler i et forhold bliver taget, når noget er gået galt. Det gør dem ladede og dårligt timede. Et fast, kort tjek-ind én gang om ugen ændrer det. Femten minutter, samme dag, med tre spørgsmål: Hvad gik godt i denne uge? Hvad var svært? Hvad har du brug for i den kommende uge? Det sidste spørgsmål er guld, fordi svaret ofte hænger sammen med, hvor i cyklussen hun er på vej hen. "Jeg får menstruation onsdag, så torsdag aften vil jeg gerne have fri fra alt" er en sætning, der kun bliver sagt, hvis nogen spørger. Tjek-indet skal være uden telefon og uden en dagsorden om at løse alt.',
       action:
-        'Tag et billede af den pakke, hun bruger, så du har mærke og størrelse på telefonen næste gang du handler.',
+        'Foreslå et fast tidspunkt til et ugentligt tjek-ind på et kvarter, og læg det i kalenderen for de næste fire uger.',
       phaseTags: [],
-      sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 10),
       month: M,
       day: 10,
-      title: 'Tamponer og de 8 timer',
+      title: 'Sådan åbner du den store samtale',
       insight:
-        'Tamponer sidder inde i skeden og suger blodet op, før det kommer ud. De kommer i sugeevner fra "mini" til "super plus", og reglen er at bruge den mindste sugeevne, der rækker, og skifte hver 4-8 timer. En tampon må aldrig sidde over 8 timer, og det er derfor, mange bruger bind om natten. Grunden er toksisk shocksyndrom, TSS, en meget sjælden men alvorlig bakterieinfektion. Tegnene er pludselig høj feber, influenzalignende symptomer, udslæt som solskoldning, svimmelhed og forvirring. Kommer det under menstruation med tampon, er det akut lægehjælp. Du behøver ikke at være bange for tamponer, men du skal kende det ene tegn, som ikke må overses.',
+        'Du ved fra måned 1, at follikelfasen er det bedste tidspunkt til svære emner. Men et godt tidspunkt er ikke nok, hvis samtalen starter forkert. Undgå at kaste emnet ind midt i noget andet ("nu vi taler om det, så skal vi også lige tale om økonomien"). Bed i stedet om samtalen: "Der er noget, jeg gerne vil tale om, som handler om vores økonomi. Passer det i aften, eller hellere i weekenden?" Det giver hende mulighed for at forberede sig og vælge sit tidspunkt, og det signalerer, at emnet er vigtigt, ikke en beskyldning. Start så med det, du selv føler og ønsker, ikke med det, hun gør forkert. Den formulering er halvdelen af udfaldet.',
       action:
-        'Læg to sætninger på hukommelsen: "Højst 8 timer" og "høj feber med tampon = læge nu". Sig dem til hende, hvis hun ikke kender dem.',
-      phaseTags: [],
-      sources: [NHS_TSS, NHS_PERIODS],
+        'Hvis der er et emne, du har udskudt: bed om samtalen i dag med sætningen "Der er noget, jeg gerne vil tale om. Hvornår passer det dig?"',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 11),
       month: M,
       day: 11,
-      title: 'Kop og menstruationstrusser',
+      title: 'Den usynlige liste',
       insight:
-        'Menstruationskoppen er en lille, blød silikonekop, der sidder i skeden og opsamler blodet i stedet for at suge det op. Den kan sidde i op til 8-12 timer, tømmes, skylles og bruges igen i årevis. Den gør det også let at se, hvor meget hun faktisk bløder, hvilket er nyttigt, hvis lægen spørger. Menstruationstrusser er undertøj med et indbygget sugende lag, som vaskes og genbruges; de bruges alene på lette dage og som backup på kraftige dage og om natten. Begge dele kræver, at der er varmt vand, sæbe og en vask, hun kan bruge i ro. Hvis hun bruger kop, er det ikke pinligt, at den ligger til tørre på badeværelset.',
+        'Mental belastning er alt det arbejde, der ikke kan ses: at huske, at der skal købes gave til fødselsdagen, at tandlægen skal bookes, at der mangler madpakkepapir, at svigermor skal ringes op. Det er ikke opgaven, der er tung, det er at være den, der husker den. I mange par ligger den liste mest hos kvinden, også når de praktiske opgaver deles ligeligt. Og fordi listen er usynlig, bliver den sjældent anerkendt. Første skridt er at få den frem i lyset. Ikke for at fordele den på minuttet, men for at du kan se, hvor meget hun bærer, som du aldrig har set. De fleste bliver overraskede over længden.',
       action:
-        'Sørg for, at badeværelset er ryddet og har sæbe, rent håndklæde og en fri vask. Det er den praktiske støtte til både kop og bind.',
+        'Bed hende skrive den usynlige liste ned i aften, alt hun går og husker på, og læs den uden at kommentere. Spørg så: "Hvad på den liste vil du helst af med?"',
       phaseTags: [],
-      sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 12),
       month: M,
       day: 12,
-      title: 'Det, der skal være i huset',
+      title: 'Tag ejerskab, ikke opgaver',
       insight:
-        'Det meste af den praktiske hjælp handler om, at de rigtige ting er der, før de skal bruges. Listen er kort: hendes produkter i den type og størrelse hun bruger, med en reserve til de kraftige dage; smertestillende, der ikke er udløbet; en varmedunk eller varmepude, der virker; nem mad med jern i, der kan laves på ti minutter; et mørkt håndklæde til sengen; og vaskemiddel til pletter. Hertil noget, hun selv har lyst til: bestemt te, chokolade, en serie. Det tager en halv time at samle, og det gør dag 1 til en helt anden dag. Hemmeligheden er at gøre det i follikel- eller lutealfasen, ikke den morgen, hun vågner med kramper.',
+        'Der er forskel på at hjælpe og at eje. Hjælper du, skal hun stadig huske opgaven, bede om det, forklare hvordan og tjekke, at det bliver gjort. Så har hun sparet hænderne, men ikke hovedet. Ejer du en opgave, er den din fra start til slut: du husker den, planlægger den, udfører den og retter op, hvis den glipper. Hun behøver ikke tænke på den igen. Vælg noget, der har en fast rytme og hele kæden med: al vasketøj, alle madpakker, alt omkring bilen, alle aftaler med børnenes institution. Og undgå at spørge "hvordan vil du have det gjort?". Find selv ud af det; det er den del, der letter.',
       action:
-        'Gå listen igennem i dag, og fyld op, hvor der mangler. Skriv de ting ned, du ikke ved, hvad hun foretrækker, og spørg.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PERIODS],
+        'Vælg i dag ét område, du overtager helt, fortæl hende det, og sig samtidig: "Du behøver ikke tænke på det mere. Heller ikke at tjekke."',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 13),
       month: M,
       day: 13,
-      title: 'Blodpletter er hverdag, ikke katastrofe',
+      title: 'Usynligt arbejde vokser i lutealfasen',
       insight:
-        'Der kommer blod på tøj, sengetøj og en sjælden gang på sofaen. Det sker for stort set alle, oftest om natten eller på de kraftige dage, og det kan være pinligt og stressende, hvis omgivelserne reagerer. Den praktiske del: skyl pletten i koldt vand så hurtigt som muligt, aldrig varmt, for varme får blodet til at sætte sig fast. Vask derefter almindeligt. En ekstra madras- eller lagenbeskytter og et mørkt håndklæde under hende om natten tager bekymringen. Den vigtigste del er dog din reaktion. Et lagen kan vaskes. Det, der bliver husket, er, om du sukkede, eller om du bare skiftede det.',
+        'Den usynlige liste er lang hele måneden, men den føles længst i ugen før menstruationen. Der er en grund: når progesteron og østrogen falder, bliver søvnen dårligere, tolerancen for rod lavere og følelsen af at stå alene med tingene stærkere. Samtidig går appetitten op og overskuddet ned. Opgaver, der var neutrale dag 10, bliver bjerge dag 25. Det er derfor, opvaskeren dukker op i skænderier i den uge og næsten aldrig i follikelfasen. Den kloge reaktion er ikke at diskutere, om fordelingen er fair, men at tage mere i netop de dage, uden at gøre det til en byttehandel. Fairness måles over en måned, ikke over en aften.',
       action:
-        'Læg et mørkt håndklæde ved sengen, og hvis der er en plet: skyl i koldt vand og skift uden en kommentar.',
-      phaseTags: [],
+        'Tjek appen. Hvis hun er inden for en uge før menstruation: tag to af hendes faste opgaver i dag, og sig blot "det er klaret", ikke mere.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 14),
       month: M,
       day: 14,
-      title: 'Søvn i de første nætter',
+      title: 'Når hun siger det direkte',
       insight:
-        'Søvnen er ofte dårligst nat 1 og 2. Kramperne vækker hende, hun bekymrer sig for at bløde igennem, kropstemperaturen skifter, når progesteron forsvinder, og smerte gør, at den dybe søvn bliver kortere. Dårlig søvn forstærker så smerte og humør næste dag. Det, der hjælper, er praktisk: smertestillende taget en halv time før sengetid, hvis hun bruger det; varme på lænden, når hun lægger sig; natbind, kop eller menstruationstrusser, så hun tør sove igennem; et mørkt håndklæde; og fred til at gå tidligt i seng uden at blive spurgt, om hun er sur. Nogle sover bedst i fosterstilling eller med en pude under knæene, som aflaster lænden.',
+        'Omkring ægløsning er østrogen på toppen, og det giver ofte mere selvtillid, mere lyst til kontakt og en tydeligere tunge. Mange kvinder fortæller, at de i de dage siger ting lige ud, som de resten af måneden pakker ind eller holder inde. Det er en gave til jeres kommunikation, hvis du tager imod den. Bliver hun mere direkte om noget, der irriterer hende, så hør det som det tydeligste, du kommer til at få, og ikke som en pludselig ændring i hendes syn på dig. Brug dagene til at spørge om det, du selv har gået og undret dig over. Svarene er ofte klarere nu end på nogen anden dag i måneden.',
       action:
-        'Foreslå tidlig sengetid i aften, og gør soveværelset klar: varmepude, vand og en ekstra pude til at lægge under knæene.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN],
+        'Stil ét spørgsmål i dag, du har gået og gemt på: "Er der noget, du længe har villet sige til mig, men ikke har fået sagt?"',
+      phaseTags: ['ovulation'],
     },
     {
       id: dailyId(M, 15),
       month: M,
       day: 15,
-      title: 'Sex under menstruationen: hendes valg',
+      title: 'Tal om lyst, ikke kun om sex',
       insight:
-        'Sex under menstruationen er sikkert, og der er ikke noget uhygiejnisk ved det. Nogle kvinder har mere lyst i de dage, andre slet ingen, og begge dele er normale. For nogle lindrer orgasme kramperne, fordi livmoderen afspændes bagefter. Hvis I begge har lyst, gør et mørkt håndklæde og en tur i badet det praktiske let. To ting skal I vide: graviditet er stadig mulig, fordi sæd lever op til fem dage, og korte cyklusser kan have ægløsning tæt på blødningens slutning; og kønssygdomme smitter lettere med blod. Den vigtigste regel er dog enkel: det er hendes krop, hendes smerte og hendes valg, og et nej kræver ingen forklaring.',
+        'Sex er noget af det sværeste at tale om, også i lange forhold, fordi et nej føles som en afvisning, og et ønske føles som et krav. Det hjælper at tale om lyst som noget, der svinger, ligesom energi og humør, og som begge parter har en kurve for. Omkring ægløsning har mange mere lyst, i lutealfasen og under menstruationen mindre, og nogle oplever det omvendt. Spørg om hendes kurve, ikke som forhandling, men af nysgerrighed: "Hvornår i måneden mærker du mest lyst? Og hvad hjælper, når den er lav?" Samtalen skal tages på en god dag, ikke i sengen, og ikke efter et nej. Det er der, den er ufarlig.',
       action:
-        'Sig det højt, uden for situationen: "Nærhed i de dage er helt op til dig, og du behøver ikke forklare et nej." Og mén det.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PERIODS],
+        'Tag samtalen i dag på et neutralt sted, fx en gåtur: "Jeg vil gerne forstå din lyst bedre hen over måneden. Vil du fortælle mig om den?"',
+      phaseTags: ['ovulation'],
     },
     {
       id: dailyId(M, 16),
       month: M,
       day: 16,
-      title: 'Humøret dag 1-2: lettelse og tomhed',
+      title: 'At sige nej og at høre nej',
       insight:
-        'Når blødningen begynder, forsvinder PMS-symptomerne typisk inden for et døgn, fordi hormonerne er holdt op med at falde. Mange mærker en lettelse: tårerne sidder ikke løst længere, verden er mindre skarp. Samtidig er energien i bund, smerten er på toppen, og humøret kan blive fladt, stille eller tomt snarere end irriteret. Hun kan virke fjern eller kort for hovedet, uden at der er noget galt mellem jer. Det, der hjælper, er at lade hende være i fred uden at trække sig: være i samme rum, tage det praktiske, ikke kræve samtale. Fra dag 3-4 stiger østrogen igen, og humøret følger med op, ofte mærkbart fra den ene dag til den anden.',
+        "Et nej til nærhed i lutealfasen eller under menstruationen handler oftest om krop, træthed og ømhed, ikke om dig. Men et nej sagt med skyldfølelse og et nej modtaget med skuffelse bliver hurtigt en spiral: hun begynder at undgå situationer, hvor spørgsmålet kan komme op, og du begynder at tolke afstand. Bryd spiralen ved at gøre nej'et ufarligt. Sig det højt, at et nej er et komplet svar, og at du hellere vil have et ærligt nej end et pligt-ja. Og bed om, at hun siger, hvad hun i stedet har lyst til: en krammer, at ligge tæt, ingenting. Nærhed uden forventning er den nærhed, der gør et senere ja let.",
       action:
-        'Hvis hun er stille i dag, så spørg ikke "er der noget galt?". Sæt dig ved siden af hende med noget, du selv laver, og lad roen være nok.',
-      phaseTags: ['menstrual'],
-      sources: [SUNDHED_DK],
+        'Sig i dag, uden at det er en optakt til noget: "Du må altid sige nej til mig uden at forklare. Jeg tager det ikke personligt."',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 17),
       month: M,
       day: 17,
-      title: 'Det, du ikke skal sige',
+      title: 'Bed om lov til at give feedback',
       insight:
-        'Nogle sætninger gør mere skade end tavshed. "Er det virkelig så slemt?" fortæller hende, at du tvivler. "Min ekskæreste havde ikke så ondt" sammenligner en smerte, du ikke kan måle. "Du er så følsom i dag" gør hendes menstruation til et karaktertræk. "Har du taget en pille?" som første replik lyder som "hold op med at have ondt". Vittigheder om blod og humør lander aldrig dag 1, uanset hvor tætte I er. Og "det er jo bare menstruation" er den værste, fordi den normaliserer noget, der måske ikke er normalt. Det, der virker i stedet, er kort og konkret: "Det ser ud til at gøre ondt. Skal jeg hente varmen?"',
+        'Der er ting, du gerne vil sige, som ikke er kritik af hende som menneske, men som kan lande sådan: at hun bliver kort i tonen, når hun er sulten, at hun lover for meget til andre, at hun glemmer at drikke vand. Kritik, der kommer uopfordret, aktiverer forsvar hos alle. Kritik, man har sagt ja til at modtage, lander helt anderledes. Spørg derfor først: "Må jeg sige noget, jeg har lagt mærke til? Du må også godt sige nej." Får du ja, så sig én ting, konkret og uden generaliseringer, og stop der. Får du nej, så respektér det og prøv en anden dag. Follikelfasen er det oplagte tidspunkt; PMS-dagene er det ikke.',
       action:
-        'Find den sætning på listen, du selv er kommet tættest på, og beslut dig for, hvad du siger i stedet næste gang.',
-      phaseTags: ['menstrual'],
+        'Hvis der er noget, du har lagt mærke til, så spørg i dag: "Må jeg dele en observation? Du bestemmer, om det er nu."',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 18),
       month: M,
       day: 18,
-      title: 'Menstruation på arbejde',
+      title: 'Reparation efter et skænderi',
       insight:
-        'De fleste kvinder arbejder, som om intet er hændt, mens de har kramper, blødning og lav energi. Det koster. Møder, der ikke kan flyttes, toiletter der er langt væk, uniformer i lyse farver og lange transporttider gør dag 1 og 2 til en logistisk øvelse oven i smerten. Kun få taler om det på jobbet, og mange tager smertestillende på tidspunkter, der passer til kalenderen frem for til kroppen. Det, du kan gøre, ligger uden om arbejdstiden: en rolig morgen, en madpakke, der er lavet, at hun ikke også skal hente børn eller handle på vej hjem, og at aftenen ikke kræver noget af hende. Du kan ikke tage kramperne med på arbejde, men du kan tage resten.',
+        'Alle par skændes. Det, der adskiller de par, der holder, er ikke antallet af konflikter, men hvor hurtigt og hvor godt de reparerer bagefter. Reparation er et forsøg på at genskabe kontakt: en hånd på skulderen, en kop kaffe stillet frem, en sætning som "jeg vil ikke have, at vi er sådan her, kan vi begynde igen?" Det kræver ikke, at uenigheden er løst. Det kræver, at én af jer går først. Hvis skænderiet lå i PMS-dagene, er det ofte nemmest at reparere, når menstruationen er kommet, og hormonerne har fundet ro; men vent ikke længere end nødvendigt. Jo længere kold luft, jo dyrere bliver reparationen.',
       action:
-        'Hvis hun skal på arbejde med menstruation i dag eller i morgen: tag én af hendes opgaver før eller efter arbejdstid, uden at annoncere det.',
+        'Hvis der er noget uafsluttet mellem jer: gør det første skridt i dag med en lille fysisk gestus og sætningen "kan vi begynde forfra?"',
       phaseTags: [],
     },
     {
       id: dailyId(M, 19),
       month: M,
       day: 19,
-      title: 'Sociale planer: flyt dem uden drama',
+      title: 'At sige undskyld ordentligt',
       insight:
-        'Middage, fester, ture og familiebesøg lander tit på dag 1 eller 2, fordi ingen havde kalenderen fremme, da aftalen blev lavet. Nu har du den. Når appen forventer menstruation, er det bedste, du kan gøre, at holde de to første dage lette, og det næstbedste er at være den, der aflyser eller flytter, når det bliver nødvendigt. Ikke med "hun har det ikke så godt", som får folk til at spørge, og ikke med hendes menstruation som forklaring, medmindre hun selv vil dele det. "Vi må flytte det, kan vi finde en anden dag?" er nok. Hun skal ikke stå med både kramperne og de sociale forhandlinger.',
+        'En god undskyldning har tre dele: hvad du gjorde, hvad det gjorde ved hende, og hvad du gør anderledes. "Undskyld, jeg afbrød dig, mens du fortalte om din dag. Det må have føltes, som om jeg ikke gad lytte. Jeg vil lade dig tale færdigt fremover." Det, der ødelægger en undskyldning, er tilføjelser: "men du var også...", "hvis du blev ked af det", "jeg var jo bare træt". Hvert "men" trækker undskyldningen tilbage. Hold den kort, og forvent ikke tilgivelse på stedet. Hun må gerne have brug for tid, især hvis det skete på en dag, hvor der ikke var meget at stå imod med. Undskyldningen er din; hvad hun gør med den, er hendes.',
       action:
-        'Kig i kalenderen på de to dage, hvor menstruationen forventes. Ligger der noget tungt, så spørg hende, om du skal flytte det.',
-      phaseTags: ['menstrual', 'luteal'],
+        'Er der noget fra den seneste uge, du skylder en undskyldning for? Sig den i dag med de tre dele og uden ét eneste "men".',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 20),
       month: M,
       day: 20,
-      title: 'Hovedpine, kvalme og løs mave',
+      title: 'Kend jeres konfliktmønster',
       insight:
-        'Kramper er ikke det eneste, prostaglandiner laver. Fordi de går ud i blodet, kan de påvirke tarmen, så mange får løs mave, oppustethed eller kvalme dag 1 og 2. Nogle får omvendt forstoppelse i dagene før. Hovedpine er også almindelig, både fordi østrogen falder brat, og fordi blodtab, dårlig søvn og for lidt væske trækker samme vej. Menstruationsmigræne er en kendt undertype, som rammer i dagene omkring dag 1 og kan være hårdere end almindelig migræne. Det, der hjælper, er enkelt: vand, regelmæssig mad, det smertestillende hun plejer, mørke og ro. Og at hun ikke skal forklare, hvorfor hun løber på toilettet.',
+        'Hvis du kigger tilbage på jeres seneste skænderier, ligger de sandsynligvis ikke jævnt fordelt over måneden. Mange par har et mønster: småting eskalerer i de sidste 4-6 dage før menstruation, og de samme småting glider forbi i follikelfasen. Det betyder ikke, at problemerne er indbildte. Det betyder, at forstærkeren står forskelligt. Når du kender mønstret, kan I bruge det: aftal, at de tilbagevendende emner tages i follikelfasen, og at det i lutealfasen er tilladt at sige "kan vi parkere den til næste uge?" uden at det er en flugt. Notér de dage, det gik skævt, i appen. Efter to måneder ser I mønstret sort på hvidt.',
       action:
-        'Fyld en flaske vand og sæt den ved hende, og lav noget let at spise, som ikke belaster maven, for eksempel havregrød, ris eller toast.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, SUNDHED_DK],
+        'Kig i kalenderen sammen og find det sidste skænderi. Hvilken dag lå det på? Aftal én sætning, I begge må sige, når timingen er dårlig.',
+      phaseTags: ['luteal', 'follicular'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'Dag 3-5: skiftet kommer',
+      title: 'Skrevne beskeder på svære dage',
       insight:
-        'De fleste mærker en tydelig forandring fra omkring dag 3. Blødningen bliver lettere og mørkere, kramperne forsvinder eller bliver til en svag murren, og østrogen er begyndt at stige, så energi og humør vender langsomt tilbage. Det er ikke en kontakt, der bliver tændt, men en kurve, og den kan variere fra måned til måned. Det er et godt tidspunkt at lægge mærke til, hvad der hjalp de første dage, mens det er frisk i hukommelsen. Blev varmen brugt? Var der noget, der manglede? Blev noget sagt, der ikke skulle være sagt? Det, I finder ud af nu, bliver næste måneds plan.',
+        'En stor del af parkommunikation foregår på skrift i dag, og skrift mangler alt det, der blødgør: tone, ansigt, timing. "Ok." kan læses på fem måder, og i PMS-dagene vælges den værste oftere. Omvendt kan en god besked bære en hel dag: "Tænker på dig, jeg tager aftensmaden i aften." Nogle enkle regler hjælper. Undgå at tage noget op på skrift, som kan misforstås; ring eller vent, til I ses. Læg ekstra varme i korte svar i den sidste uge ("ok, tak fordi du siger det" frem for "ok"). Og spørg, hvad hun læser ind i dine beskeder. Mange bliver overraskede over, hvordan et punktum kan lyde.',
       action:
-        'Spørg hende: "Hvad var det mest hjælpsomme, jeg gjorde de sidste dage, og hvad manglede?" Skriv svaret i en note i kalenderen.',
-      phaseTags: ['menstrual', 'follicular'],
-      sources: [SUNDHED_DK],
+        'Send én besked i dag, der udelukkende har til formål at gøre hendes dag lettere, uden spørgsmål og uden noget, hun skal svare på.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'Brug de gode dage til at forberede de svære',
+      title: 'Tjek grundlaget før samtalen',
       insight:
-        'Follikelfasen er, hvor der er overskud, og det er derfor det bedste tidspunkt at gøre menstruationen lettere. Ikke fordi hun skal bekymre sig om den, men fordi forberedelse er nemt nu og svært på dag 1. Køb ind til lageret. Vask varmedunken og tjek, at den ikke lækker. Læg mærke til, hvilken mad hun faktisk spiste, da hun havde det dårligst, og skriv det bag øret. Tal om, hvad hun bruger af produkter, og om hun har lyst til at prøve noget andet. Og tag en rolig snak om, hvor slemt det plejer at være, når smerten ikke er til stede, og samtalen kan foregå uden at hun skal forsvare sig.',
+        'Før du tager noget op, eller før du reagerer på noget, hun har taget op, er der tre ting værd at tjekke: Har hun sovet? Har hun spist? Er I inden for den sidste uge før menstruation? Ikke for at afskrive det, hun siger, men for at vurdere, om nu er tidspunktet, hvor samtalen har en chance. Sult og dårlig søvn forstærker irritabilitet mere end noget andet, og begge er almindelige i lutealfasen. Er svaret nej på de første to, så begynd med mad og hvile, og tag samtalen bagefter. Sig det uden at gøre det til en diagnose: "Skal vi spise først og så tale om det?" er en omsorgshandling, ikke en afvisning.',
       action:
-        'Gør én ting i dag, som gør næste dag 1 lettere: køb ind, læg varmen klar, eller sæt en påmindelse to dage før forventet menstruation.',
-      phaseTags: ['follicular'],
+        'Har I noget at tale om i dag? Sørg først for, at I begge har spist, og spørg: "Skal vi tage det nu eller efter maden?"',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'Smerte og pletter midt i cyklussen',
+      title: 'Foran venner: hendes valg',
       insight:
-        'Ikke al smerte og blødning hører til menstruationen. Omkring ægløsningen mærker nogle et jag eller en murren i den ene side af underlivet, fra få minutter til et døgn eller to. Det kaldes ægløsningssmerte og er ufarligt; det skyldes, at folliklen brister og frigiver lidt væske. Enkelte får også lidt pletblødning midt i cyklussen, når østrogen dykker kortvarigt efter ægløsning. Det er værd at kende, så I ikke tror, at menstruationen kommer tre uger for tidligt. Er smerten kraftig, varer den flere dage, eller kommer der egentlig blødning midt i cyklussen, så er det ikke noget, I skal forklare selv; det fortjener en læge.',
+        'Efterhånden som du ved mere om cyklussen, kan det være fristende at dele det: forklare til vennerne, hvorfor hun gik tidligt, eller lave en sjov bemærkning om appen. Lad være, medmindre hun har sagt god for det. Cyklussen er hendes krop, og hvor åben hun er om den, er hendes valg, ikke dit. Nogle taler frit om menstruation med alle, andre kun med dig, og mange ligger imellem og afhænger af, hvem der er til stede. Det gælder også det positive: "hun har jo ægløsning, derfor er hun så glad" er en kropskommentar, selv om den er venligt ment. Spørg hende, hvad der er okay at sige, og til hvem, og hold dig så til det.',
       action:
-        'Hvis hun nævner ondt i den ene side midt i cyklussen: tilbyd varme og en note i kalenderen, så I kan se, om det gentager sig.',
-      phaseTags: ['ovulation'],
-      sources: [NHS_PERIODS],
+        'Spørg hende i dag: "Er der noget om din cyklus, eller om at jeg bruger appen, som du ikke vil have, at jeg nævner for andre?"',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 24),
       month: M,
       day: 24,
-      title: 'Uregelmæssig, udeblevet eller for tæt',
+      title: 'Med børn i huset',
       insight:
-        'Cyklussen må gerne variere nogle dage fra gang til gang. Men der findes mønstre, der fortjener en læge: menstruation, der konsekvent kommer oftere end hver 21. dag eller sjældnere end hver 35., blødning der varer over 7 dage, blødning mellem menstruationerne eller efter sex, eller menstruation der udebliver i tre måneder uden graviditet. Årsagerne spænder fra stress, vægtændring og hård træning til PCOS, stofskiftet og perimenopause. Langt de fleste er ufarlige, men flere kan behandles, og udeblevet menstruation over lang tid påvirker knoglerne. Appens kalender gør mønstret synligt; det er en af de bedste grunde til at logge, også når alt er normalt.',
+        'Har I børn, opdager de før eller siden, at mor har dage, hvor hun har ondt eller er træt. Hvordan det forklares, er hendes beslutning, og den er værd at tage sammen, når det er roligt. Nogle vil have menstruation omtalt åbent og almindeligt, fordi det fjerner skam for både piger og drenge. Andre vil have det holdt privat, i hvert fald indtil børnene selv spørger. Uanset hvad kan du selv gøre noget: vise børnene, at man tager hensyn, når nogen har ondt, uden at gøre mor til den svage. "Mor har brug for ro i dag, så vi laver maden" lærer dem noget om omsorg, der holder hele livet.',
       action:
-        'Åbn kalenderen, og se på de sidste loggede cyklusser sammen. Er der noget, der stikker ud, så foreslå at hun nævner det for lægen.',
-      phaseTags: [],
-      sources: [NHS_IRREGULAR, NHS_PERIODS],
+        'Spørg hende, hvordan hun vil have, at I taler om menstruation med børnene, hvis I har nogen. Hvis ikke: tal om, hvordan I gerne vil gøre det engang.',
+      phaseTags: ['menstrual'],
     },
     {
       id: dailyId(M, 25),
       month: M,
       day: 25,
-      title: 'Når smerten er ud over det normale',
+      title: 'Hvad der skal blive mellem jer',
       insight:
-        'Almindelige menstruationssmerter aftager med varme og håndkøbsmedicin og forsvinder efter et par dage. Smerter, der ikke reagerer på det, der giver sygedage hver måned, der kommer uden for menstruationen, ved sex, ved toiletbesøg, eller sammen med meget kraftig blødning, kan være tegn på endometriose, adenomyose eller fibromer. Endometriose rammer omkring 1 ud af 10, og der går i gennemsnit mange år fra første symptom til diagnose, fordi smerten normaliseres af alle, inklusive hende selv. Du kan ikke vide, hvad det er, og det skal du heller ikke. Du skal være den, der siger: "Det her er ikke noget, du bare skal holde ud", og som mener det.',
+        'Der er forskel på at være åben om cyklussen og på at dele alt. Det, hun fortæller dig om smerte, blødning, lyst, humør og angst, fortæller hun dig i fortrolighed, også når det ikke bliver sagt eksplicit. Det gælder over for din familie, dine venner og dine kolleger, og det gælder både det alvorlige og det, der kunne blive en god anekdote. Det samme gælder appen: kalenderen er hendes data, ikke et emne til middagsbordet. Fortrolighed er noget af det, der gør det muligt for hende at fortælle dig mere næste gang. Bryd den én gang, og døren lukker lidt. Spørg hellere en gang for meget, hvad der må siges videre.',
       action:
-        'Spørg, om hun nogensinde har talt med en læge om sine smerter. Hvis ikke, og de slår hende ud, så tilbyd at booke tiden og tage med.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_ENDO, NHS_FIBROIDS],
+        'Sig det højt i dag: "Det, du fortæller mig om din krop, bliver hos mig. Sig til, hvis der er noget, jeg skal være særligt opmærksom på."',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 26),
       month: M,
       day: 26,
-      title: 'Sådan bakker du op ved lægen',
+      title: 'Når hun siger "det er ikke noget"',
       insight:
-        'Et lægebesøg om menstruationssmerter eller blødning bliver bedre af forberedelse, og det er noget, du kan hjælpe med. Læger spørger typisk: hvor mange dage bløder du, hvor ofte skifter du på de værste dage, hvor stærk er smerten fra 1 til 10, hvor sidder den, hvad har du prøvet, og forhindrer det dig i noget? Appens kalender og noter er præcis den slags svar. Skriv de tre vigtigste punkter ned før tiden, og hjælp hende med at holde fast i dem, hvis samtalen glider. At have en med, der har set det udefra og kan sige "hun har måttet melde sig syg tre måneder i træk", bliver taget alvorligt.',
+        '"Det er ikke noget" betyder sjældent, at der ikke er noget. Oftere betyder det: jeg har ikke energi til at forklare, jeg tror ikke, du vil forstå det, eller jeg vil ikke være til besvær. Det gælder især om smerte under menstruationen og om sårbarhed i PMS-dagene, som mange kvinder har lært at bagatellisere. Pres ikke, men luk heller ikke døren. Sig noget, der holder den åben uden krav: "Okay. Hvis det bliver til noget, vil jeg gerne høre om det, også midt om natten." Og læg mærke til, om "det er ikke noget" kommer ofte om det samme. Så er det noget, og det fortjener et roligt spørgsmål på en god dag.',
       action:
-        'Tilbyd at hjælpe med at skrive tre punkter ned til næste lægebesøg, ud fra det I kan se i kalenderen. Tilbyd at tage med, hvis hun vil.',
-      phaseTags: [],
-      sources: [NHS_HEAVY, NHS_PAIN],
+        'Næste gang hun siger "det er ikke noget": svar "okay, jeg er her, hvis det bliver til noget", og lad så emnet ligge uden at surmule.',
+      phaseTags: ['menstrual', 'luteal'],
     },
     {
       id: dailyId(M, 27),
       month: M,
       day: 27,
-      title: 'To dage før: gør klar',
+      title: 'Ros, der rammer',
       insight:
-        'Når appen siger, at menstruationen forventes om et par dage, begynder den praktiske del. Nu er det ikke længere lager, men logistik: er de næste to dage rimeligt tomme? Er der nem mad i køleskabet? Ligger varmen fremme, og er pillerne inden for rækkevidde? Har hun produkter i tasken til arbejde? Er der et mørkt håndklæde ved sengen? Det er også nu, at smertestillende kan begynde at gøre nytte, hvis hun plejer at have stærke smerter og lægen har sagt god for det: mange tager den første dosis ved allerførste tegn, og nogle allerede den dag, blødningen forventes. Det er hendes beslutning. Din er at gøre alt det andet klar.',
+        'Kommunikation er ikke kun at håndtere det svære. Det er også at få det gode sagt. Ros virker bedst, når den er konkret og handler om noget, hun gør eller er, ikke om udseende: "Jeg så, hvordan du håndterede din chef i går. Det var imponerende roligt." I follikelfasen og omkring ægløsning har mange mest overskud til at tage imod og tro på det, og det er også der, du lettest får øje på det. Men ros er også en investering: den anerkendelse, der er bygget op på de gode dage, er det, der gør, at kritik og kort lunte på de svære dage ikke vælter noget. Fem gode bemærkninger for hver kritisk er et forhold, der holder.',
       action:
-        'Gå de fem ting igennem i dag: kalender, mad, varme, smertestillende, produkter i tasken. Fyld op og læg frem.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PAIN],
+        'Sig én konkret, ægte ros i dag om noget, hun har gjort i denne uge. Ikke om udseende, og ikke pakket ind i en anmodning.',
+      phaseTags: ['follicular', 'ovulation'],
     },
     {
       id: dailyId(M, 28),
       month: M,
       day: 28,
-      title: 'Den lille omsorg, der bliver husket',
+      title: 'Den korte besked på dag 1',
       insight:
-        'Det er sjældent de store gestusser, der bliver husket fra en menstruation. Det er de små: en kop te, der bare står der, et tæppe, der bliver lagt over, at fjernbetjeningen ligger ved hende, at du tog opvasken uden at nævne det, at du ikke spurgte "hvad skal vi lave i aften", men bare sagde "jeg laver noget nemt". Fælles for dem er, at de ikke kræver et svar. Hun skal ikke sige tak, ikke vælge, ikke forklare. Hvis du er i tvivl om, hvad hun vil have, så vælg den mindste ting og gør den. Omsorg uden spørgsmål er den letteste at tage imod, når energien er væk.',
+        'Første menstruationsdag rammer ofte midt i en arbejdsdag, og hun kan ikke bare gå hjem. Det, der hjælper, er ikke en lang samtale, men at hun ved, at nogen har set det. En kort besked gør det: "Jeg så, at det er dag 1. Jeg køber ind og tager aftensmaden. Sig til, hvis du vil have noget bestemt." Ingen spørgsmål om, hvordan hun har det (det skal hun så bruge energi på at svare på), ingen bekymring, bare en handling og en åben dør. Hvis hun har fortalt dig, at hun ikke vil have, at du kommenterer på dag 1, så respektér det og gør det praktiske alligevel, i stilhed. Begge dele er kommunikation.',
       action:
-        'Gør én lille ting i dag uden at spørge og uden at nævne det: te, tæppe, opvask, en lampe der bliver tændt. Vent ikke på tak.',
+        'Hvis det er dag 1 eller 2: send den korte besked med én konkret ting, du tager. Hvis ikke: skriv beskeden som kladde, så den er klar.',
       phaseTags: ['menstrual'],
     },
     {
       id: dailyId(M, 29),
       month: M,
       day: 29,
-      title: 'Hendes egen plan',
+      title: 'Sig, hvor du selv er',
       insight:
-        'Alt i denne måned er generelle råd. Hendes menstruation er specifik. Nogle vil have varme og selskab, andre vil have mørke og ro. Nogle vil gerne have en hånd på lænden, andre kan ikke holde ud at blive rørt. Nogle bliver glade for, at du husker datoen, andre synes, det er for meget. Den eneste måde at finde ud af det på er at spørge, når hun har det godt, og at skrive svaret ned. Tre spørgsmål er nok: Hvad hjælper mest de første dage? Hvad skal jeg lade være med? Hvad skal jeg gøre uden at spørge? Svarene er hendes plan, og den slår enhver artikel.',
+        'God kommunikation går begge veje. Hvis du kun spørger og aldrig fortæller, bliver du en støttefunktion frem for en partner, og hun mærker det. Fortæl, hvordan du har det, også når det er "jeg er træt og har brug for en time for mig selv", og også i de dage, hvor hun har det svært. Det er ikke at tage pladsen fra hende; det er at give hende et menneske at være sammen med. Vær bare bevidst om timing og størrelse: den store bekymring om dit job er bedre en dag i follikelfasen end dag 26. Og når du har det svært, så sig, hvad du har brug for, i stedet for at vente på at blive spurgt. Det, du beder hende om, skal du også selv turde.',
       action:
-        'Stil de tre spørgsmål i dag, og skriv svarene i en note i appen, så du kan finde dem, når næste menstruation kommer.',
+        'Fortæl hende én ærlig ting om, hvordan du har det i dag, og hvad du har brug for. Kort, og uden at det skal løses.',
       phaseTags: [],
     },
     {
@@ -401,9 +348,9 @@ export const month02: MonthContent = {
       day: 30,
       title: 'Måned 2: det har du lært',
       insight:
-        'Du ved nu, hvorfor kramper gør ondt, og at varme og smertestillende taget tidligt er de to ting, der virker bedst. Du kender tegnene på kraftig blødning og jernmangel, og du ved, at begge fortjener en blodprøve frem for et gæt. Du kender forskellen på bind, tamponer, kop og menstruationstrusser, og reglen om 8 timer. Du ved, at menstruationsinfluenza er ægte, at humøret dag 1-2 er fladt snarere end skarpt, at sex er hendes valg, og at smerte, der slår hende ud, fortjener en læge. Vigtigst: du ved, at det meste af hjælpen er praktisk, stille og gjort på forhånd. Næste måned handler om det modsatte: overskuddet i follikelfasen.',
+        'Denne måned har handlet om ord og timing. Du ved nu, at spørgsmål slår gæt, at validering kommer før løsninger, og at fasen aldrig må bruges som våben, kun som grund til at give mere. Du har lært at lytte uden at forsvare, at reparere efter et skænderi, at sige undskyld uden "men", og at bede om lov, før du giver feedback. Du har set, at den usynlige liste vokser i lutealfasen, at ejerskab er noget andet end hjælp, og at det, hun fortæller dig, er hendes at dele videre. Vigtigst: du har et ugentligt tjek-ind og måske et kodeord. Det er værktøjer, der virker længe efter, appen er lukket.',
       action:
-        'Fortæl hende de tre ting fra denne måned, du vil holde fast i. Tag så månedens quiz.',
+        'Spørg hende, hvad der har været den største forskel i jeres kommunikation denne måned. Tag så månedens quiz.',
       phaseTags: [],
     },
   ],
@@ -412,167 +359,167 @@ export const month02: MonthContent = {
       id: weeklyId(M, 1),
       month: M,
       week: 1,
-      title: 'Kramper: hvad der sker, og hvad der virker',
+      title: 'Spørg, lyt, validér: de tre grundgreb',
       body: [
-        'Menstruationssmerter er så almindelige, at de næsten ikke tæller som et symptom. Mere end halvdelen af alle, der menstruerer, har smerter i nogle dage hver måned, og for omkring hver tiende er de så kraftige, at de forstyrrer hverdagen. Alligevel ved de færreste partnere, hvad der egentlig sker, og hvorfor de simple råd virker. Det er denne artikel til.',
-        'Livmoderen er en muskel, og når slimhinden skal afstødes, frigiver den prostaglandiner, stoffer der får muskelvæggen til at trække sig sammen i bølger. Sammentrækningerne klemmer blodkarrene i væggen, så musklen kortvarigt mangler ilt, og det er den dybe, sugende eller jagende smerte. Jo mere prostaglandin, jo kraftigere kramper; kvinder med stærke smerter har målbart højere niveauer. Prostaglandinerne går også ud i blodet og forklarer kvalme, løs mave, hovedpine og den influenzaagtige sløjhed, mange mærker. Smerten er typisk værst de første 24-48 timer og kan stråle ud i lænd og lår.',
-        'Behandlingen følger mekanismen. Ibuprofen og naproxen hæmmer dannelsen af prostaglandiner, og det er derfor, timing betyder mere end dosis: taget ved de allerførste tegn, eller den dag blødningen forventes, forhindrer de smerten i at bygge op. Taget på toppen af smerten skal de først indhente det, der allerede er i blodet. De tages med mad, aldrig over pakkens maksimum, og har hun astma, mavesår eller nyreproblemer, skal apoteket eller lægen spørges først. Paracetamol er et alternativ og kan kombineres. Hormonel prævention, især p-piller og hormonspiral, dæmper for mange smerten markant, fordi slimhinden bliver tyndere; det er en samtale med lægen, ikke et råd fra dig.',
-        'Varme er det andet ben. Vedvarende varme på nedre mave eller lænd afslapper muskelvæggen og øger blodgennemstrømningen, så musklen får ilt. I studier virker det omtrent lige så godt som ibuprofen, og de to kan kombineres. Det skal være 20-30 minutter ad gangen: varmedunk, elektrisk varmepude, varmt bad eller varmeplaster på arbejde. Let bevægelse, som en gåtur eller forsigtig udstrækning, frigiver endorfiner og hjælper flere, end man skulle tro, mens hård træning dag 1 er for meget for de fleste. TENS, små elektriske impulser på huden, virker for nogle og kan lånes eller købes billigt. Hvile virker, fordi smerte og blodtab trætter.',
-        'Hvad betyder det for dig? At det meste kan gøres klar på forhånd. Smertestillende, der ikke er udløbet, inden for rækkevidde. Varmen frem, synligt, så ingen skal lede. En kalender, der er let de to første dage. Og en holdning, der siger: jeg tvivler ikke på, at det gør ondt. Din vigtigste sætning er ikke "har du taget en pille?", som lyder som "hold op med at have ondt", men "det ser ud til at gøre ondt, skal jeg hente varmen?".',
-        'Til sidst grænsen. Almindelige menstruationssmerter reagerer på varme og håndkøbsmedicin og forsvinder efter et par dage. Smerter, der ikke gør, der giver sygedage hver måned, der kommer uden for menstruationen, ved sex eller toiletbesøg, eller sammen med meget kraftig blødning, kan være endometriose, adenomyose eller fibromer, og de kan behandles. Det er ikke din opgave at vide hvilken. Det er din opgave at være den, der ikke normaliserer det, og som siger: det her fortjener en læge.',
+        'I måned 1 lærte du den grundlæggende model: faserne, hormonerne, at PMS forstærker frem for at opfinde, og at timing af samtaler er gratis hjælp. Denne måned handler om det, der kommer efter modellen: hvordan I faktisk taler sammen, dag for dag, når viden om faser skal blive til ord, der hjælper. Tre greb bærer det meste: spørg, lyt, validér.',
+        'Det første greb er at spørge i stedet for at gætte. Det lyder banalt, men jo mere du lærer om cyklussen, jo mere fristende bliver det at slutte fra fase til behov. Hun er dag 24, altså vil hun have ro. Hun er dag 12, altså er det fint at tage økonomien op. Nogle gange rammer du, men hver gang du gætter forkert, får hun en oplevelse af at blive læst som en tabel frem for som et menneske. Spørgsmål behøver ikke være lange. De bedste er korte og giver hende to konkrete valg: "Selskab eller ro?", "Skal jeg lytte, eller vil du have forslag?", "Vil du tale om det nu eller efter maden?" Et valg mellem to ting kræver næsten ingen energi at svare på, og det er afgørende på de dage, hvor energien er væk.',
+        'Det andet greb er at lytte uden at forsvare. Når hun siger noget kritisk, aktiveres et forsvar, der føles fuldstændig rimeligt indefra: det var ikke sådan ment, du havde en grund, det var også hendes skyld. Men i det øjeblik du forklarer dig, skal hun kæmpe for at blive hørt oven i det, hun allerede var frustreret over, og samtalen skifter emne fra hendes oplevelse til din uskyld. Prøv rækkefølgen: lyt færdigt, gentag kernen med dine egne ord, spørg om du har forstået rigtigt. "Så du oplever, at jeg forsvinder ind i telefonen, når det bliver travlt om aftenen, og at du står alene med det?" Når hun siger ja, har du fortjent din version. Ofte er behovet for den så forsvundet, fordi det, hun havde brug for, var at blive forstået, ikke at få ret.',
+        'Det tredje greb er at validere, før du løser. At validere er at anerkende, at følelsen giver mening set fra hendes side, uden nødvendigvis at være enig i konklusionen. "Det giver mening, at du er træt af det" kan siges, selv om du ser sagen anderledes. Mange partnere springer over det led, fordi de gerne vil hjælpe, og hjælp for dem er at finde en løsning. Men en løsning, der kommer før anerkendelsen, lyder som "din følelse er et problem, der skal væk". I ugen før menstruationen, hvor hormonfaldet gør alt mere sårbart, er behovet for validering størst og tolerancen for at blive sprunget over mindst. Rækkefølgen er alt: først "jeg forstår", så "hvad gør vi?", og ofte er det første nok.',
+        'Der er ét greb mere, som handler om, hvad du ikke skal sige. Du ved nu meget om faser, og den viden kan bruges på to måder. "Er det PMS?" bruger fasen til at forklare hende væk; det er den faseviden, ingen kvinde har bedt om. "Jeg kan se, det er dag 25, må jeg tage lidt mere fra i dag?" bruger fasen som grund til at give mere. Reglen er enkel og ubrydelig: fasen må aldrig nævnes som argument i en uenighed eller som svar på en følelse. Den må gerne være grunden til, at du laver mad, flytter en aftale eller holder igen med en bemærkning. Er du i tvivl, så spørg dig selv, om sætningen handler om, hvad hun er, eller om, hvad du vil gøre.',
+        'Spørgsmålet "vil du have forslag, eller skal jeg bare lytte?" kender du fra måned 1. Det svære er ikke at stille det, men at gøre det, hun svarer. Svarer hun "lyt", vil din hjerne alligevel producere løsninger, og de vil trænge sig på. Læg dem til side og stil i stedet spørgsmål: "Hvad var det værste ved det?" "Hvad gjorde du så?" Svarer hun "forslag", så kom med ét, ikke fem, og spørg om det passer. Svaret skifter med dagen og med fasen, så spørg hver gang i stedet for at huske svaret fra sidst.',
+        'Ugens opgave er lille: vælg ét af de tre greb, og brug det bevidst hver dag i denne uge. Læg mærke til, hvad der sker med samtalerne. De fleste opdager, at de bliver kortere, ikke længere, fordi der ikke længere skal kæmpes om at blive hørt.',
       ],
       conversationQuestion:
-        'Hvor stærke er dine kramper typisk på en skala fra 1 til 10, og hvad har du prøvet, der faktisk virker? Er der noget, du gerne vil have, jeg gør anderledes de første dage?',
-      sources: [NHS_PAIN, ACOG_DYSMENORRHEA, NHS_ENDO],
+        'Hvornår har du sidst følt dig rigtig hørt af mig, og hvad gjorde jeg der? Og hvad gør jeg typisk, der får dig til at stoppe med at fortælle?',
+      sources: [NHS_PMS],
     },
     {
       id: weeklyId(M, 2),
       month: M,
       week: 2,
-      title: 'Blødning, jern og det, der skal være i skabet',
+      title: 'Den usynlige liste og det ugentlige tjek-ind',
       body: [
-        'Blødningen er den del af menstruationen, der er mest synlig og mindst omtalt. Hvor meget er normalt, hvad gør blodtabet ved kroppen, og hvad skal der egentlig være i badeværelsesskabet? Her er det, du skal vide for at kunne hjælpe uden at skulle spørge om alt.',
-        'Den samlede blodmængde over en menstruation er typisk 30-40 ml, men det kan føles som langt mere, fordi blodet blandes med slimhinde og væske. Blødningen er ofte kraftigst dag 1 og 2 og bliver lettere og mørkere mod slutningen. Klumper er normale, især om morgenen, når blodet har samlet sig. Grænsen for kraftig menstruation er cirka 80 ml, men ingen måler det, så lægerne bruger tegn i stedet: bind eller tampon skal skiftes hver time eller hver anden time i flere timer, blødning gennem tøj eller sengetøj, to produkter samtidig, klumper større end en 2-krone, blødning over 7 dage, eller at hun må op om natten for at skifte. Kraftig menstruation rammer omkring hver fjerde kvinde og kan behandles.',
-        'Blodtab er jerntab, og kraftige menstruationer er den mest almindelige årsag til jernmangel hos kvinder i den fødedygtige alder. Jernmangel ligner almindelig travlhed: træthed, der ikke går væk med søvn, åndenød på trapper, hjertebanken, hovedpine, kolde hænder, blege læber. Derfor bliver den overset, af hende og af alle omkring hende. Jern fra kød, fisk og æg optages bedst; jern fra linser, bønner, havregryn og grønne blade optages bedre med C-vitamin til og dårligere med kaffe, te eller mælk lige ved måltidet. Men mad kan ikke fylde et stort underskud op, og tilskud skal ikke tages i blinde. En blodprøve hos lægen er det rigtige svar, både fordi for lidt jern og for meget jern er skadeligt.',
-        'Så produkterne. Bind ligger uden på og findes som trusseindlæg til lette dage, normale, og super eller natbind til kraftige dage og natten; de skiftes typisk hver 4-6 timer. Tamponer sidder inde i skeden, findes i sugeevner fra mini til super plus, og reglen er at bruge den mindste, der rækker, og skifte hver 4-8 timer, aldrig over 8, på grund af den sjældne men alvorlige infektion toksisk shocksyndrom. Menstruationskoppen er en blød silikonekop, der opsamler i stedet for at suge, kan sidde op til 8-12 timer og genbruges i årevis. Menstruationstrusser har et indbygget sugende lag og bruges alene på lette dage eller som backup. De fleste bruger en kombination, og de fleste har en fast favorit i mærke og størrelse.',
-        'Det, der skal være i huset, er derfor konkret: hendes produkter i den type og størrelse hun bruger, med reserve til kraftige dage; smertestillende, der ikke er udløbet; varmedunk eller varmepude; nem mad med jern, der kan laves på ti minutter; et mørkt håndklæde til sengen; og koldt vand og vaskemiddel til pletter. Blod på lagenet skylles i koldt vand, aldrig varmt, som får det til at sætte sig fast. Og hvis der er en plet, bliver det ikke husket, hvem der vaskede lagenet, men om nogen sukkede.',
-        'Det vigtigste, du kan gøre i denne uge, er at fjerne gætteriet. Find ud af, hvad hun bruger, og tag et billede af pakken. Læg mærke til, om hun er usædvanligt træt og forpustet også uden for menstruationen. Og hvis hun genkender bare ét af tegnene på kraftig blødning, så sig det, mange aldrig får sagt: det er ikke sikkert, at dit normale er normalt, og det kan behandles.',
+        'Der findes et arbejde i de fleste hjem, som ingen ser, fordi det foregår i ét hoved. At huske, at der skal købes gave til fødselsdagen på fredag. At vide, at støvlerne er blevet for små. At tandlægen skal bookes, at svigermor har ringet, at der mangler madpakkepapir. Det kaldes mental belastning, og i mange par ligger den mest hos kvinden, også når de praktiske opgaver deles nogenlunde ligeligt. Denne uge handler om at få den frem i lyset, og om at bygge den samtale, der holder den synlig.',
+        'Det tunge ved den usynlige liste er ikke opgaverne. Det er at være den, der husker dem, planlægger dem, uddelegerer dem og tjekker, at de bliver gjort. Når du "hjælper", sparer hun hænderne, men ikke hovedet: hun skal stadig bede om det, forklare hvordan og følge op. Det er derfor "sig bare, hvad jeg skal gøre" er en sætning, der frustrerer mere, end den hjælper. Den flytter arbejdet med at fordele arbejdet tilbage til hende.',
+        'Alternativet er ejerskab. En opgave, du ejer, er din fra start til slut: du husker den, planlægger den, udfører den og retter op, hvis den glipper, og hun behøver aldrig tænke på den igen. Vælg noget med en fast rytme og hele kæden: alt vasketøj, alle madpakker, alt omkring bilen, al kontakt med børnenes institution. Og modstå fristelsen til at spørge, hvordan hun vil have det gjort. Find selv ud af det. Det er netop den del, der letter hende. Bliver det gjort lidt anderledes, end hun ville, er det prisen for, at det ikke længere er hendes.',
+        'Listen er lang hele måneden, men den føles længst i ugen før menstruationen, og det er ikke tilfældigt. Når progesteron og østrogen falder, bliver søvnen dårligere, tolerancen for rod og støj lavere og følelsen af at stå alene stærkere. Opgaver, der var neutrale dag 10, bliver bjerge dag 25. Det er derfor, opvaskeren dukker op i skænderier den uge og næsten aldrig i follikelfasen. Den kloge reaktion er ikke at diskutere, om fordelingen er fair lige nu. Det er at tage mere i netop de dage, uden regnskab, og at måle fairness over en måned frem for over en aften. Hun får menstruation, du får ikke; det er en asymmetri, og en rimelig fordeling tager højde for den.',
+        'Det, der holder listen synlig, er en fast samtale. Et ugentligt tjek-ind på et kvarter, samme dag hver uge, uden telefoner, med tre spørgsmål: Hvad gik godt i denne uge? Hvad var svært? Hvad har du brug for i den kommende uge? Det sidste spørgsmål er det vigtigste, fordi svaret ofte følger cyklussen: "Jeg får menstruation onsdag, så torsdag aften vil jeg gerne have fri fra alt." Det er en sætning, der kun bliver sagt, hvis nogen spørger, og som ellers ender som et skænderi torsdag aften. Tjek-indet må ikke blive et sted, hvor alt skal løses. Det er et sted, hvor tingene bliver sagt, mens de er små.',
+        'Til de dage, hvor hun ikke har energi til at forklare, hjælper et aftalt signal. Et ord ("grå dag"), et tal fra 1 til 5, en emoji eller en bestemt kop, der stilles frem. Betydningen aftaler I på forhånd, når I begge er rolige: "Når jeg sender det, har jeg brug for, at du tager det praktiske og ikke stiller spørgsmål." Signalet fjerner behovet for at forklare og forsvare sig på en dag, hvor der ikke er overskud til det, og det giver dig en klar opgave i stedet for et gæt. Mange par oplever, at signalet også bruges den anden vej: du kan have grå dage, og hun kan tage over.',
+        'Ugens opgave: bed hende skrive den usynlige liste ned, alt hun går og husker på, og læs den uden at kommentere. Vælg så ét område, du overtager helt, og læg det første tjek-ind i kalenderen. Tre konkrete skridt, som tilsammen flytter mere end en måneds gode intentioner.',
       ],
       conversationQuestion:
-        'Hvilke produkter bruger du, og er der noget, du gerne vil have, at jeg altid sørger for, der er i huset? Har du nogensinde tænkt, at du bløder mere end andre?',
-      sources: [NHS_HEAVY, NHS_IRON, NHS_TSS, ACOG_HEAVY],
+        'Hvad står der på din usynlige liste, som jeg aldrig har set? Og hvilket område ville lette dig mest, hvis jeg overtog det helt?',
+      sources: [NHS_PMS],
     },
     {
       id: weeklyId(M, 3),
       month: M,
       week: 3,
-      title: 'Hverdagen dag 1 til 5: søvn, arbejde, planer og nærhed',
+      title: 'Skænderier: mønstre, reparation og undskyldninger',
       body: [
-        'Menstruationen foregår ikke i et vakuum. Den foregår midt i en uge med arbejde, aftaler, søvn, mad og et forhold. Det er der, den bliver svær, og det er der, du kan gøre en forskel, som ikke kræver medicinsk viden, men en kalender og lidt omtanke.',
-        'Start med humøret, fordi det bliver misforstået oftest. Når blødningen begynder, holder hormonerne op med at falde, og PMS-symptomerne forsvinder typisk inden for et døgn. Mange mærker lettelse. Men energien er i bund, smerten på toppen, og for mange kommer den influenzaagtige sløjhed, som populært kaldes menstruationsinfluenza: ømme muskler, kuldegysninger, hovedpine, kvalme. Det er ikke en infektion, men symptomerne er ægte, og feber hører ikke med. Humøret dag 1-2 er derfor typisk fladt, stille og indadvendt snarere end irriteret. Hun kan virke fjern uden at der er noget galt mellem jer. Fra dag 3-4 stiger østrogen, og de fleste mærker et tydeligt skift tilbage.',
-        'Søvnen er ofte dårligst nat 1 og 2: kramper vækker, bekymring for at bløde igennem holder vågen, og smerte gør den dybe søvn kortere. Dårlig søvn forstærker så smerte og humør næste dag. Det, der hjælper, er praktisk: smertestillende en halv time før sengetid, hvis hun bruger det; varme på lænden; natbind, kop eller menstruationstrusser, så hun tør sove igennem; et mørkt håndklæde under hende; en pude under knæene til lænden; og fred til at gå tidligt i seng uden at blive spurgt, om hun er sur.',
-        'Arbejdet fortsætter, som om intet er hændt. Møder, der ikke kan flyttes, toiletter langt væk, lange transporttider og smertestillende taget efter kalenderen frem for efter kroppen. Du kan ikke tage kramperne med på arbejde, men du kan tage alt det udenom: en rolig morgen, madpakke, at hun ikke også skal hente, handle og lave mad, og en aften der ikke kræver noget. Sociale planer lander ofte på dag 1 og 2, fordi ingen havde kalenderen fremme, da de blev lavet. Nu har du den. Hold de to første dage lette, og vær den, der flytter aftalen, når det bliver nødvendigt, uden at bruge hendes menstruation som forklaring, medmindre hun selv vil dele det.',
-        'Sex under menstruationen er sikkert og hverken uhygiejnisk eller forkert. Nogle har mere lyst i de dage, andre slet ingen, og for nogle lindrer orgasme kramperne. Et mørkt håndklæde gør det praktiske let. Graviditet er stadig mulig, fordi sæd lever op til fem dage, og kønssygdomme smitter lettere med blod. Men reglen over alle andre er, at det er hendes krop, hendes smerte og hendes valg, og at et nej ikke skal forklares. Sig det højt, uden for situationen, så hun ikke skal gætte, hvad du forventer.',
-        'Det, der binder det hele sammen, er omsorg uden spørgsmål. En kop te, der bare står der. Et tæppe. Opvasken taget uden kommentar. "Jeg laver noget nemt" i stedet for "hvad vil du?". Fælles for dem er, at de ikke kræver et svar; hun skal ikke vælge, takke eller forklare. Når energien er væk, er det den letteste hjælp at tage imod, og det er den, der bliver husket.',
-        'Og til sidst noget, du skal lade være med. Spørg ikke "er der noget galt?", når hun er stille. Træk dig ikke, fordi hun ikke taler. Lad ikke aftalerne blive hendes forhandling. Og tag ikke lav lyst, lav energi eller et tidligt sengetidspunkt personligt. Det handler om en krop, der bruger sine ressourcer på noget andet, og det går over om få dage.',
+        'Alle par skændes. Det er ikke antallet af konflikter, der forudsiger, om et forhold holder, men hvordan de forløber, og især hvor hurtigt og hvor godt der repareres bagefter. Denne uge ser vi på tre ting: det mønster, cyklussen tegner i jeres konflikter, den reparation, der genskaber kontakt, og den undskyldning, der faktisk virker.',
+        'Kigger du tilbage på jeres seneste skænderier, ligger de sandsynligvis ikke jævnt fordelt over måneden. De fleste par har et mønster: småting eskalerer i de sidste fire til seks dage før menstruationen, og de samme småting glider forbi i follikelfasen. Det betyder ikke, at problemerne er indbildte. Irritationen over den skæve fordeling er der også dag 9. Men på dag 26 står forstærkeren højere, søvnen er dårligere, og tolerancen mindre, så den samme sætning lander hårdere og svares hurtigere. Når I kender mønstret, kan I bruge det bevidst: tilbagevendende emner tages i follikelfasen, og i lutealfasen er det tilladt for begge at sige "kan vi parkere den til næste uge?" uden at det tæller som flugt. Notér de dage, det gik skævt, i appen. Efter to måneder ser I mønstret sort på hvidt, og det er sværere at tage personligt, når det står på en kalender.',
+        'Før du tager noget op, eller reagerer på noget hun har taget op, er tre ting værd at tjekke: Har hun sovet? Har hun spist? Er I inden for den sidste uge før menstruation? Ikke for at afskrive det, hun siger, men for at vurdere, om samtalen har en chance lige nu. Sult og dårlig søvn forstærker irritabilitet mere end noget andet, og begge er almindelige i lutealfasen. Er svaret nej på de første to, så begynd med mad og hvile. "Skal vi spise først og så tale om det?" er en omsorgshandling, ikke en afvisning, når den siges uden at gøre hendes tilstand til en diagnose.',
+        'Når det alligevel er gået skævt, kommer reparationen. Reparation er ethvert forsøg på at genskabe kontakt, før uenigheden er løst: en hånd på skulderen, en kop kaffe stillet frem, en sætning som "jeg vil ikke have, at vi er sådan her. Kan vi begynde igen?" Det kræver, at én af jer går først, og det behøver ikke være den, der har mest ret. Lå skænderiet i PMS-dagene, er det ofte lettest at reparere, når menstruationen er kommet, og hormonerne har fundet bunden; men vent ikke længere end nødvendigt. Jo længere kold luft, jo dyrere bliver reparationen, og jo mere vokser historien om, hvad den anden mente.',
+        'Nogle gange kræver reparationen en undskyldning, og en god undskyldning har tre dele: hvad du gjorde, hvad det gjorde ved hende, og hvad du gør anderledes. "Undskyld, jeg afbrød dig, mens du fortalte om din dag. Det må have føltes, som om jeg ikke gad lytte. Jeg vil lade dig tale færdigt fremover." Det, der ødelægger en undskyldning, er tilføjelserne: "men du var også...", "hvis du blev ked af det", "jeg var jo bare træt". Hvert "men" trækker undskyldningen tilbage. Og "undskyld, hvis du følte dig..." er ikke en undskyldning, det er en påstand om, at problemet er hendes følelse. Hold den kort. Forvent ikke tilgivelse på stedet; hun må gerne have brug for tid. Undskyldningen er din, hvad hun gør med den, er hendes.',
+        'Det sidste greb handler om at forebygge skænderiet. Der er ting, du gerne vil sige, som ikke er kritik af hende som menneske, men som kan lande sådan. Uopfordret kritik aktiverer forsvar hos alle. Kritik, man har sagt ja til at modtage, lander anderledes. Spørg derfor: "Må jeg sige noget, jeg har lagt mærke til? Du må også godt sige nej." Får du ja, så sig én ting, konkret, uden "altid" og "aldrig", og stop der. Får du nej, så respektér det, og prøv en anden dag. Follikelfasen er det oplagte tidspunkt. Og husk, at det samme gælder omvendt: hun må også bede om lov, og du må også sige "ikke i dag".',
+        'Ugens opgave: find jeres seneste skænderi i kalenderen, og se hvilken dag det lå på. Aftal én sætning, I begge må bruge, når timingen er dårlig, og én lille gestus, der betyder "kan vi begynde forfra?". Så er værktøjerne på plads, før de skal bruges.',
       ],
       conversationQuestion:
-        'Hvordan vil du helst have mig de første to dage: tæt på, i nærheden eller i fred? Og er der noget i vores hverdag, du gerne vil have, jeg tager automatisk, når din menstruation kommer?',
-      sources: [NHS_PERIODS, NHS_PAIN],
+        'Hvad gør jeg typisk efter et skænderi, som gør det sværere at komme tilbage til hinanden? Og hvad ville du ønske, jeg gjorde i stedet?',
+      sources: [NHS_PMS],
     },
     {
       id: weeklyId(M, 4),
       month: M,
       week: 4,
-      title: 'Hvad du siger, hvad du ikke siger, og hvornår det fortjener en læge',
+      title: 'Lyst, privatliv og alle de andre',
       body: [
-        'Det meste af hjælpen under menstruationen er praktisk. Men den bliver værdiløs, hvis ordene omkring den er forkerte. Den sidste artikel i denne måned handler om sprog: hvad der lukker, hvad der åbner, og hvordan du taler om det, der måske ikke er normalt.',
-        'Der er sætninger, der gør mere skade end tavshed. "Er det virkelig så slemt?" siger, at du tvivler. "Min ekskæreste havde ikke så ondt" sammenligner en smerte, ingen kan måle udefra. "Du er så følsom i dag" gør hendes menstruation til et karaktertræk. "Har du taget en pille?" som første replik lyder som "hold op med at have ondt". Vittigheder om blod og humør lander aldrig dag 1, uanset hvor tætte I er. Og "det er jo bare menstruation" er den værste, fordi den normaliserer noget, der måske ikke er normalt, og fordi hun højst sandsynligt har hørt den før, fra læger, mødre og veninder.',
-        'Det, der åbner, er kort og konkret. "Det ser ud til at gøre ondt. Skal jeg hente varmen?" "Jeg tager aftensmaden, du skal ikke gøre noget." "Vil du have selskab, eller vil du have fred?" Sætningerne har det til fælles, at de tror på hende, tilbyder noget bestemt og ikke kræver, at hun forklarer sig. Hvis du ikke ved, hvad hun vil have, så vælg den mindste ting og gør den. Et forkert tilbud er langt bedre end et spørgsmål, hun skal bruge energi på at besvare.',
-        'Der er også en samtale, der ikke skal foregå dag 1: den om, hvor slemt det egentlig er. Den hører til follikelfasen, når smerten ikke er der, og hun ikke skal forsvare sig. Spørg der: Hvor stærk er smerten typisk fra 1 til 10? Har den nogensinde forhindret dig i noget? Har du talt med en læge om den? Har du nogensinde tænkt, at du bløder mere end andre? Svarene overrasker ofte begge parter, fordi hukommelsen om smerte er kort, og fordi mange aldrig er blevet spurgt.',
-        'Så grænsen, én gang til, fordi den er vigtig. Almindelige menstruationssmerter reagerer på varme og håndkøbsmedicin og forsvinder efter et par dage. Fortjener en læge: smerter, der ikke reagerer, der giver sygedage hver måned, der kommer uden for menstruationen, ved sex eller toiletbesøg; blødning, der opfylder tegnene på kraftig menstruation; menstruation, der kommer oftere end hver 21. dag eller sjældnere end hver 35., varer over 7 dage, eller udebliver i tre måneder uden graviditet; blødning mellem menstruationer eller efter sex; og træthed og åndenød, der kan være jernmangel. Endometriose rammer omkring 1 ud af 10, fibromer er almindelige, og begge kan behandles. Der går i gennemsnit mange år til diagnosen, netop fordi alle omkring hende sagde, at det var normalt.',
-        'Din rolle ved lægen er konkret. Læger spørger: hvor mange dage bløder du, hvor ofte skifter du på de værste dage, hvor stærk er smerten, hvor sidder den, hvad har du prøvet, forhindrer det dig i noget? Appens kalender og noter er præcis den slags svar. Hjælp med at skrive tre punkter ned før tiden, og tilbyd at tage med. En partner, der kan sige "hun har måttet melde sig syg tre måneder i træk", bliver hørt på en anden måde, end hun bliver, når hun sidder alene og har vænnet sig til at nedtone det.',
-        'Til sidst: det hele er ikke en opgave, du skal løse. Menstruationen kommer igen næste måned og måneden efter. Det, der virker, er ikke én stor indsats, men et lager, der er fyldt op, en kalender, der er let, en varmepude, der ligger fremme, og en partner, der ikke tvivler på, at det gør ondt. Det er kedeligt, gentageligt og præcis det, der bliver husket.',
+        'De sidste emner i denne måned er dem, de fleste par taler mindst om: lyst, og hvad der må siges til hvem. Begge handler om tillid, og begge bliver lettere, når de tages på en god dag i stedet for i det øjeblik, de bliver til et problem.',
+        'Sex er noget af det sværeste at tale om, også i lange forhold, fordi et nej føles som afvisning, og et ønske føles som et krav. Det hjælper at tale om lyst som noget, der svinger, ligesom energi og humør, og som I begge har en kurve for. Omkring ægløsning har mange mere lyst, i lutealfasen og under menstruationen mindre, og nogle oplever det omvendt eller helt anderledes. Spørg om hendes kurve af nysgerrighed, ikke som forhandling: "Hvornår i måneden mærker du mest lyst? Hvad hjælper, når den er lav? Er der noget, der slukker den, som jeg ikke ved?" Tag samtalen på en gåtur eller ved køkkenbordet, ikke i sengen og ikke efter et nej. Det er der, den er ufarlig.',
+        "Et nej i lutealfasen eller under menstruationen handler oftest om krop, træthed og ømhed, ikke om dig. Men et nej sagt med skyldfølelse og modtaget med skuffelse bliver hurtigt en spiral: hun begynder at undgå situationer, hvor spørgsmålet kan komme op, og du begynder at læse afstand ind i alt. Bryd spiralen ved at gøre nej'et ufarligt. Sig højt, at et nej er et komplet svar, og at du hellere vil have et ærligt nej end et pligt-ja. Bed om, at hun siger, hvad hun i stedet har lyst til: en krammer, at ligge tæt, ingenting. Nærhed uden forventning er den nærhed, der gør et senere ja let. Og læg mærke til, om det er dig, der altid spørger. Hvis ja, så prøv en måned, hvor du kun tager imod.",
+        'Så til de andre. Jo mere du ved om cyklussen, jo mere fristende bliver det at dele det: forklare vennerne, hvorfor hun gik tidligt, lave en sjov bemærkning om appen, eller sige "hun har ægløsning, derfor er hun så glad". Lad være, medmindre hun har sagt god for det. Cyklussen er hendes krop, og hvor åben hun er om den, er hendes valg. Nogle taler frit om menstruation med alle, andre kun med dig, og mange ligger imellem og afhænger af, hvem der er til stede. Det gælder også det venligt mente. En kommentar om hendes fase i selskab er en kropskommentar, uanset fortegn.',
+        'Har I børn, opdager de før eller siden, at mor har dage med ondt eller træthed. Hvordan det forklares, er hendes beslutning, og den er værd at tage sammen, mens det er roligt. Nogle vil have menstruation omtalt åbent og almindeligt, fordi det fjerner skam for både piger og drenge. Andre vil have det holdt privat, i hvert fald til børnene selv spørger. Uanset hvad kan du vise børnene, hvordan man tager hensyn, når nogen har ondt, uden at gøre mor til den svage. "Mor har brug for ro i dag, så vi laver maden" lærer dem noget om omsorg, der holder hele livet.',
+        'Til sidst det, der skal blive mellem jer. Det, hun fortæller dig om smerte, blødning, lyst, humør og angst, fortæller hun dig i fortrolighed, også når det ikke bliver sagt eksplicit. Det gælder over for din familie, dine venner og kolleger, og det gælder både det alvorlige og det, der kunne blive en god anekdote. Kalenderen i appen er hendes data, ikke et emne til middagsbordet. Fortrolighed er det, der gør, at hun fortæller dig mere næste gang. Bryd den én gang, og døren lukker lidt. Spørg hellere en gang for meget, hvad der må siges videre.',
+        'Og en sidste ting, som hele måneden har handlet om, uden at sige det: kommunikation går begge veje. Hvis du kun spørger og aldrig fortæller, bliver du en støttefunktion frem for en partner. Fortæl, hvordan du har det, også når det er "jeg er træt og har brug for en time for mig selv". Vælg timing og størrelse med omtanke, men sig det. Det, du beder hende om at turde, skal du også selv turde.',
       ],
       conversationQuestion:
-        'Har nogen nogensinde sagt til dig, at dine smerter eller din blødning "bare er normalt"? Tror du selv på det, og er der noget, du gerne vil have undersøgt, hvis jeg tager med?',
-      sources: [NHS_PAIN, NHS_HEAVY, NHS_ENDO, NHS_IRREGULAR],
+        'Er der noget om din cyklus, din lyst eller din krop, som du gerne vil have, at jeg holder helt for mig selv? Og er der noget, du ville ønske, jeg turde spørge dig om?',
     },
   ],
   wrap: {
     id: wrapId(M),
     month: M,
-    title: 'Måned 2: Menstruationsfasen',
+    title: 'Måned 2: Kommunikation og støtte',
     summary: [
-      'Denne måned gik i dybden med de dage, hvor hun har mest brug for hjælp og mindst overskud til at bede om den. Du ved nu, at kramper er en muskel, der arbejder uden nok ilt, drevet af prostaglandiner, og at de to ting, der virker bedst, er varme på mave eller lænd og smertestillende taget ved de første tegn, ikke på toppen. Du ved, at menstruationsinfluenza, kvalme, løs mave og hovedpine hører med for mange, og at humøret dag 1-2 er fladt og indadvendt, ikke skarpt.',
-      'Du kender tegnene på kraftig blødning og jernmangel, og du ved, at begge fortjener en blodprøve hos lægen frem for et gæt. Du kender forskellen på bind, tamponer, kop og menstruationstrusser, reglen om højst 8 timer for en tampon, og hvad der skal være i huset før dag 1. Du ved, at sex under menstruation er hendes valg uden forklaring, at sociale planer og arbejde er der, du kan tage fra, og at koldt vand fjerner blodpletter.',
-      'Vigtigst: du har lært, at den bedste hjælp er praktisk, stille og gjort på forhånd, at nogle sætninger gør mere skade end tavshed, og at smerte, der slår hende ud, ikke skal normaliseres, men fortjener en læge, gerne med dig ved siden af. Næste måned handler om det modsatte: follikelfasen, hvor energien vender tilbage, og hvordan I bruger den klogt.',
+      'Denne måned handlede om at gøre viden til ord. De tre grundgreb bærer det meste: spørg i stedet for at gætte, lyt færdigt uden at forsvare dig, og validér følelsen, før du foreslår en løsning. Oven på dem ligger reglen, der aldrig må brydes: fasen må bruges som grund til at give mere, aldrig som argument i en uenighed eller som svar på en følelse.',
+      'Du har lært, at den usynlige liste er den tungeste del af husarbejdet, at den vokser i lutealfasen, og at ejerskab letter, hvor "hjælp" ikke gør. Du har set, hvordan skænderier følger cyklussens mønster, hvordan man reparerer, før uenigheden er løst, hvordan en undskyldning uden "men" ser ud, og hvorfor feedback lander bedre, når man har bedt om lov. Og du har talt om lyst og nej på en god dag, og om hvad der er hendes at dele med venner, børn og familie.',
+      'Næste måned går vi i dybden med menstruationen: smerte, blødning, energi og det, du konkret kan gøre i de dage, hvor det er sværest.',
     ],
     keepDoing: [
-      'Hav varme, smertestillende og hendes produkter klar to dage før forventet menstruation.',
-      'Hold de to første dage lette i kalenderen, og flyt aftaler selv uden drama.',
-      'Gør små ting uden at spørge og uden at vente på tak: te, tæppe, opvask, nem mad.',
-      'Sig "det ser ud til at gøre ondt, skal jeg hente varmen?" i stedet for "har du taget en pille?".',
-      'Skriv i kalenderen, hvad der hjalp og hvad der manglede, mens det er frisk.',
-      'Sig "det her fortjener en læge", hvis smerten slår hende ud, og tilbyd at tage med.',
+      'Hold det ugentlige tjek-ind på et kvarter: hvad gik godt, hvad var svært, hvad har du brug for?',
+      'Spørg "øre eller forslag?", og gør så det, hun svarer.',
+      'Brug jeres signal for de hårde dage, og tag over uden spørgsmål, når det kommer.',
+      'Ej mindst ét område i hjemmet helt, fra at huske til at udføre.',
+      'Bed om lov, før du giver feedback, og sig undskyld uden "men".',
+      'Hold det, hun fortæller om sin krop, mellem jer, medmindre hun siger andet.',
     ],
     quiz: [
       {
         question:
-          'Hun plejer at få stærke kramper og mærker de første tegn en morgen. Hvad hjælper mest lige nu?',
+          'Hun kommer hjem dag 25, smider tasken og siger: "Jeg er så træt af min chef." Hvad hjælper mest?',
         options: [
-          'Vente og se, om det bliver slemt, før hun tager noget',
-          'Hente det smertestillende hun bruger og varmen med det samme',
-          'Foreslå et hårdt træningspas for at få det ud af kroppen',
-          'Sige at hun skal tage det roligt og se tiden an',
+          '"Har du prøvet at tale med HR om det?"',
+          '"Det giver mening, at du er træt af det. Vil du have et øre eller forslag?"',
+          '"Det er nok også fordi du er lidt PMS-ramt i dag."',
+          '"Det lyder nu ikke så slemt."',
         ],
         correctIndex: 1,
         explanation:
-          'Ibuprofen og lignende hæmmer dannelsen af prostaglandiner og virker bedst ved de første tegn, før smerten er bygget op. Varme kan lægges på samtidig.',
+          'Validér først, spørg så hvad hun har brug for. Løsninger før anerkendelse lyder som, at følelsen er problemet, og fasen må aldrig bruges som forklaring på en følelse.',
       },
       {
         question:
-          'Hun fortæller, at hun skifter bind hver time flere timer i træk og altid har klumper. Hvad er den bedste reaktion?',
+          'Du har lagt mærke til, at hun lover for meget til andre og bliver udbrændt af det. Hvornår og hvordan siger du det?',
         options: [
-          'Sige at nogle bare bløder mere end andre',
-          'Foreslå at hun bruger tamponer i stedet',
-          'Sige at det er tegn på kraftig blødning, som kan behandles, og foreslå en lægetid',
-          'Købe større bind og ikke sige mere',
+          'Dag 26 om aftenen, lige når det er sket igen',
+          'Foran vennerne, som en kærlig joke',
+          'I follikelfasen, efter at have spurgt "må jeg dele en observation?"',
+          'Slet ikke, det er hendes sag',
         ],
         correctIndex: 2,
         explanation:
-          'Skift hver time i flere timer og store klumper er blandt lægernes tegn på kraftig menstruation. Det rammer hver fjerde, kan behandles, og mange får det aldrig sagt.',
+          'Feedback, man har sagt ja til at modtage, lander helt anderledes end uopfordret kritik. Timing i follikelfasen giver den bedste chance.',
       },
       {
-        question: 'Hvad er reglen for, hvor længe en tampon må sidde?',
+        question:
+          'I skændtes i går aftes, og der er kold luft i dag. Ingen af jer har sagt noget. Hvad er bedst?',
         options: [
-          'Så længe den ikke lækker',
-          'Højst 8 timer, og skift typisk hver 4-8 timer',
-          'Højst 24 timer',
-          'Den kan sidde hele natten og næste dag',
+          'Vente til hun kommer først; det var hende, der begyndte',
+          'Skrive en lang besked med din version af, hvad der skete',
+          'Lave en lille gestus, fx en kop kaffe, og sige "kan vi begynde forfra?"',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Reparation kræver, at én går først, og den behøver ikke vente på, at uenigheden er løst. Jo længere kold luft, jo dyrere bliver den.',
+      },
+      {
+        question: 'Hvilken undskyldning virker bedst?',
+        options: [
+          '"Undskyld, hvis du blev ked af det."',
+          '"Undskyld, men du var også ret hård."',
+          '"Undskyld, jeg afbrød dig. Det må have føltes, som om jeg ikke gad lytte. Jeg lader dig tale færdigt fremover."',
+          '"Okay, okay, undskyld så."',
+        ],
+        correctIndex: 2,
+        explanation:
+          'En god undskyldning har tre dele: hvad du gjorde, hvad det gjorde ved hende, og hvad du gør anderledes. "Hvis" og "men" trækker den tilbage.',
+      },
+      {
+        question:
+          'Hun siger: "Jeg skal minde dig om alt. Jeg er træt af at være den, der husker." Hvad letter mest på sigt?',
+        options: [
+          'Sige "sig bare, hvad jeg skal gøre, så gør jeg det"',
+          'Overtage ét område helt, fra at huske til at udføre, uden at hun skal tjekke',
+          'Lave en fælles liste, som hun holder opdateret',
+          'Forklare, at du også har meget om ørerne',
         ],
         correctIndex: 1,
         explanation:
-          'Højst 8 timer på grund af risikoen for toksisk shocksyndrom. Pludselig høj feber med tampon under menstruation er akut lægehjælp.',
+          'Det tunge er at være den, der husker. Ejerskab tager hele kæden fra hende; "sig bare hvad jeg skal gøre" lægger fordelingsarbejdet tilbage hos hende.',
       },
       {
         question:
-          'Det er dag 1. Hun er stille, ligger på sofaen og svarer kort. Hvad virker bedst?',
+          'Til en middag med venner spørger en ven, hvorfor hun gik hjem tidligt. Hvad gør du?',
         options: [
-          'Spørge "er der noget galt?" et par gange',
-          'Gå ind i et andet rum og lade hende være i fred hele aftenen',
-          'Lægge et tæppe over hende, sætte te frem og sætte sig i nærheden uden at kræve samtale',
-          'Foreslå at I går ud og får luft og ser nogle mennesker',
-        ],
-        correctIndex: 2,
-        explanation:
-          'Humøret dag 1-2 er typisk fladt og indadvendt, ikke skarpt. Omsorg uden spørgsmål og nærvær uden krav er den letteste hjælp at tage imod.',
-      },
-      {
-        question:
-          'Hun har haft ondt i tre uger, også uden for menstruationen, og har meldt sig syg tre måneder i træk. Hvad er rigtigt?',
-        options: [
-          'Det er normalt for nogle, og varme og hvile er nok',
-          'Sige at det ikke er noget, hun bare skal holde ud, og tilbyde at booke lægetid og tage med',
-          'Foreslå stærkere håndkøbsmedicin',
-          'Vente og se, om næste måned bliver bedre',
+          '"Hun har PMS, I ved, hvordan det er."',
+          '"Hun var træt" og skifter emne. Resten er hendes at dele.',
+          'Fortælle om appen og at hun er på dag 26',
+          'Grine og sige "kvinder, ikke?"',
         ],
         correctIndex: 1,
         explanation:
-          'Smerter uden for menstruationen og sygedage hver måned er ud over det normale og kan være endometriose eller andet, der kan behandles. Diagnosen forsinkes, fordi alle normaliserer smerten.',
-      },
-      {
-        question:
-          'Appen siger, at menstruationen forventes om to dage, og der ligger en middag hos venner på dag 1. Hvad er mest hjælpsomt?',
-        options: [
-          'Sige det ikke til hende, så hun ikke bekymrer sig',
-          'Vente og se på dagen, om hun orker det',
-          'Spørge, om hun vil have, at du flytter middagen, og gøre det uden at bruge menstruationen som forklaring',
-          'Aflyse uden at spørge hende',
-        ],
-        correctIndex: 2,
-        explanation:
-          'Hold de første dage lette, men lad hende bestemme. At du tager forhandlingen og flytter aftalen diskret sparer hende for både smerten og logistikken.',
+          'Hvor åben hun er om sin cyklus, er hendes valg. En kommentar om hendes fase i selskab er en kropskommentar, også når den er venligt ment.',
       },
     ],
   },

@@ -5,355 +5,371 @@ const NHS_PMS: Source = {
   label: 'NHS: PMS',
   url: 'https://www.nhs.uk/conditions/pre-menstrual-syndrome/',
 };
+const NHS_PERIODS: Source = {
+  label: 'NHS: Periods',
+  url: 'https://www.nhs.uk/conditions/periods/',
+};
+const NHS_INSOMNIA: Source = {
+  label: 'NHS: Insomnia',
+  url: 'https://www.nhs.uk/conditions/insomnia/',
+};
+const NHS_CONSTIPATION: Source = {
+  label: 'NHS: Constipation',
+  url: 'https://www.nhs.uk/conditions/constipation/',
+};
+const NHS_BREAST_PAIN: Source = {
+  label: 'NHS: Breast pain',
+  url: 'https://www.nhs.uk/conditions/breast-pain/',
+};
 const ACOG_PMS: Source = {
   label: 'ACOG: Premenstrual Syndrome (PMS)',
   url: 'https://www.acog.org/womens-health/faqs/premenstrual-syndrome',
 };
-const SUNDHED_PMS: Source = {
-  label: 'Sundhed.dk: Premenstrual syndrome (PMS)',
-};
-const NHS_CBT: Source = {
-  label: 'NHS: Cognitive behavioural therapy (CBT)',
+const SUNDHED_DK: Source = {
+  label: 'Sundhed.dk: The menstrual cycle',
+  url: 'https://www.sundhed.dk/borger/patienthaandbogen/kvindesygdomme/om-kvindesygdomme/menstruationscyklus/',
 };
 
 const M = 6;
 
 export const month06: MonthContent = {
   month: M,
-  theme: 'PMS and PMDD',
-  focus:
-    'Understand mood swings and irritability so you stop taking them personally and can actually help.',
+  theme: 'The luteal phase',
+  focus: 'Progesterone, sleep and appetite: lower the expectations, raise the care.',
   daily: [
     {
       id: dailyId(M, 1),
       month: M,
       day: 1,
-      title: 'The drop, day by day',
+      title: 'The corpus luteum: a temporary gland',
       insight:
-        'In month 1 you learned that PMS is a hormone drop. Now we look closer. The corpus luteum, which has produced progesterone since ovulation, starts to die about a week before the period. Progesterone and estrogen do not fall in a single day but gradually over 5-7 days, and the symptoms follow the curve: first a slight restlessness and a shorter fuse, then tears, hunger and poor sleep, and the last two or three days are typically the hardest. When the bleeding starts, the drop is over and most of it eases within a day. That means you can know not just that she is in the window, but where in the window. Day 24 and day 27 are not the same.',
+        'Once the egg has been released, the empty follicle is left behind in the ovary. It does not simply collapse; it turns into something new: the corpus luteum, literally the "yellow body". It is a small, temporary hormone gland that lives for 12-14 days and produces progesterone and a little estrogen. The corpus luteum has one job: to prepare the womb for a fertilised egg and keep it ready until the body knows whether there is a pregnancy. If there is not, it withers and the hormones fall. The whole luteal phase, both the calm start and the hard end, is run by one small structure that grows and dies every single month.',
       action:
-        'Check in the app how many days remain until the expected period, and notice whether that matches how she is doing today.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PMS, SUNDHED_PMS],
+        'Open the app, find the estimated ovulation date for this cycle, and count 12-14 days forward. That is the luteal phase, and it is what this month is about.',
+      phaseTags: [],
+      sources: [SUNDHED_DK],
     },
     {
       id: dailyId(M, 2),
       month: M,
       day: 2,
-      title: 'Serotonin: why mood comes down too',
+      title: 'Progesterone: the hormone that holds back',
       insight:
-        'Estrogen supports the brain\'s production and use of serotonin, the messenger that keeps mood stable, dampens anxiety and regulates sleep and appetite. When estrogen falls, serotonin activity falls with it. That is why the PMS days look like a small-scale version of what low serotonin does in general: low mood, irritability, sugar cravings, poor sleep. At the same time progesterone breaks down into a substance that normally calms the brain, and that disappears too. The interesting part is that hormone levels in women with severe PMS are typically completely normal. It is the brain\'s sensitivity to the swings that differs. She does not have "too many hormones". Her brain reacts more strongly to the same shifts.',
+        'Progesterone is the luteal hormone, and it works almost opposite to estrogen. Where estrogen sharpens, opens up and speeds things along, progesterone slows them down. It acts on the same brain receptors as sedative medication, and one of its breakdown products, allopregnanolone, is directly calming. That is why many women describe the luteal phase as having the volume turned down a notch: less urge to go out, more wish to be home, tired earlier in the evening. It is not laziness or low mood. It is chemistry asking the body to gather itself. Once you know that, you can stop reading calm as rejection.',
       action:
-        'Say this sentence to yourself today: "It is not the amount of hormones, it is the sensitivity." It changes how you see her on those days.',
-      phaseTags: [],
-      sources: [ACOG_PMS],
+        'If she seems quiet tonight, do not ask "is something wrong?". Sit down next to her and be quiet with her.',
+      phaseTags: ['luteal'],
+      sources: [SUNDHED_DK],
     },
     {
       id: dailyId(M, 3),
       month: M,
       day: 3,
-      title: 'PMS is not one thing',
+      title: 'The temperature rises',
       insight:
-        'More than 150 different symptoms have been described for PMS, and nobody has all of them. The physical ones: bloating, sore breasts, headache, fatigue, hunger, sleep problems, joint pain. The psychological ones: irritability, sadness, anxiety, tears, trouble concentrating, feeling out of control. The combination is personal and fairly stable from month to month. One woman goes quiet and tired, another short-tempered and restless, a third sorrowful. General PMS knowledge takes you part of the way, but it is her profile you need to know. It takes two or three cycles to spot it, and it is in the calendar if you log.',
+        'Progesterone raises resting body temperature by 0.3-0.5 degrees, and it stays up for as long as the corpus luteum lives. This is so reliable that women who take their temperature every morning can see ovulation in hindsight: the day the curve jumps is the day after. For her it means she may feel warm, sleep more restlessly and struggle under a thick duvet. Some notice it clearly, others not at all. The temperature drops again just before the period, and that drop is one reason the body feels different in the last days. A cooler bedroom is the simplest help you can give.',
       action:
-        'Ask her: "What are the two or three things you notice most clearly in the week before?" Write the answer in a note in the app.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PMS],
+        'Ask whether she has noticed being warmer in the second half of her cycle. Put out a lighter duvet or a blanket so there is a choice tonight.',
+      phaseTags: ['luteal', 'ovulation'],
+      sources: [SUNDHED_DK],
     },
     {
       id: dailyId(M, 4),
       month: M,
       day: 4,
-      title: 'The amplifier, in depth',
+      title: 'Two weeks, two different moods',
       insight:
-        'You know the sentence: PMS amplifies feelings, it does not invent them. Here is what that means in practice. Imagine all her reactions normally pass through a filter that screens out the small stuff and softens the big stuff. In the PMS days the filter is thinner. What on day 10 registers as a minor irritation and is forgotten comes through on day 26 at full size. That goes for the positive too: a loving sentence can land deeper. The important thing for you is that the content is real. If she is angry that you forgot something, the hormones did not make up the fact that you forgot it. The volume is hormonal. The subject is real. Both deserve to be taken seriously.',
+        'The luteal phase is not one thing. In the first week after ovulation progesterone is rising, estrogen is still fairly high, and the result is typically calm, contentment and a quiet kind of energy. In the last week, when the corpus luteum starts to wither, both hormones fall, and that is when tiredness, hunger, tenderness and irritability show up. Many partners lump the whole phase together as "the time before the period" and tiptoe around for two weeks. That is unnecessary. The first week is often a good week for closeness and everyday life. It is the last one that asks more of you.',
       action:
-        'Think back to your latest PMS conflict and separate the two layers: what was the subject, and what was the volume? The subject is what you need to act on.',
+        'Work out which of the two weeks she is in now. If it is the first, enjoy it. If it is the last, clear something out of the calendar.',
       phaseTags: [],
     },
     {
       id: dailyId(M, 5),
       month: M,
       day: 5,
-      title: 'PMDD: when it is more than PMS',
+      title: 'The calm week',
       insight:
-        'Premenstrual dysphoric disorder, PMDD, is the severe form. It affects 3-8 percent of women of reproductive age and is a recognised diagnosis, not "bad PMS". The difference is degree: with PMDD the psychological symptoms are so intense that they disrupt work, relationships or daily life for a week or more every single month. Severe low mood, anxiety, rage, hopelessness, and for some, thoughts of not wanting to live. The symptoms lift almost completely once the bleeding arrives, and the good weeks are genuinely good. It is exactly that contrast that makes PMDD so exhausting, and that leaves many going years without being taken seriously. There is treatment that works. The first step is getting it looked at.',
+        'The days right after ovulation are the most overlooked good time in the cycle. The intensity of ovulation is over, PMS is far away, and progesterone brings a steady, homely calm. Many women describe the week as "content", "grounded" or "easy to be in". It is a phase where everyday life works: cooking, a film, a walk, conversation without an agenda. Closeness often feels safe and free of pressure. Because the week is so undramatic, it rarely gets noticed, by her or by you. That is a shame, because it is one of the best weeks for building up what you will both draw on in the hard week.',
       action:
-        'Read the description again and be honest: does it sound like her week before? If yes, keep reading this month before you say anything.',
-      phaseTags: [],
-      sources: [NHS_PMS, ACOG_PMS],
+        'Do something completely ordinary together tonight that you both enjoy, without screens and without a purpose. Notice how easy it is.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 6),
       month: M,
       day: 6,
-      title: 'The timing is the evidence',
+      title: 'Water that will not leave',
       insight:
-        'What separates PMS and PMDD from depression and anxiety is not the symptoms but the calendar. With PMDD there is a clear symptom-free stretch in the follicular phase, typically from the end of the period to around ovulation. With depression there is not. Some women have both: an underlying depression that gets markedly worse in the week before, which is called premenstrual exacerbation. That is why a doctor asks for a diary, not just a description. Memory keeps the hard days and drops the good ones. Now that the bleeding has started is a good time to notice the shift: does she come back to herself within a couple of days? That is the answer to an important question.',
+        'Progesterone and falling estrogen change how the kidneys handle salt and fluid, and the result is that the body holds on to water in the last week. That can mean 1-2 kilos on the scale, a belly that feels tight, swollen fingers and ankles and clothes that pinch, without her having eaten any differently. It clears by itself once the period starts. What helps a little: less salt, more water (paradoxically, the body lets go of fluid more easily when it is not thirsty), movement, and potassium from fruit and vegetables. What does not help is talking about it.',
       action:
-        'Notice whether her mood lifts now that the period has started. Write in today\'s note: "better" or "unchanged".',
-      phaseTags: ['menstrual'],
-      sources: [ACOG_PMS],
+        'Cook dinner with little salt and lots of vegetables today, and put a jug of water on the table. Say nothing about why.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 7),
       month: M,
       day: 7,
-      title: 'Two cycles with a diary',
+      title: 'Tender breasts',
       insight:
-        'If you are wondering whether it could be PMDD, you already have the tool. The diagnosis is made on daily records over at least two cycles, where the symptoms must be present in the week before the period and gone in the week after. Doctors call it prospective tracking, and it is not bureaucracy. It is the only way to tell PMDD apart from other conditions. The app\'s calendar is exactly that kind of diary, if it is filled in every day, including the good days. Especially the good days. It is "no symptoms" on day 8 that turns "intense anxiety" on day 26 into a pattern rather than just a bad day.',
+        'Under the influence of progesterone the milk glands grow slightly, and breast tissue holds on to fluid. That makes the breasts heavier, denser and sore, sometimes so much that a hug or lying on her front hurts. The soreness, called cyclical breast pain, is completely normal and typically arrives in the last week before the period. A good, supportive bra helps, as do warmth and ordinary painkillers. What matters for you is touch: what felt lovely last week can be uncomfortable now. Ask rather than assume, and take a "not today" without it turning into something about the two of you.',
       action:
-        'Suggest that you log mood every day for the next two cycles, and offer to be the one who reminds her, if she wants that.',
-      phaseTags: [],
-      sources: [ACOG_PMS, SUNDHED_PMS],
+        'Say today: "Tell me if anything hurts when I hug you, and I will adjust." Then do exactly that, without commenting.',
+      phaseTags: ['luteal'],
+      sources: [NHS_BREAST_PAIN],
     },
     {
       id: dailyId(M, 8),
       month: M,
       day: 8,
-      title: 'There is treatment that works',
+      title: 'The gut slows down',
       insight:
-        'Worth knowing before you consider a doctor: PMDD and severe PMS can be treated, and there are more options than most people think. SSRIs, the type of medication also used for depression, often work within days for PMDD rather than weeks, and some women take them only in the last two weeks of the cycle. Hormonal contraception that suppresses ovulation removes the swings for some. Cognitive behavioural therapy teaches techniques for handling the thoughts when they come. Regular exercise, sleep and meals soften all of it. Choosing is the doctor\'s job. Your job is to know there is something to choose between, so "that is just how it is" does not get the last word.',
-      action:
-        'Save this sentence for a day when she doubts: "It can be treated, and you do not have to work out how on your own."',
-      phaseTags: [],
-      sources: [NHS_PMS, ACOG_PMS],
+        'Progesterone relaxes smooth muscle, and that includes the gut. In the luteal phase food moves more slowly through the system, and many women get constipation, a heavy stomach and more gas in the week before the period. Once bleeding starts and prostaglandins take over, it often flips to the opposite. It is one of the least talked-about cycle complaints, and one of those that contributes most to feeling bloated. Fibre, fluid and movement are what work. A walk after dinner does more than it sounds, and it is easier to take when there are two of you.',
+      action: 'Suggest a 20-minute walk after dinner today. Not exercise, just air and movement.',
+      phaseTags: ['luteal'],
+      sources: [NHS_CONSTIPATION],
     },
     {
       id: dailyId(M, 9),
       month: M,
       day: 9,
-      title: 'Rejection sensitivity',
+      title: 'She genuinely needs more food',
       insight:
-        'One of the least known and most disruptive PMS symptoms is a heightened sensitivity to rejection. A short reply, an "mm" instead of an answer, you looking at your phone while she talks, or going to bed without saying goodnight. Things that do not register on day 10 feel on day 26 like proof that you do not care. That is not insecurity in the relationship, it is a brain low on serotonin scanning for danger. Saying "I did not mean it like that" does not help. Preventing does: a bit more clarity, a bit more eye contact, a bit more "I am here", on exactly those days. It costs you nothing and saves you both a lot.',
+        'The body burns more at rest in the luteal phase. The higher temperature, the work of the corpus luteum and the build-up of the womb lining all cost energy, and measurements show an extra 100-300 calories a day. On top of that, progesterone increases appetite directly. So hunger in the second half of the cycle is a real need, not a lack of discipline. Women who try to eat the same in every phase often end up hungry, irritable and tired in the last week, and blame themselves for it. Extra food in the luteal phase is not giving in. It is meeting a need.',
       action:
-        'Put the phone away when she talks to you today, and say goodnight with eye contact. Small signals that land big right now.',
+        'Put an extra portion in the lunchbox or on her plate today, and say "it is fine to be hungrier this week, it is normal".',
       phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 10),
       month: M,
       day: 10,
-      title: 'Anxiety and restlessness',
+      title: 'Cravings, blood sugar and serotonin',
       insight:
-        'Many women describe PMS anxiety as an engine running too fast: restlessness in the body, thoughts going in circles, worry about things that are otherwise manageable, and sometimes a sense that something terrible is about to happen without being able to say what. It is linked to the calming substance progesterone breaks down into disappearing along with the hormone drop. Anxiety in this phase is not a sign that she is weak, and not a sign that something is wrong in your life. Arguing with the anxiety or proving the worry is unfounded does not help. Being calm, concrete and close does: "I am here. We take one thing at a time."',
+        "The craving for sweets and fast carbohydrates in the last week has an explanation. When estrogen falls, serotonin falls with it, and carbohydrates are the brain's shortcut to lifting serotonin again. At the same time, progesterone makes the body slightly less sensitive to insulin, so blood sugar swings more: it rises fast and falls fast, and the fall is felt as sudden hunger, restlessness and a short fuse. The answer is not a ban; that makes the craving worse. The answer is stability: regular meals with protein and fibre so the dips are smaller, plus a portion of what she fancies, with no guilt attached.",
       action:
-        'If she seems restless today, do not ask "what is wrong?", but say: "Shall we go for a walk, or would you rather I just sit here?"',
+        'Make sure she never gets to the point of being hungry today: offer something to eat between meals before she has to ask.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS],
+      sources: [ACOG_PMS],
     },
     {
       id: dailyId(M, 11),
       month: M,
       day: 11,
-      title: 'Tears close to the surface',
+      title: 'Sleep gets lighter and shorter',
       insight:
-        'Crying in the PMS days often comes suddenly and over something that does not seem big: an advert, a messy kitchen, a comment. She knows it herself and often gets embarrassed or annoyed about it, which brings more tears. What is happening is a low threshold, not a great sorrow. The worst thing you can do is demand an explanation or start solving whatever she is crying about. The best thing is boring: be there, offer a hand or a cup of tea, and let it pass on its own. If there is something behind the tears, it will come out when she is ready. And it is fine to say "you do not have to explain".',
+        'In the first week after ovulation many women actually sleep well, because progesterone is sedating. The trouble comes in the last week: body temperature is still high while the hormones fall, and both of those disturb deep sleep. She wakes more often, lies awake in the middle of the night and wakes less rested even with the same hours in bed. Poor sleep is the single factor that amplifies PMS most, because everything else, hunger, irritation, vulnerability, gets worse with tiredness. A cool, dark bedroom, no screens in the last hour and a fixed bedtime make a measurable difference in exactly that week.',
       action:
-        'Next time the tears come: sit down next to her, say "you do not have to explain", and stay for five minutes without doing anything.',
+        'Set the bedroom up for good sleep tonight: air it out, dim the lights, put the phone in another room, and go to bed at the same time as her.',
       phaseTags: ['luteal'],
+      sources: [NHS_INSOMNIA],
     },
     {
       id: dailyId(M, 12),
       month: M,
       day: 12,
-      title: 'Rage: the hard one',
+      title: 'Exercise feels heavier',
       insight:
-        'Anger is the PMS symptom both of you would rather not talk about. But it is one of the most common in PMDD: a sudden, physical anger that comes fast and feels out of proportion, to her as well. Many describe afterwards that they watched themselves from the outside and could not stop. It is not an excuse for treating you badly, and we will come back to that. But it matters to understand that in that moment the anger is often more physiology than intent. What escalates is answering back with the same force. What de-escalates is lowering your own voice, taking a break and coming back later.',
+        'In the luteal phase resting heart rate sits a little higher, body temperature is up, and the body starts sweating later and holds fluid less well. That means the same run or the same session objectively feels harder, and peak performances are harder to reach. It is not because she is in worse shape. It is because the engine is running at a different temperature. Many women push harder when it feels heavy and end up disappointed in themselves. Better: expect less from the hard sessions and use the phase for gentler movement, technique and low-intensity endurance.',
       action:
-        'Agree with yourself on one sentence for the next time it boils over: "I am going to the kitchen for ten minutes, and then I will be back." Say it calmly, and keep it.',
+        'If she trains today, say "it is normal for it to feel heavier this week". If she has cancelled training, say nothing about it.',
       phaseTags: ['luteal'],
-      sources: [ACOG_PMS],
     },
     {
       id: dailyId(M, 13),
       month: M,
       day: 13,
-      title: 'Brain fog',
+      title: 'Recovery takes longer',
       insight:
-        'Trouble concentrating, forgetfulness and the feeling of thinking through cotton wool are common in the days before the period, and like the other symptoms they clear when the bleeding starts. They are linked both to the serotonin drop and to the poor sleep of the luteal phase. Brain fog is frustrating for her, especially in a job that demands overview, and it easily creates conflict at home: she forgets an appointment, loses track of the week, or cannot make a decision. What helps is taking cognitive load away: fewer choices, shorter messages, one thing at a time. That is not talking down to her. It is taking something off her plate in a week where it is heavy.',
+        'It is not only performance that changes; it is also how quickly the body bounces back. In the luteal phase the hormonal support for muscle building is lower and sleep is worse, so soreness lingers and tiredness after a hard session lasts longer. Combined with a higher protein need that many do not cover, it means she can enter the last week already worn down. Recovery is not passivity. It is sleep, protein-rich food, fluid and rest days. As a partner you cannot train for her, but you can remove what steals recovery: late nights, skipped dinners, things she has to remember.',
       action:
-        'Take one planning task off her today: dinner, an appointment that needs moving, or a message that needs a reply. Just say "I have got that one".',
+        'Make a meal with proper protein today, such as eggs, fish, chicken, beans or Greek yoghurt, and serve it without turning it into a project.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 14),
       month: M,
       day: 14,
-      title: 'How to answer a sharp tone',
+      title: 'The wish to be home',
       insight:
-        'In month 1 you learned to respond to the need, not the tone. Here is the technique in three steps. One: pause for three seconds before you say anything. It sounds trivial, but those three seconds decide whether you defend yourself or listen. Two: translate the sentence in your head. "You never help" becomes "I feel alone with this". Three: answer the translation, not the words. "It sounds like you have too much on. What do I take now?" If you get it wrong, she will correct you, and that is fine. If the tone continues even after you have answered the need, it is time for a break, not a fight. More on that later this month.',
+        'One of the clearest luteal shifts is social. Where the follicular phase brings an appetite for people, novelty and going out, progesterone brings an appetite for the familiar: the sofa, the people closest to her, quiet. Many women cancel things in the last week that they said yes to with enthusiasm two weeks earlier, and feel guilty about it. It is not a character flaw; it is a hormonal shift in what feels good. For you it means that "can we just stay in?" is a perfectly legitimate answer, and that it is not you she is withdrawing from. It is the world she pulls back from a little, and you are part of home.',
       action:
-        'Practise the three seconds today, in any conversation at all: take one breath before you answer. It needs to live in your body when you need it.',
+        'Suggest a night in yourself this week, so it is not her who has to cancel. Say: "What I really want is to stay home with you."',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 15),
       month: M,
       day: 15,
-      title: 'Repair after a conflict',
+      title: 'Criticism lands harder',
       insight:
-        'Every couple has conflicts in the PMS window, no matter how well they understand the mechanism. What decides whether the relationship takes damage is not the conflict but the repair afterwards. Once the bleeding has started and the calm has returned, there is a window for picking up the pieces. It should not be a trial about who said what. It should be short: what happened, what can we do differently next time, and is there anything one of you wants to apologise for. She can apologise for the tone without that meaning the subject was wrong. You can apologise for defending yourself without that meaning you deserved the tone. Both can be true.',
+        'When serotonin falls in the last week, the brain\'s filter changes. Neutral remarks are more easily read as negative, and a small criticism feels like a big one. Studies show that women in the premenstrual phase respond more strongly to negative facial expressions and words. It is not that she is touchy. It is that sensitivity is temporarily turned up. So what you could say offhand last week, "haven\'t you sorted that yet?", now lands like a verdict. Timing is free help once again: save that kind of thing for the follicular phase, and use this week to say the things you appreciate and usually forget to mention.',
       action:
-        'If there was a conflict in the latest PMS week, say today: "Can we talk about last week for a moment? Not to find blame, just to learn from it."',
-      phaseTags: ['menstrual'],
+        'Notice one thing today you would normally correct or comment on, and let it go. Instead, say one concrete thing she did well.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 16),
       month: M,
       day: 16,
-      title: 'Sentences to keep to yourself',
+      title: 'Plans made in the follicular phase',
       insight:
-        'You know the classics: "Is it PMS?", "It is just hormones", "You are overreacting". Here are the less obvious ones that do just as much damage. "You were like this last month too" uses the calendar as a weapon. "I am not saying anything" is a defence dressed up as innocence. "I cannot do anything right" turns her symptom into your problem. "Shall we talk about it when you are yourself again?" says she is not herself now. What they have in common is that they are all about you and make her the problem. Needing a break is not forbidden. It is how it is said: "I need ten minutes, and then I am back" says the same thing without hitting.',
+        'Here is a pattern many couples know without being able to explain it. On day 10 she says yes to dinner at friends\', a weekend away and painting the kitchen. On day 25 all of it feels heavy, and she does not understand herself what she was thinking. The explanation is that she said yes with the estrogen brain, which is optimistic and outward-looking, and has to deliver with the progesterone brain, which wants calm and the familiar. Neither is "the real her". The practical answer is to put demanding things in the first half of the cycle, and to be generous with cancellations in the last week without holding them against her.',
       action:
-        'Find the one sentence from the list you are most likely to use, and write your alternative in a note on your phone.',
-      phaseTags: [],
+        'Look at the calendar for the coming week. If something demanding sits in the last days before the period, offer to move it.',
+      phaseTags: ['luteal', 'follicular'],
     },
     {
       id: dailyId(M, 17),
       month: M,
       day: 17,
-      title: 'What actually helps to say',
+      title: 'How long is the luteal phase?',
       insight:
-        'The sentences that work in the PMS days have three things in common: they acknowledge, they demand nothing, and they offer something concrete. "That sounds hard. I am here." "You do not have to explain." "I will do dinner, just lie down." "Do you want me to stay, or do you need some space?" "I know this is a heavy week, and I think you are handling it well." Notice what is missing: no explanations of why she feels this way, no suggestions about what she should do, no questions that require a reasoned answer. She knows what is happening in her body. She does not need information, she needs company.',
+        'The luteal phase is the most stable part of the cycle. The corpus luteum lives for a fairly fixed time, typically 12-14 days, and anything from 10 to 16 days counts as normal. That is why it is the follicular phase that explains why a cycle is 25 days one month and 32 the next, while the distance from ovulation to period stays roughly the same. It is also why the app counts ovulation backwards from the expected period. If you know her luteal length from temperature or ovulation tests, the estimate gets much better. If you do not, 14 days is a sensible guess.',
       action:
-        'Pick one of the sentences and say it to her today, without an occasion and without expecting anything back.',
-      phaseTags: ['luteal'],
+        "Ask whether she has ever counted how many days pass from ovulation to her period. If so, check that the app's number matches.",
+      phaseTags: [],
+      sources: [NHS_PERIODS, SUNDHED_DK],
     },
     {
       id: dailyId(M, 18),
       month: M,
       day: 18,
-      title: 'Her own strategies',
+      title: 'A short luteal phase',
       insight:
-        'Most women who have had PMS for many years have developed their own ways of getting through the week. Some run, some go to bed early, some cancel everything social, some need to be alone, some the opposite. Some know that a particular meal, a bath or a particular series helps. You probably know some of them, rarely all, because she has not put them into words. The follicular phase is the right time to ask, because now there is energy to think about it, and it does not feel like criticism. Your job is not to find better strategies. It is to know hers, so you can back them up instead of standing in the way.',
+        'If fewer than 10 days pass from ovulation to the period, it is called a short luteal phase. The corpus luteum dies earlier than usual, or produces too little progesterone, and the womb lining does not get enough time to become ready. For most women it means nothing in everyday life. For couples trying to conceive it can matter, because a fertilised egg gets less time to implant, and it is worth mentioning to a doctor. Stress, hard training, low energy intake, breastfeeding and thyroid problems can all shorten the phase. One short cycle says nothing. A consistent pattern over several months is something a doctor should look at.',
       action:
-        'Ask today: "What do you do yourself that helps in the week before? And what do I sometimes do that gets in the way?" Listen to the second part without defending yourself.',
-      phaseTags: ['follicular'],
+        'If you track ovulation and the period often arrives less than 10 days after it, say: "I would mention this to the doctor." Otherwise, read the card again and put it away.',
+      phaseTags: [],
+      sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 19),
       month: M,
       day: 19,
-      title: 'Support the strategy without taking it over',
+      title: 'No comments about her body',
       insight:
-        'Once you know her strategies, the temptation is to manage them: "Were you not going to run today?" "You said you would be in bed by ten." It is well meant and lands as control, especially in a week where sensitivity to criticism is high. Support looks different. It is clearing the path: taking the kids so she can run, without mentioning the run. Getting the bedroom ready at half past nine without saying she should go to bed. Not suggesting guests that week. And accepting that some days the strategy is lying on the sofa, and that this is also a strategy. You help most when she does not have to spend energy explaining or defending what she does.',
+        'In the last week she looks different to herself: the belly is tight, the breasts are bigger, the skin may flare up, and the scale is up with water. She knows it better than you do, and she has probably already thought about it several times today. Any comment about appearance, even "you look lovely", lands in a minefield. "Have you put on weight?" is obviously out, but so are "you look tired" and "did you sleep badly?", because they tell her it shows. The rule is simple: in the luteal phase her body is not a topic of conversation unless she raises it herself. Then you listen.',
       action:
-        'Pick one of her strategies and make room for it today without commenting on it: take a chore, clear an hour, or leave the evening unplanned.',
+        'Decide that this week you will say nothing at all about her body, weight, skin or looks. Not even something positive.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 20),
       month: M,
       day: 20,
-      title: 'Sleep, food and movement as medicine',
+      title: 'Gentle touch, no agenda',
       insight:
-        'The three things with the best evidence for easing PMS without medication are also the three hardest to keep up precisely when you have PMS: regular exercise, enough sleep and regular meals. Exercise raises serotonin and dampens anxiety, sleep stabilises mood, and steady meals prevent the blood sugar dips that amplify irritability more than anything else. Less alcohol and caffeine that week also helps more people than believe it. Your job is not to put her on a programme. It is to make the three things easy: a walk together after dinner, an early night without screens, and food in the house so a meal does not get skipped.',
+        'Touch does something good in the luteal phase, if it is the right kind. Calm, gentle, with no expectation that it should lead anywhere. A hand on her back, a foot rub, lying close under a blanket. It lowers the stress hormone cortisol and raises oxytocin, and it works wherever she is in the cycle. But in the last week the breasts are sore, the belly is tight and desire is often low, so touch that is looking for sex can feel like pressure. The difference is obvious to her, even when it is not to you. Touch that is just touch is one of the most effective forms of care you have.',
       action:
-        'Suggest a 20-minute walk after dinner today, with no agenda. If she does not want to, make it an early night instead.',
+        'Offer a ten-minute foot rub or back rub tonight, and make it clear that that is all it is. Then keep to it.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'When it deserves a doctor',
+      title: 'Take tasks, not responsibility for her mood',
       insight:
-        'You cannot decide whether it is PMS or PMDD, and you are not supposed to. But there are signs that mean it should be assessed: if the symptoms disrupt her work, relationships or daily life every month. If she herself says she cannot recognise herself that week. If there are thoughts of not wanting to live, even if they "only" come in the PMS days. If you both dread the week in advance. If she has tried what she can on her own and it is not enough. One of the signs is enough. With thoughts of suicide it has to be now, not after two cycles with a diary. Everything else can wait for the right moment to talk about it.',
+        'The most effective help in the last week is boring: taking the practical things off her. Not by asking "what can I do?", because that is one more task to answer. By seeing what is there and doing it: the dishes, the shopping, the packed lunches, the laundry, an appointment that needs moving, a call that needs making. Her capacity is lower, and everything removed from her list comes back as calm. What you should not take on is responsibility for her mood. You cannot make her happy, and it is not your job. You can make the day lighter, and then the mood is her own.',
       action:
-        "Go through the list for yourself today. If you recognise one or more signs, read tomorrow's card before you say anything.",
+        'Find three things on the shared list that would fall to her this week, and do them today without announcing it.',
       phaseTags: [],
-      sources: [NHS_PMS, SUNDHED_PMS],
     },
     {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'How to suggest a doctor',
+      title: 'Food as care',
       insight:
-        'Suggesting a doctor can sound like "there is something wrong with you" if it is said the wrong way or at the wrong time. The wrong time is in the middle of the PMS week. The right time is now, in the follicular phase, when there is calm to hear it. The wrong way is to diagnose: "I think you have PMDD." The right way is to describe and offer: "I can see the week before is really hard for you, and I have read that there is treatment. Would you consider talking to the doctor about it? I would happily come along." If she says no, respect it and leave the door open. The decision is hers. Your role is to make it possible, not to make it.',
+        'In the luteal phase food becomes more than fuel. Hunger amplifies irritation, unstable blood sugar amplifies mood swings, and having to decide what to eat is a burden in itself when capacity is low. What helps is predictability: meals on time, without her having to plan them, with protein and fibre so they last. And what she fancies, without a comment. Chocolate when there is a craving for chocolate is not a defeat; it is an understanding of what serotonin is asking for. Cooking for her this week, without questions, is one of the clearest ways to say "I see you".',
       action:
-        'If you recognised the signs yesterday: say the sentence today, and offer to help print or send the logged cycles to the doctor.',
-      phaseTags: ['follicular'],
+        'Take charge of dinner today: decide, shop, cook. Ask at most "is there anything you particularly fancy?"',
+      phaseTags: ['luteal'],
       sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'Your feelings count too',
+      title: 'Quiet evenings',
       insight:
-        'This whole month is about understanding her. But you are also a person living in the same house in the same week. It is okay to feel hurt when the tone is sharp. It is okay to be tired of walking on eggshells. It is okay to dread the week in advance. If you swallow it, it piles up and comes out as coldness or sarcasm, typically at the worst possible moment. What works is having somewhere to put it: a friend, a sibling, a walk alone, a note on your phone. And telling her when the calm is back: "Last week was hard for me too." Not as an accusation. As information.',
+        'In the follicular phase an evening can easily hold three things and somewhere to be. In the last week of the luteal phase the nervous system needs less input: less noise, fewer people, fewer decisions. There is a physiological reason, because falling progesterone removes the calming effect the brain has had for two weeks, and everything gets a little louder. A quiet evening is not a boring evening. It is an evening where she does not have to perform: the sofa, a blanket, a series you both know, or nothing at all. Being able to sit in that without getting restless is a gift, and one you both need.',
       action:
-        'Write three lines today about what the latest PMS week was like for you. Not for her, for yourself. Read them again in a month.',
-      phaseTags: [],
+        'Offer an evening with no plans at all today: no guests, no errands, no "we just need to". Turn off whatever makes noise, and stay.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 24),
       month: M,
       day: 24,
-      title: 'Staying calm is not accepting everything',
+      title: 'Caffeine and alcohol hit harder',
       insight:
-        'Keeping calm in the PMS days does not mean everything is allowed. A sharp tone, a short fuse and tears are symptoms. Contemptuous remarks, being called names, having things thrown at you or being shouted at in front of the children are not symptoms, and hormones do not remove responsibility. The difference matters for both of you. She has the right to a hard week. You have the right to say "you do not talk to me like that", calmly, and walk away. That is not dismissing her feelings. It is a boundary, and boundaries are what let you stay patient in the long run. If the boundary is crossed every month, that is a conversation for the good week, and perhaps one you need help with from outside.',
+        'Two everyday things amplify luteal complaints more than most people realise. Caffeine is stimulating and diuretic: it disturbs sleep that is already fragile and can worsen breast tenderness and restlessness. Alcohol markedly lowers sleep quality, raises body temperature at night and worsens the blood sugar dip that brings hunger and a short fuse the next day. Neither is forbidden, but the effect is bigger in the last week than in the rest of the cycle. It is not your job to control what she drinks. It is your job to make the good choice the easy choice, without commenting.',
       action:
-        'Put into words for yourself one boundary that does not depend on the cycle. Tell her in the good week, not as an ultimatum, but as information.',
+        'Buy or make something she likes without caffeine or alcohol for tonight: tea, an alcohol-free version, juice with sparkling water. Put it out without saying anything.',
       phaseTags: [],
+      sources: [NHS_PMS, NHS_INSOMNIA],
     },
     {
       id: dailyId(M, 25),
       month: M,
       day: 25,
-      title: 'Postpone, do not avoid',
+      title: 'When the period comes, it lifts',
       insight:
-        'You now know that difficult conversations belong outside the PMS window. There is a trap in that: "let us do it later" becomes "let us never do it", because there is always a reason. Then the subject grows and comes out in the PMS week anyway, only bigger. The difference between postponing and avoiding is whether there is a date. "Can we do it on Sunday?" is postponing. "Not now" with nothing else is avoiding. And if she is the one raising the subject on day 26, listen first. She has the right to be heard, even when the timing is poor. What you can propose is to decide later, not to listen later.',
+        'For many women the first day of the period, despite cramps and tiredness, is a relief. Progesterone is gone, the temperature has dropped, the water leaves the body, and the head clears. The breasts stop hurting, the stomach settles, and the sensitivity that coloured the last days fades. That is worth knowing, because it shows that the luteal complaints are not her "baseline". They are a state with an expiry date. And it is a good day to acknowledge that you both got through the last week, without turning it into a comparison or a review of what went wrong.',
       action:
-        'Is there a subject you have been pushing ahead of you? Suggest a concrete day in the next follicular phase, and put it in the calendar today.',
-      phaseTags: ['luteal', 'follicular'],
+        'When the bleeding starts, say: "That was a hard week, thank you for holding on." Then take the practical things for the next two days.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 26),
       month: M,
       day: 26,
-      title: 'The good week is for agreements',
+      title: 'Prepare the luteal phase in the follicular phase',
       insight:
-        'The follicular phase is not just the pleasant week. It is also the week where you can make agreements about the hard one. With energy and distance you can talk about what worked last time, what did not, and what you want to try next. Many couples discover they have talked about PMS a hundred times, but never outside PMS. That is like running a fire drill while the house is burning. The agreements do not need to be big: who does dinner that week, whether guests are a good idea, what she wants you to do when the tone gets sharp, and what you may do when you need a break yourself. Write them down. Memory is the first thing to go on day 26.',
+        'The best help for the luteal phase is given two weeks early. In the follicular phase there is capacity to plan, and in the last week there is not. So now is when the calendar should be cleared for the last 5-6 days before the period, when the kitchen should be stocked with good snacks and easy food, when the hard conversation should be had, and when she can say what she wants from the hard week while she still feels like talking about it. Think of it as packing for a trip: what is packed does not need thinking about on the way. It takes ten minutes in the good week and saves many hours in the hard one.',
       action:
-        'Set aside 15 minutes today to make two or three agreements for the next PMS week, and write them in a note you can both find.',
+        'Set a reminder in the app or your calendar for 6 days before the expected period saying "slow down, fill the fridge". Then it happens by itself.',
       phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 27),
       month: M,
       day: 27,
-      title: 'The peak before the drop',
+      title: 'Ovulation is the starting gun',
       insight:
-        'Around ovulation estrogen is at its highest, and for many these are the best days of the cycle: energy, desire, mood and confidence. It is worth enjoying. It is also worth knowing that the drop starts from here, and that there are typically 7-10 days until the PMS window opens. That makes ovulation a natural time to look ahead: what is in the calendar in 10-14 days? A big family party, a deadline, a trip, a hard conversation? What you can move is cheapest to move now. What you cannot move you can prepare for: a lighter programme around it, a buffer of calm before and after, and an agreement that she may step back if she needs to.',
+        'The luteal phase can only begin if there has been an ovulation. Without ovulation there is no corpus luteum, no progesterone, no temperature rise, and any bleeding that follows is not a true period but estrogen-driven breakthrough bleeding. It happens in the odd cycle for most women, and more often under stress, after coming off the pill, with PCOS and in the years before menopause. That is why the temperature curve and ovulation tests are so useful: they show whether there actually was a luteal phase. For you it means that "she is in the luteal phase" in the app is an estimate, and her own signs beat the table.',
       action:
-        'Open the calendar, find the days the app expects to be the PMS window, and look for one thing that can be moved or made smaller.',
+        'Ask whether she noticed signs of ovulation this cycle. If she did not, adjust your expectations of what the app says about the coming weeks.',
       phaseTags: ['ovulation'],
+      sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 28),
       month: M,
       day: 28,
-      title: 'Agree on a signal',
+      title: 'Log what usually bothers her',
       insight:
-        'One of the simplest and most effective tools couples use is a signal, a word or sentence that means "I am in the window now, and it is not you". It can be as simple as "it is a heavy day" or an agreed word that means nothing else. The point is that she does not have to explain herself and you do not have to guess. The signal only works if it is agreed in advance, in a calm phase, and if you respond to it the same way every time: with lower expectations and higher care, not with "oh, so that is why". It should go the other way too: a signal from you that means "I need a break, and I am coming back".',
+        'Luteal complaints are individual. Some get bloating but no sore breasts, some sleep terribly, some get mostly hungry, some mostly sensitive. It is impossible to help precisely without knowing her pattern, and memory of last month is unreliable. That is where the log helps: sleep, appetite, bloating, mood, tenderness, appetite for exercise. After two or three cycles you can see whether the breast tenderness always starts on day 22, whether sleep fails on days 24-27, whether she is always hungry on day 25. Then you can act on the date, not on the symptom, and that is the difference between reacting and being prepared.',
       action:
-        'Suggest a signal today, and agree on what you do when you hear it. Test it in the coming PMS week.',
-      phaseTags: ['ovulation'],
+        'Ask which three luteal complaints usually hit her hardest, and make sure exactly those three get logged this cycle.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 29),
       month: M,
       day: 29,
-      title: 'The relief when the bleeding comes',
+      title: 'Lower the expectations, not the care',
       insight:
-        'For many women with pronounced PMS, the first day of the period is not a bad day but a relief. The fog lifts, the anxiety settles, and she can feel herself again. Some describe it as waking up. It is a good time to say something you may not have managed to say the week before: that you saw how hard it was, and that she got through it. It is also a time when she may feel guilty about things that were said. She does not need you to confirm that it was bad. She needs you to confirm that you are still on the same team. And then it is time to log what the week was like, while you both remember it.',
+        'The month\'s headline boils down to one sentence: lower the expectations, and raise the care. Expectations of social energy, of exercise, of sex, of projects, of her "being her usual self". Care in the form of food, sleep, quiet, practical help, gentle touch and no comments. The mistake many partners make is the opposite: keeping expectations up and pulling care back when she goes quiet or sharp, because it feels like rejection. That is exactly where it turns. The one who stays when it is hard, without demanding anything, is the one she remembers when it gets easy again.',
       action:
-        'Say today: "I could see it was a hard week. Glad you are through it." Then write three words together in the note about how the week was.',
-      phaseTags: ['menstrual'],
+        'Pick one expectation you will lower in the coming luteal phase, and one act of care you will make a habit. Tell her both.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 30),
@@ -361,9 +377,9 @@ export const month06: MonthContent = {
       day: 30,
       title: 'Month 6: what you have learned',
       insight:
-        'You now know that PMS is a gradual hormone drop that the brain answers with lower serotonin, and that it is the sensitivity, not the amount of hormones, that differs. You know PMDD is a real diagnosis in 3-8 percent, that it is made with a diary over two cycles, and that there is treatment. You can recognise rejection sensitivity, anxiety, tears, rage and brain fog, and you know what to say and what not to say. You know repair after conflict matters more than the conflict, that staying calm is not accepting everything, and that postponing needs a date. Most importantly: you know the amplifier is hormonal and the content is real, and that both deserve you.',
+        'You now know that the corpus luteum produces progesterone for 12-14 days, that progesterone calms, raises the temperature and slows the pace, and that the luteal phase has a calm first week and a harder last one. You know that water retention, sore breasts, a slow gut, hunger and poor sleep have physical causes, and that she genuinely needs more food and more rest. You know that criticism lands harder, that plans from the follicular phase feel heavy, and that her body is not a topic. And you know the help is concrete: food, quiet, tasks, touch without an agenda. Next month is about PMS and PMDD, where it gets hardest.',
       action:
-        "Tell her the two things from this month that changed most in how you see the PMS week. Then take the month's quiz.",
+        "Tell her the three things you will do differently in the next luteal phase. Then take the month's quiz.",
       phaseTags: [],
     },
   ],
@@ -372,168 +388,170 @@ export const month06: MonthContent = {
       id: weeklyId(M, 1),
       month: M,
       week: 1,
-      title: 'What PMS does to the brain',
+      title: 'The corpus luteum and the two weeks',
       body: [
-        'In month 1 you got the model: hormones fall in the week before the period, and it is felt as PMS. This article goes one layer deeper, because the better you understand the mechanism, the less personally you take it, and the more precisely you can help.',
-        'After ovulation the corpus luteum produces progesterone, and estrogen gets a smaller second peak. If the egg is not fertilised, the corpus luteum starts to wither about a week before the period, and both hormones fall gradually over 5-7 days. It is not one drop but a curve. That is why the symptoms typically start mild and build, and why the last two or three days before the bleeding are often the hardest.',
-        "The brain feels the drop in two ways. Estrogen supports the production and effect of serotonin, the messenger that keeps mood stable, dampens anxiety and regulates sleep and appetite. When estrogen falls, serotonin activity falls with it, and in many ways it resembles a small-scale version of what is seen in depression: low mood, irritability, sugar cravings, sleep problems. At the same time progesterone is broken down in the body into a substance that calms the brain's GABA system, the same system alcohol and sedatives act on. When progesterone disappears, the calming effect disappears too. The result is restlessness, anxiety and a sense that everything is slightly too much.",
-        'Here is the most important thing to understand: hormone levels in women with severe PMS are usually completely normal. It has been measured and compared, and the difference lies not in the amount of hormones but in how strongly the brain reacts to the swings. Some brains are more sensitive to the same shifts. That means "she has too many hormones" is wrong, and "she is just sensitive" is wrong in a different way. She has a nervous system that reacts more strongly to a normal biological process. She cannot opt out of that, any more than one can opt out of migraine.',
-        'That is why the sentence from month 1 holds: PMS amplifies feelings, it does not invent them. Think of it as a filter that normally screens out the small stuff and softens the big stuff. In the PMS days the filter is thinner. What on day 10 registers and is forgotten comes through on day 26 at full size. That goes for irritation over an uneven split of chores, hurt over something you said, and worry about something at work. It goes for the good too: a loving sentence lands deeper. The content is real. The volume is hormonal. Both are genuine.',
-        'What do you do with that? First: stop trying to decide whether a feeling is "real" or "hormonal". It is a false choice. The feeling is real, and it is amplified, at the same time. Act on the content, and do not react to the volume. Next: learn her profile. PMS is not one thing; more than 150 symptoms have been described, and each woman has her own fixed combination. Some go quiet and tired, others short-tempered and restless, others sorrowful. The general knowledge in this article takes you part of the way. Her profile, which you will find in the calendar after two or three logged cycles, takes you the rest.',
-        'And finally: because it is a curve, you can follow along. Day 24 and day 27 are not the same. Look in the app, see how many days remain until the expected period, and adjust your expectations accordingly. That is not treating her like a calendar. It is taking her biology as seriously as she has to.',
+        'The luteal phase is the half of the cycle partners know least about, and the one where knowledge makes the biggest difference. Month 1 gave you the model: progesterone up means calm, both hormones down means PMS. This month we go one layer deeper, because the luteal phase is more than a run-up to the period. It is two weeks with its own biology, its own rhythm and its own needs.',
+        'It all starts with ovulation. When the follicle bursts and releases the egg, an empty shell is left behind in the ovary. Within a couple of days it is transformed into the corpus luteum, a temporary hormone gland that typically lives for 12-14 days. The corpus luteum produces progesterone, and a smaller amount of estrogen, and its job is to make the womb lining thick, blood-rich and ready to receive a fertilised egg. If a pregnancy happens, the early embryo sends a signal that keeps the corpus luteum alive. If not, it withers, the hormones fall, and the lining is shed as the period.',
+        'Progesterone is a hormone that holds back. It acts on the same brain receptors as sedative and sleep-inducing drugs, and one of its breakdown products is directly calming. It raises resting body temperature by 0.3-0.5 degrees for as long as the corpus luteum lives. It relaxes smooth muscle in the gut and blood vessels. It increases appetite and changes how the body handles salt, fluid and blood sugar. In short: progesterone asks the body to slow down and gather itself. That is not bad. It is just a different gear from estrogen.',
+        'The most important thing to understand is that the luteal phase has two different faces. In the first week after ovulation progesterone rises while estrogen is still comfortably high. For many the result is a calm, content, homely mood: less urge to be out, more appetite for closeness, a steady kind of energy and often good sleep. It is one of the best weeks in the cycle for everyday life and intimacy, and one of the most overlooked, because it is so undramatic.',
+        'The last week is different. When the corpus luteum starts to wither, progesterone and estrogen fall together, and that is when body and mind react: fluid builds up, breasts get sore, the gut slows, hunger rises, sleep gets lighter, and sensitivity to criticism and noise is turned up. The temperature is still high while the hormones that held it up disappear, and that combination is part of what makes the last nights so restless.',
+        'Many partners treat the whole luteal phase as "the time before the period" and tiptoe around for two weeks. That is unnecessary, and it wastes a good week. Others notice nothing until it gets hard, and are then taken by surprise. The best approach is to know the two weeks separately: enjoy the first, and prepare for the last. The app shows where she is, but her own signs are more precise: temperature, sleep, appetite, the wish to be home.',
+        "This week your job is to spot which week she is in, and to treat them differently. In the calm week: everyday life, closeness, the ordinary. In the hard week: fewer plans, more food, more quiet, and no comments about any of it. That is the whole month's programme in one sentence.",
       ],
       conversationQuestion:
-        'How do you feel the drop yourself in the week before: does it come gradually or suddenly, and which days are the hardest for you?',
-      sources: [NHS_PMS, ACOG_PMS, SUNDHED_PMS],
+        'Can you feel a difference between the first and the last week after ovulation? What is the best thing about the calm week, and the hardest thing about the last one?',
+      sources: [SUNDHED_DK, NHS_PERIODS, ACOG_PMS],
     },
     {
       id: weeklyId(M, 2),
       month: M,
       week: 2,
-      title: 'PMDD: a real condition with treatment',
+      title: 'The body in the last week: water, breasts, gut and sleep',
       body: [
-        'Three out of four women feel PMS to some degree. For 3-8 percent it is so severe that it has its own name: premenstrual dysphoric disorder, PMDD. It is a recognised diagnosis, and that needs saying clearly, because many have lived with it for years and been told it is "just PMS", "just hormones" or something they should pull themselves together about.',
-        'The difference between PMS and PMDD is degree, not kind. With PMDD the psychological symptoms dominate and are so intense that they disrupt work, relationships or daily life for a week or more every month: severe low mood, anxiety and tension, sudden rage, feeling out of control, hopelessness, and for some, thoughts of not wanting to live. The symptoms begin in the week before the period, peak in the last days and lift almost completely within a few days of the bleeding starting. The good weeks are genuinely good, and it is exactly that contrast that makes PMDD so exhausting: she knows precisely what is coming and cannot prevent it.',
-        'It is the calendar that separates PMDD from depression and anxiety disorders. With PMDD there is a clear symptom-free stretch from the end of the period to around ovulation. With depression there is not. Some women have both, an underlying depression that gets markedly worse in the week before, and that needs different treatment. That is why the diagnosis is not made on a description but on daily records over at least two cycles, where the symptoms must be present before the period and gone after. Memory keeps the hard days and drops the good ones; a diary keeps both. The app\'s calendar is exactly that kind of diary, if it is filled in every day, including when everything is fine. It is "no symptoms" on day 8 that turns "intense anxiety" on day 26 into a pattern.',
-        "What few people know is that PMDD can be treated, and that there are several routes. SSRIs, the type of medication also used for depression, are the first choice and work differently in PMDD than in depression: often within days rather than weeks. That is why some women take them only in the last two weeks of the cycle. Hormonal contraception that suppresses ovulation removes the swings for some, especially certain types of pill. Cognitive behavioural therapy teaches techniques for recognising and handling the thoughts when they come, and has good evidence in both PMS and PMDD. Regular exercise, sleep, steady meals and less alcohol and caffeine soften all of it. In very severe cases there are further options a specialist can assess. Choosing is the doctor's job. Your job is to know there is something to choose between.",
-        'When does it deserve a doctor? If the symptoms disrupt her work, relationships or daily life every month. If she herself says she cannot recognise herself that week. If you both dread the week in advance. If she has tried what she can on her own and it is not enough. And if there are thoughts of not wanting to live, even if they "only" come in the PMS days, then it has to be now, not in two cycles. One of the signs is enough.',
-        'How you suggest it matters almost as much as that you do. Not in the PMS week, where it sounds like "there is something wrong with you". In the follicular phase, where there is calm to hear it. Not as a diagnosis: "I think you have PMDD." But as observation and offer: "I can see the week before is really hard for you, and I have read that there is treatment. Would you consider talking to the doctor? I would be happy to come along." Offer to help bring the logged cycles to the doctor, because that is what the conversation rests on. And if she says no, respect it and leave the door open. The decision is hers. Your role is to make it possible.',
-        'Whether it is PMS or PMDD, you are not the one to make the diagnosis, and not the one to treat it. You need to do two things: take it seriously, and make the road to help shorter. That is more than most people get.',
+        'The physical complaints in the last week of the luteal phase are not imagined, and they are not small. They explain a large part of why she can seem uncomfortable, tired and short-tempered without anything being wrong between you. Here is what happens in the body, and what actually helps.',
+        'Water first. Progesterone and falling estrogen change how the kidneys handle salt, and the body starts holding on to water. That can mean 1-2 kilos on the scale, a belly that feels tight and bloated, swollen fingers and ankles and clothes that pinch, without her having eaten any differently. It clears within the first days of the period. Less salt, more water, movement and potassium from fruit and vegetables help a little. Comments do not help. She knows how she looks, and she has already thought about it.',
+        'Breasts next. Under progesterone the milk glands grow slightly and the tissue holds on to fluid. The breasts become heavier, denser and sore, sometimes so much that an ordinary hug hurts. This is called cyclical breast pain, it is completely normal, and it disappears once bleeding starts. A supportive bra, warmth and ordinary painkillers help. What matters for you is touch: what felt good last week can be uncomfortable now. Ask, and take a no without making it into anything.',
+        'The gut slows down. Progesterone relaxes smooth muscle, including in the bowel, so food moves more slowly through the system. The result is constipation, a heavy stomach and more gas in the days before the period, and often the opposite once bleeding starts and prostaglandins take over. Fibre, fluid and movement are what work, and a walk after dinner does more than it sounds. It is one of the least talked-about cycle complaints, and one of those that contributes most to feeling bloated and unwell.',
+        'Then sleep. In the first week after ovulation many sleep well, because progesterone is sedating. In the last week body temperature is still up while the hormones fall, and both disturb deep sleep. She wakes more often, lies awake in the middle of the night and wakes less rested. It is the single factor that amplifies the rest most: hunger, irritation and vulnerability all get worse with tiredness. A cool, dark bedroom, no screens in the last hour, a fixed bedtime and less caffeine and alcohol make a measurable difference in exactly that week.',
+        'Caffeine and alcohol deserve a word of their own. Caffeine is stimulating and diuretic and can worsen breast tenderness, restlessness and sleep. Alcohol lowers sleep quality, raises body temperature at night and worsens the blood sugar dip that brings hunger and a short fuse the next day. Neither is forbidden, but they hit harder in the last week. Your job is not to control what she drinks. Your job is to make the good choice the easy choice: a nice tea, an alcohol-free option, without saying anything about why.',
+        'What can you concretely do this week? Cook with little salt and lots of vegetables. Put water out. Suggest the walk. Keep the bedroom cool, and go to bed at the same time. Ask before a tight hug, and accept the answer. And keep every comment about body, weight and tiredness to yourself, including the kindly meant ones. It sounds like little. For her it is the difference between a week she fights through alone and a week where someone has understood.',
       ],
       conversationQuestion:
-        'If you had to give the week before your period a score from 1 to 10 for how much it disrupts your life, what would you say? And is that a number you are okay with yourself?',
-      sources: [NHS_PMS, ACOG_PMS, NHS_CBT],
+        'Which of the physical complaints, bloating, sore breasts, gut or sleep, bothers you most in the week before your period? And is there anything I do that makes it worse without knowing?',
+      sources: [NHS_PMS, NHS_BREAST_PAIN, NHS_CONSTIPATION, NHS_INSOMNIA],
     },
     {
       id: weeklyId(M, 3),
       month: M,
       week: 3,
-      title: 'Sharp tone, tears and rage: how to respond',
+      title: 'Food, exercise and energy in the luteal phase',
       body: [
-        'The psychological PMS symptoms are the ones that hit a relationship hardest, because they come out as something that looks like a reaction to you. This article goes through the five most common, what lies behind them, and what you concretely do when they come.',
-        'Rejection sensitivity is the least known. In the PMS days a brain low on serotonin scans for danger, and small things that normally do not register become proof that you do not care: a short reply, a glance at your phone while she talks, going to bed without saying goodnight. Saying "I did not mean it like that" does not help, because it is an explanation of something that has already hurt. Preventing helps: a bit more eye contact, a bit more clarity, a bit more "I am here", on exactly those days. Put the phone away when she talks. Say goodnight with eye contact. It costs nothing.',
-        'Anxiety and restlessness feel like an engine running too fast: thoughts in circles, worry about things that are otherwise manageable, a sense that something terrible is on its way. It is linked to the calming substance progesterone breaks down into disappearing with the drop. Do not argue with the anxiety, and do not prove the worry is unfounded; it comes across as dismissive. Be calm, concrete and close. "I am here. We take one thing at a time." Offer a walk or just your company, and let her choose.',
-        'Tears come suddenly and over something that does not seem big. She knows it herself and gets embarrassed, which brings more tears. It is a low threshold, not a great sorrow. Do not demand an explanation, and do not start solving whatever she is crying about. Sit down next to her, say "you do not have to explain", and stay. If there is something behind it, it will come when she is ready. Brain fog, trouble concentrating and forgetfulness, is the symptom that most often causes practical conflict: a forgotten appointment, a decision that cannot be made. What helps is taking cognitive load away: fewer choices, shorter messages, one thing at a time. "I have got that one" is the best sentence of the week.',
-        'Rage is the symptom neither of you wants to talk about, and one of the most common in PMDD: a sudden, physical anger that comes fast and feels out of proportion, to her as well. Many describe afterwards that they watched themselves from the outside and could not stop. What escalates is answering back with the same force. What de-escalates is lowering your voice, taking a break and coming back. And when the tone gets sharp without it being rage, use the three steps: a three-second pause, translate the sentence ("you never help" means "I feel alone with this"), and answer the translation: "It sounds like you have too much on. What do I take now?"',
-        'There are sentences that always make it worse. The obvious ones: "Is it PMS?", "It is just hormones", "You are overreacting". And the less obvious: "You were like this last month too" (the calendar as a weapon), "I am not saying anything" (defence dressed as innocence), "I cannot do anything right" (her symptom becomes your problem), "Shall we talk when you are yourself again?" (she is not herself now). What they share is that they are about you and make her the problem. What works acknowledges, demands nothing and offers something concrete: "That sounds hard. I am here." "I will do dinner, just lie down." "Do you want me to stay, or do you need some space?" She does not need information about her own body. She needs company.',
-        'Finally the most important thing: there will be conflicts anyway. What decides whether the relationship takes damage is the repair. Once the bleeding has started and the calm is back, have a short conversation: what happened, what do we do differently next time, and is there anything one of you wants to apologise for. She can apologise for the tone without the subject being wrong. You can apologise for defending yourself without having deserved the tone. Both can be true at once. That is how you stay on the same team.',
+        'There is a widespread idea that the body should work the same all month, and that deviations are a matter of willpower. For a woman in the luteal phase that idea is directly harmful. The body has different needs in the second half of the cycle, and that applies above all to food, exercise and rest.',
+        'Start with energy expenditure. In the luteal phase body temperature is higher, the corpus luteum is working, and the womb lining is being built up. That costs energy, and measurements show an extra 100-300 calories a day. At the same time, progesterone increases appetite directly. So hunger in the last week is a real, physiological need. Women who try to eat the same in every phase often end up hungry, tired and irritable in the last week, and blame themselves for it. Extra food in the luteal phase is not giving in. It is meeting a need the body actually has.',
+        "Then the cravings. When estrogen falls in the last week, serotonin falls with it, and carbohydrates are the brain's fastest route to lifting it again. At the same time progesterone makes the body slightly less sensitive to insulin, so blood sugar swings more: it rises fast after something sweet and falls fast again, and the fall is felt as sudden hunger, restlessness and a short fuse. The craving for chocolate, bread and salty snacks is therefore biology, not weak character. Bans make it worse. What works is stability: regular meals with protein, fibre and slow carbohydrates so the swings shrink, plus a portion of what she fancies, with no guilt.",
+        'Exercise feels heavier, and that is not imagination. In the luteal phase resting heart rate is a little higher, body temperature is up, and the body starts sweating later and holds fluid less well. The same run, the same set, objectively feels harder, and peak performances are harder to reach. That does not mean she is in worse shape. The engine is just running at a different temperature. Many push harder when it feels heavy, get disappointed and push themselves even more. The wise move is the opposite: expect less from the hard sessions in the last week and use the phase for gentler movement, technique, walks and low-intensity endurance.',
+        'Recovery also takes longer. Hormonal support for muscle building is lower, sleep is worse, and the protein need is higher than many cover. Soreness lingers and tiredness after a hard session lasts longer, so she can enter the last week already worn down. Recovery is not passivity. It is sleep, protein-rich food, fluid and rest days, and all of that gets harder when everyday life is under pressure.',
+        'This is where you come in. You cannot eat or train for her, but you can remove what steals energy and recovery. Cook on time, with protein and something that lasts. Keep snacks in the house that are easy to grab: nuts, fruit, yoghurt, dark chocolate. Take charge of dinner in the last week so she does not have to decide anything. Say "it is normal for it to feel heavier now" if she comes home disappointed from training, and say nothing if she has cancelled. And do not comment on what she eats, neither the amount nor the type. That includes "good to see you eating properly".',
+        'The overall message is simple: she needs more food, less pressure and more rest in the second half of the cycle. Not because she is weak, but because her body is doing something yours is not. The partner who understands that makes the last week noticeably lighter. The one who does not becomes one more thing to struggle with.',
       ],
       conversationQuestion:
-        'Which of the five, rejection sensitivity, anxiety, tears, brain fog or anger, do you know best from yourself, and what would you most like me to do when it comes?',
-      sources: [NHS_PMS, ACOG_PMS],
+        'When in your cycle are you hungriest, and when does training feel heaviest? Is there anything I can do so you do not have to think about food that week?',
+      sources: [ACOG_PMS, NHS_PMS],
     },
     {
       id: weeklyId(M, 4),
       month: M,
       week: 4,
-      title: 'Your boundaries, her strategies and your agreements',
+      title: 'The mind in the luteal phase: home, sensitivity and heavy plans',
       body: [
-        'The first three weeks were about understanding her. This last article is about you, about what you can do together, and about sustaining it year after year. Because patience is not bottomless, and a relationship where one person always adapts does not last.',
-        'Start with your own feelings. It is okay to feel hurt when the tone is sharp. It is okay to be tired of walking on eggshells, and it is okay to dread the week in advance. If you swallow it, it piles up and comes out as coldness, sarcasm or an explosion, typically at the worst possible moment. Have somewhere to put it: a friend, a sibling, a walk alone, a note on your phone. And tell her when the calm is back, not as an accusation but as information: "Last week was hard for me too." That is not turning her symptoms into your problem. It is being honest that you live in the same house.',
-        'Then the boundaries. Staying calm does not mean everything is allowed. A sharp tone, a short fuse and tears are symptoms. Contemptuous remarks, being called names, having things thrown at you or being shouted at in front of the children are not symptoms, and hormones do not remove responsibility. She has the right to a hard week. You have the right to say "you do not talk to me like that", calmly, and leave the room. That is not dismissing her feelings. It is a boundary, and boundaries are what let you stay patient in the long run. If it is crossed every month, that is a conversation for the good week, and perhaps one you need outside help with. Put one boundary into words for yourself that does not depend on the cycle, and tell her in the follicular phase. Not as an ultimatum. As information.',
-        'The same logic applies to difficult conversations. In month 1 you learned to place them outside the PMS window. The trap is that "let us do it later" becomes "let us never do it", and then the subject grows and comes out in the PMS week anyway, only bigger. The difference between postponing and avoiding is whether there is a date. "Can we do it on Sunday?" is postponing. "Not now" with nothing else is avoiding. And if she is the one raising the subject on day 26, listen first. She has the right to be heard, even when the timing is poor. What you can propose is to decide later, not to listen later.',
-        'Now to her own strategies. Most women with many years of PMS have found their ways of getting through the week: running, early nights, no guests, time alone, a particular meal, a bath, a series. You know some of them, rarely all, because she has not put them into words. Ask in the follicular phase: "What do you do yourself that helps? And what do I sometimes do that gets in the way?" Listen to the second part without defending yourself. And once you know the strategies, do not manage them. "Were you not going to run today?" is well meant and lands as control. Support is clearing the path: take the kids so she can run, without mentioning the run. Get the bedroom ready without saying she should go to bed. Do not suggest guests that week. And accept that some days the strategy is the sofa.',
-        'All of this only becomes something when it becomes agreements, and agreements are made in the good week. Many couples have talked about PMS a hundred times, but never outside PMS. That is like holding a fire drill while the house is burning. Set aside a quarter of an hour in the follicular phase: who does dinner that week, are guests a good idea, what does she want you to do when the tone gets sharp, and what may you do when you need a break yourself. Agree on a signal, a word or sentence that means "I am in the window, and it is not you", and a matching one from you that means "I need ten minutes, and I am coming back". Use ovulation to look 10-14 days ahead in the calendar and move or shrink whatever sits in the window. Write the agreements down somewhere you can both find them. Memory is the first thing to go on day 26.',
-        'And when the bleeding comes and the fog lifts, say what you may not have managed to say the week before: that you saw how hard it was, and that she got through it. She may feel guilty about things that were said. She does not need you to confirm it was bad. She needs you to confirm that you are still on the same team. Then log the week together while you both remember it, and you are better prepared next time. It is not a cure. It is a relationship that knows what it is dealing with.',
+        'The body is one half of the luteal phase. The mind is the other, and it is often here that misunderstandings between partners arise. Not because she becomes someone else, but because what feels pleasant, meaningful and manageable shifts. If you understand the shift, you can move with it instead of standing back and wondering.',
+        'The first shift is social. Estrogen brings an appetite for people, novelty and going out. Progesterone brings an appetite for the familiar: the sofa, the people closest to her, quiet. Many women cancel things in the last week that they said yes to with enthusiasm two weeks earlier, and feel guilty about it. It is not a character flaw. It is a hormonal shift in what feels good. For you it means that "can we just stay in?" is a legitimate answer, and that it is not you she is withdrawing from. It is the world she pulls back from a little, and you are part of home.',
+        'The second shift is sensitivity. When serotonin falls in the last week, the brain\'s filter changes. Neutral remarks are more easily read as negative, and a small criticism feels like a big one. Studies show that women in the premenstrual phase respond more strongly to negative facial expressions and words. It is not that she is touchy. Sensitivity is temporarily turned up. So the offhand "haven\'t you sorted that yet?" that went fine on day 10 now lands like a verdict. Save that kind of thing for the follicular phase, and use the last week to say the things you appreciate and usually forget.',
+        'The third shift is about plans. Here is a pattern many couples know: on day 10 she says yes to dinner at friends\', a weekend away and painting the kitchen. On day 25 all of it feels heavy, and she does not understand herself what she was thinking. The explanation is that she said yes with the estrogen brain, optimistic and outward-looking, and has to deliver with the progesterone brain, which wants calm. Neither is "the real her". The practical answer is to put the demanding things in the first half of the cycle, to be generous with cancellations in the last week, and never to hold an old yes against her.',
+        'A word about length. The luteal phase is the most stable part of the cycle: typically 12-14 days, with 10-16 counted as normal. It is the follicular phase that explains why cycles vary, not the luteal one. If fewer than 10 days consistently pass from ovulation to period, it is called a short luteal phase. For most women it means nothing in everyday life, but for couples trying to conceive it is worth mentioning to a doctor, because a fertilised egg gets less time to implant. Stress, hard training, low energy intake and thyroid problems can all shorten the phase. One short cycle says nothing; a pattern over several months deserves a doctor.',
+        'So what do you do? The month\'s headline: lower the expectations, and raise the care. Expectations of social energy, exercise, sex, projects and of her "being her usual self". Care in the form of meals on time, quiet evenings, tasks you simply take, gentle touch without an agenda and no comments about body or looks. The mistake many make is the opposite: keeping expectations up and pulling care back when she goes quiet or sharp, because it feels like rejection.',
+        'The best time to prepare for the luteal phase is the follicular phase. Clear the calendar for the last 5-6 days, stock up on easy food, have the hard conversation, and ask her what she wants from the hard week while she still feels like talking about it. It takes ten minutes in the good week and saves hours in the hard one. And when the period comes and it all lifts, acknowledge that you got through, without a review of what went wrong. The one who stays when it is hard, without demanding anything, is the one she remembers when it gets easy again.',
       ],
       conversationQuestion:
-        'What should our signal be, and what do you want me to do when you use it? And what do you want me to do when I need a break myself?',
-      sources: [NHS_PMS],
+        'When you are in the last week before your period, what do you most want me to do when you cancel something or withdraw: leave you be, stay with you or take over? And how do I know which it is that day?',
+      sources: [NHS_PMS, NHS_PERIODS, ACOG_PMS],
     },
   ],
   wrap: {
     id: wrapId(M),
     month: M,
-    title: 'Month 6: PMS and PMDD',
+    title: 'Month 6: The luteal phase',
     summary: [
-      'This month went deep into the week that causes the most misunderstandings. You now know that PMS is a gradual hormone drop over 5-7 days, which the brain feels as lower serotonin and lost calm, and that hormone levels are typically normal: it is the sensitivity that differs. You know the five psychological symptoms that hit a relationship hardest, rejection sensitivity, anxiety, tears, rage and brain fog, and you know the amplifier is hormonal while the content is real.',
-      'You know PMDD affects 3-8 percent, is a real diagnosis, is made with a diary over two cycles and can be treated with SSRIs, hormonal contraception, cognitive behavioural therapy and lifestyle. You know when it deserves a doctor and how to suggest it without diagnosing. You have learned to answer a sharp tone in three steps, to repair after conflict, what never to say, and that staying calm is not accepting everything. And you know agreements are made in the good week, and that postponing needs a date.',
-      'Next month is about pain, fatigue and headaches: how to recognise patterns in her log and respond before she asks.',
+      'This month was about the second half of the cycle. After ovulation the empty follicle becomes the corpus luteum, which produces progesterone for 12-14 days. Progesterone calms, raises body temperature, relaxes the gut, increases appetite and makes the body hold on to water. The first week after ovulation is often calm and homely; in the last week, when the hormones fall, come bloating, sore breasts, a slow gut, hunger, poor sleep and a turned-up sensitivity.',
+      'You have learned that she genuinely needs more food and more rest in the luteal phase, that cravings for sweets are blood sugar and serotonin rather than weak will, that exercise feels heavier and recovery takes longer, that criticism lands harder, and that plans made in the follicular phase feel heavy when it is time to deliver. You have learned that the luteal phase is stable at 10-16 days, and that a consistently short luteal phase is something a doctor should look at if you are trying to conceive.',
+      'Most importantly, you have learned what helps: meals on time, quiet evenings, tasks you take without asking, gentle touch without an agenda, a cool bedroom and no comments about body or looks. Lower the expectations, and raise the care. Next month we go into PMS and PMDD, where it gets hardest and where what you have learned now becomes decisive.',
     ],
     keepDoing: [
-      'Log mood every day, including the good days, so the pattern becomes visible.',
-      'Three-second pause, translate the sentence, answer the need.',
-      'Put the phone away and say goodnight with eye contact in the PMS week.',
-      'Have a short repair conversation once the bleeding has started.',
-      'Make agreements and a signal in the follicular phase, and write them down.',
-      'Say your own boundaries and feelings out loud in the good week.',
+      'Know the difference between the calm first week and the hard last week, and treat them differently.',
+      'Take charge of dinner in the last week, and keep protein-rich snacks in the house.',
+      'Keep the bedroom cool, and go to bed at the same time as her in the last days before the period.',
+      'Say nothing about body, weight, skin or tiredness in the luteal phase, not even something positive.',
+      'Offer quiet evenings and gentle touch without an agenda, and accept a no without making it into anything.',
+      'Clear the calendar for the last 5-6 days before the period while you are still in the follicular phase.',
     ],
     quiz: [
       {
         question:
-          'In the week before her period she says she cannot recognise herself and that she dreads the week every month. What helps most?',
+          'It is day 17, three days after ovulation, and she seems calm and content. What fits best?',
         options: [
-          'Say it is normal, three out of four have PMS',
-          'Suggest in the follicular phase that she talks to the doctor, and offer to come along',
-          'Tell her you think she has PMDD',
-          'Suggest she tries running more',
+          'Tiptoe around; PMS could start any moment',
+          'Enjoy an ordinary, cosy evening together; the first luteal week is often a good week',
+          'Ask whether she is okay, because she is so quiet',
+          'Suggest a big party at the weekend while she is feeling good',
         ],
         correctIndex: 1,
         explanation:
-          'That is one of the signs it deserves a doctor. Suggest it calmly in the good week, as observation and offer, not as a diagnosis.',
+          'The luteal phase has two faces. The first week, with rising progesterone, is typically calm and homely, and calm is not the same as something being wrong. It is the last week that asks more.',
       },
       {
         question:
-          'You are wondering whether it could be PMDD. What is the most useful thing you can do over the next two months?',
+          'Day 25: she says she is hungry again an hour after dinner and seems embarrassed about it. What helps most?',
         options: [
-          'Wait and see whether it gets better on its own',
-          'Read everything about PMDD online',
-          'Log mood and symptoms every day, including the good days',
-          'Avoid all conflict in the week before',
-        ],
-        correctIndex: 2,
-        explanation:
-          'The diagnosis rests on daily records over at least two cycles. It is the symptom-free days that turn the hard days into a pattern.',
-      },
-      {
-        question: 'Day 26. She says sharply: "You never help." What is the best first step?',
-        options: [
-          'List everything you have actually done this week',
-          'A three-second pause, then: "It sounds like you have too much on. What do I take now?"',
-          'Say "it is probably because you are in the window"',
-          'Leave without saying anything',
+          'Suggest a glass of water; hunger is often thirst',
+          'Say it is normal to need more food now, and find her something with protein',
+          'Remind her that she had a big portion',
+          'Say nothing and let her sort it out herself',
         ],
         correctIndex: 1,
         explanation:
-          'Translate the sentence into the need behind it, and answer that. Defending yourself creates a conflict about the tone; helping makes the tone disappear.',
-      },
-      {
-        question: 'She suddenly cries over a messy kitchen. What works best?',
-        options: [
-          'Ask what is really wrong',
-          'Start cleaning up straight away',
-          'Sit down next to her, say "you do not have to explain", and stay',
-          'Say it is only the kitchen',
-        ],
-        correctIndex: 2,
-        explanation:
-          'The tears are a low threshold, not a great sorrow. Company without demanding an explanation works; solutions and questions bring more tears.',
+          'The body burns 100-300 calories more a day in the luteal phase, and progesterone increases appetite. Hunger is a real need; meeting it without comment stabilises both blood sugar and mood.',
       },
       {
         question:
-          'She has shouted contemptuous things at you in front of the children, the third month in a row. What is right?',
+          'She has slept badly three nights in a row in the luteal phase and is short-tempered. What is the most concrete help tonight?',
         options: [
-          'Put up with it, it is the hormones',
-          'Shout back so she understands how it feels',
-          'Say calmly "you do not talk to me like that", leave, and have the boundary conversation in the good week',
-          'Never mention it again, to avoid conflict',
-        ],
-        correctIndex: 2,
-        explanation:
-          'Staying calm is not accepting everything. Symptoms explain, but do not remove responsibility. A boundary set calmly is what makes patience possible in the long run.',
-      },
-      {
-        question:
-          'There is a difficult subject about money that she brings up on day 27. What do you do?',
-        options: [
-          'Say "not now" and leave it',
-          'Listen first, then suggest a concrete day in the next follicular phase to decide',
-          'Have the whole discussion right away, so it is over with',
-          'Change the subject',
+          'Suggest she takes a nap tomorrow',
+          'Make the bedroom cool and dark, put the phones away and go to bed at the same time',
+          'Say it is probably the hormones and will pass',
+          'Pour her a glass of wine so she can wind down',
         ],
         correctIndex: 1,
         explanation:
-          'Postpone the decision, not the listening. The difference between postponing and avoiding is whether there is a date.',
+          'Progesterone keeps body temperature up, and the falling hormones make sleep light. A cool, dark room without screens is what works. Alcohol worsens sleep quality and blood sugar the next day.',
+      },
+      {
+        question:
+          "On day 10 she said yes to dinner at friends'. Now it is day 26 and she says she cannot face it. What works best?",
+        options: [
+          '"But you said yes yourself, it is a bit late to cancel now"',
+          'Contact the friends yourself and move it, without holding her yes against her',
+          'Go alone and say she is ill',
+          'Persuade her that it will be nice once she is there',
+        ],
+        correctIndex: 1,
+        explanation:
+          'The yes was said with the estrogen brain, and delivery falls in the last luteal week. Put demanding things in the first half of the cycle, and be generous with cancellations in the last week.',
+      },
+      {
+        question:
+          'She puts on a jumper, looks in the mirror and sighs. It is day 24. What is the wisest thing to say?',
+        options: [
+          '"You look lovely"',
+          '"You are probably a bit bloated, it is just water"',
+          'Nothing about her body; instead something concrete you appreciate that is not about looks',
+          '"Shall we go for a walk so it eases?"',
+        ],
+        correctIndex: 2,
+        explanation:
+          'In the luteal phase her body is not a topic of conversation unless she raises it herself. Even well-meant comments tell her it shows. Acknowledge something else, real and concrete.',
+      },
+      {
+        question:
+          'You are trying to conceive, and her period consistently arrives 8 days after the ovulation test turns positive. What is the right response?',
+        options: [
+          'That is normal; the luteal phase varies a lot',
+          'Suggest she stresses less, then it will sort itself out',
+          'Say that a consistent pattern of a short luteal phase is something you should mention to the doctor, and offer to come along',
+          'Wait six months and see whether it changes',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Fewer than 10 days from ovulation to period is called a short luteal phase. One short cycle says nothing, but a consistent pattern can make it harder for a fertilised egg to implant, and that deserves a doctor.',
       },
     ],
   },

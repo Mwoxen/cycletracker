@@ -467,7 +467,7 @@ export const month01: MonthContent = {
     summary: [
       'Den første måned handlede om at få modellen på plads. Cyklussen tælles fra første blødningsdag, varer typisk 21-35 dage og har fire faser: menstruation, follikelfase, ægløsning og lutealfase. Østrogen bygger op og giver overskud i første halvdel; progesteron giver ro i anden halvdel, og faldet i begge hormoner den sidste uge er det, der mærkes som PMS.',
       'Du har lært, at varme virker på kramper, at jern og søvn betyder noget, at ægløsning er én dag og det frugtbare vindue seks, at prævention er et fælles ansvar, at PMS forstærker frem for at opfinde følelser, og at timing af samtaler er gratis hjælp. Og du har lært, at din vigtigste rolle ikke er at fikse, men at lægge mærke til, spørge og tage det praktiske.',
-      'Næste måned går vi i dybden med menstruationen: smerte, blødning, energi og det, du konkret kan gøre i de dage, hvor det er sværest.',
+      'Næste måned handler om kommunikation og støtte: sprog, timing, at spørge i stedet for at gætte, og de konfliktmønstre, der gentager sig fase for fase.',
     ],
     keepDoing: [
       'Hold kalenderen opdateret sammen, så forudsigelserne bliver bedre.',

@@ -317,7 +317,7 @@ export const month11: MonthContent = {
       day: 21,
       title: 'PMDD: når PMS ikke er PMS',
       insight:
-        'Måned 6 handlede om PMS og PMDD. Her er det korte genopfrisk, fordi det hører til denne måneds tema. PMDD, præmenstruel dysforisk lidelse, rammer 3-8 procent og er ikke svær PMS, men en overfølsomhed i hjernen over for normale hormonudsving. Symptomerne er alvorlige: dyb nedtrykthed, angst, raseri, håbløshed og for nogle selvmordstanker i dagene før menstruation, som forsvinder, når blødningen kommer. Diagnosen stilles ved at logge symptomer i mindst to cyklusser, og det er netop det, appen kan hjælpe med. Behandlingen findes: antidepressiva, der virker hurtigt i denne sammenhæng, hormonbehandling og terapi. Ingen skal leve med at frygte halvdelen af hver måned.',
+        'Måned 7 handlede om PMS og PMDD. Her er det korte genopfrisk, fordi det hører til denne måneds tema. PMDD, præmenstruel dysforisk lidelse, rammer 3-8 procent og er ikke svær PMS, men en overfølsomhed i hjernen over for normale hormonudsving. Symptomerne er alvorlige: dyb nedtrykthed, angst, raseri, håbløshed og for nogle selvmordstanker i dagene før menstruation, som forsvinder, når blødningen kommer. Diagnosen stilles ved at logge symptomer i mindst to cyklusser, og det er netop det, appen kan hjælpe med. Behandlingen findes: antidepressiva, der virker hurtigt i denne sammenhæng, hormonbehandling og terapi. Ingen skal leve med at frygte halvdelen af hver måned.',
       action:
         'Kig i kalenderen: er der to eller flere cyklusser, hvor de sidste dage før menstruation er logget som meget tunge? Så vis hende mønstret, og foreslå, at hun tager det med til lægen.',
       phaseTags: ['luteal'],

@@ -298,9 +298,9 @@ export const month12: MonthContent = {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'Året i tilbageblik: grundmodellen og menstruationen',
+      title: 'Året i tilbageblik: grundmodellen, kommunikation og menstruationen',
       insight:
-        'De sidste ti dage af programmet handler om at samle op og bygge jeres plan. Vi starter forfra. Måned 1 gav dig modellen: dag 1 er første blødningsdag, fire faser, østrogen op giver overskud, progesteron op giver ro, begge ned giver sårbarhed. Måned 2 gik i dybden med menstruationen: varme mod kramper, jern mod træthed, smertestillende ved de første tegn, praktisk hjælp uden at spørge, og at smerte, der slår hende ud, fortjener en læge. Måned 3 handlede om follikelfasen: overskuddet vender tilbage, og det er tiden til det store, det svære og det sjove. Tre måneder, tre helt konkrete vaner, som du enten har fået, eller som fortjener en genstart nu.',
+        'De sidste ti dage af programmet handler om at samle op og bygge jeres plan. Vi starter forfra. Måned 1 gav dig modellen: dag 1 er første blødningsdag, fire faser, østrogen op giver overskud, progesteron op giver ro, begge ned giver sårbarhed. Måned 2 var kommunikation: sprog, timing, at spørge i stedet for at gætte, og at fasen må bruges som grund til at give mere, aldrig som argument. Måned 3 gik i dybden med menstruationen: varme mod kramper, jern mod træthed, smertestillende ved de første tegn, praktisk hjælp uden at spørge, og at smerte, der slår hende ud, fortjener en læge. Tre måneder, tre helt konkrete vaner, som du enten har fået, eller som fortjener en genstart nu.',
       action:
         'Skriv de tre vigtigste ting ned, du husker fra måned 1-3, og markér hver med "gør jeg" eller "har glemt". Det er starten på jeres plan.',
       phaseTags: ['menstrual'],
@@ -309,24 +309,24 @@ export const month12: MonthContent = {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'Året i tilbageblik: ægløsning, lutealfase og PMS',
+      title: 'Året i tilbageblik: follikelfase, ægløsning og lutealfase',
       insight:
-        'Måned 4 lærte dig, at ægløsning er én dag, at det frugtbare vindue er seks, og at appens skøn aldrig er prævention. Måned 5 handlede om lutealfasen: progesteron giver ro, hæver temperaturen, øger appetitten og forstyrrer søvnen, så køligt soveværelse, gode snacks og lette forslag er hjælp. Måned 6 var PMS og PMDD: hormonfaldet forstærker følelser, det opfinder dem ikke. Reager på behovet, ikke på tonen. Sig aldrig "er du PMS-ramt?". Og PMDD er en reel lidelse med behandling. Det er den midterste tredjedel af året, og det er her, de fleste konflikter i et parforhold enten opstår eller undgås. Hvis du kun husker én ting fra hele året, så lad det være: anerkend først.',
+        'Måned 4 handlede om follikelfasen: overskuddet vender tilbage, og det er tiden til det store, det svære og det sjove. Måned 5 lærte dig, at ægløsning er én dag, at det frugtbare vindue er seks, og at appens skøn aldrig er prævention. Måned 6 handlede om lutealfasen: progesteron giver ro, hæver temperaturen, øger appetitten og forstyrrer søvnen, så køligt soveværelse, gode snacks og lette forslag er hjælp. Det er den midterste tredjedel af året, og det er her, cyklussen svinger mest: fra det største overskud til den stille, indadvendte tid. Hvis du kun husker én ting fra de tre måneder, så lad det være: brug overskuddet, når det er der, og sænk forventningerne, når det er væk.',
       action:
         'Fortsæt listen fra i går med måned 4-6. Spørg hende bagefter, hvilken af de tre måneder hun har mærket mest forskel fra din side.',
       phaseTags: ['ovulation', 'luteal'],
-      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'Året i tilbageblik: smerte, kost og kommunikation',
+      title: 'Året i tilbageblik: PMS, smerte og kost',
       insight:
-        'Måned 7 lærte dig at genkende mønstre i loggen: hovedpinen dag 25, trætheden dag 1, og at reagere før hun beder om det. Måned 8 handlede om kost, træning og restitution i hver fase: jern og varme i menstruationen, hårde pas og nye ting i follikelfasen, protein, fibre og søvn i lutealfasen, og at bevægelse hjælper mod både kramper og PMS. Måned 9 var kommunikation: sprog, timing, at spørge i stedet for at gætte, og at kende jeres egne konfliktmønstre pr. fase. Det er de tre måneder, hvor viden bliver til rutine. Rutiner er kedelige, og det er meningen. Det, hun mærker, er ikke din viden, men at det er lettere end sidste år.',
+        'Måned 7 var PMS og PMDD: hormonfaldet forstærker følelser, det opfinder dem ikke. Reager på behovet, ikke på tonen. Sig aldrig "er du PMS-ramt?". Og PMDD er en reel lidelse med behandling. Hvis du kun husker én ting fra hele året, så lad det være: anerkend først. Måned 8 lærte dig at genkende mønstre i loggen: hovedpinen dag 25, trætheden dag 1, og at reagere før hun beder om det. Måned 9 handlede om kost, træning og restitution i hver fase: jern og varme i menstruationen, hårde pas og nye ting i follikelfasen, protein, fibre og søvn i lutealfasen, og at bevægelse hjælper mod både kramper og PMS. Det er de tre måneder, hvor viden bliver til rutine. Rutiner er kedelige, og det er meningen. Det, hun mærker, er ikke din viden, men at det er lettere end sidste år.',
       action:
         'Tilføj måned 7-9 til listen. Vælg én rutine, der er gledet ud, og gør den i dag: en snack, en gåtur, et spørgsmål stillet på det rigtige tidspunkt.',
       phaseTags: ['follicular'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 24),

@@ -51,14 +51,14 @@ oversæt derefter til naturligt engelsk (ikke ord-for-ord; samme budskab og hand
 
 | Md  | Tema                                 | Partner-fokus                                                                              |
 | --- | ------------------------------------ | ------------------------------------------------------------------------------------------ |
-| 2   | Menstruationsfasen                   | Smerte, træthed, blødning: praktisk hjælp, varme, ro, hvad man ikke skal sige              |
-| 3   | Follikelfasen                        | Energi og overskud stiger: planlæg det store sammen, brug overskuddet klogt                |
-| 4   | Ægløsning                            | Tegn, nærhed, det frugtbare vindue: viden uden pres                                        |
-| 5   | Lutealfasen                          | Progesteron, søvn, appetit: sænk forventninger, øg omsorg                                  |
-| 6   | PMS og PMDD                          | Humørsvingninger og irritabilitet: hvordan du ikke tager det personligt og faktisk hjælper |
-| 7   | Smerte, træthed og hovedpine         | Genkend mønstre i hendes log og reager før hun beder om det                                |
-| 8   | Kost, træning og restitution         | Hvad I kan lave og spise i hver fase                                                       |
-| 9   | Kommunikation og støtte              | Sprog, timing, at spørge i stedet for at gætte, konfliktmønstre pr. fase                   |
+| 2   | Kommunikation og støtte              | Sprog, timing, at spørge i stedet for at gætte, konfliktmønstre pr. fase                   |
+| 3   | Menstruationsfasen                   | Smerte, træthed, blødning: praktisk hjælp, varme, ro, hvad man ikke skal sige              |
+| 4   | Follikelfasen                        | Energi og overskud stiger: planlæg det store sammen, brug overskuddet klogt                |
+| 5   | Ægløsning                            | Tegn, nærhed, det frugtbare vindue: viden uden pres                                        |
+| 6   | Lutealfasen                          | Progesteron, søvn, appetit: sænk forventninger, øg omsorg                                  |
+| 7   | PMS og PMDD                          | Humørsvingninger og irritabilitet: hvordan du ikke tager det personligt og faktisk hjælper |
+| 8   | Smerte, træthed og hovedpine         | Genkend mønstre i hendes log og reager før hun beder om det                                |
+| 9   | Kost, træning og restitution         | Hvad I kan lave og spise i hver fase                                                       |
 | 10  | Fertilitet, prævention og graviditet | Fælles ansvar, hvad hun bærer, hvad du kan tage                                            |
 | 11  | Når noget afviger                    | Endometriose, PCOS, uregelmæssighed: tegn, hvornår I bør søge læge, hvordan du bakker op   |
 | 12  | Livsfaser og årets opsamling         | Pubertet, postpartum, perimenopause, og en personlig "sådan hjælper jeg dig bedst"-plan    |

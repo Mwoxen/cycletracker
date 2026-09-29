@@ -1,267 +1,316 @@
 import type { MonthContent, Source } from '../types';
 import { dailyId, weeklyId, wrapId } from '../types';
 
+const NHS_IRON: Source = {
+  label: 'NHS: Iron deficiency anaemia',
+  url: 'https://www.nhs.uk/conditions/iron-deficiency-anaemia/',
+};
 const NHS_PMS: Source = {
   label: 'NHS: PMS',
   url: 'https://www.nhs.uk/conditions/pre-menstrual-syndrome/',
 };
-const NHS_PERIODS: Source = {
-  label: 'NHS: Periods',
-  url: 'https://www.nhs.uk/conditions/periods/',
+const NHS_EATWELL: Source = {
+  label: 'NHS: Eat well',
+  url: 'https://www.nhs.uk/live-well/eat-well/',
+};
+const NHS_PAIN: Source = {
+  label: 'NHS: Period pain',
+  url: 'https://www.nhs.uk/conditions/period-pain/',
+};
+const NHS_VITAMINS: Source = {
+  label: 'NHS: Vitamins and minerals',
+  url: 'https://www.nhs.uk/conditions/vitamins-and-minerals/',
+};
+const NHS_EXERCISE: Source = {
+  label: 'NHS: Exercise',
+  url: 'https://www.nhs.uk/live-well/exercise/',
+};
+const NHS_SLEEP: Source = {
+  label: 'NHS: Sleep and tiredness',
+  url: 'https://www.nhs.uk/live-well/sleep-and-tiredness/',
+};
+const NHS_EATING: Source = {
+  label: 'NHS: Eating disorders',
+  url: 'https://www.nhs.uk/conditions/eating-disorders/',
+};
+const ACOG_PMS: Source = {
+  label: 'ACOG: Premenstrual Syndrome (PMS)',
+  url: 'https://www.acog.org/womens-health/faqs/premenstrual-syndrome',
+};
+const ACOG_DYSMENORRHEA: Source = {
+  label: 'ACOG: Dysmenorrhea: Painful Periods',
+  url: 'https://www.acog.org/womens-health/faqs/dysmenorrhea-painful-periods',
+};
+const SUNDHED_JERN: Source = {
+  label: 'Sundhed.dk: Jernmangel',
 };
 
 const M = 9;
 
 export const month09: MonthContent = {
   month: M,
-  theme: 'Kommunikation og støtte',
-  focus:
-    'Lær at spørge i stedet for at gætte, at lytte før du løser, og at bruge din viden om faserne til at give mere, aldrig som argument.',
+  theme: 'Kost, træning og restitution',
+  focus: 'Gør det gode valg til det nemme valg: hvad I kan lave og spise sammen i hver fase.',
   daily: [
     {
       id: dailyId(M, 1),
       month: M,
       day: 1,
-      title: 'Spørg, i stedet for at gætte',
+      title: 'Mad flytter noget, men den kurerer ikke',
       insight:
-        'Efter otte måneder ved du meget om cyklussen. Det er godt, og det er også en fælde. Jo mere du ved, jo mere fristende bliver det at gætte: hun er stille, altså er hun i lutealfasen og vil have ro. Men viden om faser er viden om gennemsnit, og hun er ikke et gennemsnit. Den samme dag kan hun ønske selskab eller fred, hjælp eller at blive ladt i ro. Det eneste, der virker hver gang, er at spørge. Et godt spørgsmål er kort, konkret og let at svare på: "Vil du have selskab, eller skal jeg give dig lidt plads?" Det er ikke et tegn på, at du ikke forstår hende. Det er tegn på, at du tager hende alvorligt som mere end sin fase.',
+        'Denne måned handler om kost, træning og restitution, og den begynder med en ærlig ramme: ingen kost fjerner PMS, og ingen træningsplan fjerner kramper. Men mad, bevægelse og søvn er de tre håndtag, der er nemmest at dreje på i hverdagen, og de flytter noget målbart: jernniveau, blodsukker, søvnkvalitet og smerte. Det gode ved dem er, at de er fælles. Du spiser det samme, sover i samme seng og kan gå den samme tur. Din rolle er ikke at blive hendes coach. Den er at gøre det gode valg til det nemme valg for jer begge, uden at nogen skal forklare sig.',
       action:
-        'Stil ét konkret spørgsmål i dag i stedet for at gætte: "Hvad har du mest brug for lige nu: selskab, ro eller en hånd med noget?"',
+        'Spørg hende i dag: "Er der noget med mad eller søvn, du gerne vil have, at vi gør anderledes i denne måned?" Og lyt uden at foreslå noget endnu.',
       phaseTags: [],
+      sources: [NHS_EATWELL],
     },
     {
       id: dailyId(M, 2),
       month: M,
       day: 2,
-      title: '"Løsninger eller et øre?" i praksis',
+      title: 'Jern: det blødningen koster',
       insight:
-        'Du kender spørgsmålet fra måned 1: "Vil du have forslag, eller skal jeg bare lytte?" Nu går vi et lag dybere, for det svære er ikke at spørge, det er at gøre det, hun svarer. Svarer hun "bare lyt", vil hjernen alligevel producere løsninger, og de vil trænge sig på. Læg dem til side. Nik, spørg "hvad var det værste ved det?", og lad hende blive færdig. Svarer hun "forslag", så kom med ét, ikke fem, og spørg om det passer. Svaret skifter med fasen: i follikelfasen vil mange gerne have sparring, i lutealfasen oftere et øre. Og det skifter fra dag til dag. Derfor skal du spørge hver gang, ikke huske svaret fra sidst.',
+        'Hver menstruation koster jern, og kvinder i den fødedygtige alder er den gruppe, der oftest har jernmangel. Jern bærer ilt i blodet, og et lavt lager mærkes som træthed, der ikke forsvinder efter søvn, åndenød på trapper, kolde hænder, hovedpine og kort lunte. Har hun kraftige blødninger, er risikoen markant højere. Jern findes i to former: hæmjern fra kød, fisk og indmad, som optages let, og ikke-hæmjern fra linser, bønner, tofu, havregryn og grønne blade, som optages dårligere. Begge tæller, og det er i menstruationsugen, det giver mest mening at tænke over det. Langvarig træthed fortjener en blodprøve, ikke en teori.',
       action:
-        'Næste gang hun fortæller om noget svært: spørg "øre eller forslag?", og hvis svaret er øre, så stil kun spørgsmål i ti minutter.',
-      phaseTags: [],
+        'Læg jern på middagsbordet i dag uden at nævne ordet jern: kød, linser, bønner eller kikærter. Bare lav det.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_IRON, SUNDHED_JERN],
     },
     {
       id: dailyId(M, 3),
       month: M,
       day: 3,
-      title: 'Validér, før du løser',
+      title: 'C-vitamin åbner for plantejern',
       insight:
-        'At validere betyder at anerkende, at følelsen giver mening, før du gør noget ved den. Det er ikke det samme som at være enig i alt. "Det giver mening, at du er træt af det" kan siges, selv om du ser sagen anderledes. Når hormonerne falder i ugen før menstruationen, er behovet for validering størst, og tolerancen for at blive sprunget over mindst. Springer du direkte til løsningen, hører hun: din følelse er et problem, der skal væk. Validerer du først, falder pulsen, og løsningen kan bagefter findes i fællesskab. Rækkefølgen er alt: først "jeg forstår", så "hvad gør vi?". Ofte er det første nok, og det andet bliver overflødigt.',
+        'Jern fra planter optages flere gange dårligere end jern fra kød, men det kan hjælpes på vej. C-vitamin i samme måltid gør ikke-hæmjern langt lettere at optage; det er en af de bedst dokumenterede kombinationer i ernæring. Det kræver ingen tilskud: peberfrugt, broccoli, citrus, kiwi, jordbær og tomat er nok, hvis det er på tallerkenen samtidig. En linsesuppe med citron, en bønnesalat med peberfrugt, havregrød med bær. Spiser hun lidt eller intet kød, er den kombination ikke en detalje, men grundlaget. Og det er en ting, du kan gøre i køkkenet uden at sige et ord om kost.',
       action:
-        'Brug i dag sætningen "det giver mening, at du har det sådan" én gang, uden at følge op med et "men".',
-      phaseTags: ['luteal'],
-      sources: [NHS_PMS],
+        'Til aftensmaden: sæt noget med C-vitamin ved siden af det, der har jern. Citronbåde, rå peberfrugt eller en appelsin til dessert.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_IRON, NHS_VITAMINS],
     },
     {
       id: dailyId(M, 4),
       month: M,
       day: 4,
-      title: 'Navngiv fasen uden at bruge den som våben',
+      title: 'Kaffe og te lige til maden',
       insight:
-        'Der er en verden til forskel på "er det PMS?" og "jeg kan se i appen, at det er dag 25, vil du have, at jeg tager lidt mere fra i dag?". Den første sætning bruger fasen til at forklare hende væk. Den anden bruger den til at tilbyde hjælp. Reglen er enkel: fasen må aldrig nævnes som argument i en uenighed, og aldrig som svar på en følelse. Den må gerne nævnes som grund til, at du gør noget: laver mad, flytter en aftale, holder igen med kritik. Hvis du er i tvivl, så spørg dig selv, om sætningen handler om, hvad hun er, eller om hvad du vil gøre. Kun det sidste er brugbart.',
+        'Både kaffe og te indeholder stoffer, polyfenoler og tanniner, der binder jern i tarmen og kan halvere optaget fra et måltid. Det gælder især plantejern. Effekten er størst, når drikken tages sammen med maden eller lige efter, og lille, hvis der går en times tid. Man skal ikke droppe morgenkaffen, kun flytte den lidt væk fra det jernrige måltid. Store mængder mælk og kalcium til måltidet hæmmer også optaget noget. Det er en af de få kostregler, der faktisk er værd at kende, fordi den er gratis, og fordi den kan gøre en reel forskel for en kvinde, der bløder hver måned.',
       action:
-        'Sig i dag én sætning, der bruger fasen som grund til din egen handling: "Jeg tager aftensmaden i denne uge, du skal ikke tænke på det."',
-      phaseTags: ['luteal'],
+        'Server vand eller et glas juice til aftensmaden, og lav kaffen eller teen en time senere i stedet.',
+      phaseTags: ['menstrual', 'luteal'],
+      sources: [NHS_IRON],
     },
     {
       id: dailyId(M, 5),
       month: M,
       day: 5,
-      title: 'Et signal for de hårde dage',
+      title: 'Varme eller kulde?',
       insight:
-        'Mange par sliber sig op på de dage, hvor hun har det svært, men ikke har energi til at forklare det. Så bliver hun kort for hovedet, du bliver forvirret, og ingen får sagt, hvad der er galt. En aftalt kode løser det. Det kan være et ord ("grå dag"), et tal fra 1 til 5, en emoji eller en bestemt kop, der stilles frem. Betydningen aftales på forhånd, når I begge er rolige: "Når jeg siger det, har jeg brug for, at du tager det praktiske og ikke stiller spørgsmål." Signalet fjerner behovet for at forklare og forsvare på en dag, hvor der ikke er overskud til det. Det giver hende en nem udgang og dig en klar opgave.',
+        'Varme er den bedst dokumenterede hjemmebehandling mod menstruationskramper. En varmepude på omkring 40 grader på underlivet i et par timer har i studier virket lige så godt som ibuprofen, og kombinationen er bedre end hver for sig. Varme afslapper livmodermusklen og øger blodgennemstrømningen. Kulde virker ikke på kramper, men mange har glæde af den til andet: en kold klud i nakken ved menstruationshovedpine, en kølig pose på ømme bryster i dagene før. Tommelfingerregel: varme til krampe og lænd, kulde til hovedpine og hævelse. Et varmt bad om aftenen rammer begge dele, fordi det også hjælper søvnen.',
       action:
-        'Foreslå et signal i dag, mens I begge har det fint: "Skal vi have et ord for de dage, hvor du bare har brug for, at jeg tager over?"',
-      phaseTags: ['luteal'],
+        'Fyld varmedunken eller varm puden, før hun spørger, og læg den i sofaen eller sengen, hvor hun er.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
     },
     {
       id: dailyId(M, 6),
       month: M,
       day: 6,
-      title: 'Lyt uden at forsvare',
+      title: 'Bevægelse som smertestillende',
       insight:
-        'Når hun siger noget kritisk, reagerer kroppen, som om du bliver angrebet. Det første instinkt er at forklare, hvorfor det ikke passer, eller hvorfor det ikke var meningen. Det føles rimeligt, men det stopper samtalen, fordi hun nu skal kæmpe for at blive hørt oven i det, hun allerede var frustreret over. Prøv i stedet at lytte færdigt, gentage kernen med dine egne ord ("så du oplever, at jeg forsvinder, når det bliver svært") og spørge, om du har forstået det rigtigt. Først når hun siger ja, har du fortjent at give din version, og ofte er behovet for det så forsvundet. I lutealfasen, hvor stressrobustheden er lavest, afgør den rækkefølge, om det bliver en samtale eller et skænderi.',
+        'Det lyder forkert, når man har ondt, men let bevægelse dæmper menstruationssmerter hos mange. En gåtur, cykling i roligt tempo, yoga eller udstrækning øger blodgennemstrømningen i bækkenet og frigiver kroppens egne smertestillende stoffer, endorfiner. Studier peger på, at kvinder, der bevæger sig regelmæssigt, har mildere kramper, og at et enkelt let pas kan tage toppen af smerten her og nu. Det er ikke det samme som at træne igennem. Hård træning på dag 1 kan gøre det værre for nogle. Pointen er blid aktivitet, gerne udendørs, og gerne sammen. Det er lettere at gå en tur, når nogen går med.',
       action:
-        'Næste gang du får kritik: gentag hendes pointe med dine egne ord, og spørg "har jeg forstået det rigtigt?", før du siger noget om dig selv.',
-      phaseTags: ['luteal'],
+        'Foreslå en kort gåtur på 15-20 minutter i dag, i hendes tempo. Tag et nej uden at overtale.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_PAIN, NHS_EXERCISE],
     },
     {
       id: dailyId(M, 7),
       month: M,
       day: 7,
-      title: 'Selskab eller ro?',
+      title: 'Væske, hovedpine og blodtab',
       insight:
-        'De første menstruationsdage er lav energi og ofte smerte, og behovet for nærhed varierer enormt. Nogle vil have en krop ved siden af sig i sofaen, andre vil have huset for sig selv i en time. Det er let at gætte forkert i begge retninger: at sætte sig tæt på, når hun vil have ro, eller at trække sig, når hun havde brug for, at du blev. Spørg direkte, og gør det let at svare: "Vil du have selskab i sofaen, eller skal jeg gå en tur, så du får ro?" Et valg mellem to konkrete ting er lettere at svare på end et åbent "hvad vil du?", når kroppen har ondt, og energien er brugt op.',
+        'Væskemangel forstærker to ting, der allerede er i spil i menstruationen og dagene før: hovedpine og træthed. Kroppen mister væske med blodet, og mange drikker mindre, når de har kvalme eller ligger ned. Samtidig kan let dehydrering forværre kramper, fordi musklerne bliver mere følsomme. Anbefalingen er seks til otte glas væske om dagen, og det tæller alt: vand, te, mælk, suppe. Tørst er et sent signal, så en flaske inden for rækkevidde hjælper mere end et godt råd. Er hovedpinen tilbagevendende omkring menstruationen, er det ofte hormonel migræne, som fortjener en læge, ikke bare mere vand.',
       action:
-        'Hvis hun har menstruation: giv hende valget mellem to konkrete ting i dag. Hvis ikke: spørg, hvad hun typisk foretrækker dag 1 og 2.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PERIODS],
+        'Sæt et fyldt glas eller en flaske vand der, hvor hun sidder eller ligger, og fyld den op igen, når den er tom.',
+      phaseTags: ['menstrual', 'luteal'],
+      sources: [NHS_EATWELL],
     },
     {
       id: dailyId(M, 8),
       month: M,
       day: 8,
-      title: 'Tavshed er ikke afvisning',
+      title: 'Omega-3 og smerte',
       insight:
-        'Under menstruationen, og igen i de sidste dage før, trækker mange sig ind i sig selv. Færre ord, kortere svar, mere telefon, mindre øjenkontakt. For en partner kan det føles som kold luft, og fristelsen er at spørge "er der noget galt?" fem gange, hvilket kun gør det værre. Oftest er det ikke noget imellem jer. Det er en krop, der bruger sin energi på smerte og træthed, og som ikke har overskud til at være social. Det bedste svar er at sige det højt én gang, roligt og uden krav: "Jeg kan mærke, at du har brug for lidt ro. Jeg er her, når du vil." Og så faktisk være der, uden at holde regnskab.',
+        'Fed fisk som laks, makrel, sild og sardiner indeholder omega-3-fedtsyrer, der dæmper dannelsen af de prostaglandiner, der giver kramper. Flere mindre studier har fundet, at kvinder, der får omega-3 dagligt over nogle måneder, oplever mildere menstruationssmerter og bruger mindre smertestillende. Evidensen er ikke bombesikker, studierne er små, men effekten går den samme vej i de fleste, og risikoen ved at spise fisk to gange om ugen er nul. Plantekilder som hørfrø, chiafrø og valnødder giver en anden form for omega-3, der omdannes dårligere, men stadig tæller. Det er en ændring for hele måneden, ikke kun for menstruationsugen.',
       action:
-        'Sig én gang i dag: "Du behøver ikke være social med mig i dag, jeg er her alligevel." Og lad så være med at spørge igen.',
-      phaseTags: ['menstrual'],
+        'Lav eller køb et måltid med fed fisk i dag, eller sæt fisk på listen til to aftener i den kommende uge.',
+      phaseTags: [],
+      sources: [NHS_EATWELL, ACOG_DYSMENORRHEA],
     },
     {
       id: dailyId(M, 9),
       month: M,
       day: 9,
-      title: 'Det ugentlige tjek-ind',
+      title: 'Follikelfasen: tid til styrke',
       insight:
-        'De fleste vigtige samtaler i et forhold bliver taget, når noget er gået galt. Det gør dem ladede og dårligt timede. Et fast, kort tjek-ind én gang om ugen ændrer det. Femten minutter, samme dag, med tre spørgsmål: Hvad gik godt i denne uge? Hvad var svært? Hvad har du brug for i den kommende uge? Det sidste spørgsmål er guld, fordi svaret ofte hænger sammen med, hvor i cyklussen hun er på vej hen. "Jeg får menstruation onsdag, så torsdag aften vil jeg gerne have fri fra alt" er en sætning, der kun bliver sagt, hvis nogen spørger. Tjek-indet skal være uden telefon og uden en dagsorden om at løse alt.',
+        'Når blødningen stopper, og østrogen stiger, får de fleste mere energi og hurtigere restitution. Østrogen har en beskyttende effekt på musklerne og hjælper med genopbygning efter træning. Nogle mindre studier har fundet, at styrketræning koncentreret i follikelfasen gav lidt større muskelvækst end samme mængde træning i lutealfasen. Evidensen er stadig tynd, men princippet holder uanset: læg de hårde pas der, hvor kroppen har overskud til dem. Det er nu, tunge løft, intervaller, lange løbeture og nye personlige rekorder giver bedst mening. Det er også her, det er sjovest at træne sammen, fordi I begge kan give den gas.',
       action:
-        'Foreslå et fast tidspunkt til et ugentligt tjek-ind på et kvarter, og læg det i kalenderen for de næste fire uger.',
-      phaseTags: [],
+        'Spørg, om hun har lyst til at træne eller løbe sammen i denne uge, og book en konkret dag og et tidspunkt.',
+      phaseTags: ['follicular'],
+      sources: [NHS_EXERCISE],
     },
     {
       id: dailyId(M, 10),
       month: M,
       day: 10,
-      title: 'Sådan åbner du den store samtale',
+      title: 'Protein til restitution',
       insight:
-        'Du ved fra måned 1, at follikelfasen er det bedste tidspunkt til svære emner. Men et godt tidspunkt er ikke nok, hvis samtalen starter forkert. Undgå at kaste emnet ind midt i noget andet ("nu vi taler om det, så skal vi også lige tale om økonomien"). Bed i stedet om samtalen: "Der er noget, jeg gerne vil tale om, som handler om vores økonomi. Passer det i aften, eller hellere i weekenden?" Det giver hende mulighed for at forberede sig og vælge sit tidspunkt, og det signalerer, at emnet er vigtigt, ikke en beskyldning. Start så med det, du selv føler og ønsker, ikke med det, hun gør forkert. Den formulering er halvdelen af udfaldet.',
+        'Muskler bygges op efter træning, ikke under, og det kræver protein. Den generelle anbefaling til voksne er omkring 0,8 gram per kilo kropsvægt om dagen, men styrketræner man regelmæssigt, er 1,2-1,6 gram per kilo et rimeligt mål. Det svarer for en kvinde på 65 kilo til cirka 80-100 gram protein om dagen, fordelt på måltiderne: æg og yoghurt til morgen, bønner, kylling, fisk eller tofu til frokost og aften. Mange kvinder spiser for lidt protein, især til morgenmad, og mærker det som træthed og sult efter træning. Det er ikke en "muskelmand-ting". Protein giver også mæthed og hjælper med at holde blodsukkeret stabilt.',
       action:
-        'Hvis der er et emne, du har udskudt: bed om samtalen i dag med sætningen "Der er noget, jeg gerne vil tale om. Hvornår passer det dig?"',
+        'Sørg for, at der er protein i det første måltid i morgen: æg, skyr, hytteost eller bønner. Gør det klar i aften.',
       phaseTags: ['follicular'],
+      sources: [NHS_EATWELL],
     },
     {
       id: dailyId(M, 11),
       month: M,
       day: 11,
-      title: 'Den usynlige liste',
+      title: 'Lav mad sammen',
       insight:
-        'Mental belastning er alt det arbejde, der ikke kan ses: at huske, at der skal købes gave til fødselsdagen, at tandlægen skal bookes, at der mangler madpakkepapir, at svigermor skal ringes op. Det er ikke opgaven, der er tung, det er at være den, der husker den. I mange par ligger den liste mest hos kvinden, også når de praktiske opgaver deles ligeligt. Og fordi listen er usynlig, bliver den sjældent anerkendt. Første skridt er at få den frem i lyset. Ikke for at fordele den på minuttet, men for at du kan se, hvor meget hun bærer, som du aldrig har set. De fleste bliver overraskede over længden.',
+        'Follikelfasen er det bedste tidspunkt at etablere vaner, fordi der er overskud til det. Madlavning er en af de få husholdningsopgaver, der kan være hyggelig frem for et krav, når man gør den sammen. Det handler ikke om at lave noget avanceret, men om at stå i køkkenet samtidig: én hakker, én rører, musik i baggrunden. Det giver samtale, uden at det er "en samtale", og det giver et fælles ejerskab til, hvad der bliver spist. Den partner, der aldrig laver mad, ender med at kommentere maden. Den, der laver den, forstår, hvorfor tingene er, som de er. Det er den forskel, mange kvinder mærker mest.',
       action:
-        'Bed hende skrive den usynlige liste ned i aften, alt hun går og husker på, og læs den uden at kommentere. Spørg så: "Hvad på den liste vil du helst af med?"',
-      phaseTags: [],
+        'Lav aftensmaden sammen i aften. Du vælger retten og handler ind, så hun kun skal møde op i køkkenet.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 12),
       month: M,
       day: 12,
-      title: 'Tag ejerskab, ikke opgaver',
+      title: 'Indkøbsliste: første halvdel af cyklussen',
       insight:
-        'Der er forskel på at hjælpe og at eje. Hjælper du, skal hun stadig huske opgaven, bede om det, forklare hvordan og tjekke, at det bliver gjort. Så har hun sparet hænderne, men ikke hovedet. Ejer du en opgave, er den din fra start til slut: du husker den, planlægger den, udfører den og retter op, hvis den glipper. Hun behøver ikke tænke på den igen. Vælg noget, der har en fast rytme og hele kæden med: al vasketøj, alle madpakker, alt omkring bilen, alle aftaler med børnenes institution. Og undgå at spørge "hvordan vil du have det gjort?". Find selv ud af det; det er den del, der letter.',
+        'Hvis du handler ind, bestemmer du en stor del af, hvad der er muligt at spise derhjemme. I første halvdel af cyklussen, fra menstruationen og frem mod ægløsning, er det disse ting, der er værd at have i huset: jernrige varer (oksekød, linser, kikærter, bønner, havregryn, spinat), C-vitamin ved siden af (peberfrugt, citrus, kiwi, broccoli), protein til restitution (æg, skyr, kylling, fisk, tofu) og fed fisk et par gange om ugen. Plus det, hun faktisk kan lide. En liste, der kun består af "sundt", bliver ikke spist. En liste, der tager højde for, hvad kroppen mister og bygger op, er en stille form for omsorg.',
       action:
-        'Vælg i dag ét område, du overtager helt, fortæl hende det, og sig samtidig: "Du behøver ikke tænke på det mere. Heller ikke at tjekke."',
-      phaseTags: [],
+        'Skriv ugens indkøbsliste i dag, og sørg for, at mindst fem af varerne kommer fra listen ovenfor. Vis hende den, og spørg, hvad der mangler.',
+      phaseTags: ['follicular'],
+      sources: [NHS_EATWELL, NHS_IRON],
     },
     {
       id: dailyId(M, 13),
       month: M,
       day: 13,
-      title: 'Usynligt arbejde vokser i lutealfasen',
+      title: 'Hendes mad er ikke dit projekt',
       insight:
-        'Den usynlige liste er lang hele måneden, men den føles længst i ugen før menstruationen. Der er en grund: når progesteron og østrogen falder, bliver søvnen dårligere, tolerancen for rod lavere og følelsen af at stå alene med tingene stærkere. Samtidig går appetitten op og overskuddet ned. Opgaver, der var neutrale dag 10, bliver bjerge dag 25. Det er derfor, opvaskeren dukker op i skænderier i den uge og næsten aldrig i follikelfasen. Den kloge reaktion er ikke at diskutere, om fordelingen er fair, men at tage mere i netop de dage, uden at gøre det til en byttehandel. Fairness måles over en måned, ikke over en aften.',
+        'Der er en grænse mellem at gøre det gode valg nemt og at holde øje. Kommentarer som "skal du virkelig have mere?", "har du ikke fået nok sukker i dag?" eller "det er ikke særlig sundt" hjælper aldrig, uanset hvor kærligt de er ment. De gør mad til noget, der skal forsvares, og det er præcis det modsatte af, hvad kroppen har brug for, især i lutealfasen, hvor appetitten stiger af biologiske grunde. Din indflydelse ligger i, hvad der er i køleskabet, hvad du selv laver, og hvad du selv spiser. Ikke i, hvad hun putter i munden. Hun er voksen, og hendes krop er hendes. Den regel har ingen undtagelser.',
       action:
-        'Tjek appen. Hvis hun er inden for en uge før menstruation: tag to af hendes faste opgaver i dag, og sig blot "det er klaret", ikke mere.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PMS],
+        'Læg mærke til i dag, om du er ved at kommentere noget, hun spiser. Hvis ja: sig ingenting. Kommentér i stedet noget, du selv vil gøre.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 14),
       month: M,
       day: 14,
-      title: 'Når hun siger det direkte',
+      title: 'Ægløsning: brug toppen',
       insight:
-        'Omkring ægløsning er østrogen på toppen, og det giver ofte mere selvtillid, mere lyst til kontakt og en tydeligere tunge. Mange kvinder fortæller, at de i de dage siger ting lige ud, som de resten af måneden pakker ind eller holder inde. Det er en gave til jeres kommunikation, hvis du tager imod den. Bliver hun mere direkte om noget, der irriterer hende, så hør det som det tydeligste, du kommer til at få, og ikke som en pludselig ændring i hendes syn på dig. Brug dagene til at spørge om det, du selv har gået og undret dig over. Svarene er ofte klarere nu end på nogen anden dag i måneden.',
+        'Omkring ægløsningen topper østrogen, og mange oplever cyklussens højeste energi, bedste humør og hurtigste restitution. Det er tidspunktet for det hårdeste træningspas, den lange vandretur, det løb eller den nye aktivitet, I har talt om. Nogle mærker et kort jag i underlivet og en smule oppustethed, men ellers arbejder kroppen med. Der er én ting, der er værd at vide: østrogen påvirker ledbåndenes stivhed, og nogle studier peger på flere knæskader i dagene omkring ægløsning. Det er ikke en grund til at holde igen, men til at varme ordentligt op. Ellers: giv den gas sammen, mens kroppen er med på det.',
       action:
-        'Stil ét spørgsmål i dag, du har gået og gemt på: "Er der noget, du længe har villet sige til mig, men ikke har fået sagt?"',
+        'Planlæg noget aktivt og lidt ambitiøst inden for de næste par dage: en lang tur, et hårdt pas, en svømmetur.',
       phaseTags: ['ovulation'],
+      sources: [NHS_EXERCISE],
     },
     {
       id: dailyId(M, 15),
       month: M,
       day: 15,
-      title: 'Tal om lyst, ikke kun om sex',
+      title: 'Alkohol gennem cyklussen',
       insight:
-        'Sex er noget af det sværeste at tale om, også i lange forhold, fordi et nej føles som en afvisning, og et ønske føles som et krav. Det hjælper at tale om lyst som noget, der svinger, ligesom energi og humør, og som begge parter har en kurve for. Omkring ægløsning har mange mere lyst, i lutealfasen og under menstruationen mindre, og nogle oplever det omvendt. Spørg om hendes kurve, ikke som forhandling, men af nysgerrighed: "Hvornår i måneden mærker du mest lyst? Og hvad hjælper, når den er lav?" Samtalen skal tages på en god dag, ikke i sengen, og ikke efter et nej. Det er der, den er ufarlig.',
+        'Alkohol rammer ikke ens hele måneden. Omkring ægløsning er der ofte lyst til at fejre, og der er ikke noget galt i et glas. Men i lutealfasen, og især i PMS-dagene, koster det mere: alkohol forstyrrer søvnen, som allerede er dårligere på grund af progesteron, og den forværrer humørsvingninger og uro dagen efter. Studier har fundet en sammenhæng mellem alkohol og både hyppighed og styrke af PMS. Alkohol dræner også kroppen for væske og sænker blodsukkeret senere på natten, hvilket forstærker uro og sult. Ingen forbud, kun timing: det glas, der er en glæde dag 14, er ofte en dårlig handel dag 26.',
       action:
-        'Tag samtalen i dag på et neutralt sted, fx en gåtur: "Jeg vil gerne forstå din lyst bedre hen over måneden. Vil du fortælle mig om den?"',
-      phaseTags: ['ovulation'],
+        'Hvis I skal have et glas i aften, så sørg for mad og vand ved siden af. Er hun i PMS-dagene, så foreslå selv noget uden alkohol.',
+      phaseTags: ['ovulation', 'luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 16),
       month: M,
       day: 16,
-      title: 'At sige nej og at høre nej',
+      title: 'Cycle syncing: myte og fornuft',
       insight:
-        "Et nej til nærhed i lutealfasen eller under menstruationen handler oftest om krop, træthed og ømhed, ikke om dig. Men et nej sagt med skyldfølelse og et nej modtaget med skuffelse bliver hurtigt en spiral: hun begynder at undgå situationer, hvor spørgsmålet kan komme op, og du begynder at tolke afstand. Bryd spiralen ved at gøre nej'et ufarligt. Sig det højt, at et nej er et komplet svar, og at du hellere vil have et ærligt nej end et pligt-ja. Og bed om, at hun siger, hvad hun i stedet har lyst til: en krammer, at ligge tæt, ingenting. Nærhed uden forventning er den nærhed, der gør et senere ja let.",
+        'Du har måske set "cycle syncing": planer, der fortæller præcis, hvad man skal spise og træne i hver fase. Den ærlige status er, at der er meget lidt forskning bag de detaljerede skemaer. Kroppens energibehov stiger kun cirka 100-300 kalorier om dagen i lutealfasen, og ingen fødevare "balancerer hormoner". Det, der holder, er de enkle principper: jern og C-vitamin i menstruationen, hårde pas når energien er høj, stabilt blodsukker og mere restitution i den sidste uge. Det er almindelig god ernæring med bedre timing, ikke magi. Vær skeptisk over for alt, der sælger tilskud eller kræver et abonnement. Vær åben over for det, hun selv mærker virker.',
       action:
-        'Sig i dag, uden at det er en optakt til noget: "Du må altid sige nej til mig uden at forklare. Jeg tager det ikke personligt."',
-      phaseTags: ['luteal'],
+        'Spørg hende, om hun har stødt på cycle syncing, og hvad hun tænker om det. Del dette korts ærlige version.',
+      phaseTags: [],
+      sources: [NHS_EATWELL, NHS_PMS],
     },
     {
       id: dailyId(M, 17),
       month: M,
       day: 17,
-      title: 'Bed om lov til at give feedback',
+      title: 'Lutealfasen: hold blodsukkeret stabilt',
       insight:
-        'Der er ting, du gerne vil sige, som ikke er kritik af hende som menneske, men som kan lande sådan: at hun bliver kort i tonen, når hun er sulten, at hun lover for meget til andre, at hun glemmer at drikke vand. Kritik, der kommer uopfordret, aktiverer forsvar hos alle. Kritik, man har sagt ja til at modtage, lander helt anderledes. Spørg derfor først: "Må jeg sige noget, jeg har lagt mærke til? Du må også godt sige nej." Får du ja, så sig én ting, konkret og uden generaliseringer, og stop der. Får du nej, så respektér det og prøv en anden dag. Follikelfasen er det oplagte tidspunkt; PMS-dagene er det ikke.',
+        'Efter ægløsning gør progesteron kroppen lidt mindre følsom over for insulin, og forbrændingen stiger en smule. Det betyder, at blodsukkeret svinger mere: hurtige kulhydrater giver et højere hop og et dybere fald. Faldet mærkes som pludselig sult, rysten, irritabilitet og trang til mere af det samme. Det er en stor del af forklaringen på, at PMS-dagene føles så ustabile. Modtrækket er kedeligt og effektivt: regelmæssige måltider hver tredje til fjerde time, protein og fibre i hvert, og aldrig for lang tid uden mad. En sen frokost på dag 25 er en kendt opskrift på et skænderi klokken 15.',
       action:
-        'Hvis der er noget, du har lagt mærke til, så spørg i dag: "Må jeg dele en observation? Du bestemmer, om det er nu."',
-      phaseTags: ['follicular'],
+        'Tjek, hvornår hun sidst har spist, hvis stemningen skifter i eftermiddag. Sæt noget med protein frem uden at kommentere det.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 18),
       month: M,
       day: 18,
-      title: 'Reparation efter et skænderi',
+      title: 'Fibre gør mætheden lang',
       insight:
-        'Alle par skændes. Det, der adskiller de par, der holder, er ikke antallet af konflikter, men hvor hurtigt og hvor godt de reparerer bagefter. Reparation er et forsøg på at genskabe kontakt: en hånd på skulderen, en kop kaffe stillet frem, en sætning som "jeg vil ikke have, at vi er sådan her, kan vi begynde igen?" Det kræver ikke, at uenigheden er løst. Det kræver, at én af jer går først. Hvis skænderiet lå i PMS-dagene, er det ofte nemmest at reparere, når menstruationen er kommet, og hormonerne har fundet ro; men vent ikke længere end nødvendigt. Jo længere kold luft, jo dyrere bliver reparationen.',
+        'Fibre bremser optaget af sukker fra tarmen, så et måltid med fuldkorn, bønner, grøntsager og frugt giver en jævnere blodsukkerkurve end det samme antal kalorier fra hvidt brød og slik. Anbefalingen er 30 gram fibre om dagen, og de fleste får omkring det halve. Fibre hjælper også mod den forstoppelse, som progesteron ofte giver i lutealfasen, fordi det sænker tarmens bevægelser. Havregryn, rugbrød, linser, æbler, pærer, gulerødder, nødder og frø er de nemme kilder. Sammen med rigeligt vand er det en af de mest undervurderede ting mod oppustethed. Skift ét hvidt produkt ud med et fuldkornsprodukt, så er du i gang.',
       action:
-        'Hvis der er noget uafsluttet mellem jer: gør det første skridt i dag med en lille fysisk gestus og sætningen "kan vi begynde forfra?"',
-      phaseTags: [],
+        'Skift én ting i huset til fuldkorn i dag: brødet, risen, pastaen eller morgenmaden. Uden at gøre et nummer ud af det.',
+      phaseTags: ['luteal'],
+      sources: [NHS_EATWELL],
     },
     {
       id: dailyId(M, 19),
       month: M,
       day: 19,
-      title: 'At sige undskyld ordentligt',
+      title: 'Magnesium og PMS: hvad evidensen siger',
       insight:
-        'En god undskyldning har tre dele: hvad du gjorde, hvad det gjorde ved hende, og hvad du gør anderledes. "Undskyld, jeg afbrød dig, mens du fortalte om din dag. Det må have føltes, som om jeg ikke gad lytte. Jeg vil lade dig tale færdigt fremover." Det, der ødelægger en undskyldning, er tilføjelser: "men du var også...", "hvis du blev ked af det", "jeg var jo bare træt". Hvert "men" trækker undskyldningen tilbage. Hold den kort, og forvent ikke tilgivelse på stedet. Hun må gerne have brug for tid, især hvis det skete på en dag, hvor der ikke var meget at stå imod med. Undskyldningen er din; hvad hun gør med den, er hendes.',
+        'Magnesium bliver ofte anbefalet mod PMS, og det er værd at kende den ærlige status. Nogle mindre studier har fundet, at magnesium dæmpede oppustethed, ømme bryster og humørsymptomer, og at kombinationen med B6 virkede lidt bedre. Andre studier fandt ingen effekt. Samlet set: begrænset evidens, men lav risiko ved fornuftige doser, og en mulig gevinst. Magnesium fra maden er der ingen tvivl om: fuldkorn, nødder, frø, bønner, mørk chokolade og grønne blade er alle gode kilder. Overvejer hun et tilskud, er det en samtale med apoteket eller lægen, ikke med en influencer, især hvis hun tager anden medicin eller har nyreproblemer.',
       action:
-        'Er der noget fra den seneste uge, du skylder en undskyldning for? Sig den i dag med de tre dele og uden ét eneste "men".',
-      phaseTags: [],
+        'Sæt nødder, frø eller mørk chokolade frem som snack i dag. Det er magnesium uden at kalde det magnesium.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS, NHS_VITAMINS],
     },
     {
       id: dailyId(M, 20),
       month: M,
       day: 20,
-      title: 'Kend jeres konfliktmønster',
+      title: 'Kalcium og PMS: den bedste af de svage',
       insight:
-        'Hvis du kigger tilbage på jeres seneste skænderier, ligger de sandsynligvis ikke jævnt fordelt over måneden. Mange par har et mønster: småting eskalerer i de sidste 4-6 dage før menstruation, og de samme småting glider forbi i follikelfasen. Det betyder ikke, at problemerne er indbildte. Det betyder, at forstærkeren står forskelligt. Når du kender mønstret, kan I bruge det: aftal, at de tilbagevendende emner tages i follikelfasen, og at det i lutealfasen er tilladt at sige "kan vi parkere den til næste uge?" uden at det er en flugt. Notér de dage, det gik skævt, i appen. Efter to måneder ser I mønstret sort på hvidt.',
+        'Af alle kosttilskud mod PMS er kalcium det med den mest konsistente evidens. Et større lodtrækningsstudie fandt, at 1200 mg kalcium dagligt over tre cyklusser dæmpede humørsymptomer, væskeophobning, smerte og sult markant, og senere studier har peget samme vej. Mekanismen er ikke helt klar, men kalciumniveauet i blodet svinger med østrogen. Kalcium fra maden er det sikreste sted at starte: mælk, yoghurt, ost, kalciumberiget plantemælk, sardiner, mandler og grønkål. Den daglige anbefaling for voksne ligger omkring 700-1000 mg. D-vitamin er nødvendigt for at optage kalcium, og i den danske vinter er det svært at få nok fra solen alene.',
       action:
-        'Kig i kalenderen sammen og find det sidste skænderi. Hvilken dag lå det på? Aftal én sætning, I begge må sige, når timingen er dårlig.',
-      phaseTags: ['luteal', 'follicular'],
-      sources: [NHS_PMS],
+        'Tjek køleskabet: er der yoghurt, ost, mælk eller beriget plantemælk? Hvis ikke, så køb det i dag.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS, ACOG_PMS],
     },
     {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'Skrevne beskeder på svære dage',
+      title: 'Salt, oppustethed og væske',
       insight:
-        'En stor del af parkommunikation foregår på skrift i dag, og skrift mangler alt det, der blødgør: tone, ansigt, timing. "Ok." kan læses på fem måder, og i PMS-dagene vælges den værste oftere. Omvendt kan en god besked bære en hel dag: "Tænker på dig, jeg tager aftensmaden i aften." Nogle enkle regler hjælper. Undgå at tage noget op på skrift, som kan misforstås; ring eller vent, til I ses. Læg ekstra varme i korte svar i den sidste uge ("ok, tak fordi du siger det" frem for "ok"). Og spørg, hvad hun læser ind i dine beskeder. Mange bliver overraskede over, hvordan et punktum kan lyde.',
+        'Oppustethed i lutealfasen skyldes, at progesteron og østrogen påvirker, hvordan nyrerne håndterer salt og væske. Kroppen holder på mere, og maven, fingrene og brysterne kan føles hævede. Det er ikke fedt, det er vand, og det forsvinder, når menstruationen begynder. Meget salt forværrer det: færdigretter, chips, saltede nødder og takeaway indeholder ofte flere gange den mængde salt, man selv ville bruge. Modtrækket er ikke at drikke mindre, tværtimod; rigeligt vand hjælper nyrerne med at skille sig af med overskuddet. Kalium fra kartofler, bananer og grøntsager hjælper også. Og tøj, der ikke strammer om maven, er ikke en detalje i den uge.',
       action:
-        'Send én besked i dag, der udelukkende har til formål at gøre hendes dag lettere, uden spørgsmål og uden noget, hun skal svare på.',
+        'Lav mad fra bunden i aften i stedet for færdigret eller takeaway, og server rigeligt vand til.',
       phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'Tjek grundlaget før samtalen',
+      title: 'Koffein sidst i lutealfasen',
       insight:
-        'Før du tager noget op, eller før du reagerer på noget, hun har taget op, er der tre ting værd at tjekke: Har hun sovet? Har hun spist? Er I inden for den sidste uge før menstruation? Ikke for at afskrive det, hun siger, men for at vurdere, om nu er tidspunktet, hvor samtalen har en chance. Sult og dårlig søvn forstærker irritabilitet mere end noget andet, og begge er almindelige i lutealfasen. Er svaret nej på de første to, så begynd med mad og hvile, og tag samtalen bagefter. Sig det uden at gøre det til en diagnose: "Skal vi spise først og så tale om det?" er en omsorgshandling, ikke en afvisning.',
+        'Koffein har en halveringstid på omkring fem timer, så en kop klokken 15 er stadig halvt aktiv klokken 20. I lutealfasen, hvor søvnen allerede er lettere på grund af progesteron og en højere kropstemperatur, kan det være forskellen på at falde i søvn og at ligge og vende sig. Koffein kan også forstærke uro, hjertebanken og ømme bryster i PMS-dagene, og det er en af de få ting, sundhedsmyndighederne faktisk anbefaler at skære ned på ved PMS. Det betyder ikke ingen kaffe. Det betyder tidligere kaffe og færre kopper i den sidste uge. Og det er lettest at gøre, hvis I begge gør det.',
       action:
-        'Har I noget at tale om i dag? Sørg først for, at I begge har spist, og spørg: "Skal vi tage det nu eller efter maden?"',
+        'Lav kaffen tidligt i dag, og foreslå noget koffeinfrit efter frokost: urtete, koffeinfri kaffe eller bare vand.',
       phaseTags: ['luteal'],
       sources: [NHS_PMS],
     },
@@ -269,78 +318,84 @@ export const month09: MonthContent = {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'Foran venner: hendes valg',
+      title: 'Sænk intensiteten, øg restitutionen',
       insight:
-        'Efterhånden som du ved mere om cyklussen, kan det være fristende at dele det: forklare til vennerne, hvorfor hun gik tidligt, eller lave en sjov bemærkning om appen. Lad være, medmindre hun har sagt god for det. Cyklussen er hendes krop, og hvor åben hun er om den, er hendes valg, ikke dit. Nogle taler frit om menstruation med alle, andre kun med dig, og mange ligger imellem og afhænger af, hvem der er til stede. Det gælder også det positive: "hun har jo ægløsning, derfor er hun så glad" er en kropskommentar, selv om den er venligt ment. Spørg hende, hvad der er okay at sige, og til hvem, og hold dig så til det.',
+        'I den sidste uge før menstruation har mange lavere energi, dårligere søvn og længere restitution efter hård træning. Kropstemperaturen er højere, hvilket gør varme og udholdenhedstræning mere krævende, og progesteron nedbryder muskel lidt mere, end østrogen bygger op. Det er ikke tiden til nye rekorder, og det er ikke tiden til at presse igennem, når kroppen siger nej. Men bevægelse hjælper stadig på humøret og på PMS-symptomer, så nøglen er mindre intensitet, ikke mindre bevægelse. Gåture, let styrke, svømning, yoga. Regelmæssig, moderat motion dæmper PMS-symptomer mærkbart, og det er kontinuiteten, ikke hårdheden, der tæller.',
       action:
-        'Spørg hende i dag: "Er der noget om din cyklus, eller om at jeg bruger appen, som du ikke vil have, at jeg nævner for andre?"',
-      phaseTags: [],
+        'Hvis I har planlagt hård træning i denne uge, så foreslå selv at skrue ned og gå en tur i stedet. Gør det til dit forslag, ikke hendes nederlag.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS, NHS_EXERCISE],
     },
     {
       id: dailyId(M, 24),
       month: M,
       day: 24,
-      title: 'Med børn i huset',
+      title: 'Søvnhygiejne i den svære uge',
       insight:
-        'Har I børn, opdager de før eller siden, at mor har dage, hvor hun har ondt eller er træt. Hvordan det forklares, er hendes beslutning, og den er værd at tage sammen, når det er roligt. Nogle vil have menstruation omtalt åbent og almindeligt, fordi det fjerner skam for både piger og drenge. Andre vil have det holdt privat, i hvert fald indtil børnene selv spørger. Uanset hvad kan du selv gøre noget: vise børnene, at man tager hensyn, når nogen har ondt, uden at gøre mor til den svage. "Mor har brug for ro i dag, så vi laver maden" lærer dem noget om omsorg, der holder hele livet.',
+        'Dårlig søvn er den enkeltfaktor, der forværrer PMS mest, og lutealfasen gør søvnen sværere af sig selv: højere kropstemperatur, hyppigere opvågninger, mere uro. Derfor er søvnhygiejne ikke et luksusbegreb i den uge, det er førstehjælp. De ting, der virker, er kendte: samme sengetid hver dag, et køligt og mørkt soveværelse, ingen skærme den sidste halve time, intet koffein efter middag og ingen alkohol som "sovemiddel". Og ro om aftenen, som ikke kommer af sig selv, hvis der stadig er opvask, beskeder og planer klokken 22. Det er der, du kommer ind. Du kan ikke sove for hende, men du kan rydde aftenen for hende.',
       action:
-        'Spørg hende, hvordan hun vil have, at I taler om menstruation med børnene, hvis I har nogen. Hvis ikke: tal om, hvordan I gerne vil gøre det engang.',
-      phaseTags: ['menstrual'],
+        'Tag hele aftenrutinen i dag: opvask, børn, låse, lys. Sig "gå bare i seng, jeg tager resten" en halv time tidligere end normalt.',
+      phaseTags: ['luteal'],
+      sources: [NHS_SLEEP, NHS_PMS],
     },
     {
       id: dailyId(M, 25),
       month: M,
       day: 25,
-      title: 'Hvad der skal blive mellem jer',
+      title: 'Indkøbsliste: anden halvdel af cyklussen',
       insight:
-        'Der er forskel på at være åben om cyklussen og på at dele alt. Det, hun fortæller dig om smerte, blødning, lyst, humør og angst, fortæller hun dig i fortrolighed, også når det ikke bliver sagt eksplicit. Det gælder over for din familie, dine venner og dine kolleger, og det gælder både det alvorlige og det, der kunne blive en god anekdote. Det samme gælder appen: kalenderen er hendes data, ikke et emne til middagsbordet. Fortrolighed er noget af det, der gør det muligt for hende at fortælle dig mere næste gang. Bryd den én gang, og døren lukker lidt. Spørg hellere en gang for meget, hvad der må siges videre.',
+        'I ugen op til menstruationen ændrer behovene sig, og det kan indkøbslisten afspejle. Det, der er værd at have: fuldkorn og fibre (havregryn, rugbrød, brune ris, linser), protein til hvert måltid (æg, skyr, kylling, fisk, bønner), kalcium (yoghurt, ost, mælk), magnesium (nødder, frø, mørk chokolade), kalium mod væske (bananer, kartofler), fed fisk, og gode snacks til de sultne timer: frugt, nødder, hytteost, grovkiks. Mindre af: færdigretter, chips, sodavand, alkohol. Og ja, den chokolade eller de chips, hun faktisk ønsker sig. Formålet med listen er ikke at kontrollere, men at gøre det nemt at spise regelmæssigt uden at skulle tænke over det.',
       action:
-        'Sig det højt i dag: "Det, du fortæller mig om din krop, bliver hos mig. Sig til, hvis der er noget, jeg skal være særligt opmærksom på."',
-      phaseTags: [],
+        'Handl ind til de næste tre dage efter listen ovenfor, og læg en snack med protein synligt frem på køkkenbordet.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS, NHS_EATWELL],
     },
     {
       id: dailyId(M, 26),
       month: M,
       day: 26,
-      title: 'Når hun siger "det er ikke noget"',
+      title: 'Kropsbillede: det, du siger, bliver hængende',
       insight:
-        '"Det er ikke noget" betyder sjældent, at der ikke er noget. Oftere betyder det: jeg har ikke energi til at forklare, jeg tror ikke, du vil forstå det, eller jeg vil ikke være til besvær. Det gælder især om smerte under menstruationen og om sårbarhed i PMS-dagene, som mange kvinder har lært at bagatellisere. Pres ikke, men luk heller ikke døren. Sig noget, der holder den åben uden krav: "Okay. Hvis det bliver til noget, vil jeg gerne høre om det, også midt om natten." Og læg mærke til, om "det er ikke noget" kommer ofte om det samme. Så er det noget, og det fortjener et roligt spørgsmål på en god dag.',
+        'Kroppen ændrer sig gennem cyklussen: oppustet i lutealfasen, tungere i menstruationen, lettere omkring ægløsning. Vægten kan svinge et par kilo på en uge alene af væske. Mange kvinder ved det godt og har alligevel svært ved at lade være med at måle sig på det, fordi kroppen er blevet kommenteret hele livet. Det, du siger, lander oven på det. Selv "du ser sund ud" eller "har du tabt dig?" fortæller, at kroppen bliver vurderet. Det mest hjælpsomme er at gøre kroppen til et ikke-emne: tale om, hvad den kan, hvordan dagen var, hvad hun gjorde godt. Og aldrig kommentere mave, vægt eller portioner.',
       action:
-        'Næste gang hun siger "det er ikke noget": svar "okay, jeg er her, hvis det bliver til noget", og lad så emnet ligge uden at surmule.',
-      phaseTags: ['menstrual', 'luteal'],
+        'Sig noget i dag om, hvad hun gjorde eller kunne, ikke hvordan hun så ud. Og læg mærke til, hvor let det modsatte kommer.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 27),
       month: M,
       day: 27,
-      title: 'Ros, der rammer',
+      title: 'Når mad bliver et problem: det fortjener en læge',
       insight:
-        'Kommunikation er ikke kun at håndtere det svære. Det er også at få det gode sagt. Ros virker bedst, når den er konkret og handler om noget, hun gør eller er, ikke om udseende: "Jeg så, hvordan du håndterede din chef i går. Det var imponerende roligt." I follikelfasen og omkring ægløsning har mange mest overskud til at tage imod og tro på det, og det er også der, du lettest får øje på det. Men ros er også en investering: den anerkendelse, der er bygget op på de gode dage, er det, der gør, at kritik og kort lunte på de svære dage ikke vælter noget. Fem gode bemærkninger for hver kritisk er et forhold, der holder.',
+        'Spiseforstyrrelser er almindelige, ofte skjulte, og de rammer ikke kun teenagere. Tegn, der er værd at tage alvorligt: måltider, der springes over eller spises i smug, regler der bliver strammere, træning der ikke kan aflyses uanset hvad, stærk uro ved mad hun ikke selv har kontrol over, og en cyklus, der bliver uregelmæssig eller forsvinder, fordi kroppen mangler energi. Du skal ikke stille diagnosen, og du skal ikke overvåge. Men du må gerne sige, at du er bekymret, og at det fortjener en læge. Uden at nævne vægt, uden at kommentere maden, og uden at gøre det til en diskussion. Bare: "Jeg er bekymret for dig, og jeg vil gerne hjælpe."',
       action:
-        'Sig én konkret, ægte ros i dag om noget, hun har gjort i denne uge. Ikke om udseende, og ikke pakket ind i en anmodning.',
-      phaseTags: ['follicular', 'ovulation'],
+        'Hvis noget på listen genkendes: sig sætningen i dag, roligt og uden krav. Hvis ikke: gem kortet, og vær opmærksom.',
+      phaseTags: [],
+      sources: [NHS_EATING],
     },
     {
       id: dailyId(M, 28),
       month: M,
       day: 28,
-      title: 'Den korte besked på dag 1',
+      title: 'Kosttilskud: det, der er værd at vide',
       insight:
-        'Første menstruationsdag rammer ofte midt i en arbejdsdag, og hun kan ikke bare gå hjem. Det, der hjælper, er ikke en lang samtale, men at hun ved, at nogen har set det. En kort besked gør det: "Jeg så, at det er dag 1. Jeg køber ind og tager aftensmaden. Sig til, hvis du vil have noget bestemt." Ingen spørgsmål om, hvordan hun har det (det skal hun så bruge energi på at svare på), ingen bekymring, bare en handling og en åben dør. Hvis hun har fortalt dig, at hun ikke vil have, at du kommenterer på dag 1, så respektér det og gør det praktiske alligevel, i stilhed. Begge dele er kommunikation.',
+        'Markedet for tilskud mod PMS og menstruationsgener er enormt, og det meste er ikke værd at bruge penge på. Status for de mest omtalte: kalcium har den bedste evidens, magnesium og B6 har svag evidens med lav risiko, omega-3 ser ud til at hjælpe på smerter, og D-vitamin er relevant i vinterhalvåret. Jerntilskud skal kun tages, hvis en blodprøve viser mangel, fordi for meget jern er skadeligt. Perikon og andre urter kan påvirke anden medicin, herunder p-piller. Grundreglen er den samme som for alt andet i denne måned: mad først, tilskud efter aftale med læge eller apotek, og dyre "hormonbalance"-produkter er reklame, ikke medicin.',
       action:
-        'Hvis det er dag 1 eller 2: send den korte besked med én konkret ting, du tager. Hvis ikke: skriv beskeden som kladde, så den er klar.',
-      phaseTags: ['menstrual'],
+        'Hvis der står tilskud i skabet, så spørg nysgerrigt, hvad de er for, og om de virker for hende. Ingen dom, kun interesse.',
+      phaseTags: [],
+      sources: [NHS_VITAMINS, NHS_PMS],
     },
     {
       id: dailyId(M, 29),
       month: M,
       day: 29,
-      title: 'Sig, hvor du selv er',
+      title: 'Restitution er ikke dovenskab',
       insight:
-        'God kommunikation går begge veje. Hvis du kun spørger og aldrig fortæller, bliver du en støttefunktion frem for en partner, og hun mærker det. Fortæl, hvordan du har det, også når det er "jeg er træt og har brug for en time for mig selv", og også i de dage, hvor hun har det svært. Det er ikke at tage pladsen fra hende; det er at give hende et menneske at være sammen med. Vær bare bevidst om timing og størrelse: den store bekymring om dit job er bedre en dag i follikelfasen end dag 26. Og når du har det svært, så sig, hvad du har brug for, i stedet for at vente på at blive spurgt. Det, du beder hende om, skal du også selv turde.',
+        'Restitution er den del af træning og hverdag, der oftest bliver sprunget over. Musklerne bygges op, når man hviler, immunforsvaret genoprettes, når man sover, og humøret stabiliseres, når der er pauser. I en cyklus er behovet for restitution ikke konstant: det er højest de første menstruationsdage og den sidste uge før, lavest omkring ægløsning. En kvinde, der hviler dag 27, er ikke doven. Hun er klog. Kulturen omkring os belønner at presse igennem, og mange kvinder har lært at ignorere signaler, indtil kroppen råber. Som partner kan du være den, der gør det legitimt at holde pause, ved selv at holde den sammen med hende.',
       action:
-        'Fortæl hende én ærlig ting om, hvordan du har det i dag, og hvad du har brug for. Kort, og uden at det skal løses.',
+        'Sæt dig ned sammen med hende i aften uden skærm og uden dagsorden i 20 minutter. Kald det restitution, og mén det.',
       phaseTags: [],
+      sources: [NHS_SLEEP],
     },
     {
       id: dailyId(M, 30),
@@ -348,9 +403,9 @@ export const month09: MonthContent = {
       day: 30,
       title: 'Måned 9: det har du lært',
       insight:
-        'Denne måned har handlet om ord og timing. Du ved nu, at spørgsmål slår gæt, at validering kommer før løsninger, og at fasen aldrig må bruges som våben, kun som grund til at give mere. Du har lært at lytte uden at forsvare, at reparere efter et skænderi, at sige undskyld uden "men", og at bede om lov, før du giver feedback. Du har set, at den usynlige liste vokser i lutealfasen, at ejerskab er noget andet end hjælp, og at det, hun fortæller dig, er hendes at dele videre. Vigtigst: du har et ugentligt tjek-ind og måske et kodeord. Det er værktøjer, der virker længe efter, appen er lukket.',
+        'Du ved nu, at menstruationen koster jern, og at C-vitamin og timing af kaffen gør jernet brugbart. At varme virker på kramper, kulde på hovedpine, og let bevægelse på begge. At kalcium og omega-3 har den bedste evidens, magnesium den svageste, og at cycle syncing er fornuftige principper pakket ind i markedsføring. At blodsukkeret svinger mere i lutealfasen, og at regelmæssige måltider med protein og fibre er det bedste PMS-forsvar, der findes. At hårde pas hører til i første halvdel, restitution i anden. Og det vigtigste: din rolle er køleskabet, køkkenet og aftenen, ikke hendes tallerken. Kommentarer om mad og krop hjælper aldrig; nemme valg gør.',
       action:
-        'Spørg hende, hvad der har været den største forskel i jeres kommunikation denne måned. Tag så månedens quiz.',
+        'Fortæl hende de tre ting fra denne måned, du vil holde fast i. Tag så månedens quiz.',
       phaseTags: [],
     },
   ],
@@ -359,167 +414,167 @@ export const month09: MonthContent = {
       id: weeklyId(M, 1),
       month: M,
       week: 1,
-      title: 'Spørg, lyt, validér: de tre grundgreb',
+      title: 'Mad og cyklus: det, der faktisk er evidens for',
       body: [
-        'I måned 1 lærte du den grundlæggende model: faserne, hormonerne, at PMS forstærker frem for at opfinde, og at timing af samtaler er gratis hjælp. Denne måned handler om det, der kommer efter modellen: hvordan I faktisk taler sammen, dag for dag, når viden om faser skal blive til ord, der hjælper. Tre greb bærer det meste: spørg, lyt, validér.',
-        'Det første greb er at spørge i stedet for at gætte. Det lyder banalt, men jo mere du lærer om cyklussen, jo mere fristende bliver det at slutte fra fase til behov. Hun er dag 24, altså vil hun have ro. Hun er dag 12, altså er det fint at tage økonomien op. Nogle gange rammer du, men hver gang du gætter forkert, får hun en oplevelse af at blive læst som en tabel frem for som et menneske. Spørgsmål behøver ikke være lange. De bedste er korte og giver hende to konkrete valg: "Selskab eller ro?", "Skal jeg lytte, eller vil du have forslag?", "Vil du tale om det nu eller efter maden?" Et valg mellem to ting kræver næsten ingen energi at svare på, og det er afgørende på de dage, hvor energien er væk.',
-        'Det andet greb er at lytte uden at forsvare. Når hun siger noget kritisk, aktiveres et forsvar, der føles fuldstændig rimeligt indefra: det var ikke sådan ment, du havde en grund, det var også hendes skyld. Men i det øjeblik du forklarer dig, skal hun kæmpe for at blive hørt oven i det, hun allerede var frustreret over, og samtalen skifter emne fra hendes oplevelse til din uskyld. Prøv rækkefølgen: lyt færdigt, gentag kernen med dine egne ord, spørg om du har forstået rigtigt. "Så du oplever, at jeg forsvinder ind i telefonen, når det bliver travlt om aftenen, og at du står alene med det?" Når hun siger ja, har du fortjent din version. Ofte er behovet for den så forsvundet, fordi det, hun havde brug for, var at blive forstået, ikke at få ret.',
-        'Det tredje greb er at validere, før du løser. At validere er at anerkende, at følelsen giver mening set fra hendes side, uden nødvendigvis at være enig i konklusionen. "Det giver mening, at du er træt af det" kan siges, selv om du ser sagen anderledes. Mange partnere springer over det led, fordi de gerne vil hjælpe, og hjælp for dem er at finde en løsning. Men en løsning, der kommer før anerkendelsen, lyder som "din følelse er et problem, der skal væk". I ugen før menstruationen, hvor hormonfaldet gør alt mere sårbart, er behovet for validering størst og tolerancen for at blive sprunget over mindst. Rækkefølgen er alt: først "jeg forstår", så "hvad gør vi?", og ofte er det første nok.',
-        'Der er ét greb mere, som handler om, hvad du ikke skal sige. Du ved nu meget om faser, og den viden kan bruges på to måder. "Er det PMS?" bruger fasen til at forklare hende væk; det er den faseviden, ingen kvinde har bedt om. "Jeg kan se, det er dag 25, må jeg tage lidt mere fra i dag?" bruger fasen som grund til at give mere. Reglen er enkel og ubrydelig: fasen må aldrig nævnes som argument i en uenighed eller som svar på en følelse. Den må gerne være grunden til, at du laver mad, flytter en aftale eller holder igen med en bemærkning. Er du i tvivl, så spørg dig selv, om sætningen handler om, hvad hun er, eller om, hvad du vil gøre.',
-        'Spørgsmålet "vil du have forslag, eller skal jeg bare lytte?" kender du fra måned 1. Det svære er ikke at stille det, men at gøre det, hun svarer. Svarer hun "lyt", vil din hjerne alligevel producere løsninger, og de vil trænge sig på. Læg dem til side og stil i stedet spørgsmål: "Hvad var det værste ved det?" "Hvad gjorde du så?" Svarer hun "forslag", så kom med ét, ikke fem, og spørg om det passer. Svaret skifter med dagen og med fasen, så spørg hver gang i stedet for at huske svaret fra sidst.',
-        'Ugens opgave er lille: vælg ét af de tre greb, og brug det bevidst hver dag i denne uge. Læg mærke til, hvad der sker med samtalerne. De fleste opdager, at de bliver kortere, ikke længere, fordi der ikke længere skal kæmpes om at blive hørt.',
+        'Der findes tusindvis af råd om, hvad kvinder bør spise i hver fase af cyklussen, og det meste af det er gætværk pakket ind i pæne farver. Denne artikel skiller det, der holder, fra det, der ikke gør, så I kan bruge kræfterne på det, der flytter noget.',
+        'Det bedst dokumenterede er jern. Hver menstruation koster jern, og jernmangel er den mest udbredte mangeltilstand blandt kvinder i den fødedygtige alder. Symptomerne er træthed, der ikke forsvinder med søvn, åndenød, hovedpine, koncentrationsbesvær og kort lunte, og de bliver ofte forklaret med alt muligt andet. Jern fra kød, fisk og indmad optages let. Jern fra linser, bønner, tofu, havregryn og grønne blade optages dårligere, men C-vitamin i samme måltid gør en stor forskel: peberfrugt, citrus, broccoli, kiwi. Kaffe og te til måltidet hæmmer optaget, så flyt dem en times tid. Jerntilskud skal kun tages efter en blodprøve, fordi for meget jern er skadeligt. Er hun træt i ugevis, er det en læge, ikke en teori.',
+        'Det næstbedst dokumenterede er blodsukker. Efter ægløsning gør progesteron kroppen lidt mindre følsom over for insulin, og forbrændingen stiger cirka 100-300 kalorier om dagen. Resultatet er, at hurtige kulhydrater giver højere hop og dybere fald, og faldet mærkes som pludselig sult, rysten, irritabilitet og trang til mere. Modtrækket er ikke en diæt, det er regelmæssighed: måltider hver tredje til fjerde time, protein og fibre i hvert, og snacks, der er lette at gribe. Sult forstærker alt i PMS-dagene, og en sen frokost er en kendt opskrift på et skænderi.',
+        'Blandt tilskud er kalcium det med den mest konsistente evidens. Et større lodtrækningsstudie fandt, at 1200 mg dagligt over tre cyklusser dæmpede humørsymptomer, væskeophobning, smerte og sult markant. Omega-3 fra fed fisk ser i flere mindre studier ud til at dæmpe menstruationssmerter, fordi det hæmmer de prostaglandiner, der giver kramper. Magnesium og B6 har svag evidens: nogle studier finder effekt på oppustethed og humør, andre finder ingen. Fælles for dem alle er, at maden er det sikreste sted at starte. Mejeriprodukter, sardiner og grønkål for kalcium; laks, makrel og sild for omega-3; nødder, frø, fuldkorn og mørk chokolade for magnesium. Tilskud er en samtale med apotek eller læge, ikke med en reklame.',
+        'Så til "cycle syncing", ideen om, at man skal spise bestemte fødevarer i hver fase for at "balancere hormonerne". Den ærlige status er, at der næsten ingen forskning er bag de detaljerede skemaer. Ingen fødevare balancerer hormoner. Det, skemaerne rammer rigtigt, er de simple principper ovenfor: jern og C-vitamin under menstruationen, stabilt blodsukker og mere fibre i lutealfasen, mindre koffein og alkohol i den sidste uge. Det er almindelig god ernæring med bedre timing. Vær skeptisk over for alt, der sælger et produkt. Vær åben over for det, hun selv mærker.',
+        'Det bringer os til det vigtigste: din rolle. Du kan ikke, og skal ikke, styre hvad hun spiser. Kommentarer om portioner, sukker eller "er det sundt?" hjælper aldrig, og de gør mad til noget, der skal forsvares. Din indflydelse er indirekte og stor: hvad der bliver købt ind, hvad der bliver lavet, hvad der står i køleskabet klokken 15 på dag 25, og hvad du selv spiser. Gør det gode valg til det nemme valg, og lad resten være hendes.',
+        'I denne uge er opgaven simpel: sørg for jern og C-vitamin på bordet i menstruationsdagene, og flyt kaffen. Det er en lille ting, der gør en reel forskel for en krop, der bløder hver måned.',
       ],
       conversationQuestion:
-        'Hvornår har du sidst følt dig rigtig hørt af mig, og hvad gjorde jeg der? Og hvad gør jeg typisk, der får dig til at stoppe med at fortælle?',
-      sources: [NHS_PMS],
+        'Er der noget mad, du mærker hjælper dig i bestemte dage af cyklussen, og noget du gerne vil have, at vi har i huset oftere?',
+      sources: [NHS_IRON, NHS_PMS, NHS_EATWELL],
     },
     {
       id: weeklyId(M, 2),
       month: M,
       week: 2,
-      title: 'Den usynlige liste og det ugentlige tjek-ind',
+      title: 'Træning gennem cyklussen: hårdt, når hun kan, blidt, når hun skal',
       body: [
-        'Der findes et arbejde i de fleste hjem, som ingen ser, fordi det foregår i ét hoved. At huske, at der skal købes gave til fødselsdagen på fredag. At vide, at støvlerne er blevet for små. At tandlægen skal bookes, at svigermor har ringet, at der mangler madpakkepapir. Det kaldes mental belastning, og i mange par ligger den mest hos kvinden, også når de praktiske opgaver deles nogenlunde ligeligt. Denne uge handler om at få den frem i lyset, og om at bygge den samtale, der holder den synlig.',
-        'Det tunge ved den usynlige liste er ikke opgaverne. Det er at være den, der husker dem, planlægger dem, uddelegerer dem og tjekker, at de bliver gjort. Når du "hjælper", sparer hun hænderne, men ikke hovedet: hun skal stadig bede om det, forklare hvordan og følge op. Det er derfor "sig bare, hvad jeg skal gøre" er en sætning, der frustrerer mere, end den hjælper. Den flytter arbejdet med at fordele arbejdet tilbage til hende.',
-        'Alternativet er ejerskab. En opgave, du ejer, er din fra start til slut: du husker den, planlægger den, udfører den og retter op, hvis den glipper, og hun behøver aldrig tænke på den igen. Vælg noget med en fast rytme og hele kæden: alt vasketøj, alle madpakker, alt omkring bilen, al kontakt med børnenes institution. Og modstå fristelsen til at spørge, hvordan hun vil have det gjort. Find selv ud af det. Det er netop den del, der letter hende. Bliver det gjort lidt anderledes, end hun ville, er det prisen for, at det ikke længere er hendes.',
-        'Listen er lang hele måneden, men den føles længst i ugen før menstruationen, og det er ikke tilfældigt. Når progesteron og østrogen falder, bliver søvnen dårligere, tolerancen for rod og støj lavere og følelsen af at stå alene stærkere. Opgaver, der var neutrale dag 10, bliver bjerge dag 25. Det er derfor, opvaskeren dukker op i skænderier den uge og næsten aldrig i follikelfasen. Den kloge reaktion er ikke at diskutere, om fordelingen er fair lige nu. Det er at tage mere i netop de dage, uden regnskab, og at måle fairness over en måned frem for over en aften. Hun får menstruation, du får ikke; det er en asymmetri, og en rimelig fordeling tager højde for den.',
-        'Det, der holder listen synlig, er en fast samtale. Et ugentligt tjek-ind på et kvarter, samme dag hver uge, uden telefoner, med tre spørgsmål: Hvad gik godt i denne uge? Hvad var svært? Hvad har du brug for i den kommende uge? Det sidste spørgsmål er det vigtigste, fordi svaret ofte følger cyklussen: "Jeg får menstruation onsdag, så torsdag aften vil jeg gerne have fri fra alt." Det er en sætning, der kun bliver sagt, hvis nogen spørger, og som ellers ender som et skænderi torsdag aften. Tjek-indet må ikke blive et sted, hvor alt skal løses. Det er et sted, hvor tingene bliver sagt, mens de er små.',
-        'Til de dage, hvor hun ikke har energi til at forklare, hjælper et aftalt signal. Et ord ("grå dag"), et tal fra 1 til 5, en emoji eller en bestemt kop, der stilles frem. Betydningen aftaler I på forhånd, når I begge er rolige: "Når jeg sender det, har jeg brug for, at du tager det praktiske og ikke stiller spørgsmål." Signalet fjerner behovet for at forklare og forsvare sig på en dag, hvor der ikke er overskud til det, og det giver dig en klar opgave i stedet for et gæt. Mange par oplever, at signalet også bruges den anden vej: du kan have grå dage, og hun kan tage over.',
-        'Ugens opgave: bed hende skrive den usynlige liste ned, alt hun går og husker på, og læs den uden at kommentere. Vælg så ét område, du overtager helt, og læg det første tjek-ind i kalenderen. Tre konkrete skridt, som tilsammen flytter mere end en måneds gode intentioner.',
+        'Motion er en af de ting, der har bedst dokumenteret effekt på både menstruationssmerter og PMS. Men det er ikke ligegyldigt, hvordan og hvornår. Denne artikel handler om at lægge intensiteten der, hvor kroppen kan bruge den, og restitutionen der, hvor den har brug for den. Og om, hvordan du kan være med i stedet for at stå på sidelinjen.',
+        'Start med det, der er sikkert. Regelmæssig, moderat motion dæmper PMS-symptomer som irritabilitet, nedtrykthed, oppustethed og træthed mærkbart, og det er en af de første anbefalinger, sundhedsmyndighederne giver. Let bevægelse under menstruationen, en gåtur, rolig cykling, yoga, dæmper kramper hos mange, fordi det øger blodgennemstrømningen i bækkenet og frigiver endorfiner. Det er ikke det samme som at træne igennem smerten. Hård træning på dag 1 gør det værre for nogle. Blid aktivitet, gerne udendørs, er reglen.',
+        'Så til timingen. I follikelfasen stiger østrogen, og med det energi, restitutionsevne og smertetærskel. Østrogen har en beskyttende effekt på musklerne, og nogle mindre studier har fundet, at styrketræning koncentreret i follikelfasen gav lidt større muskelvækst end samme træning lagt i lutealfasen. Evidensen er tynd, og forskellen mellem kvinder er stor, men princippet holder uanset hvad forskningen ender med: læg de hårde pas, intervallerne, de lange ture og de nye rekorder der, hvor kroppen har overskud til dem. Omkring ægløsning er energien for mange på sit højeste. Én detalje er værd at kende: østrogen påvirker ledbåndenes stivhed, og der er tegn på flere knæskader i dagene omkring ægløsning. Det er ikke en grund til at holde igen, men til at varme ordentligt op.',
+        'I lutealfasen skifter det. Progesteron hæver kropstemperaturen, hvilket gør varme og lange udholdenhedspas mere krævende, søvnen bliver lettere, og restitutionen tager længere tid. Progesteron nedbryder muskel lidt mere, end østrogen bygger op. Den sidste uge før menstruation er ikke tiden til at jagte rekorder eller presse igennem, når kroppen siger nej. Men det er heller ikke tiden til at stoppe, fordi bevægelse er noget af det, der hjælper bedst på PMS. Nøglen er lavere intensitet, ikke mindre bevægelse: gåture, let styrke, svømning, yoga, cykling i roligt tempo. Kontinuiteten tæller mere end hårdheden.',
+        'Restitution er den del, der oftest bliver sprunget over, og den er ikke ens hele måneden. Behovet er højest de første menstruationsdage og den sidste uge før, lavest omkring ægløsning. Restitution er søvn, mad nok, protein til at bygge op efter træning, og pauser. En kvinde, der hviler dag 27, er ikke doven. Hun lytter til noget, mange har lært at overhøre. Kulturen belønner at presse igennem, og det gælder ikke mindst kvinder, som ofte har fået at vide, at menstruation ikke må være en undskyldning for noget som helst. Den kan godt være en grund til at skrue ned.',
+        'Hvad kan du gøre? Træn sammen, når energien er høj: det er sjovere, og det gør de hårde pas til noget fælles. Foreslå selv at skrue ned i den sidste uge, så det bliver dit forslag og ikke hendes nederlag. Gå turen med hende i menstruationsdagene, og tag et nej uden at overtale. Sørg for protein efter træning og mad nok i det hele taget. Og hold pausen sammen med hende, når det er tid til pause. Motion er ikke noget, du skal motivere hende til. Det er noget, I kan gøre sammen i det tempo, cyklussen tillader.',
+        'Til sidst en grænse. Træning, der ikke kan aflyses uanset smerte, feber eller udmattelse, og en cyklus, der bliver uregelmæssig eller forsvinder, mens træningsmængden stiger, er ikke disciplin. Det kan være tegn på, at kroppen får for lidt energi, og det fortjener en læge. Du skal ikke stille diagnosen. Du må gerne sige, at du er bekymret.',
       ],
       conversationQuestion:
-        'Hvad står der på din usynlige liste, som jeg aldrig har set? Og hvilket område ville lette dig mest, hvis jeg overtog det helt?',
-      sources: [NHS_PMS],
+        'Hvornår i din cyklus har du mest lyst til at træne hårdt, og hvornår ville du ønske, at nogen sagde "lad os bare gå en tur i stedet"?',
+      sources: [NHS_PMS, NHS_PAIN, NHS_EXERCISE],
     },
     {
       id: weeklyId(M, 3),
       month: M,
       week: 3,
-      title: 'Skænderier: mønstre, reparation og undskyldninger',
+      title: 'Søvn, koffein, alkohol og varme: restitution i praksis',
       body: [
-        'Alle par skændes. Det er ikke antallet af konflikter, der forudsiger, om et forhold holder, men hvordan de forløber, og især hvor hurtigt og hvor godt der repareres bagefter. Denne uge ser vi på tre ting: det mønster, cyklussen tegner i jeres konflikter, den reparation, der genskaber kontakt, og den undskyldning, der faktisk virker.',
-        'Kigger du tilbage på jeres seneste skænderier, ligger de sandsynligvis ikke jævnt fordelt over måneden. De fleste par har et mønster: småting eskalerer i de sidste fire til seks dage før menstruationen, og de samme småting glider forbi i follikelfasen. Det betyder ikke, at problemerne er indbildte. Irritationen over den skæve fordeling er der også dag 9. Men på dag 26 står forstærkeren højere, søvnen er dårligere, og tolerancen mindre, så den samme sætning lander hårdere og svares hurtigere. Når I kender mønstret, kan I bruge det bevidst: tilbagevendende emner tages i follikelfasen, og i lutealfasen er det tilladt for begge at sige "kan vi parkere den til næste uge?" uden at det tæller som flugt. Notér de dage, det gik skævt, i appen. Efter to måneder ser I mønstret sort på hvidt, og det er sværere at tage personligt, når det står på en kalender.',
-        'Før du tager noget op, eller reagerer på noget hun har taget op, er tre ting værd at tjekke: Har hun sovet? Har hun spist? Er I inden for den sidste uge før menstruation? Ikke for at afskrive det, hun siger, men for at vurdere, om samtalen har en chance lige nu. Sult og dårlig søvn forstærker irritabilitet mere end noget andet, og begge er almindelige i lutealfasen. Er svaret nej på de første to, så begynd med mad og hvile. "Skal vi spise først og så tale om det?" er en omsorgshandling, ikke en afvisning, når den siges uden at gøre hendes tilstand til en diagnose.',
-        'Når det alligevel er gået skævt, kommer reparationen. Reparation er ethvert forsøg på at genskabe kontakt, før uenigheden er løst: en hånd på skulderen, en kop kaffe stillet frem, en sætning som "jeg vil ikke have, at vi er sådan her. Kan vi begynde igen?" Det kræver, at én af jer går først, og det behøver ikke være den, der har mest ret. Lå skænderiet i PMS-dagene, er det ofte lettest at reparere, når menstruationen er kommet, og hormonerne har fundet bunden; men vent ikke længere end nødvendigt. Jo længere kold luft, jo dyrere bliver reparationen, og jo mere vokser historien om, hvad den anden mente.',
-        'Nogle gange kræver reparationen en undskyldning, og en god undskyldning har tre dele: hvad du gjorde, hvad det gjorde ved hende, og hvad du gør anderledes. "Undskyld, jeg afbrød dig, mens du fortalte om din dag. Det må have føltes, som om jeg ikke gad lytte. Jeg vil lade dig tale færdigt fremover." Det, der ødelægger en undskyldning, er tilføjelserne: "men du var også...", "hvis du blev ked af det", "jeg var jo bare træt". Hvert "men" trækker undskyldningen tilbage. Og "undskyld, hvis du følte dig..." er ikke en undskyldning, det er en påstand om, at problemet er hendes følelse. Hold den kort. Forvent ikke tilgivelse på stedet; hun må gerne have brug for tid. Undskyldningen er din, hvad hun gør med den, er hendes.',
-        'Det sidste greb handler om at forebygge skænderiet. Der er ting, du gerne vil sige, som ikke er kritik af hende som menneske, men som kan lande sådan. Uopfordret kritik aktiverer forsvar hos alle. Kritik, man har sagt ja til at modtage, lander anderledes. Spørg derfor: "Må jeg sige noget, jeg har lagt mærke til? Du må også godt sige nej." Får du ja, så sig én ting, konkret, uden "altid" og "aldrig", og stop der. Får du nej, så respektér det, og prøv en anden dag. Follikelfasen er det oplagte tidspunkt. Og husk, at det samme gælder omvendt: hun må også bede om lov, og du må også sige "ikke i dag".',
-        'Ugens opgave: find jeres seneste skænderi i kalenderen, og se hvilken dag det lå på. Aftal én sætning, I begge må bruge, når timingen er dårlig, og én lille gestus, der betyder "kan vi begynde forfra?". Så er værktøjerne på plads, før de skal bruges.',
+        'Hvis der er én ting, der forværrer PMS mere end noget andet, er det dårlig søvn. Og lutealfasen gør søvnen dårligere af sig selv. Denne artikel handler om, hvad der forstyrrer restitutionen i den sidste uge, hvad der hjælper, og hvor du konkret kan gøre en forskel uden at sige et ord om det.',
+        'Start med, hvorfor søvnen bliver sværere. Progesteron hæver kropstemperaturen 0,3-0,5 grader i hele lutealfasen, og en varm krop falder sværere i søvn og vågner oftere. I den sidste uge falder både progesteron og østrogen, og med dem serotonin, som også er byggesten for melatonin, søvnhormonet. Resultatet er lettere søvn, flere opvågninger og mere uro. Det er ikke indbildning, og det er ikke noget, hun kan beslutte sig ud af. Det er fysiologi med en kalender.',
+        'Koffein passer dårligt ind i det billede. Halveringstiden er omkring fem timer, så en kop klokken 15 er stadig halvt aktiv ved sengetid. Koffein forstærker desuden uro, hjertebanken og ømme bryster i PMS-dagene, og det er en af de få kostændringer, sundhedsmyndighederne direkte anbefaler ved PMS. Det betyder ikke ingen kaffe. Det betyder kaffe tidligt og færre kopper i den sidste uge, og det er langt lettere, hvis I begge gør det. Husk også, at kaffe og te til måltidet hæmmer jernoptaget; en times afstand er nok.',
+        'Alkohol er den anden store søvnforstyrrer. Et glas gør det lettere at falde i søvn, men søvnen bliver overfladisk, og man vågner tidligere. I lutealfasen, hvor søvnen allerede er skrøbelig, koster det mere end resten af måneden. Alkohol dræner også kroppen for væske og sænker blodsukkeret senere på natten, hvilket forstærker uro og sult, og studier har fundet en sammenhæng mellem alkohol og både hyppighed og sværhedsgrad af PMS. Ingen forbud. Bare timing: det glas, der er en glæde omkring ægløsning, er ofte en dårlig handel dag 26.',
+        'Så til det, der hjælper. Søvnhygiejne lyder som et luksusbegreb, men i lutealfasen er det førstehjælp: samme sengetid hver dag, et køligt og mørkt soveværelse, et lettere dynetæppe, ingen skærme den sidste halve time, og ro om aftenen. Varme har sin egen plads: en varmepude på underlivet dæmper kramper lige så godt som håndkøbsmedicin i studier, og et varmt bad om aftenen hjælper både på smerte og på at falde i søvn, fordi kroppen køler ned bagefter. Kulde er godt til andet: en kold klud i nakken ved menstruationshovedpine, en kølig pose på ømme bryster. Væske nok hele dagen forebygger hovedpine og forværrede kramper.',
+        'Her er din rolle. Du kan ikke sove for hende, men du kan rydde aftenen. Ro om aftenen kommer ikke af sig selv, hvis der stadig er opvask, beskeder, børn og planer klokken 22. Tag aftenrutinen i den sidste uge: opvask, låse, lys, det praktiske. Gør soveværelset køligt. Lav kaffen tidligt, og foreslå selv noget uden koffein og uden alkohol, så hun ikke skal være den, der siger nej. Fyld varmedunken, før hun spørger. Det er usynligt arbejde, og det er noget af det mest konkrete, du kan gøre for at gøre PMS-dagene lettere.',
+        'Én ting til sidst: hvis søvnproblemerne er der hele måneden, eller hvis trætheden er så tung, at den påvirker hverdagen uanset søvn, er det ikke lutealfasen. Det kan være jernmangel, stofskifte, søvnapnø eller andet, der kan behandles. Det fortjener en læge.',
       ],
       conversationQuestion:
-        'Hvad gør jeg typisk efter et skænderi, som gør det sværere at komme tilbage til hinanden? Og hvad ville du ønske, jeg gjorde i stedet?',
-      sources: [NHS_PMS],
+        'Hvad forstyrrer din søvn mest i ugen før menstruation, og hvad kunne jeg tage over om aftenen, så du kunne gå i seng, når du er træt?',
+      sources: [NHS_SLEEP, NHS_PMS, NHS_PAIN],
     },
     {
       id: weeklyId(M, 4),
       month: M,
       week: 4,
-      title: 'Lyst, privatliv og alle de andre',
+      title: 'Sammen om maden uden at blive madpoliti',
       body: [
-        'De sidste emner i denne måned er dem, de fleste par taler mindst om: lyst, og hvad der må siges til hvem. Begge handler om tillid, og begge bliver lettere, når de tages på en god dag i stedet for i det øjeblik, de bliver til et problem.',
-        'Sex er noget af det sværeste at tale om, også i lange forhold, fordi et nej føles som afvisning, og et ønske føles som et krav. Det hjælper at tale om lyst som noget, der svinger, ligesom energi og humør, og som I begge har en kurve for. Omkring ægløsning har mange mere lyst, i lutealfasen og under menstruationen mindre, og nogle oplever det omvendt eller helt anderledes. Spørg om hendes kurve af nysgerrighed, ikke som forhandling: "Hvornår i måneden mærker du mest lyst? Hvad hjælper, når den er lav? Er der noget, der slukker den, som jeg ikke ved?" Tag samtalen på en gåtur eller ved køkkenbordet, ikke i sengen og ikke efter et nej. Det er der, den er ufarlig.',
-        "Et nej i lutealfasen eller under menstruationen handler oftest om krop, træthed og ømhed, ikke om dig. Men et nej sagt med skyldfølelse og modtaget med skuffelse bliver hurtigt en spiral: hun begynder at undgå situationer, hvor spørgsmålet kan komme op, og du begynder at læse afstand ind i alt. Bryd spiralen ved at gøre nej'et ufarligt. Sig højt, at et nej er et komplet svar, og at du hellere vil have et ærligt nej end et pligt-ja. Bed om, at hun siger, hvad hun i stedet har lyst til: en krammer, at ligge tæt, ingenting. Nærhed uden forventning er den nærhed, der gør et senere ja let. Og læg mærke til, om det er dig, der altid spørger. Hvis ja, så prøv en måned, hvor du kun tager imod.",
-        'Så til de andre. Jo mere du ved om cyklussen, jo mere fristende bliver det at dele det: forklare vennerne, hvorfor hun gik tidligt, lave en sjov bemærkning om appen, eller sige "hun har ægløsning, derfor er hun så glad". Lad være, medmindre hun har sagt god for det. Cyklussen er hendes krop, og hvor åben hun er om den, er hendes valg. Nogle taler frit om menstruation med alle, andre kun med dig, og mange ligger imellem og afhænger af, hvem der er til stede. Det gælder også det venligt mente. En kommentar om hendes fase i selskab er en kropskommentar, uanset fortegn.',
-        'Har I børn, opdager de før eller siden, at mor har dage med ondt eller træthed. Hvordan det forklares, er hendes beslutning, og den er værd at tage sammen, mens det er roligt. Nogle vil have menstruation omtalt åbent og almindeligt, fordi det fjerner skam for både piger og drenge. Andre vil have det holdt privat, i hvert fald til børnene selv spørger. Uanset hvad kan du vise børnene, hvordan man tager hensyn, når nogen har ondt, uden at gøre mor til den svage. "Mor har brug for ro i dag, så vi laver maden" lærer dem noget om omsorg, der holder hele livet.',
-        'Til sidst det, der skal blive mellem jer. Det, hun fortæller dig om smerte, blødning, lyst, humør og angst, fortæller hun dig i fortrolighed, også når det ikke bliver sagt eksplicit. Det gælder over for din familie, dine venner og kolleger, og det gælder både det alvorlige og det, der kunne blive en god anekdote. Kalenderen i appen er hendes data, ikke et emne til middagsbordet. Fortrolighed er det, der gør, at hun fortæller dig mere næste gang. Bryd den én gang, og døren lukker lidt. Spørg hellere en gang for meget, hvad der må siges videre.',
-        'Og en sidste ting, som hele måneden har handlet om, uden at sige det: kommunikation går begge veje. Hvis du kun spørger og aldrig fortæller, bliver du en støttefunktion frem for en partner. Fortæl, hvordan du har det, også når det er "jeg er træt og har brug for en time for mig selv". Vælg timing og størrelse med omtanke, men sig det. Det, du beder hende om at turde, skal du også selv turde.',
+        'Alt det, denne måned har handlet om, jern, blodsukker, fibre, kalcium, søvn, virker kun, hvis det bliver gjort. Og det bliver ikke gjort, fordi den ene fortæller den anden, hvad hun bør spise. Det bliver gjort, fordi det er nemt, fordi det er fælles, og fordi ingen skal forsvare sig. Denne artikel handler om, hvordan du bliver en del af maden uden at blive dens politi.',
+        'Begynd med det praktiske. Den, der handler ind, bestemmer en stor del af, hvad der er muligt at spise. Det er en stille magt, og den kan bruges godt. I første halvdel af cyklussen: jernrige varer, C-vitamin ved siden af, protein til restitution, fed fisk. I anden halvdel: fuldkorn og fibre, protein til hvert måltid, kalcium, nødder og frø, bananer og kartofler mod væske, og snacks, der er lette at gribe: frugt, hytteost, grovkiks. Mindre færdigmad og chips, fordi saltet forværrer oppustethed. Og altid noget, hun faktisk kan lide, også chokoladen. En liste, der kun består af "sundt", bliver ikke spist.',
+        'Madlavning er den anden del. Den partner, der aldrig laver mad, ender med at kommentere maden. Den, der laver den, forstår, hvorfor tingene er, som de er. At lave mad sammen er en af de få husholdningsopgaver, der kan være hyggelig frem for et krav: én hakker, én rører, musik i baggrunden. Det giver samtale, uden at det er "en samtale". Og det giver fælles ejerskab. I lutealfasen, hvor overskuddet er lavt, er det dig, der laver maden og har den klar til tiden, fordi en sen middag på dag 25 er en kendt opskrift på et skænderi.',
+        'Nu til grænsen. Der er en verden til forskel på at gøre det gode valg nemt og at holde øje. "Skal du virkelig have mere?", "har du ikke fået nok sukker i dag?", "er det nu sundt?" hjælper aldrig, uanset hvor kærligt de er ment. De gør mad til noget, der skal forsvares, og det er det modsatte af, hvad kroppen har brug for, især i lutealfasen, hvor appetitten stiger af rent biologiske grunde. Din indflydelse er, hvad der er i køleskabet, hvad du laver, og hvad du selv spiser. Ikke hvad hun putter i munden. Hun er voksen, og hendes krop er hendes.',
+        'Det gælder også kroppen. Vægten svinger et par kilo hen over cyklussen alene af væske, maven er oppustet i lutealfasen, og tøjet sidder anderledes. Mange kvinder ved det godt og har alligevel svært ved ikke at måle sig på det, fordi kroppen er blevet kommenteret hele livet. Selv "du ser sund ud" og "har du tabt dig?" fortæller, at kroppen bliver vurderet. Det mest hjælpsomme er at gøre kroppen til et ikke-emne og tale om, hvad hun gjorde, hvad hun kunne, hvordan dagen var. Og aldrig kommentere mave, vægt eller portioner.',
+        'Så noget, der er vigtigt at vide. Spiseforstyrrelser er almindelige, ofte skjulte, og de rammer ikke kun teenagere. Tegn, der er værd at tage alvorligt: måltider, der springes over eller spises i smug, regler, der bliver strammere, træning, der ikke kan aflyses uanset hvad, stærk uro ved mad, hun ikke selv har kontrol over, og en cyklus, der bliver uregelmæssig eller forsvinder, fordi kroppen mangler energi. Du skal ikke stille diagnosen, og du skal ikke overvåge. Men du må gerne sige, roligt og uden at nævne vægt: "Jeg er bekymret for dig, og jeg vil gerne hjælpe." Og at det fortjener en læge.',
+        'Ugens opgave er den enkleste i måneden: handl ind efter fasen, lav maden, og sig ingenting om, hvad hun spiser. Det er ikke passivt. Det er at tage ansvar for det, du faktisk har indflydelse på, og lade resten være hendes.',
       ],
       conversationQuestion:
-        'Er der noget om din cyklus, din lyst eller din krop, som du gerne vil have, at jeg holder helt for mig selv? Og er der noget, du ville ønske, jeg turde spørge dig om?',
+        'Har jeg nogensinde sagt noget om din mad eller din krop, der blev hængende? Og hvad ville du ønske, jeg gjorde i stedet?',
+      sources: [NHS_EATWELL, NHS_EATING, NHS_PMS],
     },
   ],
   wrap: {
     id: wrapId(M),
     month: M,
-    title: 'Måned 9: Kommunikation og støtte',
+    title: 'Måned 9: Kost, træning og restitution',
     summary: [
-      'Denne måned handlede om at gøre viden til ord. De tre grundgreb bærer det meste: spørg i stedet for at gætte, lyt færdigt uden at forsvare dig, og validér følelsen, før du foreslår en løsning. Oven på dem ligger reglen, der aldrig må brydes: fasen må bruges som grund til at give mere, aldrig som argument i en uenighed eller som svar på en følelse.',
-      'Du har lært, at den usynlige liste er den tungeste del af husarbejdet, at den vokser i lutealfasen, og at ejerskab letter, hvor "hjælp" ikke gør. Du har set, hvordan skænderier følger cyklussens mønster, hvordan man reparerer, før uenigheden er løst, hvordan en undskyldning uden "men" ser ud, og hvorfor feedback lander bedre, når man har bedt om lov. Og du har talt om lyst og nej på en god dag, og om hvad der er hendes at dele med venner, børn og familie.',
+      'Denne måned handlede om de tre håndtag, der er nemmest at dreje på i hverdagen: mad, bevægelse og søvn. Du har lært, at menstruationen koster jern, at C-vitamin gør plantejern brugbart, og at kaffe og te til måltidet hæmmer optaget. At blodsukkeret svinger mere i lutealfasen, og at regelmæssige måltider med protein og fibre er det bedste forsvar mod PMS-dagenes ustabilitet. At kalcium og omega-3 har den bedste evidens blandt tilskud, magnesium den svageste, og at cycle syncing er fornuftige principper pakket ind i markedsføring.',
+      'Du har også lært, at hårde træningspas hører til i follikelfasen og omkring ægløsning, at den sidste uge kalder på lavere intensitet og mere restitution, og at let bevægelse og varme er blandt de bedst dokumenterede midler mod kramper. At koffein og alkohol koster mest i lutealfasen, og at søvnhygiejne i den uge er førstehjælp, ikke luksus. Og at din rolle er køleskabet, køkkenet og aftenen, aldrig hendes tallerken eller hendes krop.',
       'Næste måned handler om fertilitet, prævention og graviditet: hvad hun bærer, hvad du kan tage, og hvordan ansvaret bliver fælles i praksis.',
     ],
     keepDoing: [
-      'Hold det ugentlige tjek-ind på et kvarter: hvad gik godt, hvad var svært, hvad har du brug for?',
-      'Spørg "øre eller forslag?", og gør så det, hun svarer.',
-      'Brug jeres signal for de hårde dage, og tag over uden spørgsmål, når det kommer.',
-      'Ej mindst ét område i hjemmet helt, fra at huske til at udføre.',
-      'Bed om lov, før du giver feedback, og sig undskyld uden "men".',
-      'Hold det, hun fortæller om sin krop, mellem jer, medmindre hun siger andet.',
+      'Sæt jern og C-vitamin på bordet i menstruationsdagene, og flyt kaffen en time væk fra måltidet.',
+      'Hav protein- og fibersnacks synligt fremme i lutealfasen, og sig ingenting, når de bliver spist.',
+      'Træn hårdt sammen i første halvdel, og foreslå selv at skrue ned i den sidste uge.',
+      'Tag aftenrutinen i ugen før menstruation, så hun kan gå i seng, når hun er træt.',
+      'Kommentér aldrig hendes mad, portioner eller krop. Kommentér det, hun gør og kan.',
     ],
     quiz: [
       {
         question:
-          'Hun kommer hjem dag 25, smider tasken og siger: "Jeg er så træt af min chef." Hvad hjælper mest?',
+          'Hun er på dag 2 og har været usædvanligt træt i flere uger, også efter gode nætter. Hvad hjælper mest?',
         options: [
-          '"Har du prøvet at tale med HR om det?"',
-          '"Det giver mening, at du er træt af det. Vil du have et øre eller forslag?"',
-          '"Det er nok også fordi du er lidt PMS-ramt i dag."',
-          '"Det lyder nu ikke så slemt."',
+          'Købe jerntilskud og bede hende tage dem hver dag',
+          'Lave jernrig mad med C-vitamin til, og foreslå en blodprøve hos lægen, hvis trætheden fortsætter',
+          'Sige at det er normalt at være træt under menstruationen',
+          'Foreslå en ekstra kop kaffe til maden',
         ],
         correctIndex: 1,
         explanation:
-          'Validér først, spørg så hvad hun har brug for. Løsninger før anerkendelse lyder som, at følelsen er problemet, og fasen må aldrig bruges som forklaring på en følelse.',
+          'Langvarig træthed kan være jernmangel, men tilskud skal kun tages efter en blodprøve, fordi for meget jern er skadeligt. Mad først, læge ved tvivl.',
       },
       {
         question:
-          'Du har lagt mærke til, at hun lover for meget til andre og bliver udbrændt af det. Hvornår og hvordan siger du det?',
+          'Det er dag 26, klokken 15, og hun snapper ad dig. Hun har ikke spist siden klokken 11. Hvad virker bedst?',
         options: [
-          'Dag 26 om aftenen, lige når det er sket igen',
-          'Foran vennerne, som en kærlig joke',
-          'I follikelfasen, efter at have spurgt "må jeg dele en observation?"',
-          'Slet ikke, det er hendes sag',
+          'Spørge om hun er PMS-ramt',
+          'Spørge om hun ikke skulle spise noget sundt',
+          'Sætte noget med protein og fibre frem uden at kommentere det',
+          'Trække dig og lade hende være i fred',
         ],
         correctIndex: 2,
         explanation:
-          'Feedback, man har sagt ja til at modtage, lander helt anderledes end uopfordret kritik. Timing i follikelfasen giver den bedste chance.',
+          'Blodsukkeret svinger mere i lutealfasen, og sult forstærker irritabilitet. Mad uden kommentar løser ofte problemet, en kommentar gør det større.',
       },
       {
         question:
-          'I skændtes i går aftes, og der er kold luft i dag. Ingen af jer har sagt noget. Hvad er bedst?',
+          'Hun spørger, om magnesium virker mod PMS. Hvad er det ærligste og mest hjælpsomme svar?',
         options: [
-          'Vente til hun kommer først; det var hende, der begyndte',
-          'Skrive en lang besked med din version af, hvad der skete',
-          'Lave en lille gestus, fx en kop kaffe, og sige "kan vi begynde forfra?"',
-        ],
-        correctIndex: 2,
-        explanation:
-          'Reparation kræver, at én går først, og den behøver ikke vente på, at uenigheden er løst. Jo længere kold luft, jo dyrere bliver den.',
-      },
-      {
-        question: 'Hvilken undskyldning virker bedst?',
-        options: [
-          '"Undskyld, hvis du blev ked af det."',
-          '"Undskyld, men du var også ret hård."',
-          '"Undskyld, jeg afbrød dig. Det må have føltes, som om jeg ikke gad lytte. Jeg lader dig tale færdigt fremover."',
-          '"Okay, okay, undskyld så."',
-        ],
-        correctIndex: 2,
-        explanation:
-          'En god undskyldning har tre dele: hvad du gjorde, hvad det gjorde ved hende, og hvad du gør anderledes. "Hvis" og "men" trækker den tilbage.',
-      },
-      {
-        question:
-          'Hun siger: "Jeg skal minde dig om alt. Jeg er træt af at være den, der husker." Hvad letter mest på sigt?',
-        options: [
-          'Sige "sig bare, hvad jeg skal gøre, så gør jeg det"',
-          'Overtage ét område helt, fra at huske til at udføre, uden at hun skal tjekke',
-          'Lave en fælles liste, som hun holder opdateret',
-          'Forklare, at du også har meget om ørerne',
+          'Sige at det garanteret virker, og købe det til hende',
+          'Sige at evidensen er begrænset, men risikoen lav, og foreslå nødder, frø og fuldkorn først og tilskud efter en snak med apoteket',
+          'Sige at det er spild af penge, og at hun skal droppe ideen',
         ],
         correctIndex: 1,
         explanation:
-          'Det tunge er at være den, der husker. Ejerskab tager hele kæden fra hende; "sig bare hvad jeg skal gøre" lægger fordelingsarbejdet tilbage hos hende.',
+          'Magnesium har svag evidens og lav risiko. Ærlighed om evidensen, mad først og en fagperson til tilskud er den holdning, der holder for alle tilskud.',
       },
       {
         question:
-          'Til en middag med venner spørger en ven, hvorfor hun gik hjem tidligt. Hvad gør du?',
+          'I har planlagt et hårdt træningspas sammen på dag 27, og hun er tydeligt udkørt. Hvad er mest hjælpsomt?',
         options: [
-          '"Hun har PMS, I ved, hvordan det er."',
-          '"Hun var træt" og skifter emne. Resten er hendes at dele.',
-          'Fortælle om appen og at hun er på dag 26',
-          'Grine og sige "kvinder, ikke?"',
+          'Presse på, fordi træning hjælper mod PMS',
+          'Selv foreslå en gåtur eller et let pas i stedet',
+          'Aflyse det hele og sige, at hun skal hvile',
+          'Træne alene uden at sige noget',
         ],
         correctIndex: 1,
         explanation:
-          'Hvor åben hun er om sin cyklus, er hendes valg. En kommentar om hendes fase i selskab er en kropskommentar, også når den er venligt ment.',
+          'Sidst i lutealfasen er nøglen lavere intensitet, ikke mindre bevægelse. At det bliver dit forslag, gør det til et fælles valg og ikke hendes nederlag.',
+      },
+      {
+        question: 'På dag 24 siger hun: "Jeg føler mig så tyk i dag." Hvad hjælper mest?',
+        options: [
+          '"Du ser da fin ud."',
+          '"Det er nok bare væske, det går over."',
+          'Anerkende at det er en hård dag, ikke kommentere kroppen, og tilbyde noget konkret som et varmt bad eller en gåtur',
+          'Foreslå, at I spiser salat i aften',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Enhver kommentar om kroppen, også en positiv, bekræfter, at den bliver vurderet. Anerkendelse og noget konkret hjælper; forklaringer og madforslag gør det værre.',
+      },
+      {
+        question:
+          'Du har lagt mærke til, at hun springer måltider over, træner uanset hvad, og at menstruationen er udeblevet i flere måneder. Hvad er den rigtige reaktion?',
+        options: [
+          'Holde øje med, hvad hun spiser, og påpege det',
+          'Sige roligt, at du er bekymret for hende, at det fortjener en læge, og at du gerne vil hjælpe, uden at nævne vægt eller mad',
+          'Vente og se, om det går over af sig selv',
+          'Lave mere mad og insistere på, at hun spiser op',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Tegnene kan pege på en spiseforstyrrelse eller for lidt energi til kroppen. Du skal ikke overvåge eller diagnosticere, men sige din bekymring og pege på lægen.',
       },
     ],
   },

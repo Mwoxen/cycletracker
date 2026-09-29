@@ -294,9 +294,9 @@ export const month12: MonthContent = {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'The year in review: the model and the period',
+      title: 'The year in review: the model, communication and the period',
       insight:
-        'The last ten days of the programme are about gathering up and building your plan. We start from the beginning. Month 1 gave you the model: day 1 is the first day of bleeding, four phases, estrogen up means energy, progesterone up means calm, both down means vulnerable. Month 2 went deep on the period: heat for cramps, iron for fatigue, painkillers at the first signs, practical help without asking, and pain that knocks her out deserves a doctor. Month 3 was the follicular phase: energy returns, and it is the time for the big, the hard and the fun. Three months, three very concrete habits, which you have either built or which deserve a restart now.',
+        'The last ten days of the programme are about gathering up and building your plan. We start from the beginning. Month 1 gave you the model: day 1 is the first day of bleeding, four phases, estrogen up means energy, progesterone up means calm, both down means vulnerable. Month 2 was communication: language, timing, asking instead of guessing, and that the phase may be used as a reason to give more, never as an argument. Month 3 went deep on the period: heat for cramps, iron for fatigue, painkillers at the first signs, practical help without asking, and pain that knocks her out deserves a doctor. Three months, three very concrete habits, which you have either built or which deserve a restart now.',
       action:
         'Write down the three most important things you remember from months 1-3, and mark each one "I do this" or "I have dropped this". That is the start of your plan.',
       phaseTags: ['menstrual'],
@@ -305,24 +305,24 @@ export const month12: MonthContent = {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'The year in review: ovulation, luteal phase and PMS',
+      title: 'The year in review: follicular phase, ovulation and luteal phase',
       insight:
-        'Month 4 taught you that ovulation is one day, that the fertile window is six, and that the app\'s estimate is never contraception. Month 5 was the luteal phase: progesterone brings calm, raises temperature, increases appetite and disturbs sleep, so a cool bedroom, good snacks and easy suggestions are help. Month 6 was PMS and PMDD: the hormone drop amplifies feelings, it does not invent them. Respond to the need, not the tone. Never say "is it PMS?". And PMDD is a real condition with treatment. That is the middle third of the year, and it is where most conflicts in a relationship either start or are avoided. If you remember only one thing from the whole year, let it be: acknowledge first.',
+        "Month 4 was the follicular phase: energy returns, and it is the time for the big, the hard and the fun. Month 5 taught you that ovulation is one day, that the fertile window is six, and that the app's estimate is never contraception. Month 6 was the luteal phase: progesterone brings calm, raises temperature, increases appetite and disturbs sleep, so a cool bedroom, good snacks and easy suggestions are help. That is the middle third of the year, and it is where the cycle swings the most: from the greatest energy to the quiet, inward time. If you remember only one thing from those three months, let it be: use the energy when it is there, and lower expectations when it is gone.",
       action:
         "Continue yesterday's list with months 4-6. Afterwards ask her which of those three months she has felt the biggest difference from you.",
       phaseTags: ['ovulation', 'luteal'],
-      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'The year in review: pain, food and communication',
+      title: 'The year in review: PMS, pain and food',
       insight:
-        'Month 7 taught you to spot patterns in the log: the headache on day 25, the fatigue on day 1, and to act before she asks. Month 8 was food, exercise and recovery in each phase: iron and heat during the period, hard sessions and new things in the follicular phase, protein, fibre and sleep in the luteal phase, and that movement helps both cramps and PMS. Month 9 was communication: language, timing, asking instead of guessing, and knowing your own conflict patterns by phase. Those are the three months where knowledge turns into routine. Routines are boring, and that is the point. What she feels is not your knowledge, but that it is easier than last year.',
+        'Month 7 was PMS and PMDD: the hormone drop amplifies feelings, it does not invent them. Respond to the need, not the tone. Never say "is it PMS?". And PMDD is a real condition with treatment. If you remember only one thing from the whole year, let it be: acknowledge first. Month 8 taught you to spot patterns in the log: the headache on day 25, the fatigue on day 1, and to act before she asks. Month 9 was food, exercise and recovery in each phase: iron and heat during the period, hard sessions and new things in the follicular phase, protein, fibre and sleep in the luteal phase, and that movement helps both cramps and PMS. Those are the three months where knowledge turns into routine. Routines are boring, and that is the point. What she feels is not your knowledge, but that it is easier than last year.',
       action:
         'Add months 7-9 to the list. Pick one routine that has slipped and do it today: a snack, a walk, a question asked at the right time.',
       phaseTags: ['follicular'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 24),

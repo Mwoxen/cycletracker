@@ -1,401 +1,396 @@
 import type { MonthContent, Source } from '../types';
 import { dailyId, weeklyId, wrapId } from '../types';
 
-const NHS_IRON: Source = {
-  label: 'NHS: Iron deficiency anaemia',
-  url: 'https://www.nhs.uk/conditions/iron-deficiency-anaemia/',
+const NHS_MIGRAINE: Source = {
+  label: 'NHS: Migraine',
+  url: 'https://www.nhs.uk/conditions/migraine/',
 };
-const NHS_PMS: Source = {
-  label: 'NHS: PMS',
-  url: 'https://www.nhs.uk/conditions/pre-menstrual-syndrome/',
-};
-const NHS_EATWELL: Source = {
-  label: 'NHS: Eat well',
-  url: 'https://www.nhs.uk/live-well/eat-well/',
+const NHS_TENSION: Source = {
+  label: 'NHS: Tension headaches',
+  url: 'https://www.nhs.uk/conditions/tension-headaches/',
 };
 const NHS_PAIN: Source = {
   label: 'NHS: Period pain',
   url: 'https://www.nhs.uk/conditions/period-pain/',
 };
-const NHS_VITAMINS: Source = {
-  label: 'NHS: Vitamins and minerals',
-  url: 'https://www.nhs.uk/conditions/vitamins-and-minerals/',
+const NHS_HEAVY: Source = {
+  label: 'NHS: Heavy periods',
+  url: 'https://www.nhs.uk/conditions/heavy-periods/',
 };
-const NHS_EXERCISE: Source = {
-  label: 'NHS: Exercise',
-  url: 'https://www.nhs.uk/live-well/exercise/',
+const NHS_IRON: Source = {
+  label: 'NHS: Iron deficiency anaemia',
+  url: 'https://www.nhs.uk/conditions/iron-deficiency-anaemia/',
 };
-const NHS_SLEEP: Source = {
-  label: 'NHS: Sleep and tiredness',
-  url: 'https://www.nhs.uk/live-well/sleep-and-tiredness/',
+const NHS_ENDO: Source = {
+  label: 'NHS: Endometriosis',
+  url: 'https://www.nhs.uk/conditions/endometriosis/',
 };
-const NHS_EATING: Source = {
-  label: 'NHS: Eating disorders',
-  url: 'https://www.nhs.uk/conditions/eating-disorders/',
+const NHS_FIBROIDS: Source = {
+  label: 'NHS: Fibroids',
+  url: 'https://www.nhs.uk/conditions/fibroids/',
 };
-const ACOG_PMS: Source = {
-  label: 'ACOG: Premenstrual Syndrome (PMS)',
-  url: 'https://www.acog.org/womens-health/faqs/premenstrual-syndrome',
+const NHS_PARACETAMOL: Source = {
+  label: 'NHS: Paracetamol for adults',
+  url: 'https://www.nhs.uk/medicines/paracetamol-for-adults/',
+};
+const NHS_IBUPROFEN: Source = {
+  label: 'NHS: Ibuprofen for adults',
+  url: 'https://www.nhs.uk/medicines/ibuprofen-for-adults/',
 };
 const ACOG_DYSMENORRHEA: Source = {
-  label: 'ACOG: Dysmenorrhea: Painful Periods',
+  label: 'ACOG: Dysmenorrhea (painful periods)',
   url: 'https://www.acog.org/womens-health/faqs/dysmenorrhea-painful-periods',
 };
-const SUNDHED_JERN: Source = {
-  label: 'Sundhed.dk: Jernmangel',
+const SUNDHED_DK_SMERTER: Source = {
+  label: 'Sundhed.dk: Menstruationssmerter',
+};
+const SUNDHED_DK_MIGRAENE: Source = {
+  label: 'Sundhed.dk: Migræne',
 };
 
 const M = 8;
 
 export const month08: MonthContent = {
   month: M,
-  theme: 'Kost, træning og restitution',
-  focus: 'Gør det gode valg til det nemme valg: hvad I kan lave og spise sammen i hver fase.',
+  theme: 'Smerte, træthed og hovedpine',
+  focus: 'Genkend mønstrene i hendes log, og reager før hun beder om det.',
   daily: [
     {
       id: dailyId(M, 1),
       month: M,
       day: 1,
-      title: 'Mad flytter noget, men den kurerer ikke',
+      title: 'Denne måned: fra overraskelse til mønster',
       insight:
-        'Denne måned handler om kost, træning og restitution, og den begynder med en ærlig ramme: ingen kost fjerner PMS, og ingen træningsplan fjerner kramper. Men mad, bevægelse og søvn er de tre håndtag, der er nemmest at dreje på i hverdagen, og de flytter noget målbart: jernniveau, blodsukker, søvnkvalitet og smerte. Det gode ved dem er, at de er fælles. Du spiser det samme, sover i samme seng og kan gå den samme tur. Din rolle er ikke at blive hendes coach. Den er at gøre det gode valg til det nemme valg for jer begge, uden at nogen skal forklare sig.',
+        'Smerte, træthed og hovedpine er de tre symptomer, flest kvinder logger, og de tre, partnere oftest opdager for sent. Det er ikke fordi du ikke bekymrer dig. Det er fordi de kommer som enkeltdage, og enkeltdage er svære at huske. Hovedpinen i sidste måned lå måske på dag 27. Trætheden på dag 1 og 2. Rygsmerterne dag 1. Men i hukommelsen ligger de bare som "en dårlig uge". Kalenderen i appen husker det, du ikke gør. Denne måned lærer du at læse den, så du kan handle en dag før symptomet, ikke en dag efter. Det er hele forskellen mellem at være sød og at være til hjælp.',
       action:
-        'Spørg hende i dag: "Er der noget med mad eller søvn, du gerne vil have, at vi gør anderledes i denne måned?" Og lyt uden at foreslå noget endnu.',
+        'Åbn kalenderen, gå en cyklus tilbage, og tæl hvor mange dage der er logget smerte, træthed eller hovedpine. Bare tallet.',
       phaseTags: [],
-      sources: [NHS_EATWELL],
     },
     {
       id: dailyId(M, 2),
       month: M,
       day: 2,
-      title: 'Jern: det blødningen koster',
+      title: 'Prostaglandiner: kilden til det meste',
       insight:
-        'Hver menstruation koster jern, og kvinder i den fødedygtige alder er den gruppe, der oftest har jernmangel. Jern bærer ilt i blodet, og et lavt lager mærkes som træthed, der ikke forsvinder efter søvn, åndenød på trapper, kolde hænder, hovedpine og kort lunte. Har hun kraftige blødninger, er risikoen markant højere. Jern findes i to former: hæmjern fra kød, fisk og indmad, som optages let, og ikke-hæmjern fra linser, bønner, tofu, havregryn og grønne blade, som optages dårligere. Begge tæller, og det er i menstruationsugen, det giver mest mening at tænke over det. Langvarig træthed fortjener en blodprøve, ikke en teori.',
+        'Når slimhinden afstødes, frigiver den prostaglandiner, signalstoffer der får livmoderen til at trække sig sammen. Det er kramperne. Men prostaglandiner bliver ikke i livmoderen. De rammer også tarmen, der trækker sig sammen og giver løs mave, og de kan give kvalme, hovedpine, kuldegysninger og ømhed i hele kroppen. Kvinder med kraftige kramper har målbart mere prostaglandin end kvinder med milde. Det forklarer, hvorfor dag 1 kan føles som influenza, og hvorfor den samme medicin, ibuprofen, hjælper mod flere symptomer på én gang: den blokerer dannelsen af prostaglandin. Én mekanisme, mange symptomer.',
       action:
-        'Læg jern på middagsbordet i dag uden at nævne ordet jern: kød, linser, bønner eller kikærter. Bare lav det.',
+        'Hvis hun har menstruation: spørg, om det er maven, ryggen, hovedet eller det hele. Svaret fortæller dig, hvad du skal have klar næste gang.',
       phaseTags: ['menstrual'],
-      sources: [NHS_IRON, SUNDHED_JERN],
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
     },
     {
       id: dailyId(M, 3),
       month: M,
       day: 3,
-      title: 'C-vitamin åbner for plantejern',
+      title: 'Menstruationsmigræne og østrogenfaldet',
       insight:
-        'Jern fra planter optages flere gange dårligere end jern fra kød, men det kan hjælpes på vej. C-vitamin i samme måltid gør ikke-hæmjern langt lettere at optage; det er en af de bedst dokumenterede kombinationer i ernæring. Det kræver ingen tilskud: peberfrugt, broccoli, citrus, kiwi, jordbær og tomat er nok, hvis det er på tallerkenen samtidig. En linsesuppe med citron, en bønnesalat med peberfrugt, havregrød med bær. Spiser hun lidt eller intet kød, er den kombination ikke en detalje, men grundlaget. Og det er en ting, du kan gøre i køkkenet uden at sige et ord om kost.',
+        'Migræne er cirka tre gange så hyppig hos kvinder som hos mænd, og hormonerne er en stor del af forklaringen. Når østrogen falder brat lige før menstruationen, reagerer hjernen hos nogle med et migræneanfald. Det kaldes menstruationsmigræne og rammer typisk i vinduet fra to dage før til tre dage inde i blødningen. Anfaldene er ofte længere, kraftigere og sværere at behandle end migræne på andre tidspunkter. Det er faldet i østrogen, ikke det lave niveau i sig selv, der udløser det. Derfor ligger anfaldet så præcist, og derfor kan det forudsiges i kalenderen, når først mønstret er set to-tre gange.',
       action:
-        'Til aftensmaden: sæt noget med C-vitamin ved siden af det, der har jern. Citronbåde, rå peberfrugt eller en appelsin til dessert.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_IRON, NHS_VITAMINS],
+        'Tjek loggen: er der hovedpine i dagene lige omkring de sidste to menstruationers start? Skriv det ned, hvis ja.',
+      phaseTags: ['menstrual', 'luteal'],
+      sources: [NHS_MIGRAINE, SUNDHED_DK_MIGRAENE],
     },
     {
       id: dailyId(M, 4),
       month: M,
       day: 4,
-      title: 'Kaffe og te lige til maden',
+      title: 'Migræne eller hovedpine? Forskellen betyder noget',
       insight:
-        'Både kaffe og te indeholder stoffer, polyfenoler og tanniner, der binder jern i tarmen og kan halvere optaget fra et måltid. Det gælder især plantejern. Effekten er størst, når drikken tages sammen med maden eller lige efter, og lille, hvis der går en times tid. Man skal ikke droppe morgenkaffen, kun flytte den lidt væk fra det jernrige måltid. Store mængder mælk og kalcium til måltidet hæmmer også optaget noget. Det er en af de få kostregler, der faktisk er værd at kende, fordi den er gratis, og fordi den kan gøre en reel forskel for en kvinde, der bløder hver måned.',
+        'Ordet hovedpine dækker over to meget forskellige ting. Spændingshovedpine føles som et bånd om hovedet, på begge sider, trykkende, og man kan som regel fortsætte dagen. Migræne er typisk ensidig og dunkende, forværres ved bevægelse, og kommer ofte med kvalme, lysfølsomhed og lydfølsomhed. Nogle får forvarsler, aura, i form af flimren for øjnene eller prikken i hånden. Et migræneanfald varer fra fire timer til tre døgn og gør hverdagen umulig. De to typer behandles forskelligt, og de logges forskelligt. Når hun siger "hovedpine", er det værd at vide, hvilken hun mener, for den ene kræver et glas vand og en pause, den anden kræver mørke og ro.',
       action:
-        'Server vand eller et glas juice til aftensmaden, og lav kaffen eller teen en time senere i stedet.',
-      phaseTags: ['menstrual', 'luteal'],
-      sources: [NHS_IRON],
+        'Spørg hende, om hendes hovedpine typisk er "bånd om hovedet" eller "dunken i den ene side med kvalme". Husk svaret.',
+      phaseTags: [],
+      sources: [NHS_MIGRAINE, NHS_TENSION],
     },
     {
       id: dailyId(M, 5),
       month: M,
       day: 5,
-      title: 'Varme eller kulde?',
+      title: 'Tidligt er hele hemmeligheden',
       insight:
-        'Varme er den bedst dokumenterede hjemmebehandling mod menstruationskramper. En varmepude på omkring 40 grader på underlivet i et par timer har i studier virket lige så godt som ibuprofen, og kombinationen er bedre end hver for sig. Varme afslapper livmodermusklen og øger blodgennemstrømningen. Kulde virker ikke på kramper, men mange har glæde af den til andet: en kold klud i nakken ved menstruationshovedpine, en kølig pose på ømme bryster i dagene før. Tommelfingerregel: varme til krampe og lænd, kulde til hovedpine og hævelse. Et varmt bad om aftenen rammer begge dele, fordi det også hjælper søvnen.',
+        'Den mest almindelige fejl med smertestillende er at vente. Ibuprofen og lignende blokerer dannelsen af prostaglandin, men de kan ikke fjerne det prostaglandin, der allerede er dannet. Tages pillen ved de første tegn, murren, træk i lænden, den kendte tyngde, når den at forebygge. Tages den, når smerten er på toppen, skal den kæmpe op ad bakke i en time. Det samme gælder migræne: jo tidligere behandlingen kommer, jo bedre virker den. Mange kvinder udskyder, fordi de ikke vil "tage medicin unødigt". Men rettidig medicin er ofte mindre medicin i alt. Din rolle er ikke at presse, men at gøre det nemt at vælge tidligt.',
       action:
-        'Fyld varmedunken eller varm puden, før hun spørger, og læg den i sofaen eller sengen, hvor hun er.',
+        'Læg de smertestillende et sted, hvor de er synlige og lette at nå, og sig: "De står der, hvis du mærker det komme."',
       phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
+      sources: [NHS_PAIN, NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 6),
       month: M,
       day: 6,
-      title: 'Bevægelse som smertestillende',
+      title: 'Paracetamol og ibuprofen: grundreglerne',
       insight:
-        'Det lyder forkert, når man har ondt, men let bevægelse dæmper menstruationssmerter hos mange. En gåtur, cykling i roligt tempo, yoga eller udstrækning øger blodgennemstrømningen i bækkenet og frigiver kroppens egne smertestillende stoffer, endorfiner. Studier peger på, at kvinder, der bevæger sig regelmæssigt, har mildere kramper, og at et enkelt let pas kan tage toppen af smerten her og nu. Det er ikke det samme som at træne igennem. Hård træning på dag 1 kan gøre det værre for nogle. Pointen er blid aktivitet, gerne udendørs, og gerne sammen. Det er lettere at gå en tur, når nogen går med.',
+        'To slags håndkøbsmedicin gør det meste af arbejdet. Ibuprofen virker mod prostaglandin og er derfor det bedste valg mod menstruationssmerter; det skal tages sammen med mad og er ikke egnet for alle, blandt andet ved mavesår, visse hjerte- og nyresygdomme, astma, der reagerer på det, og under graviditet. Paracetamol er mildere mod maven, virker mindre på kramper, men er et godt supplement og kan kombineres med ibuprofen. Følg pakkens dosering, hold afstand mellem doserne, og bland aldrig flere produkter, der indeholder det samme stof. Er hun i tvivl om, hvad hun må tage, er apoteket et gratis og godt sted at spørge. Din opgave er at kende forskellen, så du kan hente det rigtige.',
       action:
-        'Foreslå en kort gåtur på 15-20 minutter i dag, i hendes tempo. Tag et nej uden at overtale.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, NHS_EXERCISE],
+        'Tjek, at der er både ibuprofen og paracetamol i huset, og at udløbsdatoen holder. Fyld op i dag, hvis der mangler.',
+      phaseTags: [],
+      sources: [NHS_IBUPROFEN, NHS_PARACETAMOL],
     },
     {
       id: dailyId(M, 7),
       month: M,
       day: 7,
-      title: 'Væske, hovedpine og blodtab',
+      title: 'Lændesmerter og varme',
       insight:
-        'Væskemangel forstærker to ting, der allerede er i spil i menstruationen og dagene før: hovedpine og træthed. Kroppen mister væske med blodet, og mange drikker mindre, når de har kvalme eller ligger ned. Samtidig kan let dehydrering forværre kramper, fordi musklerne bliver mere følsomme. Anbefalingen er seks til otte glas væske om dagen, og det tæller alt: vand, te, mælk, suppe. Tørst er et sent signal, så en flaske inden for rækkevidde hjælper mere end et godt råd. Er hovedpinen tilbagevendende omkring menstruationen, er det ofte hormonel migræne, som fortjener en læge, ikke bare mere vand.',
+        'Menstruationssmerter sidder ikke kun i maven. Livmoderen deler nerveforsyning med lænden, og mange mærker kramperne som en dyb, murrende smerte i det nederste af ryggen, nogle gange ned i lårene. Det kaldes udstrålende smerte og er helt almindeligt. Varme er stadig det bedst dokumenterede huskeråd: en varmepude på lænden, et varmt bad eller en varmedunk under ryggen, når hun ligger ned. Varmen får musklerne til at slappe af og øger blodgennemstrømningen, som prostaglandinerne har strammet. Let strækning af lænden hjælper også nogle. Du kan ikke fjerne smerten, men du kan flytte varmen derhen, hvor den gør gavn, uden at hun skal rejse sig og finde den.',
       action:
-        'Sæt et fyldt glas eller en flaske vand der, hvor hun sidder eller ligger, og fyld den op igen, når den er tom.',
-      phaseTags: ['menstrual', 'luteal'],
-      sources: [NHS_EATWELL],
+        'Varm en varmedunk eller varmepude, og læg den klar på hendes side af sofaen eller sengen, før hun spørger.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_PAIN, SUNDHED_DK_SMERTER],
     },
     {
       id: dailyId(M, 8),
       month: M,
       day: 8,
-      title: 'Omega-3 og smerte',
+      title: '"Menstruationsinfluenza" er ikke indbildning',
       insight:
-        'Fed fisk som laks, makrel, sild og sardiner indeholder omega-3-fedtsyrer, der dæmper dannelsen af de prostaglandiner, der giver kramper. Flere mindre studier har fundet, at kvinder, der får omega-3 dagligt over nogle måneder, oplever mildere menstruationssmerter og bruger mindre smertestillende. Evidensen er ikke bombesikker, studierne er små, men effekten går den samme vej i de fleste, og risikoen ved at spise fisk to gange om ugen er nul. Plantekilder som hørfrø, chiafrø og valnødder giver en anden form for omega-3, der omdannes dårligere, men stadig tæller. Det er en ændring for hele måneden, ikke kun for menstruationsugen.',
+        'Mange kvinder beskriver dagene op til og ind i menstruationen som at være ved at blive syge: kuldegysninger, ømme muskler, tung krop, let feberfornemmelse, kvalme. Det er ikke en officiel diagnose, men mekanismen er velkendt. Prostaglandiner og andre betændelsesstoffer kommer ud i blodbanen og påvirker hele kroppen, ikke kun livmoderen, og hormonfaldet forstærker oplevelsen. Det går typisk over, når blødningen er godt i gang. Det, der hjælper, er det samme som ved almindelig influenza: hvile, væske, varme, nem mad og ibuprofen mod ømheden. Det, der ikke hjælper, er at tvivle på, om det er "rigtigt". Hvis hun har logget det før, ved du, at det kommer igen.',
       action:
-        'Lav eller køb et måltid med fed fisk i dag, eller sæt fisk på listen til to aftener i den kommende uge.',
-      phaseTags: [],
-      sources: [NHS_EATWELL, ACOG_DYSMENORRHEA],
+        'Hvis hun siger, hun føler sig sløj: behandl det som en sygedag uden diskussion. Te, tæppe, og tag aftenens opgaver.',
+      phaseTags: ['menstrual', 'luteal'],
+      sources: [NHS_PAIN],
     },
     {
       id: dailyId(M, 9),
       month: M,
       day: 9,
-      title: 'Follikelfasen: tid til styrke',
+      title: 'Maven: diarré og kvalme',
       insight:
-        'Når blødningen stopper, og østrogen stiger, får de fleste mere energi og hurtigere restitution. Østrogen har en beskyttende effekt på musklerne og hjælper med genopbygning efter træning. Nogle mindre studier har fundet, at styrketræning koncentreret i follikelfasen gav lidt større muskelvækst end samme mængde træning i lutealfasen. Evidensen er stadig tynd, men princippet holder uanset: læg de hårde pas der, hvor kroppen har overskud til dem. Det er nu, tunge løft, intervaller, lange løbeture og nye personlige rekorder giver bedst mening. Det er også her, det er sjovest at træne sammen, fordi I begge kan give den gas.',
+        'Løs mave på de første menstruationsdage er så almindeligt, at det har et kælenavn på mange sprog, men få taler om det. Prostaglandinerne, der får livmoderen til at trække sig sammen, rammer også tarmen, som ligger lige ved siden af. Resultatet er diarré, luft i maven, og for nogle kvalme og endda opkastning, når kramperne er værst. Det er ubehageligt og pinligt, ikke farligt, og det følger smerten: mindre prostaglandin, roligere mave. Derfor hjælper ibuprofen taget tidligt også på maven. Nem, mild mad, ikke for fed, ikke for meget kaffe, og let adgang til badeværelset gør resten. Kvalme dæmpes af små portioner og ingefær for nogle.',
       action:
-        'Spørg, om hun har lyst til at træne eller løbe sammen i denne uge, og book en konkret dag og et tidspunkt.',
-      phaseTags: ['follicular'],
-      sources: [NHS_EXERCISE],
+        'Lav noget mildt og nemt at spise i dag, som ris, suppe, brød eller havregrød, og lad hende springe over, hvis hun ikke kan.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
     },
     {
       id: dailyId(M, 10),
       month: M,
       day: 10,
-      title: 'Protein til restitution',
+      title: 'Gør status, nu hvor der er overskud',
       insight:
-        'Muskler bygges op efter træning, ikke under, og det kræver protein. Den generelle anbefaling til voksne er omkring 0,8 gram per kilo kropsvægt om dagen, men styrketræner man regelmæssigt, er 1,2-1,6 gram per kilo et rimeligt mål. Det svarer for en kvinde på 65 kilo til cirka 80-100 gram protein om dagen, fordelt på måltiderne: æg og yoghurt til morgen, bønner, kylling, fisk eller tofu til frokost og aften. Mange kvinder spiser for lidt protein, især til morgenmad, og mærker det som træthed og sult efter træning. Det er ikke en "muskelmand-ting". Protein giver også mæthed og hjælper med at holde blodsukkeret stabilt.',
+        'Follikelfasen er det bedste tidspunkt til at tale om det svære, fordi det svære er overstået, og energien er tilbage. Det gælder også smerte. At spørge "hvordan var din menstruation denne gang?" midt i kramperne føles som et forhør. At spørge det en uge senere, mens I laver mad, føles som interesse. Og det er nu, hendes hukommelse om dagene stadig er frisk nok til at være præcis. Var det værre eller bedre end sidst? Hvad hjalp? Var der noget, hun manglede? Svarene er guld til næste måned, og de er kun tilgængelige, hvis nogen spørger på det rigtige tidspunkt. Det er dig, der har kalenderen.',
       action:
-        'Sørg for, at der er protein i det første måltid i morgen: æg, skyr, hytteost eller bønner. Gør det klar i aften.',
+        'Spørg i dag: "Hvad var det værste ved din menstruation denne gang, og var der noget, der hjalp?" Skriv svaret i en note i kalenderen.',
       phaseTags: ['follicular'],
-      sources: [NHS_EATWELL],
     },
     {
       id: dailyId(M, 11),
       month: M,
       day: 11,
-      title: 'Lav mad sammen',
+      title: 'Cyklisk træthed og jern',
       insight:
-        'Follikelfasen er det bedste tidspunkt at etablere vaner, fordi der er overskud til det. Madlavning er en af de få husholdningsopgaver, der kan være hyggelig frem for et krav, når man gør den sammen. Det handler ikke om at lave noget avanceret, men om at stå i køkkenet samtidig: én hakker, én rører, musik i baggrunden. Det giver samtale, uden at det er "en samtale", og det giver et fælles ejerskab til, hvad der bliver spist. Den partner, der aldrig laver mad, ender med at kommentere maden. Den, der laver den, forstår, hvorfor tingene er, som de er. Det er den forskel, mange kvinder mærker mest.',
+        'Træthed, der kommer igen hver måned, kan have flere kilder, men én er let at overse: jern. Hver menstruation koster jern, og ved kraftige blødninger kan tabet være større, end kosten når at erstatte. Jernmangel udvikler sig langsomt og mærkes som vedvarende træthed, forpustethed ved trapper, bleghed, koncentrationsbesvær, hovedpine og for nogle uro i benene om natten. Det bliver ofte afskrevet som travlhed eller dårlig søvn. En simpel blodprøve hos lægen måler hæmoglobin og jerndepoter, og behandlingen er enkel. Jerntilskud skal dog ikke tages i blinde; for meget jern er heller ikke godt. Hvis trætheden ikke letter i follikelfasen, er det et tegn på, at noget andet trækker.',
       action:
-        'Lav aftensmaden sammen i aften. Du vælger retten og handler ind, så hun kun skal møde op i køkkenet.',
+        'Spørg, om hun har fået målt sit jern inden for det seneste år. Hvis ikke, og hun bløder kraftigt, så foreslå det som en helt almindelig tjek-ting.',
       phaseTags: ['follicular'],
+      sources: [NHS_IRON, NHS_HEAVY],
     },
     {
       id: dailyId(M, 12),
       month: M,
       day: 12,
-      title: 'Indkøbsliste: første halvdel af cyklussen',
+      title: 'Søvngæld hen over cyklussen',
       insight:
-        'Hvis du handler ind, bestemmer du en stor del af, hvad der er muligt at spise derhjemme. I første halvdel af cyklussen, fra menstruationen og frem mod ægløsning, er det disse ting, der er værd at have i huset: jernrige varer (oksekød, linser, kikærter, bønner, havregryn, spinat), C-vitamin ved siden af (peberfrugt, citrus, kiwi, broccoli), protein til restitution (æg, skyr, kylling, fisk, tofu) og fed fisk et par gange om ugen. Plus det, hun faktisk kan lide. En liste, der kun består af "sundt", bliver ikke spist. En liste, der tager højde for, hvad kroppen mister og bygger op, er en stille form for omsorg.',
+        'Søvnen følger også cyklussen. I lutealfasen holder progesteron kropstemperaturen oppe, og mange vågner oftere og sover lettere. I PMS-dagene forstyrrer uro og hormonfald. På menstruationens første nætter vækker smerte og lækage. Hver enkelt nat er måske kun lidt dårligere, men over ti-tolv dage bliver det til en søvngæld, som forklarer, hvorfor irritabilitet, hovedpine og smertefølsomhed er værst lige omkring blødningen: søvnmangel sænker smertetærsklen målbart. Follikelfasen er der, gælden betales tilbage, hvis hun får lov. Det betyder, at en tidlig sengetid dag 3-8 ikke er dovenskab, men reparation, og at du kan hjælpe ved at beskytte de nætter.',
       action:
-        'Skriv ugens indkøbsliste i dag, og sørg for, at mindst fem af varerne kommer fra listen ovenfor. Vis hende den, og spørg, hvad der mangler.',
-      phaseTags: ['follicular'],
-      sources: [NHS_EATWELL, NHS_IRON],
+        'Foreslå en tidlig sengetid i aften uden skærm, og tag det, der plejer at holde hende oppe: opvasken, madpakkerne, det sidste tjek af noget.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 13),
       month: M,
       day: 13,
-      title: 'Hendes mad er ikke dit projekt',
+      title: 'Bevægelse forebygger smerte',
       insight:
-        'Der er en grænse mellem at gøre det gode valg nemt og at holde øje. Kommentarer som "skal du virkelig have mere?", "har du ikke fået nok sukker i dag?" eller "det er ikke særlig sundt" hjælper aldrig, uanset hvor kærligt de er ment. De gør mad til noget, der skal forsvares, og det er præcis det modsatte af, hvad kroppen har brug for, især i lutealfasen, hvor appetitten stiger af biologiske grunde. Din indflydelse ligger i, hvad der er i køleskabet, hvad du selv laver, og hvad du selv spiser. Ikke i, hvad hun putter i munden. Hun er voksen, og hendes krop er hendes. Den regel har ingen undtagelser.',
+        'Det lyder forkert, men regelmæssig motion er en af de bedst dokumenterede måder at få mildere menstruationssmerter på. Ikke under kramperne, men i ugerne før. Fysisk aktivitet forbedrer blodgennemstrømningen i bækkenet, sænker niveauet af stresshormoner og frigiver kroppens egne smertedæmpende stoffer. Kvinder, der bevæger sig jævnligt, rapporterer i gennemsnit kortere og mildere smerter. Det behøver ikke være hårdt: rask gang, cykling, svømning eller yoga tæller. Follikelfasen er det oplagte tidspunkt, fordi energien og lysten er der. Din rolle er ikke at være træner, men at gøre det let at komme afsted, og allerhelst at tage med.',
       action:
-        'Læg mærke til i dag, om du er ved at kommentere noget, hun spiser. Hvis ja: sig ingenting. Kommentér i stedet noget, du selv vil gøre.',
-      phaseTags: [],
+        'Foreslå en gåtur eller cykeltur sammen i dag, og gør det til jer, ikke til "for din menstruations skyld".',
+      phaseTags: ['follicular'],
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
     },
     {
       id: dailyId(M, 14),
       month: M,
       day: 14,
-      title: 'Ægløsning: brug toppen',
+      title: 'Væske og koffein: to stille hovedpine-kilder',
       insight:
-        'Omkring ægløsningen topper østrogen, og mange oplever cyklussens højeste energi, bedste humør og hurtigste restitution. Det er tidspunktet for det hårdeste træningspas, den lange vandretur, det løb eller den nye aktivitet, I har talt om. Nogle mærker et kort jag i underlivet og en smule oppustethed, men ellers arbejder kroppen med. Der er én ting, der er værd at vide: østrogen påvirker ledbåndenes stivhed, og nogle studier peger på flere knæskader i dagene omkring ægløsning. Det er ikke en grund til at holde igen, men til at varme ordentligt op. Ellers: giv den gas sammen, mens kroppen er med på det.',
+        'To af de hyppigste hovedpine-udløsere har intet med hormoner at gøre, men de forstærker de hormonelle. Væskemangel giver hovedpine i sig selv og gør en migræne værre, og mange drikker mindre, når de har det dårligt. Koffein er dobbelt: en stabil daglig mængde er fint og kan endda dæmpe hovedpine, men springes den vante kop over, kommer der abstinenshovedpine inden for et døgn. Uregelmæssigt koffeinindtag, meget en dag og lidt den næste, er derfor en klassisk udløser. Kaffe sent på dagen forværrer også den søvn, der i forvejen er skrøbelig i lutealfasen. Det enkleste råd er kedeligt: samme mængde kaffe hver dag, ikke efter klokken 15, og et glas vand ved siden af.',
       action:
-        'Planlæg noget aktivt og lidt ambitiøst inden for de næste par dage: en lang tur, et hårdt pas, en svømmetur.',
-      phaseTags: ['ovulation'],
-      sources: [NHS_EXERCISE],
+        'Stil et glas vand eller en flaske ved hendes plads i dag, morgen og aften, uden at kommentere det.',
+      phaseTags: [],
+      sources: [NHS_MIGRAINE, NHS_TENSION],
     },
     {
       id: dailyId(M, 15),
       month: M,
       day: 15,
-      title: 'Alkohol gennem cyklussen',
+      title: 'Ægløsningssmerte: et jag i den ene side',
       insight:
-        'Alkohol rammer ikke ens hele måneden. Omkring ægløsning er der ofte lyst til at fejre, og der er ikke noget galt i et glas. Men i lutealfasen, og især i PMS-dagene, koster det mere: alkohol forstyrrer søvnen, som allerede er dårligere på grund af progesteron, og den forværrer humørsvingninger og uro dagen efter. Studier har fundet en sammenhæng mellem alkohol og både hyppighed og styrke af PMS. Alkohol dræner også kroppen for væske og sænker blodsukkeret senere på natten, hvilket forstærker uro og sult. Ingen forbud, kun timing: det glas, der er en glæde dag 14, er ofte en dårlig handel dag 26.',
+        'Omkring hver femte kvinde mærker ægløsningen som en smerte i den ene side af underlivet, når folliklen brister og lidt væske irriterer bughinden. Det kaldes ægløsningssmerte eller mittelschmerz. Den varer fra nogle minutter til et par dage, kan skifte side fra måned til måned, og er som regel mild og harmløs. Nogle mærker den også som en tyngde eller let kvalme. Den er faktisk nyttig, fordi den er et af de mest præcise tegn på, hvor i cyklussen hun er. Kraftig ægløsningssmerte, smerte med feber, eller smerte, der kommer sammen med usædvanlig blødning, hører ikke til det normale og fortjener en læge.',
       action:
-        'Hvis I skal have et glas i aften, så sørg for mad og vand ved siden af. Er hun i PMS-dagene, så foreslå selv noget uden alkohol.',
-      phaseTags: ['ovulation', 'luteal'],
-      sources: [NHS_PMS],
+        'Hvis hun nævner et jag i siden i dag: log det i kalenderen sammen med hende, og se om appens ægløsningsdato passer.',
+      phaseTags: ['ovulation'],
     },
     {
       id: dailyId(M, 16),
       month: M,
       day: 16,
-      title: 'Cycle syncing: myte og fornuft',
+      title: 'Hovedpine midt i cyklussen',
       insight:
-        'Du har måske set "cycle syncing": planer, der fortæller præcis, hvad man skal spise og træne i hver fase. Den ærlige status er, at der er meget lidt forskning bag de detaljerede skemaer. Kroppens energibehov stiger kun cirka 100-300 kalorier om dagen i lutealfasen, og ingen fødevare "balancerer hormoner". Det, der holder, er de enkle principper: jern og C-vitamin i menstruationen, hårde pas når energien er høj, stabilt blodsukker og mere restitution i den sidste uge. Det er almindelig god ernæring med bedre timing, ikke magi. Vær skeptisk over for alt, der sælger tilskud eller kræver et abonnement. Vær åben over for det, hun selv mærker virker.',
+        'Menstruationsmigræne er det kendte mønster, men nogle kvinder får også migræne omkring ægløsningen. Forklaringen er formentlig det bratte østrogenfald lige efter østrogentoppen, samme mekanisme som før menstruationen, bare mindre. Det bliver sjældent opdaget, fordi hovedpine dag 14 ikke "lyder hormonel", og fordi kalendere sjældent læses for midtcyklus-symptomer. Efter et par loggede cyklusser kan mønstret være tydeligt: hovedpine to steder i måneden, begge med præcis timing. Hvis det er tilfældet, er det vigtig viden for både hende og lægen, fordi behandling kan tilrettelægges efter det. Det starter med, at symptomet bliver logget, også når det ikke passer ind i det forventede.',
       action:
-        'Spørg hende, om hun har stødt på cycle syncing, og hvad hun tænker om det. Del dette korts ærlige version.',
-      phaseTags: [],
-      sources: [NHS_EATWELL, NHS_PMS],
+        'Kig i kalenderen efter hovedpine i dagene omkring ægløsningen i de sidste cyklusser. Fortæl hende, hvad du så, uanset svaret.',
+      phaseTags: ['ovulation'],
+      sources: [NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 17),
       month: M,
       day: 17,
-      title: 'Lutealfasen: hold blodsukkeret stabilt',
+      title: 'Sådan læser du kalenderen',
       insight:
-        'Efter ægløsning gør progesteron kroppen lidt mindre følsom over for insulin, og forbrændingen stiger en smule. Det betyder, at blodsukkeret svinger mere: hurtige kulhydrater giver et højere hop og et dybere fald. Faldet mærkes som pludselig sult, rysten, irritabilitet og trang til mere af det samme. Det er en stor del af forklaringen på, at PMS-dagene føles så ustabile. Modtrækket er kedeligt og effektivt: regelmæssige måltider hver tredje til fjerde time, protein og fibre i hvert, og aldrig for lang tid uden mad. En sen frokost på dag 25 er en kendt opskrift på et skænderi klokken 15.',
+        'En log er kun værdifuld, hvis den bliver læst, og de fleste læser den forkert: én dag ad gangen. Prøv i stedet at læse den som en linje. Find de sidste to-tre menstruationsstarter. Tæl bagud fra hver: hvilken dag kom hovedpinen? Hvor mange dage før blødningen begyndte trætheden? Hvor mange dage varede smerten? Læg tallene ved siden af hinanden. Rammer de samme cyklusdag plus minus én, er det et mønster. Rammer de tilfældigt, er det noget andet. Så tag mønstret og læg det fremad: hvis hovedpinen plejer at komme to dage før blødning, og appen forventer blødning på fredag, er onsdag dagen at være klar. Det er hele metoden.',
       action:
-        'Tjek, hvornår hun sidst har spist, hvis stemningen skifter i eftermiddag. Sæt noget med protein frem uden at kommentere det.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PMS],
+        'Vælg ét symptom, hun logger ofte, og find dets cyklusdag i de sidste to cyklusser. Regn ud, hvornår det forventes næste gang.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 18),
       month: M,
       day: 18,
-      title: 'Fibre gør mætheden lang',
+      title: 'Symptomdagbog til lægen',
       insight:
-        'Fibre bremser optaget af sukker fra tarmen, så et måltid med fuldkorn, bønner, grøntsager og frugt giver en jævnere blodsukkerkurve end det samme antal kalorier fra hvidt brød og slik. Anbefalingen er 30 gram fibre om dagen, og de fleste får omkring det halve. Fibre hjælper også mod den forstoppelse, som progesteron ofte giver i lutealfasen, fordi det sænker tarmens bevægelser. Havregryn, rugbrød, linser, æbler, pærer, gulerødder, nødder og frø er de nemme kilder. Sammen med rigeligt vand er det en af de mest undervurderede ting mod oppustethed. Skift ét hvidt produkt ud med et fuldkornsprodukt, så er du i gang.',
+        'Skal hun til lægen med smerter eller migræne, er det bedste, hun kan tage med, en dagbog over to-tre cyklusser. Lægen har brug for at vide: hvilke dage, hvor slemt på en skala fra 1 til 10, hvor længe det varede, hvad hun tog og om det virkede, og om hun måtte aflyse noget. Netop det sidste, funktionstab, er det, der flytter en konsultation fra "det er nok normalt" til "det skal vi undersøge". Appens kalender og noter er en færdig dagbog, hvis de er brugt, og den kan læses op eller vises på fem minutter. Mange lever med smerter i årevis, fordi de i lægens kontor ikke kan huske, hvor slemt det egentlig var. Din opgave er at sikre, at det er skrevet ned.',
       action:
-        'Skift én ting i huset til fuldkorn i dag: brødet, risen, pastaen eller morgenmaden. Uden at gøre et nummer ud af det.',
-      phaseTags: ['luteal'],
-      sources: [NHS_EATWELL],
+        'Spørg, om der er en lægetid, hun har udskudt. Tilbyd at samle de sidste cyklussers smertedage fra kalenderen på et stykke papir.',
+      phaseTags: [],
+      sources: [NHS_ENDO, NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 19),
       month: M,
       day: 19,
-      title: 'Magnesium og PMS: hvad evidensen siger',
+      title: 'Ledsmerter og stive morgener',
       insight:
-        'Magnesium bliver ofte anbefalet mod PMS, og det er værd at kende den ærlige status. Nogle mindre studier har fundet, at magnesium dæmpede oppustethed, ømme bryster og humørsymptomer, og at kombinationen med B6 virkede lidt bedre. Andre studier fandt ingen effekt. Samlet set: begrænset evidens, men lav risiko ved fornuftige doser, og en mulig gevinst. Magnesium fra maden er der ingen tvivl om: fuldkorn, nødder, frø, bønner, mørk chokolade og grønne blade er alle gode kilder. Overvejer hun et tilskud, er det en samtale med apoteket eller lægen, ikke med en influencer, især hvis hun tager anden medicin eller har nyreproblemer.',
+        'Nogle kvinder mærker ømme eller stive led, især knæ, hænder og lænd, i dagene før og under menstruationen. Mekanismen er ikke fuldt forstået, men østrogen har en dæmpende effekt på betændelse og smerte, og når det falder, mærkes led og muskler mere. Væskeophobning i lutealfasen kan gøre led stive og hænder hævede, og prostaglandiner bidrager til den generelle ømhed. Kvinder med gigtsygdomme oplever ofte, at symptomerne svinger med cyklussen. Mild, cyklisk ledømhed er almindelig og går over med blødningen. Vedvarende hævelse, rødme, varme eller stivhed over en time om morgenen er noget andet og fortjener en læge. Varme, bevægelse og at undgå tunge løft de dage hjælper.',
       action:
-        'Sæt nødder, frø eller mørk chokolade frem som snack i dag. Det er magnesium uden at kalde det magnesium.',
+        'Tag de tunge løft i dag: indkøbsposer, vasketøjskurven, det der skal flyttes. Sig ikke hvorfor, bare gør det.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS, NHS_VITAMINS],
     },
     {
       id: dailyId(M, 20),
       month: M,
       day: 20,
-      title: 'Kalcium og PMS: den bedste af de svage',
+      title: 'Forstoppelse i lutealfasen',
       insight:
-        'Af alle kosttilskud mod PMS er kalcium det med den mest konsistente evidens. Et større lodtrækningsstudie fandt, at 1200 mg kalcium dagligt over tre cyklusser dæmpede humørsymptomer, væskeophobning, smerte og sult markant, og senere studier har peget samme vej. Mekanismen er ikke helt klar, men kalciumniveauet i blodet svinger med østrogen. Kalcium fra maden er det sikreste sted at starte: mælk, yoghurt, ost, kalciumberiget plantemælk, sardiner, mandler og grønkål. Den daglige anbefaling for voksne ligger omkring 700-1000 mg. D-vitamin er nødvendigt for at optage kalcium, og i den danske vinter er det svært at få nok fra solen alene.',
+        'Hvor menstruationen giver løs mave, giver lutealfasen ofte det modsatte. Progesteron får glat muskulatur til at slappe af, også i tarmen, så maden bevæger sig langsommere igennem. Resultatet er forstoppelse, oppustethed og luft i ugen før menstruationen, ofte ovenpå den væskeophobning, der i forvejen strammer bukserne. Når blødningen begynder og prostaglandinerne tager over, vender det, ofte brat. Det er en af grundene til, at maven kan føles så forskellig fra uge til uge. Det, der hjælper, er kedeligt og effektivt: fibre fra grøntsager, frugt og fuldkorn, rigeligt vand, og daglig bevægelse. Det, der ikke hjælper, er at kommentere maven.',
       action:
-        'Tjek køleskabet: er der yoghurt, ost, mælk eller beriget plantemælk? Hvis ikke, så køb det i dag.',
+        'Lav aftensmad med rigeligt grønt og fuldkorn i dag, og foreslå en kort gåtur efter maden.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS, ACOG_PMS],
     },
     {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'Salt, oppustethed og væske',
+      title: 'Lutealtræthed er fysiologi, ikke dovenskab',
       insight:
-        'Oppustethed i lutealfasen skyldes, at progesteron og østrogen påvirker, hvordan nyrerne håndterer salt og væske. Kroppen holder på mere, og maven, fingrene og brysterne kan føles hævede. Det er ikke fedt, det er vand, og det forsvinder, når menstruationen begynder. Meget salt forværrer det: færdigretter, chips, saltede nødder og takeaway indeholder ofte flere gange den mængde salt, man selv ville bruge. Modtrækket er ikke at drikke mindre, tværtimod; rigeligt vand hjælper nyrerne med at skille sig af med overskuddet. Kalium fra kartofler, bananer og grøntsager hjælper også. Og tøj, der ikke strammer om maven, er ikke en detalje i den uge.',
+        'Trætheden i den sidste uge før menstruationen har sin egen forklaring. Progesteron virker sløvende på hjernen, næsten som et mildt beroligende middel. Kropstemperaturen er forhøjet, hvilket i sig selv koster energi og forstyrrer søvnen. Serotonin falder med østrogen. Kroppen forbrænder lidt mere og efterspørger mere mad. Lagt sammen giver det en tyngde, hvor alt kræver mere, og hvor sofaen kalder klokken 20. Det er ikke mangel på vilje, og det bliver ikke bedre af at blive presset. Det bliver bedre af søvn, mad til tiden, lavere krav, og at nogen tager det praktiske. Ligger trætheden i loggen på samme dage hver måned, ved du præcis, hvornår du skal sænke tempoet.',
       action:
-        'Lav mad fra bunden i aften i stedet for færdigret eller takeaway, og server rigeligt vand til.',
+        'Kig i kalenderen: hvornår forventes næste menstruation? Ryd eller flyt én aftale i de fem dage før, uden at spørge først.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'Koffein sidst i lutealfasen',
+      title: 'Spændingshovedpine: nakke, skærm og stress',
       insight:
-        'Koffein har en halveringstid på omkring fem timer, så en kop klokken 15 er stadig halvt aktiv klokken 20. I lutealfasen, hvor søvnen allerede er lettere på grund af progesteron og en højere kropstemperatur, kan det være forskellen på at falde i søvn og at ligge og vende sig. Koffein kan også forstærke uro, hjertebanken og ømme bryster i PMS-dagene, og det er en af de få ting, sundhedsmyndighederne faktisk anbefaler at skære ned på ved PMS. Det betyder ikke ingen kaffe. Det betyder tidligere kaffe og færre kopper i den sidste uge. Og det er lettest at gøre, hvis I begge gør det.',
+        'Spændingshovedpine er den mest almindelige hovedpine overhovedet: et trykkende bånd om panden eller nakken, på begge sider, mild til moderat, uden kvalme. Den udløses af stress, anspændte nakke- og skuldermuskler, for lang tid ved skærmen, for lidt søvn, for lidt vand og sprunget mad. I lutealfasen, hvor søvnen er dårligere og stresstærsklen lavere, kommer den lettere. Den behandles med det enkle: pause, vand, mad, frisk luft, varme på nakken, og paracetamol eller ibuprofen, hvis den ikke slipper. Hyppig spændingshovedpine, mere end et par gange om ugen, er et signal om, at hverdagen presser for hårdt, ikke bare at der mangler en pille.',
       action:
-        'Lav kaffen tidligt i dag, og foreslå noget koffeinfrit efter frokost: urtete, koffeinfri kaffe eller bare vand.',
+        'Hvis hun har hovedpine i dag: tag børnene, lyden eller opgaven ud af rummet i en halv time, og sæt vand og noget at spise ved hende.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS],
+      sources: [NHS_TENSION],
     },
     {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'Sænk intensiteten, øg restitutionen',
+      title: 'Reager før hun beder om det',
       insight:
-        'I den sidste uge før menstruation har mange lavere energi, dårligere søvn og længere restitution efter hård træning. Kropstemperaturen er højere, hvilket gør varme og udholdenhedstræning mere krævende, og progesteron nedbryder muskel lidt mere, end østrogen bygger op. Det er ikke tiden til nye rekorder, og det er ikke tiden til at presse igennem, når kroppen siger nej. Men bevægelse hjælper stadig på humøret og på PMS-symptomer, så nøglen er mindre intensitet, ikke mindre bevægelse. Gåture, let styrke, svømning, yoga. Regelmæssig, moderat motion dæmper PMS-symptomer mærkbart, og det er kontinuiteten, ikke hårdheden, der tæller.',
+        'Det er månedens vigtigste færdighed, og den er enkel: mønstret i loggen fortæller, hvad der kommer, og du handler dagen før. Plejer migrænen at ramme to dage før blødning, sørger du for stilhed, mørke gardiner og at hendes medicin ligger fremme dagen før. Plejer trætheden at komme dag 26, laver du mad og lader hende gå tidligt i seng. Plejer rygsmerterne at komme dag 1, er varmedunken fyldt aftenen før. Ingen af delene kræver, at hun forklarer sig eller beder om noget, og det er pointen. At bede om hjælp koster energi, som hun ikke har de dage. At få den uden at bede er beviset på, at nogen har lagt mærke til hende.',
       action:
-        'Hvis I har planlagt hård træning i denne uge, så foreslå selv at skrue ned og gå en tur i stedet. Gør det til dit forslag, ikke hendes nederlag.',
+        'Find det ene symptom, der er mest forudsigeligt i hendes log, og gør én forberedelse til det i dag, før det rammer.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS, NHS_EXERCISE],
     },
     {
       id: dailyId(M, 24),
       month: M,
       day: 24,
-      title: 'Søvnhygiejne i den svære uge',
+      title: 'Migræne: hvad der hjælper, når det rammer',
       insight:
-        'Dårlig søvn er den enkeltfaktor, der forværrer PMS mest, og lutealfasen gør søvnen sværere af sig selv: højere kropstemperatur, hyppigere opvågninger, mere uro. Derfor er søvnhygiejne ikke et luksusbegreb i den uge, det er førstehjælp. De ting, der virker, er kendte: samme sengetid hver dag, et køligt og mørkt soveværelse, ingen skærme den sidste halve time, intet koffein efter middag og ingen alkohol som "sovemiddel". Og ro om aftenen, som ikke kommer af sig selv, hvis der stadig er opvask, beskeder og planer klokken 22. Det er der, du kommer ind. Du kan ikke sove for hende, men du kan rydde aftenen for hende.',
+        'Et migræneanfald kan ikke "tages sig sammen" igennem, men det kan gøres mindre. Behandlingen skal ind tidligt: ibuprofen eller anden håndkøbsmedicin ved første tegn, og triptaner, hvis lægen har ordineret dem. Derefter: et mørkt, stille, køligt rum, søvn hvis det er muligt, en kold klud på panden eller varme i nakken, små slurke vand, og noget let at spise mod kvalmen. Det, der forværrer, er lys, lyd, lugte, skærme og at skulle svare på spørgsmål. Din rolle er at fjerne verden fra hende i nogle timer: børn, telefon, aftaler, gæster. "Jeg tager det hele, læg dig" er den sætning, der hjælper mest. Bagefter er hun ofte udmattet i et døgn; det er en del af anfaldet.',
       action:
-        'Tag hele aftenrutinen i dag: opvask, børn, låse, lys. Sig "gå bare i seng, jeg tager resten" en halv time tidligere end normalt.',
-      phaseTags: ['luteal'],
-      sources: [NHS_SLEEP, NHS_PMS],
+        'Sørg for, at soveværelset kan gøres helt mørkt og stille i aften, og aftal et ord, hun kan sende, der betyder "migræne, tag over".',
+      phaseTags: ['luteal', 'menstrual'],
+      sources: [NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 25),
       month: M,
       day: 25,
-      title: 'Indkøbsliste: anden halvdel af cyklussen',
+      title: 'Hvornår hovedpine fortjener en læge',
       insight:
-        'I ugen op til menstruationen ændrer behovene sig, og det kan indkøbslisten afspejle. Det, der er værd at have: fuldkorn og fibre (havregryn, rugbrød, brune ris, linser), protein til hvert måltid (æg, skyr, kylling, fisk, bønner), kalcium (yoghurt, ost, mælk), magnesium (nødder, frø, mørk chokolade), kalium mod væske (bananer, kartofler), fed fisk, og gode snacks til de sultne timer: frugt, nødder, hytteost, grovkiks. Mindre af: færdigretter, chips, sodavand, alkohol. Og ja, den chokolade eller de chips, hun faktisk ønsker sig. Formålet med listen er ikke at kontrollere, men at gøre det nemt at spise regelmæssigt uden at skulle tænke over det.',
+        'Det meste hovedpine er ufarlig, men to slags kræver handling. Den akutte: hovedpine, der kommer som et lyn fra en klar himmel og er værst inden for et minut, hovedpine med feber, nakkestivhed eller udslæt, efter et slag mod hovedet, eller sammen med lammelse, talebesvær, synstab eller forvirring. Der ringer man 112 eller lægevagten med det samme. Den kroniske: migræne flere dage om måneden, hovedpine der forstyrrer arbejde eller søvn, eller anfald der bliver hyppigere. Det fortjener en tid hos egen læge, som kan tilbyde forebyggende behandling og tilpasse den til cyklussen. Har hun migræne med aura, skal lægen desuden vide det, før hun får p-piller med østrogen, fordi kombinationen frarådes.',
       action:
-        'Handl ind til de næste tre dage efter listen ovenfor, og læg en snack med protein synligt frem på køkkenbordet.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PMS, NHS_EATWELL],
+        'Læs de akutte tegn højt for dig selv én gang, så du kan dem. Spørg så, om hendes migræne har ændret sig det seneste år.',
+      phaseTags: [],
+      sources: [NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 26),
       month: M,
       day: 26,
-      title: 'Kropsbillede: det, du siger, bliver hængende',
+      title: 'Smerte, der ikke er normal',
       insight:
-        'Kroppen ændrer sig gennem cyklussen: oppustet i lutealfasen, tungere i menstruationen, lettere omkring ægløsning. Vægten kan svinge et par kilo på en uge alene af væske. Mange kvinder ved det godt og har alligevel svært ved at lade være med at måle sig på det, fordi kroppen er blevet kommenteret hele livet. Det, du siger, lander oven på det. Selv "du ser sund ud" eller "har du tabt dig?" fortæller, at kroppen bliver vurderet. Det mest hjælpsomme er at gøre kroppen til et ikke-emne: tale om, hvad den kan, hvordan dagen var, hvad hun gjorde godt. Og aldrig kommentere mave, vægt eller portioner.',
+        'Almindelige menstruationssmerter reagerer på varme og ibuprofen, holder sig til de første par dage, og forhindrer ikke hverdagen. Alt andet fortjener en læge. Tegnene er: smerte, der også kommer uden for menstruationen, smerte ved sex, smerte ved afføring eller vandladning omkring blødningen, kraftig blødning med klumper, smerter der ikke rykkes af medicin, og menstruationer der koster sygedage. Bag det kan ligge endometriose, adenomyose eller fibromer, tre tilstande, der er almindelige, kan behandles, og alligevel tager år at få stillet, fordi smerten normaliseres af alle omkring hende, ofte også af hende selv. Du skal ikke gætte, hvad det er. Du skal være den, der siger, at det ikke skal være sådan.',
       action:
-        'Sig noget i dag om, hvad hun gjorde eller kunne, ikke hvordan hun så ud. Og læg mærke til, hvor let det modsatte kommer.',
-      phaseTags: [],
+        'Hvis to eller flere af tegnene passer på hende: sig det højt i dag, "det her fortjener en læge", og tilbyd at booke tiden og tage med.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_ENDO, NHS_FIBROIDS],
     },
     {
       id: dailyId(M, 27),
       month: M,
       day: 27,
-      title: 'Når mad bliver et problem: det fortjener en læge',
+      title: 'Mange piller er også et signal',
       insight:
-        'Spiseforstyrrelser er almindelige, ofte skjulte, og de rammer ikke kun teenagere. Tegn, der er værd at tage alvorligt: måltider, der springes over eller spises i smug, regler der bliver strammere, træning der ikke kan aflyses uanset hvad, stærk uro ved mad hun ikke selv har kontrol over, og en cyklus, der bliver uregelmæssig eller forsvinder, fordi kroppen mangler energi. Du skal ikke stille diagnosen, og du skal ikke overvåge. Men du må gerne sige, at du er bekymret, og at det fortjener en læge. Uden at nævne vægt, uden at kommentere maden, og uden at gøre det til en diskussion. Bare: "Jeg er bekymret for dig, og jeg vil gerne hjælpe."',
+        'Smertestillende er gode, når de bruges rigtigt, men de har en bagside: tages de for ofte, kan de selv give hovedpine. Det kaldes medicinoverforbrugshovedpine og opstår typisk, når almindelige smertestillende bruges 15 eller flere dage om måneden, eller triptaner 10 eller flere dage, i flere måneder i træk. Hovedpinen bliver daglig og dump, og hver pille giver en kort pause, hvorefter den kommer tilbage. Den eneste vej ud er at stoppe, og det bør gøres med lægen. Tæller du dagene i loggen, hvor hun tager noget, og tallet nærmer sig ti om måneden, er det ikke et tegn på, at hun er svag, men på, at grundproblemet skal behandles bedre.',
       action:
-        'Hvis noget på listen genkendes: sig sætningen i dag, roligt og uden krav. Hvis ikke: gem kortet, og vær opmærksom.',
+        'Tæl i kalenderen, hvor mange dage i sidste cyklus der blev taget smertestillende. Er det over otte, så nævn det roligt og uden dom.',
       phaseTags: [],
-      sources: [NHS_EATING],
+      sources: [NHS_MIGRAINE, NHS_PARACETAMOL],
     },
     {
       id: dailyId(M, 28),
       month: M,
       day: 28,
-      title: 'Kosttilskud: det, der er værd at vide',
+      title: 'Forbered menstruationen ud fra loggen',
       insight:
-        'Markedet for tilskud mod PMS og menstruationsgener er enormt, og det meste er ikke værd at bruge penge på. Status for de mest omtalte: kalcium har den bedste evidens, magnesium og B6 har svag evidens med lav risiko, omega-3 ser ud til at hjælpe på smerter, og D-vitamin er relevant i vinterhalvåret. Jerntilskud skal kun tages, hvis en blodprøve viser mangel, fordi for meget jern er skadeligt. Perikon og andre urter kan påvirke anden medicin, herunder p-piller. Grundreglen er den samme som for alt andet i denne måned: mad først, tilskud efter aftale med læge eller apotek, og dyre "hormonbalance"-produkter er reklame, ikke medicin.',
+        'Måned 1 lærte dig de fire ting, der skal være i huset: bind eller tamponer, smertestillende, nem mad og varme. Nu kan du gøre det personligt. Loggen fortæller, hvad netop hun har brug for: er dag 1 en rygdag, er varmen vigtigst; er det en migrænedag, er mørke og ro vigtigst; er det maven, er mild mad og et frit badeværelse vigtigst; er det trætheden, er en ryddet kalender vigtigst. Forberedelsen skal ligge dagen før den forventede blødning, ikke på dagen, fordi symptomerne ofte starter før blodet. Og fordi forudsigelsen er et skøn, gælder den fra to dage før. En forberedelse, der rammer, mærkes ikke som noget, du gjorde. Den mærkes som, at det var lettere.',
       action:
-        'Hvis der står tilskud i skabet, så spørg nysgerrigt, hvad de er for, og om de virker for hende. Ingen dom, kun interesse.',
-      phaseTags: [],
-      sources: [NHS_VITAMINS, NHS_PMS],
+        'Tjek appens forventede dato for næste menstruation. Lav din egen liste med tre ting ud fra hendes log, og gør dem klar i dag.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 29),
       month: M,
       day: 29,
-      title: 'Restitution er ikke dovenskab',
+      title: 'Sætninger om smerte, der gør skade',
       insight:
-        'Restitution er den del af træning og hverdag, der oftest bliver sprunget over. Musklerne bygges op, når man hviler, immunforsvaret genoprettes, når man sover, og humøret stabiliseres, når der er pauser. I en cyklus er behovet for restitution ikke konstant: det er højest de første menstruationsdage og den sidste uge før, lavest omkring ægløsning. En kvinde, der hviler dag 27, er ikke doven. Hun er klog. Kulturen omkring os belønner at presse igennem, og mange kvinder har lært at ignorere signaler, indtil kroppen råber. Som partner kan du være den, der gør det legitimt at holde pause, ved selv at holde den sammen med hende.',
+        '"Så slemt kan det da ikke være." "Min søster har aldrig noget." "Har du prøvet at tage en panodil?" "Du havde det også dårligt sidste måned." Sætningerne er ofte kærligt ment, men de gør det samme: de sætter spørgsmålstegn ved, om smerten er ægte, eller om hun håndterer den rigtigt. Smerte kan ikke ses udefra, og kvinders smerte bliver i gennemsnit taget mindre alvorligt, også af sundhedsvæsenet. Det, hun har brug for fra dig, er det modsatte: at blive troet på uden bevis. "Det lyder virkelig slemt, hvad kan jeg gøre?" er nok. Sammenligninger med andre, forslag hun har hørt tusind gange, og påmindelser om, at det er tilbagevendende, hjælper aldrig, selv når de er sande.',
       action:
-        'Sæt dig ned sammen med hende i aften uden skærm og uden dagsorden i 20 minutter. Kald det restitution, og mén det.',
+        'Vælg én sætning fra listen, du har brugt, og sig til hende, at du er holdt op med den. Spørg, om der er andre, hun ville ønske, du droppede.',
       phaseTags: [],
-      sources: [NHS_SLEEP],
     },
     {
       id: dailyId(M, 30),
@@ -403,9 +398,9 @@ export const month08: MonthContent = {
       day: 30,
       title: 'Måned 8: det har du lært',
       insight:
-        'Du ved nu, at menstruationen koster jern, og at C-vitamin og timing af kaffen gør jernet brugbart. At varme virker på kramper, kulde på hovedpine, og let bevægelse på begge. At kalcium og omega-3 har den bedste evidens, magnesium den svageste, og at cycle syncing er fornuftige principper pakket ind i markedsføring. At blodsukkeret svinger mere i lutealfasen, og at regelmæssige måltider med protein og fibre er det bedste PMS-forsvar, der findes. At hårde pas hører til i første halvdel, restitution i anden. Og det vigtigste: din rolle er køleskabet, køkkenet og aftenen, ikke hendes tallerken. Kommentarer om mad og krop hjælper aldrig; nemme valg gør.',
+        'Du ved nu, at prostaglandiner forklarer kramper, løs mave, kvalme og "menstruationsinfluenza" på én gang, og at ibuprofen taget tidligt rammer dem alle. Du ved, at menstruationsmigræne udløses af østrogenfaldet i et præcist vindue, at spændingshovedpine og migræne er to forskellige ting, og hvornår hovedpine kræver en læge. Du ved, at træthed kan være jern, søvngæld eller progesteron, og at loggen viser hvilken. Vigtigst: du ved, hvordan man læser kalenderen som en linje, finder cyklusdagen for et symptom, og handler dagen før. Og du ved, at smerte, der slår hende ud, aldrig er "bare menstruation". Næste måned bygger vi videre med kost, træning og restitution i hver fase.',
       action:
-        'Fortæl hende de tre ting fra denne måned, du vil holde fast i. Tag så månedens quiz.',
+        'Fortæl hende de to mønstre, du har fundet i hendes log denne måned, og hvad du vil gøre ved dem. Tag så månedens quiz.',
       phaseTags: [],
     },
   ],
@@ -414,167 +409,169 @@ export const month08: MonthContent = {
       id: weeklyId(M, 1),
       month: M,
       week: 1,
-      title: 'Mad og cyklus: det, der faktisk er evidens for',
+      title: 'Menstruationsmigræne: østrogenfaldet, timingen og hvad der hjælper',
       body: [
-        'Der findes tusindvis af råd om, hvad kvinder bør spise i hver fase af cyklussen, og det meste af det er gætværk pakket ind i pæne farver. Denne artikel skiller det, der holder, fra det, der ikke gør, så I kan bruge kræfterne på det, der flytter noget.',
-        'Det bedst dokumenterede er jern. Hver menstruation koster jern, og jernmangel er den mest udbredte mangeltilstand blandt kvinder i den fødedygtige alder. Symptomerne er træthed, der ikke forsvinder med søvn, åndenød, hovedpine, koncentrationsbesvær og kort lunte, og de bliver ofte forklaret med alt muligt andet. Jern fra kød, fisk og indmad optages let. Jern fra linser, bønner, tofu, havregryn og grønne blade optages dårligere, men C-vitamin i samme måltid gør en stor forskel: peberfrugt, citrus, broccoli, kiwi. Kaffe og te til måltidet hæmmer optaget, så flyt dem en times tid. Jerntilskud skal kun tages efter en blodprøve, fordi for meget jern er skadeligt. Er hun træt i ugevis, er det en læge, ikke en teori.',
-        'Det næstbedst dokumenterede er blodsukker. Efter ægløsning gør progesteron kroppen lidt mindre følsom over for insulin, og forbrændingen stiger cirka 100-300 kalorier om dagen. Resultatet er, at hurtige kulhydrater giver højere hop og dybere fald, og faldet mærkes som pludselig sult, rysten, irritabilitet og trang til mere. Modtrækket er ikke en diæt, det er regelmæssighed: måltider hver tredje til fjerde time, protein og fibre i hvert, og snacks, der er lette at gribe. Sult forstærker alt i PMS-dagene, og en sen frokost er en kendt opskrift på et skænderi.',
-        'Blandt tilskud er kalcium det med den mest konsistente evidens. Et større lodtrækningsstudie fandt, at 1200 mg dagligt over tre cyklusser dæmpede humørsymptomer, væskeophobning, smerte og sult markant. Omega-3 fra fed fisk ser i flere mindre studier ud til at dæmpe menstruationssmerter, fordi det hæmmer de prostaglandiner, der giver kramper. Magnesium og B6 har svag evidens: nogle studier finder effekt på oppustethed og humør, andre finder ingen. Fælles for dem alle er, at maden er det sikreste sted at starte. Mejeriprodukter, sardiner og grønkål for kalcium; laks, makrel og sild for omega-3; nødder, frø, fuldkorn og mørk chokolade for magnesium. Tilskud er en samtale med apotek eller læge, ikke med en reklame.',
-        'Så til "cycle syncing", ideen om, at man skal spise bestemte fødevarer i hver fase for at "balancere hormonerne". Den ærlige status er, at der næsten ingen forskning er bag de detaljerede skemaer. Ingen fødevare balancerer hormoner. Det, skemaerne rammer rigtigt, er de simple principper ovenfor: jern og C-vitamin under menstruationen, stabilt blodsukker og mere fibre i lutealfasen, mindre koffein og alkohol i den sidste uge. Det er almindelig god ernæring med bedre timing. Vær skeptisk over for alt, der sælger et produkt. Vær åben over for det, hun selv mærker.',
-        'Det bringer os til det vigtigste: din rolle. Du kan ikke, og skal ikke, styre hvad hun spiser. Kommentarer om portioner, sukker eller "er det sundt?" hjælper aldrig, og de gør mad til noget, der skal forsvares. Din indflydelse er indirekte og stor: hvad der bliver købt ind, hvad der bliver lavet, hvad der står i køleskabet klokken 15 på dag 25, og hvad du selv spiser. Gør det gode valg til det nemme valg, og lad resten være hendes.',
-        'I denne uge er opgaven simpel: sørg for jern og C-vitamin på bordet i menstruationsdagene, og flyt kaffen. Det er en lille ting, der gør en reel forskel for en krop, der bløder hver måned.',
+        'Migræne rammer omkring hver syvende voksen, og kvinder cirka tre gange så ofte som mænd. Forskellen opstår i puberteten og forsvinder igen efter overgangsalderen, og det er ikke tilfældigt: hormonerne er en stor del af forklaringen. For mange kvinder er cyklussen den mest pålidelige migræneudløser, de har, og samtidig den mest oversete. Denne artikel handler om, hvordan det hænger sammen, og hvad du kan gøre.',
+        'Mekanismen er østrogenfald. I dagene før menstruationen falder østrogen brat, og hos kvinder med anlæg for migræne reagerer hjernen på faldet med et anfald. Det er ikke det lave niveau i sig selv, men hastigheden på faldet, der udløser det. Derfor ligger anfaldet så præcist: fra to dage før blødningen til tre dage inde i den. Sker det i mindst to ud af tre cyklusser, kalder lægerne det menstruationsmigræne. Nogle får kun migræne der; de fleste får den også på andre tidspunkter, men anfaldene omkring menstruationen er typisk længere, kraftigere, mere præget af kvalme og sværere at behandle. Nogle kvinder får desuden et mindre anfald omkring ægløsningen, hvor østrogen også falder efter sin top.',
+        'Et migræneanfald er ikke bare en slem hovedpine. Det er typisk ensidigt og dunkende, forværres af bevægelse, og kommer med kvalme, lysfølsomhed og lydfølsomhed. Det varer fra fire timer til tre døgn. Nogle får aura først: flimren for øjnene, prikken i hånden eller talebesvær i op til en time. Bagefter kommer ofte et "tømmermændsdøgn" med udmattelse og koncentrationsbesvær. Menstruationsmigræne kommer oftest uden aura. Men spørg hende, for har hun migræne med aura, skal lægen vide det, før hun får p-piller med østrogen, fordi kombinationen øger risikoen for blodprop og frarådes.',
+        'Hvad hjælper? For det første timing. Al migrænebehandling virker bedst, jo tidligere den tages, og det gælder både håndkøbsmedicin som ibuprofen og receptpligtige triptaner. Kender man vinduet fra loggen, kan man have medicinen fremme dagen før. For det andet det gamle: mørkt, stille og køligt rum, søvn, væske, og noget let at spise mod kvalmen. For det tredje det forebyggende, som er en lægesamtale: ved menstruationsmigræne kan lægen tilbyde behandling, der tages i nogle dage omkring den forventede menstruation, eller hormonelle metoder, der udjævner østrogenfaldet. Det kræver, at mønstret er dokumenteret, og det er præcis det, kalenderen kan.',
+        'Udløsere, der forstærker et hormonelt anfald, er de kedelige: for lidt søvn, sprunget mad, væskemangel, uregelmæssig koffein, alkohol, stress og skærmlys. Ingen af dem giver migræne alene hos de fleste, men i vinduet lige før menstruationen er tærsklen lavere, og så tipper den ekstra dårlige nat læsset. Det er derfor, søvn, mad og vand i de sidste dage af lutealfasen er migræneforebyggelse, ikke bare god pleje.',
+        'Din rolle er tredelt. Før anfaldet: læs loggen, kend vinduet, sørg for at medicinen er tilgængelig, og beskyt søvn og måltider i dagene op til. Under anfaldet: fjern verden fra hende. Børn, telefon, aftaler, lyd, lys, lugte og spørgsmål. "Jeg tager det hele, læg dig" er den vigtigste sætning. Efter anfaldet: forvent et døgn med lavere kapacitet, og skriv ned, hvad der hjalp. Og hvis anfaldene er hyppige, forstyrrer arbejdet, eller ændrer sig, så vær den, der siger, at det fortjener en læge, og tilbyd at samle dagene fra kalenderen.',
+        'Én advarsel til sidst, som du bør kunne udenad: hovedpine, der kommer som et lyn og er værst inden for et minut, hovedpine med feber og nakkestivhed, efter et slag mod hovedet, eller sammen med lammelse, talebesvær, synstab eller forvirring, er ikke migræne, før det modsatte er bevist. Der ringer man 112 med det samme.',
       ],
       conversationQuestion:
-        'Er der noget mad, du mærker hjælper dig i bestemte dage af cyklussen, og noget du gerne vil have, at vi har i huset oftere?',
-      sources: [NHS_IRON, NHS_PMS, NHS_EATWELL],
+        'Hvis din hovedpine har et mønster i cyklussen, hvornår ligger den så, og hvad ville du helst have, at jeg gjorde dagen før og på selve dagen?',
+      sources: [NHS_MIGRAINE, SUNDHED_DK_MIGRAENE],
     },
     {
       id: weeklyId(M, 2),
       month: M,
       week: 2,
-      title: 'Træning gennem cyklussen: hårdt, når hun kan, blidt, når hun skal',
+      title: 'Kroppen på dag 1: prostaglandiner, mave, ryg og medicin brugt rigtigt',
       body: [
-        'Motion er en af de ting, der har bedst dokumenteret effekt på både menstruationssmerter og PMS. Men det er ikke ligegyldigt, hvordan og hvornår. Denne artikel handler om at lægge intensiteten der, hvor kroppen kan bruge den, og restitutionen der, hvor den har brug for den. Og om, hvordan du kan være med i stedet for at stå på sidelinjen.',
-        'Start med det, der er sikkert. Regelmæssig, moderat motion dæmper PMS-symptomer som irritabilitet, nedtrykthed, oppustethed og træthed mærkbart, og det er en af de første anbefalinger, sundhedsmyndighederne giver. Let bevægelse under menstruationen, en gåtur, rolig cykling, yoga, dæmper kramper hos mange, fordi det øger blodgennemstrømningen i bækkenet og frigiver endorfiner. Det er ikke det samme som at træne igennem smerten. Hård træning på dag 1 gør det værre for nogle. Blid aktivitet, gerne udendørs, er reglen.',
-        'Så til timingen. I follikelfasen stiger østrogen, og med det energi, restitutionsevne og smertetærskel. Østrogen har en beskyttende effekt på musklerne, og nogle mindre studier har fundet, at styrketræning koncentreret i follikelfasen gav lidt større muskelvækst end samme træning lagt i lutealfasen. Evidensen er tynd, og forskellen mellem kvinder er stor, men princippet holder uanset hvad forskningen ender med: læg de hårde pas, intervallerne, de lange ture og de nye rekorder der, hvor kroppen har overskud til dem. Omkring ægløsning er energien for mange på sit højeste. Én detalje er værd at kende: østrogen påvirker ledbåndenes stivhed, og der er tegn på flere knæskader i dagene omkring ægløsning. Det er ikke en grund til at holde igen, men til at varme ordentligt op.',
-        'I lutealfasen skifter det. Progesteron hæver kropstemperaturen, hvilket gør varme og lange udholdenhedspas mere krævende, søvnen bliver lettere, og restitutionen tager længere tid. Progesteron nedbryder muskel lidt mere, end østrogen bygger op. Den sidste uge før menstruation er ikke tiden til at jagte rekorder eller presse igennem, når kroppen siger nej. Men det er heller ikke tiden til at stoppe, fordi bevægelse er noget af det, der hjælper bedst på PMS. Nøglen er lavere intensitet, ikke mindre bevægelse: gåture, let styrke, svømning, yoga, cykling i roligt tempo. Kontinuiteten tæller mere end hårdheden.',
-        'Restitution er den del, der oftest bliver sprunget over, og den er ikke ens hele måneden. Behovet er højest de første menstruationsdage og den sidste uge før, lavest omkring ægløsning. Restitution er søvn, mad nok, protein til at bygge op efter træning, og pauser. En kvinde, der hviler dag 27, er ikke doven. Hun lytter til noget, mange har lært at overhøre. Kulturen belønner at presse igennem, og det gælder ikke mindst kvinder, som ofte har fået at vide, at menstruation ikke må være en undskyldning for noget som helst. Den kan godt være en grund til at skrue ned.',
-        'Hvad kan du gøre? Træn sammen, når energien er høj: det er sjovere, og det gør de hårde pas til noget fælles. Foreslå selv at skrue ned i den sidste uge, så det bliver dit forslag og ikke hendes nederlag. Gå turen med hende i menstruationsdagene, og tag et nej uden at overtale. Sørg for protein efter træning og mad nok i det hele taget. Og hold pausen sammen med hende, når det er tid til pause. Motion er ikke noget, du skal motivere hende til. Det er noget, I kan gøre sammen i det tempo, cyklussen tillader.',
-        'Til sidst en grænse. Træning, der ikke kan aflyses uanset smerte, feber eller udmattelse, og en cyklus, der bliver uregelmæssig eller forsvinder, mens træningsmængden stiger, er ikke disciplin. Det kan være tegn på, at kroppen får for lidt energi, og det fortjener en læge. Du skal ikke stille diagnosen. Du må gerne sige, at du er bekymret.',
+        'Måned 3 handlede om menstruationen som helhed. Denne artikel går et lag dybere i det fysiske: hvorfor så mange forskellige symptomer rammer på én gang, hvorfor de hænger sammen, og hvordan smertestillende bruges, så de faktisk virker.',
+        'Det starter med prostaglandiner. Når livmoderslimhinden afstødes, frigiver den store mængder af disse signalstoffer, som får livmoderens muskel til at trække sig sammen for at skubbe slimhinden ud. Kvinder med kraftige menstruationssmerter har målbart højere niveauer end kvinder med milde. Men prostaglandiner bliver ikke, hvor de dannes. De rammer tarmen, som ligger lige ved siden af, og får den til at trække sig sammen: løs mave, luft og for nogle kvalme og opkastning, når kramperne er værst. De kommer ud i blodbanen og giver ømme muskler, kuldegysninger, hovedpine og den let febrile fornemmelse, mange kalder menstruationsinfluenza. Og de sender smerten ud i lænden og lårene, fordi livmoderen deler nerveforsyning med ryggen. Én mekanisme, mange symptomer.',
+        'Det er godt nyt, fordi det betyder, at én behandling rammer bredt. Ibuprofen og lignende midler blokerer det enzym, der danner prostaglandin. Derfor virker de bedre mod menstruationssmerter end paracetamol, og derfor hjælper de også på maven og ømheden. Men de kan ikke fjerne det prostaglandin, der allerede er dannet. Tages pillen ved første tegn, murren, træk i lænden, den kendte tyngde, forebygger den. Tages den, når smerten er på toppen, kæmper den op ad bakke. Mange udskyder, fordi de ikke vil tage medicin unødigt. Ved menstruationssmerter er det omvendt: tidlig medicin er ofte mindre medicin i alt. Ibuprofen skal tages med mad, og det er ikke for alle: ved mavesår, visse hjerte- og nyresygdomme, astma, der reagerer på det, og under graviditet er det en samtale med lægen eller apoteket. Paracetamol er skånsomt mod maven, virker mindre på kramper, men kan kombineres med ibuprofen. Følg pakken, hold afstand mellem doserne, og bland aldrig to produkter med samme stof.',
+        'Varme er det andet ben. En varmepude eller varmedunk på maven eller lænden får musklen til at slappe af og øger den blodgennemstrømning, som sammentrækningerne har strammet. Studier viser en effekt på niveau med håndkøbsmedicin, og de to kan bruges sammen. Et varmt bad virker på samme måde. Let bevægelse, en gåtur, hjælper flere end man tror, fordi det også øger blodgennemstrømningen og frigiver kroppens egne smertedæmpere. Og på lidt længere sigt er regelmæssig motion i ugerne før en af de bedst dokumenterede måder at få mildere kramper på.',
+        'Maven fortjener sit eget afsnit, fordi ingen taler om den. Diarré på dag 1 og 2 er meget almindelig, følger smerten, og dæmpes af det samme: ibuprofen tidligt. Derudover hjælper mild, nem mad, ikke for fed, ikke for meget kaffe, som i sig selv sætter gang i tarmen, og let adgang til badeværelset. Kvalme dæmpes af små portioner, og ingefær hjælper nogle. Ugen før, i lutealfasen, er problemet ofte det modsatte: progesteron gør tarmen langsom, og forstoppelse og oppustethed er normalt. Fibre, vand og bevægelse hjælper der. At maven er så forskellig fra uge til uge er ikke mærkeligt; det er to forskellige hormoner, der skiftes til at bestemme.',
+        'Det praktiske for dig: hav begge slags smertestillende i huset og kend forskellen, så du kan hente det rigtige. Læg dem synligt, når loggen siger, at menstruationen nærmer sig. Hav varmen klar, ikke i skabet, men på hendes plads. Lav mild mad uden at spørge, om hun vil have den, og lad hende springe over. Tag opgaverne dag 1 og 2 som en selvfølge. Og behandl "jeg føler mig sløj" som en sygedag, ikke som noget, der skal argumenteres for.',
+        'Til sidst grænsen. Almindelige menstruationssmerter reagerer på varme og ibuprofen, holder sig til de første dage, og forhindrer ikke hverdagen. Smerter, der ikke rykkes af medicin, giver sygedage eller opkastning, kommer uden for blødningen eller ved sex, er ikke almindelige. De kan skyldes endometriose, adenomyose eller fibromer, som alle kan behandles. Du skal ikke gætte hvilken. Du skal sige, at det fortjener en læge.',
       ],
       conversationQuestion:
-        'Hvornår i din cyklus har du mest lyst til at træne hårdt, og hvornår ville du ønske, at nogen sagde "lad os bare gå en tur i stedet"?',
-      sources: [NHS_PMS, NHS_PAIN, NHS_EXERCISE],
+        'Hvad rammer dig hårdest på dag 1, maven, ryggen, hovedet eller trætheden, og hvad vil du have, at jeg har klar aftenen før?',
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA, NHS_IBUPROFEN, NHS_PARACETAMOL],
     },
     {
       id: weeklyId(M, 3),
       month: M,
       week: 3,
-      title: 'Søvn, koffein, alkohol og varme: restitution i praksis',
+      title: 'Træthed hen over cyklussen: jern, søvn og progesteron',
       body: [
-        'Hvis der er én ting, der forværrer PMS mere end noget andet, er det dårlig søvn. Og lutealfasen gør søvnen dårligere af sig selv. Denne artikel handler om, hvad der forstyrrer restitutionen i den sidste uge, hvad der hjælper, og hvor du konkret kan gøre en forskel uden at sige et ord om det.',
-        'Start med, hvorfor søvnen bliver sværere. Progesteron hæver kropstemperaturen 0,3-0,5 grader i hele lutealfasen, og en varm krop falder sværere i søvn og vågner oftere. I den sidste uge falder både progesteron og østrogen, og med dem serotonin, som også er byggesten for melatonin, søvnhormonet. Resultatet er lettere søvn, flere opvågninger og mere uro. Det er ikke indbildning, og det er ikke noget, hun kan beslutte sig ud af. Det er fysiologi med en kalender.',
-        'Koffein passer dårligt ind i det billede. Halveringstiden er omkring fem timer, så en kop klokken 15 er stadig halvt aktiv ved sengetid. Koffein forstærker desuden uro, hjertebanken og ømme bryster i PMS-dagene, og det er en af de få kostændringer, sundhedsmyndighederne direkte anbefaler ved PMS. Det betyder ikke ingen kaffe. Det betyder kaffe tidligt og færre kopper i den sidste uge, og det er langt lettere, hvis I begge gør det. Husk også, at kaffe og te til måltidet hæmmer jernoptaget; en times afstand er nok.',
-        'Alkohol er den anden store søvnforstyrrer. Et glas gør det lettere at falde i søvn, men søvnen bliver overfladisk, og man vågner tidligere. I lutealfasen, hvor søvnen allerede er skrøbelig, koster det mere end resten af måneden. Alkohol dræner også kroppen for væske og sænker blodsukkeret senere på natten, hvilket forstærker uro og sult, og studier har fundet en sammenhæng mellem alkohol og både hyppighed og sværhedsgrad af PMS. Ingen forbud. Bare timing: det glas, der er en glæde omkring ægløsning, er ofte en dårlig handel dag 26.',
-        'Så til det, der hjælper. Søvnhygiejne lyder som et luksusbegreb, men i lutealfasen er det førstehjælp: samme sengetid hver dag, et køligt og mørkt soveværelse, et lettere dynetæppe, ingen skærme den sidste halve time, og ro om aftenen. Varme har sin egen plads: en varmepude på underlivet dæmper kramper lige så godt som håndkøbsmedicin i studier, og et varmt bad om aftenen hjælper både på smerte og på at falde i søvn, fordi kroppen køler ned bagefter. Kulde er godt til andet: en kold klud i nakken ved menstruationshovedpine, en kølig pose på ømme bryster. Væske nok hele dagen forebygger hovedpine og forværrede kramper.',
-        'Her er din rolle. Du kan ikke sove for hende, men du kan rydde aftenen. Ro om aftenen kommer ikke af sig selv, hvis der stadig er opvask, beskeder, børn og planer klokken 22. Tag aftenrutinen i den sidste uge: opvask, låse, lys, det praktiske. Gør soveværelset køligt. Lav kaffen tidligt, og foreslå selv noget uden koffein og uden alkohol, så hun ikke skal være den, der siger nej. Fyld varmedunken, før hun spørger. Det er usynligt arbejde, og det er noget af det mest konkrete, du kan gøre for at gøre PMS-dagene lettere.',
-        'Én ting til sidst: hvis søvnproblemerne er der hele måneden, eller hvis trætheden er så tung, at den påvirker hverdagen uanset søvn, er det ikke lutealfasen. Det kan være jernmangel, stofskifte, søvnapnø eller andet, der kan behandles. Det fortjener en læge.',
+        'Træthed er det symptom, der oftest logges og sjældnest tages alvorligt, fordi alle er trætte. Men cyklisk træthed, den der kommer igen på de samme dage hver måned, har forklaringer, som kan skilles ad. Og de tre vigtigste kræver hver sin reaktion fra dig.',
+        'Den første er jern. Hver menstruation koster blod, og med blodet jern. Ved en normal blødning erstatter kosten tabet. Ved kraftige blødninger, bind eller tampon der skiftes hver time, blødning over syv dage, store klumper, kan tabet være større, end kosten når at dække, og jerndepoterne tømmes langsomt over måneder. Jernmangel mærkes som vedvarende træthed, forpustethed ved trapper, bleghed, hovedpine, koncentrationsbesvær, skøre negle og for nogle uro i benene om natten. Det afskrives typisk som travlhed. Kendetegnet er, at trætheden ikke letter i follikelfasen, hvor energien ellers plejer at vende tilbage. En blodprøve hos lægen måler hæmoglobin og jerndepoter, og behandlingen er enkel. Tilskud bør dog ikke tages i blinde, for for meget jern er heller ikke godt. Kosten hjælper: kød, fisk og æg, eller linser, bønner og grønne blade sammen med C-vitamin, og kaffe og te væk fra måltidet.',
+        'Den anden er søvngæld. I lutealfasen holder progesteron kropstemperaturen 0,3-0,5 grader oppe, og mange sover lettere og vågner oftere. I PMS-dagene forstyrrer uro og hormonfald. På menstruationens første nætter vækker smerte og lækage. Hver nat er måske kun lidt dårligere, men over ti-tolv dage bliver det til en gæld. Søvnmangel sænker smertetærsklen, øger irritabilitet og udløser hovedpine, så det, der føles som "slem PMS" eller "slem menstruation", er ofte PMS eller menstruation plus en uges dårlig søvn. Follikelfasen er der, gælden kan betales tilbage. Tidlige sengetider dag 3-8 er reparation, ikke dovenskab.',
+        'Den tredje er progesteron selv. I den sidste uge før menstruationen virker det sløvende på hjernen, næsten som et mildt beroligende middel, samtidig med at serotonin falder med østrogen, og kroppen forbrænder lidt mere og efterspørger mere mad. Lagt sammen giver det en tyngde, hvor alt kræver mere. Det er ikke mangel på vilje, og det bliver ikke bedre af pres. Det bliver bedre af søvn, mad til tiden, lavere krav og at nogen tager det praktiske. Og det er helt forudsigeligt: ligger trætheden i loggen på de samme cyklusdage hver måned, ved du, hvornår du skal sænke tempoet.',
+        'Sådan skiller du dem ad med kalenderen. Træthed, der kun ligger i lutealfasen og de første menstruationsdage, og som letter tydeligt i follikelfasen, er hormonel og søvnrelateret; svaret er beskyttet søvn og lavere krav på de dage. Træthed, der ligger hen over hele cyklussen, også i de uger, hvor energien burde være tilbage, og som følges af kraftige blødninger, peger på jern eller noget andet; svaret er en blodprøve. Det er ikke en diagnose, det er en sortering, og den gør lægesamtalen bedre.',
+        'Det praktiske for dig: beskyt søvnen i follikelfasen ved at tage aftenopgaverne og foreslå tidlig sengetid uden at gøre det til et projekt. Sørg for mad med jern i og efter menstruationen. Hold koffein stabilt og væk fra sen eftermiddag. Sænk tempoet i den sidste luteal-uge, uden at hun skal bede om det, og uden at sige "det er nok fordi du snart skal have menstruation". Og hvis trætheden aldrig letter, så sig, at det fortjener en blodprøve, og tilbyd at komme med.',
+        'Det, du ikke skal gøre, er at foreslå, at hun bare tager sig sammen, går tidligere i seng "ligesom dig", eller motionerer mere, når hun er mest træt. Alle tre lyder som hjælp og lander som kritik. At blive troet på er den første hjælp; resten kommer bagefter.',
       ],
       conversationQuestion:
-        'Hvad forstyrrer din søvn mest i ugen før menstruation, og hvad kunne jeg tage over om aftenen, så du kunne gå i seng, når du er træt?',
-      sources: [NHS_SLEEP, NHS_PMS, NHS_PAIN],
+        'Hvornår i din cyklus er trætheden værst, og letter den helt, når energien vender tilbage, eller hænger den ved hele måneden?',
+      sources: [NHS_IRON, NHS_HEAVY],
     },
     {
       id: weeklyId(M, 4),
       month: M,
       week: 4,
-      title: 'Sammen om maden uden at blive madpoliti',
+      title: 'Læs loggen, handl dagen før, og vid hvornår det er nok',
       body: [
-        'Alt det, denne måned har handlet om, jern, blodsukker, fibre, kalcium, søvn, virker kun, hvis det bliver gjort. Og det bliver ikke gjort, fordi den ene fortæller den anden, hvad hun bør spise. Det bliver gjort, fordi det er nemt, fordi det er fælles, og fordi ingen skal forsvare sig. Denne artikel handler om, hvordan du bliver en del af maden uden at blive dens politi.',
-        'Begynd med det praktiske. Den, der handler ind, bestemmer en stor del af, hvad der er muligt at spise. Det er en stille magt, og den kan bruges godt. I første halvdel af cyklussen: jernrige varer, C-vitamin ved siden af, protein til restitution, fed fisk. I anden halvdel: fuldkorn og fibre, protein til hvert måltid, kalcium, nødder og frø, bananer og kartofler mod væske, og snacks, der er lette at gribe: frugt, hytteost, grovkiks. Mindre færdigmad og chips, fordi saltet forværrer oppustethed. Og altid noget, hun faktisk kan lide, også chokoladen. En liste, der kun består af "sundt", bliver ikke spist.',
-        'Madlavning er den anden del. Den partner, der aldrig laver mad, ender med at kommentere maden. Den, der laver den, forstår, hvorfor tingene er, som de er. At lave mad sammen er en af de få husholdningsopgaver, der kan være hyggelig frem for et krav: én hakker, én rører, musik i baggrunden. Det giver samtale, uden at det er "en samtale". Og det giver fælles ejerskab. I lutealfasen, hvor overskuddet er lavt, er det dig, der laver maden og har den klar til tiden, fordi en sen middag på dag 25 er en kendt opskrift på et skænderi.',
-        'Nu til grænsen. Der er en verden til forskel på at gøre det gode valg nemt og at holde øje. "Skal du virkelig have mere?", "har du ikke fået nok sukker i dag?", "er det nu sundt?" hjælper aldrig, uanset hvor kærligt de er ment. De gør mad til noget, der skal forsvares, og det er det modsatte af, hvad kroppen har brug for, især i lutealfasen, hvor appetitten stiger af rent biologiske grunde. Din indflydelse er, hvad der er i køleskabet, hvad du laver, og hvad du selv spiser. Ikke hvad hun putter i munden. Hun er voksen, og hendes krop er hendes.',
-        'Det gælder også kroppen. Vægten svinger et par kilo hen over cyklussen alene af væske, maven er oppustet i lutealfasen, og tøjet sidder anderledes. Mange kvinder ved det godt og har alligevel svært ved ikke at måle sig på det, fordi kroppen er blevet kommenteret hele livet. Selv "du ser sund ud" og "har du tabt dig?" fortæller, at kroppen bliver vurderet. Det mest hjælpsomme er at gøre kroppen til et ikke-emne og tale om, hvad hun gjorde, hvad hun kunne, hvordan dagen var. Og aldrig kommentere mave, vægt eller portioner.',
-        'Så noget, der er vigtigt at vide. Spiseforstyrrelser er almindelige, ofte skjulte, og de rammer ikke kun teenagere. Tegn, der er værd at tage alvorligt: måltider, der springes over eller spises i smug, regler, der bliver strammere, træning, der ikke kan aflyses uanset hvad, stærk uro ved mad, hun ikke selv har kontrol over, og en cyklus, der bliver uregelmæssig eller forsvinder, fordi kroppen mangler energi. Du skal ikke stille diagnosen, og du skal ikke overvåge. Men du må gerne sige, roligt og uden at nævne vægt: "Jeg er bekymret for dig, og jeg vil gerne hjælpe." Og at det fortjener en læge.',
-        'Ugens opgave er den enkleste i måneden: handl ind efter fasen, lav maden, og sig ingenting om, hvad hun spiser. Det er ikke passivt. Det er at tage ansvar for det, du faktisk har indflydelse på, og lade resten være hendes.',
+        'De første tre artikler handlede om mekanismer. Denne handler om metoden: hvordan du omsætter loggen til handling, og hvornår handlingen skal være en lægetid.',
+        'Først læsningen. De fleste læser kalenderen én dag ad gangen, og så ser man ingenting. Læs den i stedet som en linje. Find de sidste to-tre menstruationsstarter. Tæl bagud og fremad fra hver: hvilken cyklusdag kom hovedpinen? Hvor mange dage før blødningen begyndte trætheden? Hvor mange dage varede smerten? Læg tallene ved siden af hinanden. Rammer et symptom samme cyklusdag plus minus én i to eller tre cyklusser, er det et mønster. Rammer det tilfældigt, er det noget andet, og det er også værd at vide. Efter tre-fire cyklusser er de fleste mønstre tydelige, og de er ofte mere præcise, end hun selv tror, fordi hukommelsen om dårlige dage er dårlig.',
+        'Så fremskrivningen. Appen giver en forventet dato for næste menstruation. Den er et skøn, ikke en måling, så regn med to dages usikkerhed. Har hovedpinen et mønster på "to dage før blødning", og blødningen forventes fredag, er onsdag dagen at være klar, og tirsdag er ikke for tidligt. Har trætheden et mønster på dag 25-27, er det de dage, kalenderen skal ryddes. Har ryggen et mønster på dag 1, er varmedunken fyldt torsdag aften. Det er ikke svært. Det er bare noget, ingen har gjort før.',
+        'Så handlingen. Pointen med at handle dagen før er ikke effektivitet. Det er, at det fjerner behovet for at bede. At bede om hjælp koster energi, og de dage, hvor hun har mest brug for hjælp, er dem, hvor hun har mindst energi at bede med. Mange kvinder bider derfor tænderne sammen i stedet. Når varmen, roen, medicinen, maden og den ryddede kalender bare er der, uden forklaring, er det beviset på, at nogen har lagt mærke til hende. Det er den form for omsorg, der bliver husket. Forberedelsen skal være konkret og lille: tre ting, ikke ti. Og den skal passe til hendes log, ikke til en generel liste. Er dag 1 en migrænedag, er mørke gardiner vigtigere end suppe.',
+        'Så dokumentationen. Den samme log er den bedste forberedelse til en lægetid, der findes. Lægen har brug for at vide, hvilke dage, hvor slemt på en skala fra 1 til 10, hvor længe, hvad hun tog, om det virkede, og om hun måtte aflyse noget. Det sidste, funktionstab, er det, der flytter en konsultation fra "det er nok normalt" til "det skal vi undersøge". Mange lever med smerter i årevis, fordi de i lægens kontor ikke kan huske, hvor slemt det egentlig var. Tilbyd at samle de sidste tre cyklussers smertedage på ét stykke papir. Det tager ti minutter, og det kan spare år.',
+        'Og til sidst grænsen, som er hele grunden til, at loggen betyder noget. Almindelige menstruationssmerter og almindelig hovedpine reagerer på varme, hvile og håndkøbsmedicin, holder sig til nogle få dage, og forhindrer ikke hverdagen. Tegnene på, at noget andet er på spil, er: smerte uden for menstruationen, smerte ved sex, smerte ved afføring eller vandladning omkring blødningen, kraftig blødning med klumper, smerter der ikke rykkes af medicin, menstruationer der koster sygedage, migræne flere dage om måneden, eller smertestillende ti eller flere dage om måneden. Bag det kan ligge endometriose, adenomyose, fibromer eller en hovedpinelidelse, der skal forebygges. Alle kan behandles. Ingen af dem bliver bedre af at vente. Du skal ikke gætte hvilken. Du skal være den, der siger "det her fortjener en læge", tilbyde at booke tiden, tage med, og have papiret med.',
+        'Det er månedens hele budskab i én sætning: læs loggen som en linje, handl dagen før, og normalisér aldrig smerte, der slår hende ud.',
       ],
       conversationQuestion:
-        'Har jeg nogensinde sagt noget om din mad eller din krop, der blev hængende? Og hvad ville du ønske, jeg gjorde i stedet?',
-      sources: [NHS_EATWELL, NHS_EATING, NHS_PMS],
+        'Er der noget i din cyklus, du selv har vænnet dig til at holde ud, som vi burde tage til lægen med, og hvad ville gøre det lettere at bestille tiden?',
+      sources: [NHS_ENDO, NHS_FIBROIDS, NHS_MIGRAINE],
     },
   ],
   wrap: {
     id: wrapId(M),
     month: M,
-    title: 'Måned 8: Kost, træning og restitution',
+    title: 'Måned 8: Smerte, træthed og hovedpine',
     summary: [
-      'Denne måned handlede om de tre håndtag, der er nemmest at dreje på i hverdagen: mad, bevægelse og søvn. Du har lært, at menstruationen koster jern, at C-vitamin gør plantejern brugbart, og at kaffe og te til måltidet hæmmer optaget. At blodsukkeret svinger mere i lutealfasen, og at regelmæssige måltider med protein og fibre er det bedste forsvar mod PMS-dagenes ustabilitet. At kalcium og omega-3 har den bedste evidens blandt tilskud, magnesium den svageste, og at cycle syncing er fornuftige principper pakket ind i markedsføring.',
-      'Du har også lært, at hårde træningspas hører til i follikelfasen og omkring ægløsning, at den sidste uge kalder på lavere intensitet og mere restitution, og at let bevægelse og varme er blandt de bedst dokumenterede midler mod kramper. At koffein og alkohol koster mest i lutealfasen, og at søvnhygiejne i den uge er førstehjælp, ikke luksus. Og at din rolle er køleskabet, køkkenet og aftenen, aldrig hendes tallerken eller hendes krop.',
-      'Næste måned handler om kommunikation og støtte: sprog, timing, at spørge i stedet for at gætte, og de konfliktmønstre, der gentager sig fase for fase.',
+      'Denne måned gik i dybden med de tre symptomer, flest logger. Prostaglandiner forklarer kramper, løs mave, kvalme, rygsmerter og "menstruationsinfluenza" på én gang, og ibuprofen taget tidligt rammer dem alle. Menstruationsmigræne udløses af østrogenfaldet i et vindue fra to dage før til tre dage inde i blødningen, den er anderledes end spændingshovedpine, og den kan forudsiges og forberedes. Træthed kan være jern, søvngæld eller progesteron, og loggen viser hvilken.',
+      'Du har lært at læse kalenderen som en linje, finde cyklusdagen for et symptom og handle dagen før, så hun ikke skal bede. Du har lært grundreglerne for paracetamol og ibuprofen, hvornår mange piller er et signal, hvornår hovedpine kræver 112, og at smerte, der slår hende ud, kraftig blødning, smerte uden for menstruationen eller ved sex aldrig er "bare menstruation", men fortjener en læge med loggen i hånden.',
+      'Næste måned handler om kost, træning og restitution: hvad I kan lave og spise i hver fase, så de gode dage bliver flere, og de svære bliver lettere.',
     ],
     keepDoing: [
-      'Sæt jern og C-vitamin på bordet i menstruationsdagene, og flyt kaffen en time væk fra måltidet.',
-      'Hav protein- og fibersnacks synligt fremme i lutealfasen, og sig ingenting, når de bliver spist.',
-      'Træn hårdt sammen i første halvdel, og foreslå selv at skrue ned i den sidste uge.',
-      'Tag aftenrutinen i ugen før menstruation, så hun kan gå i seng, når hun er træt.',
-      'Kommentér aldrig hendes mad, portioner eller krop. Kommentér det, hun gør og kan.',
+      'Læs loggen som en linje efter hver menstruation, og skriv ned, hvilken cyklusdag symptomerne rammer.',
+      'Handl dagen før: varme, medicin, mørke, mild mad eller en ryddet kalender, alt efter hvad hendes log siger.',
+      'Hav både ibuprofen og paracetamol i huset, synligt når menstruationen nærmer sig.',
+      'Beskyt søvnen i follikelfasen, og sænk tempoet i den sidste luteal-uge uden at spørge først.',
+      'Sig "det fortjener en læge" højt, når tegnene er der, og tilbyd at samle smertedagene på papir.',
     ],
     quiz: [
       {
         question:
-          'Hun er på dag 2 og har været usædvanligt træt i flere uger, også efter gode nætter. Hvad hjælper mest?',
+          'Hun mærker de første træk i lænden og siger "jeg tror, den kommer i morgen". Hvad hjælper mest lige nu?',
         options: [
-          'Købe jerntilskud og bede hende tage dem hver dag',
-          'Lave jernrig mad med C-vitamin til, og foreslå en blodprøve hos lægen, hvis trætheden fortsætter',
-          'Sige at det er normalt at være træt under menstruationen',
-          'Foreslå en ekstra kop kaffe til maden',
+          'Vente og se, om det bliver til noget, før hun tager medicin',
+          'Foreslå at hun tager ibuprofen med mad nu, og fylde varmedunken',
+          'Sige at hun jo klarede det fint sidste måned',
+          'Booke en lægetid med det samme',
         ],
         correctIndex: 1,
         explanation:
-          'Langvarig træthed kan være jernmangel, men tilskud skal kun tages efter en blodprøve, fordi for meget jern er skadeligt. Mad først, læge ved tvivl.',
+          'Ibuprofen blokerer dannelsen af prostaglandin, men fjerner ikke det, der allerede er dannet. Taget tidligt forebygger det; taget på toppen halter det bagefter. Varme forstærker effekten.',
       },
       {
         question:
-          'Det er dag 26, klokken 15, og hun snapper ad dig. Hun har ikke spist siden klokken 11. Hvad virker bedst?',
+          'Loggen viser hovedpine dag 27 i tre cyklusser i træk. Appen forventer menstruation på fredag. Hvad gør du?',
         options: [
-          'Spørge om hun er PMS-ramt',
-          'Spørge om hun ikke skulle spise noget sundt',
-          'Sætte noget med protein og fibre frem uden at kommentere det',
-          'Trække dig og lade hende være i fred',
+          'Venter til fredag og ser, om hun får hovedpine',
+          'Fortæller hende, at hun får hovedpine på onsdag',
+          'Sørger tirsdag-onsdag for at medicinen ligger fremme, at aftenerne er rolige, og at hun sover',
+          'Foreslår at hun dropper kaffen helt i denne uge',
         ],
         correctIndex: 2,
         explanation:
-          'Blodsukkeret svinger mere i lutealfasen, og sult forstærker irritabilitet. Mad uden kommentar løser ofte problemet, en kommentar gør det større.',
+          'Læs loggen som en linje, læg mønstret fremad, og handl dagen før med to dages margen. At droppe kaffe brat giver i øvrigt selv hovedpine; hold koffein stabilt.',
       },
       {
         question:
-          'Hun spørger, om magnesium virker mod PMS. Hvad er det ærligste og mest hjælpsomme svar?',
+          'Hun ligger med dunkende hovedpine i den ene side, er kvalm og kan ikke tåle lys. Hvad er den bedste hjælp?',
         options: [
-          'Sige at det garanteret virker, og købe det til hende',
-          'Sige at evidensen er begrænset, men risikoen lav, og foreslå nødder, frø og fuldkorn først og tilskud efter en snak med apoteket',
-          'Sige at det er spild af penge, og at hun skal droppe ideen',
+          'Åbne vinduet og foreslå en gåtur i frisk luft',
+          'Gøre soveværelset mørkt og stille, tage børn og telefon, og lade hende sove',
+          'Sætte sig hos hende og spørge, hvad der har udløst det',
+          'Sige at paracetamol nok er bedre end ibuprofen mod migræne',
         ],
         correctIndex: 1,
         explanation:
-          'Magnesium har svag evidens og lav risiko. Ærlighed om evidensen, mad først og en fagperson til tilskud er den holdning, der holder for alle tilskud.',
+          'Det lyder som migræne, og migræne forværres af lys, lyd, bevægelse og spørgsmål. Fjern verden fra hende i nogle timer. Behandlingen skulle helst være taget tidligere; næste gang kan loggen hjælpe med det.',
       },
       {
         question:
-          'I har planlagt et hårdt træningspas sammen på dag 27, og hun er tydeligt udkørt. Hvad er mest hjælpsomt?',
+          'Hun er træt hele måneden, også i ugen efter menstruationen, og bløder kraftigt med klumper. Hvad er mest hjælpsomt?',
         options: [
-          'Presse på, fordi træning hjælper mod PMS',
-          'Selv foreslå en gåtur eller et let pas i stedet',
-          'Aflyse det hele og sige, at hun skal hvile',
-          'Træne alene uden at sige noget',
-        ],
-        correctIndex: 1,
-        explanation:
-          'Sidst i lutealfasen er nøglen lavere intensitet, ikke mindre bevægelse. At det bliver dit forslag, gør det til et fælles valg og ikke hendes nederlag.',
-      },
-      {
-        question: 'På dag 24 siger hun: "Jeg føler mig så tyk i dag." Hvad hjælper mest?',
-        options: [
-          '"Du ser da fin ud."',
-          '"Det er nok bare væske, det går over."',
-          'Anerkende at det er en hård dag, ikke kommentere kroppen, og tilbyde noget konkret som et varmt bad eller en gåtur',
-          'Foreslå, at I spiser salat i aften',
+          'Foreslå at hun går tidligere i seng og motionerer mere',
+          'Sige at alle er trætte, og at det nok er arbejdet',
+          'Foreslå en blodprøve for jern hos lægen og tilbyde at tage med',
+          'Købe jerntilskud og stille dem ved morgenmaden',
         ],
         correctIndex: 2,
         explanation:
-          'Enhver kommentar om kroppen, også en positiv, bekræfter, at den bliver vurderet. Anerkendelse og noget konkret hjælper; forklaringer og madforslag gør det værre.',
+          'Træthed, der ikke letter i follikelfasen, sammen med kraftige blødninger, peger på jernmangel. Det måles med en simpel blodprøve, og tilskud bør ikke tages i blinde.',
       },
       {
         question:
-          'Du har lagt mærke til, at hun springer måltider over, træner uanset hvad, og at menstruationen er udeblevet i flere måneder. Hvad er den rigtige reaktion?',
+          'Du tæller i kalenderen, at hun tog smertestillende 12 dage i sidste cyklus. Hvad er den rigtige reaktion?',
         options: [
-          'Holde øje med, hvad hun spiser, og påpege det',
-          'Sige roligt, at du er bekymret for hende, at det fortjener en læge, og at du gerne vil hjælpe, uden at nævne vægt eller mad',
-          'Vente og se, om det går over af sig selv',
-          'Lave mere mad og insistere på, at hun spiser op',
+          'Gemme pillerne, så hun tager færre',
+          'Sige at det er alt for mange, og at hun skal holde igen',
+          'Nævne tallet roligt, og foreslå at hun tager loggen med til lægen, fordi grundproblemet skal behandles bedre',
+          'Ikke sige noget, det er hendes krop',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Smertestillende mange dage om måneden kan selv give hovedpine og er et tegn på, at det underliggende ikke er behandlet godt nok. Det er en lægesamtale, ikke en irettesættelse.',
+      },
+      {
+        question:
+          'Hun har smerter ved sex, smerter når hun har afføring under menstruationen, og medicinen hjælper ikke rigtigt. Hun siger, det nok er normalt. Hvad gør du?',
+        options: [
+          'Tager hendes ord for det, hun kender sin krop bedst',
+          'Siger "det her fortjener en læge", tilbyder at booke tiden, tage med og samle smertedagene fra kalenderen',
+          'Foreslår en stærkere håndkøbsmedicin fra apoteket',
+          'Googler symptomerne og fortæller hende, hvad det er',
         ],
         correctIndex: 1,
         explanation:
-          'Tegnene kan pege på en spiseforstyrrelse eller for lidt energi til kroppen. Du skal ikke overvåge eller diagnosticere, men sige din bekymring og pege på lægen.',
+          'Smerte uden for blødningen, ved sex eller afføring, og smerte medicinen ikke rykker, er tegn der fortjener udredning. Du skal ikke stille diagnosen, du skal være den, der ikke normaliserer det, og gøre lægetiden let.',
       },
     ],
   },

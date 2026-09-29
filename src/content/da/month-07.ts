@@ -1,396 +1,359 @@
 import type { MonthContent, Source } from '../types';
 import { dailyId, weeklyId, wrapId } from '../types';
 
-const NHS_MIGRAINE: Source = {
-  label: 'NHS: Migraine',
-  url: 'https://www.nhs.uk/conditions/migraine/',
+const NHS_PMS: Source = {
+  label: 'NHS: PMS',
+  url: 'https://www.nhs.uk/conditions/pre-menstrual-syndrome/',
 };
-const NHS_TENSION: Source = {
-  label: 'NHS: Tension headaches',
-  url: 'https://www.nhs.uk/conditions/tension-headaches/',
+const ACOG_PMS: Source = {
+  label: 'ACOG: Premenstrual Syndrome (PMS)',
+  url: 'https://www.acog.org/womens-health/faqs/premenstrual-syndrome',
 };
-const NHS_PAIN: Source = {
-  label: 'NHS: Period pain',
-  url: 'https://www.nhs.uk/conditions/period-pain/',
+const SUNDHED_PMS: Source = {
+  label: 'Sundhed.dk: Præmenstruelt syndrom (PMS)',
 };
-const NHS_HEAVY: Source = {
-  label: 'NHS: Heavy periods',
-  url: 'https://www.nhs.uk/conditions/heavy-periods/',
-};
-const NHS_IRON: Source = {
-  label: 'NHS: Iron deficiency anaemia',
-  url: 'https://www.nhs.uk/conditions/iron-deficiency-anaemia/',
-};
-const NHS_ENDO: Source = {
-  label: 'NHS: Endometriosis',
-  url: 'https://www.nhs.uk/conditions/endometriosis/',
-};
-const NHS_FIBROIDS: Source = {
-  label: 'NHS: Fibroids',
-  url: 'https://www.nhs.uk/conditions/fibroids/',
-};
-const NHS_PARACETAMOL: Source = {
-  label: 'NHS: Paracetamol for adults',
-  url: 'https://www.nhs.uk/medicines/paracetamol-for-adults/',
-};
-const NHS_IBUPROFEN: Source = {
-  label: 'NHS: Ibuprofen for adults',
-  url: 'https://www.nhs.uk/medicines/ibuprofen-for-adults/',
-};
-const ACOG_DYSMENORRHEA: Source = {
-  label: 'ACOG: Dysmenorrhea (painful periods)',
-  url: 'https://www.acog.org/womens-health/faqs/dysmenorrhea-painful-periods',
-};
-const SUNDHED_DK_SMERTER: Source = {
-  label: 'Sundhed.dk: Menstruationssmerter',
-};
-const SUNDHED_DK_MIGRAENE: Source = {
-  label: 'Sundhed.dk: Migræne',
+const NHS_CBT: Source = {
+  label: 'NHS: Kognitiv adfærdsterapi (CBT)',
 };
 
 const M = 7;
 
 export const month07: MonthContent = {
   month: M,
-  theme: 'Smerte, træthed og hovedpine',
-  focus: 'Genkend mønstrene i hendes log, og reager før hun beder om det.',
+  theme: 'PMS og PMDD',
+  focus:
+    'Forstå humørsvingninger og irritabilitet, så du ikke tager dem personligt og faktisk kan hjælpe.',
   daily: [
     {
       id: dailyId(M, 1),
       month: M,
       day: 1,
-      title: 'Denne måned: fra overraskelse til mønster',
+      title: 'Faldet, dag for dag',
       insight:
-        'Smerte, træthed og hovedpine er de tre symptomer, flest kvinder logger, og de tre, partnere oftest opdager for sent. Det er ikke fordi du ikke bekymrer dig. Det er fordi de kommer som enkeltdage, og enkeltdage er svære at huske. Hovedpinen i sidste måned lå måske på dag 27. Trætheden på dag 1 og 2. Rygsmerterne dag 1. Men i hukommelsen ligger de bare som "en dårlig uge". Kalenderen i appen husker det, du ikke gør. Denne måned lærer du at læse den, så du kan handle en dag før symptomet, ikke en dag efter. Det er hele forskellen mellem at være sød og at være til hjælp.',
+        'I måned 1 lærte du, at PMS er et hormonfald. Nu går vi tættere på. Det gule legeme, der har produceret progesteron siden ægløsningen, begynder at dø cirka en uge før menstruationen. Progesteron og østrogen falder ikke på én dag, men gradvist over 5-7 dage, og symptomerne følger kurven: først en let uro og kortere lunte, så tårer, sult og dårlig søvn, og de sidste to-tre dage typisk det hårdeste. Når blødningen begynder, er faldet overstået, og det meste letter inden for et døgn. Det betyder, at du ikke bare kan vide, at hun er i vinduet, men også hvor i vinduet. Dag 24 og dag 27 er ikke det samme.',
       action:
-        'Åbn kalenderen, gå en cyklus tilbage, og tæl hvor mange dage der er logget smerte, træthed eller hovedpine. Bare tallet.',
-      phaseTags: [],
+        'Slå op i appen, hvor mange dage der er til forventet menstruation, og læg mærke til, om det passer med, hvordan hun har det i dag.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS, SUNDHED_PMS],
     },
     {
       id: dailyId(M, 2),
       month: M,
       day: 2,
-      title: 'Prostaglandiner: kilden til det meste',
+      title: 'Serotonin: hvorfor humøret følger med ned',
       insight:
-        'Når slimhinden afstødes, frigiver den prostaglandiner, signalstoffer der får livmoderen til at trække sig sammen. Det er kramperne. Men prostaglandiner bliver ikke i livmoderen. De rammer også tarmen, der trækker sig sammen og giver løs mave, og de kan give kvalme, hovedpine, kuldegysninger og ømhed i hele kroppen. Kvinder med kraftige kramper har målbart mere prostaglandin end kvinder med milde. Det forklarer, hvorfor dag 1 kan føles som influenza, og hvorfor den samme medicin, ibuprofen, hjælper mod flere symptomer på én gang: den blokerer dannelsen af prostaglandin. Én mekanisme, mange symptomer.',
+        'Østrogen støtter hjernens produktion og brug af serotonin, det signalstof der holder humøret stabilt, dæmper angst og regulerer søvn og appetit. Når østrogen falder, falder serotoninaktiviteten med. Det er derfor, PMS-dagene ligner en miniudgave af det, man ser ved lavt serotonin generelt: nedtrykthed, irritabilitet, trang til sødt, dårlig søvn. Progesteron nedbrydes samtidig til et stof, der normalt virker beroligende på hjernen, og også det forsvinder. Det interessante er, at hormonniveauerne hos kvinder med svær PMS typisk er helt normale. Det er hjernens følsomhed over for udsvingene, der er forskellig. Hun har ikke "for mange hormoner". Hendes hjerne reagerer kraftigere på de samme skift.',
       action:
-        'Hvis hun har menstruation: spørg, om det er maven, ryggen, hovedet eller det hele. Svaret fortæller dig, hvad du skal have klar næste gang.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
+        'Sig sætningen til dig selv i dag: "Det er ikke hormonmængden, det er følsomheden." Det ændrer, hvordan du ser på hende i de dage.',
+      phaseTags: [],
+      sources: [ACOG_PMS],
     },
     {
       id: dailyId(M, 3),
       month: M,
       day: 3,
-      title: 'Menstruationsmigræne og østrogenfaldet',
+      title: 'PMS er ikke én ting',
       insight:
-        'Migræne er cirka tre gange så hyppig hos kvinder som hos mænd, og hormonerne er en stor del af forklaringen. Når østrogen falder brat lige før menstruationen, reagerer hjernen hos nogle med et migræneanfald. Det kaldes menstruationsmigræne og rammer typisk i vinduet fra to dage før til tre dage inde i blødningen. Anfaldene er ofte længere, kraftigere og sværere at behandle end migræne på andre tidspunkter. Det er faldet i østrogen, ikke det lave niveau i sig selv, der udløser det. Derfor ligger anfaldet så præcist, og derfor kan det forudsiges i kalenderen, når først mønstret er set to-tre gange.',
+        'Over 150 forskellige symptomer er beskrevet ved PMS, og ingen har dem alle. De fysiske: oppustethed, ømme bryster, hovedpine, trætthed, sult, søvnproblemer, ledsmerter. De psykiske: irritabilitet, tristhed, angst, tårer, koncentrationsbesvær, følelsen af at miste kontrollen. Kombinationen er personlig og ret stabil fra måned til måned. Én kvinde bliver stille og træt, en anden kort for hovedet og rastløs, en tredje sørgmodig. Den generelle PMS-viden hjælper dig et stykke, men det er hendes profil, du skal kende. Det tager to-tre cyklusser at få øje på den, og den står i kalenderen, hvis I logger.',
       action:
-        'Tjek loggen: er der hovedpine i dagene lige omkring de sidste to menstruationers start? Skriv det ned, hvis ja.',
-      phaseTags: ['menstrual', 'luteal'],
-      sources: [NHS_MIGRAINE, SUNDHED_DK_MIGRAENE],
+        'Spørg hende: "Hvad er de to-tre ting, du selv mærker tydeligst i ugen før?" Skriv svaret i en note i appen.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 4),
       month: M,
       day: 4,
-      title: 'Migræne eller hovedpine? Forskellen betyder noget',
+      title: 'Forstærkeren, i dybden',
       insight:
-        'Ordet hovedpine dækker over to meget forskellige ting. Spændingshovedpine føles som et bånd om hovedet, på begge sider, trykkende, og man kan som regel fortsætte dagen. Migræne er typisk ensidig og dunkende, forværres ved bevægelse, og kommer ofte med kvalme, lysfølsomhed og lydfølsomhed. Nogle får forvarsler, aura, i form af flimren for øjnene eller prikken i hånden. Et migræneanfald varer fra fire timer til tre døgn og gør hverdagen umulig. De to typer behandles forskelligt, og de logges forskelligt. Når hun siger "hovedpine", er det værd at vide, hvilken hun mener, for den ene kræver et glas vand og en pause, den anden kræver mørke og ro.',
+        'Du kender sætningen: PMS forstærker følelser, den opfinder dem ikke. Her er, hvad det betyder i praksis. Forestil dig, at alle hendes reaktioner normalt går gennem et filter, der sorterer det små fra og dæmper det store. I PMS-dagene er filteret tyndere. Det, der på dag 10 registreres som en lille irritation og glemmes, kommer på dag 26 igennem i fuld størrelse. Det gælder også det positive: en kærlig sætning kan ramme dybere. Det vigtige for dig er, at indholdet er ægte. Hvis hun er vred over, at du glemte noget, er det ikke hormonerne, der har fundet på, at du glemte det. Lydstyrken er hormonel. Emnet er reelt. Begge dele fortjener at blive taget alvorligt.',
       action:
-        'Spørg hende, om hendes hovedpine typisk er "bånd om hovedet" eller "dunken i den ene side med kvalme". Husk svaret.',
+        'Tænk tilbage på jeres seneste PMS-konflikt, og adskil de to lag: hvad var emnet, og hvad var lydstyrken? Emnet er det, du skal handle på.',
       phaseTags: [],
-      sources: [NHS_MIGRAINE, NHS_TENSION],
     },
     {
       id: dailyId(M, 5),
       month: M,
       day: 5,
-      title: 'Tidligt er hele hemmeligheden',
+      title: 'PMDD: når det er mere end PMS',
       insight:
-        'Den mest almindelige fejl med smertestillende er at vente. Ibuprofen og lignende blokerer dannelsen af prostaglandin, men de kan ikke fjerne det prostaglandin, der allerede er dannet. Tages pillen ved de første tegn, murren, træk i lænden, den kendte tyngde, når den at forebygge. Tages den, når smerten er på toppen, skal den kæmpe op ad bakke i en time. Det samme gælder migræne: jo tidligere behandlingen kommer, jo bedre virker den. Mange kvinder udskyder, fordi de ikke vil "tage medicin unødigt". Men rettidig medicin er ofte mindre medicin i alt. Din rolle er ikke at presse, men at gøre det nemt at vælge tidligt.',
+        'Præmenstruel dysfori, PMDD, er den svære form. Den rammer 3-8 procent af kvinder i den fødedygtige alder og er en anerkendt diagnose, ikke "slem PMS". Forskellen er graden: ved PMDD er de psykiske symptomer så voldsomme, at de forstyrrer arbejde, relationer eller hverdag i en uge eller mere hver eneste måned. Svær nedtrykthed, angst, raseri, håbløshed, og hos nogle tanker om ikke at ville leve. Symptomerne forsvinder næsten helt, når blødningen kommer, og de gode uger er virkelig gode. Det er netop kontrasten, der gør PMDD så opslidende, og som gør, at mange går år uden at blive taget alvorligt. Der findes behandling, der virker. Første skridt er at få det set.',
       action:
-        'Læg de smertestillende et sted, hvor de er synlige og lette at nå, og sig: "De står der, hvis du mærker det komme."',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, NHS_MIGRAINE],
+        'Læs beskrivelsen igen, og vær ærlig: lyder det som hendes hverdag i ugen før? Hvis ja, så læs videre i denne måned før du siger noget.',
+      phaseTags: [],
+      sources: [NHS_PMS, ACOG_PMS],
     },
     {
       id: dailyId(M, 6),
       month: M,
       day: 6,
-      title: 'Paracetamol og ibuprofen: grundreglerne',
+      title: 'Timingen er beviset',
       insight:
-        'To slags håndkøbsmedicin gør det meste af arbejdet. Ibuprofen virker mod prostaglandin og er derfor det bedste valg mod menstruationssmerter; det skal tages sammen med mad og er ikke egnet for alle, blandt andet ved mavesår, visse hjerte- og nyresygdomme, astma, der reagerer på det, og under graviditet. Paracetamol er mildere mod maven, virker mindre på kramper, men er et godt supplement og kan kombineres med ibuprofen. Følg pakkens dosering, hold afstand mellem doserne, og bland aldrig flere produkter, der indeholder det samme stof. Er hun i tvivl om, hvad hun må tage, er apoteket et gratis og godt sted at spørge. Din opgave er at kende forskellen, så du kan hente det rigtige.',
+        'Det, der adskiller PMS og PMDD fra depression og angst, er ikke symptomerne, men kalenderen. Ved PMDD er der en tydelig symptomfri periode i follikelfasen, typisk fra menstruationens slutning til omkring ægløsning. Ved depression er der ikke. Nogle kvinder har begge dele: en underliggende depression, der forværres markant i ugen før, det kaldes præmenstruel forværring. Det er derfor, lægen beder om en dagbog, ikke bare en beskrivelse. Hukommelsen husker de hårde dage og glemmer de gode. Nu, hvor blødningen er i gang, er det et godt tidspunkt at lægge mærke til skiftet: kommer hun tilbage til sig selv inden for et par dage? Det er svaret på et vigtigt spørgsmål.',
       action:
-        'Tjek, at der er både ibuprofen og paracetamol i huset, og at udløbsdatoen holder. Fyld op i dag, hvis der mangler.',
-      phaseTags: [],
-      sources: [NHS_IBUPROFEN, NHS_PARACETAMOL],
+        'Læg mærke til, om humøret letter, nu hvor menstruationen er i gang. Skriv i noten til i dag: "bedre" eller "uændret".',
+      phaseTags: ['menstrual'],
+      sources: [ACOG_PMS],
     },
     {
       id: dailyId(M, 7),
       month: M,
       day: 7,
-      title: 'Lændesmerter og varme',
+      title: 'To cyklusser med dagbog',
       insight:
-        'Menstruationssmerter sidder ikke kun i maven. Livmoderen deler nerveforsyning med lænden, og mange mærker kramperne som en dyb, murrende smerte i det nederste af ryggen, nogle gange ned i lårene. Det kaldes udstrålende smerte og er helt almindeligt. Varme er stadig det bedst dokumenterede huskeråd: en varmepude på lænden, et varmt bad eller en varmedunk under ryggen, når hun ligger ned. Varmen får musklerne til at slappe af og øger blodgennemstrømningen, som prostaglandinerne har strammet. Let strækning af lænden hjælper også nogle. Du kan ikke fjerne smerten, men du kan flytte varmen derhen, hvor den gør gavn, uden at hun skal rejse sig og finde den.',
+        'Hvis I overvejer, om det kunne være PMDD, har I allerede værktøjet. Diagnosen stilles på baggrund af daglige registreringer over mindst to cyklusser, hvor symptomerne skal være til stede i ugen før menstruationen og væk i ugen efter. Læger kalder det prospektiv registrering, og det er ikke bureaukrati. Det er den eneste måde at adskille PMDD fra andre tilstande på. Appens kalender er præcis sådan en dagbog, hvis den udfyldes hver dag, også de gode dage. Især de gode dage. Det er "ingen symptomer" på dag 8, der gør "voldsom angst" på dag 26 til et mønster og ikke bare til en dårlig dag.',
       action:
-        'Varm en varmedunk eller varmepude, og læg den klar på hendes side af sofaen eller sengen, før hun spørger.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, SUNDHED_DK_SMERTER],
+        'Foreslå, at I logger humør hver dag i de næste to cyklusser, og tilbyd at være den, der minder om det, hvis hun vil have det.',
+      phaseTags: [],
+      sources: [ACOG_PMS, SUNDHED_PMS],
     },
     {
       id: dailyId(M, 8),
       month: M,
       day: 8,
-      title: '"Menstruationsinfluenza" er ikke indbildning',
+      title: 'Der findes behandling, der virker',
       insight:
-        'Mange kvinder beskriver dagene op til og ind i menstruationen som at være ved at blive syge: kuldegysninger, ømme muskler, tung krop, let feberfornemmelse, kvalme. Det er ikke en officiel diagnose, men mekanismen er velkendt. Prostaglandiner og andre betændelsesstoffer kommer ud i blodbanen og påvirker hele kroppen, ikke kun livmoderen, og hormonfaldet forstærker oplevelsen. Det går typisk over, når blødningen er godt i gang. Det, der hjælper, er det samme som ved almindelig influenza: hvile, væske, varme, nem mad og ibuprofen mod ømheden. Det, der ikke hjælper, er at tvivle på, om det er "rigtigt". Hvis hun har logget det før, ved du, at det kommer igen.',
+        'Det er værd at vide, før I overvejer en læge: PMDD og svær PMS kan behandles, og valgmulighederne er flere, end de fleste tror. SSRI-præparater, den type medicin der også bruges mod depression, virker ved PMDD ofte inden for få dage i stedet for uger, og nogle tager dem kun i de sidste to uger af cyklussen. Hormonel prævention, der holder ægløsningen tilbage, fjerner udsvingene for nogle. Kognitiv adfærdsterapi lærer teknikker til at håndtere tankerne, når de kommer. Regelmæssig motion, søvn og måltider dæmper det hele. Det er lægens opgave at vælge. Din opgave er at vide, at der er noget at vælge imellem, så "det er bare sådan, det er" ikke bliver det sidste ord.',
       action:
-        'Hvis hun siger, hun føler sig sløj: behandl det som en sygedag uden diskussion. Te, tæppe, og tag aftenens opgaver.',
-      phaseTags: ['menstrual', 'luteal'],
-      sources: [NHS_PAIN],
+        'Gem denne sætning til en dag, hvor hun tvivler: "Det kan behandles, og du behøver ikke finde ud af hvordan alene."',
+      phaseTags: [],
+      sources: [NHS_PMS, ACOG_PMS],
     },
     {
       id: dailyId(M, 9),
       month: M,
       day: 9,
-      title: 'Maven: diarré og kvalme',
+      title: 'Afvisningsfølsomhed',
       insight:
-        'Løs mave på de første menstruationsdage er så almindeligt, at det har et kælenavn på mange sprog, men få taler om det. Prostaglandinerne, der får livmoderen til at trække sig sammen, rammer også tarmen, som ligger lige ved siden af. Resultatet er diarré, luft i maven, og for nogle kvalme og endda opkastning, når kramperne er værst. Det er ubehageligt og pinligt, ikke farligt, og det følger smerten: mindre prostaglandin, roligere mave. Derfor hjælper ibuprofen taget tidligt også på maven. Nem, mild mad, ikke for fed, ikke for meget kaffe, og let adgang til badeværelset gør resten. Kvalme dæmpes af små portioner og ingefær for nogle.',
+        'Et af de mindst kendte og mest forstyrrende PMS-symptomer er en skærpet følsomhed over for afvisning. En kort besked, et "mm" i stedet for et svar, at du kigger på telefonen, mens hun taler, eller at du går i seng uden at sige godnat. Ting, der på dag 10 ikke registreres, føles på dag 26 som bevis på, at du er ligeglad. Det er ikke usikkerhed i forholdet, det er en hjerne med lavt serotonin, der leder efter fare. Det hjælper ikke at sige "det var ikke sådan ment". Det hjælper at forebygge: lidt mere tydelighed, lidt mere blik, lidt mere "jeg er her", i netop de dage. Det koster dig ingenting og sparer jer begge en del.',
       action:
-        'Lav noget mildt og nemt at spise i dag, som ris, suppe, brød eller havregrød, og lad hende springe over, hvis hun ikke kan.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
+        'Læg telefonen væk, når hun taler til dig i dag, og sig godnat med øjenkontakt. Små signaler, der lander stort lige nu.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 10),
       month: M,
       day: 10,
-      title: 'Gør status, nu hvor der er overskud',
+      title: 'Angst og uro',
       insight:
-        'Follikelfasen er det bedste tidspunkt til at tale om det svære, fordi det svære er overstået, og energien er tilbage. Det gælder også smerte. At spørge "hvordan var din menstruation denne gang?" midt i kramperne føles som et forhør. At spørge det en uge senere, mens I laver mad, føles som interesse. Og det er nu, hendes hukommelse om dagene stadig er frisk nok til at være præcis. Var det værre eller bedre end sidst? Hvad hjalp? Var der noget, hun manglede? Svarene er guld til næste måned, og de er kun tilgængelige, hvis nogen spørger på det rigtige tidspunkt. Det er dig, der har kalenderen.',
+        'Mange kvinder beskriver PMS-angst som en motor, der kører for højt: uro i kroppen, tanker der kører i ring, bekymring om ting, der ellers er håndterbare, og nogle gange en følelse af, at noget forfærdeligt er ved at ske uden at kunne sige hvad. Det hænger sammen med, at det beroligende stof, progesteron nedbrydes til, forsvinder sammen med hormonfaldet. Angst i denne fase er ikke et tegn på, at hun er svag, og ikke et tegn på, at der er noget galt i jeres liv. Det hjælper ikke at argumentere med angsten eller at bevise, at bekymringen er ubegrundet. Det hjælper at være rolig, konkret og tæt på: "Jeg er her. Vi tager én ting ad gangen."',
       action:
-        'Spørg i dag: "Hvad var det værste ved din menstruation denne gang, og var der noget, der hjalp?" Skriv svaret i en note i kalenderen.',
-      phaseTags: ['follicular'],
+        'Hvis hun virker urolig i dag, så spørg ikke "hvad er der galt?", men sig: "Skal vi gå en tur, eller vil du hellere have, jeg bare sidder her?"',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 11),
       month: M,
       day: 11,
-      title: 'Cyklisk træthed og jern',
+      title: 'Tårer, der sidder løst',
       insight:
-        'Træthed, der kommer igen hver måned, kan have flere kilder, men én er let at overse: jern. Hver menstruation koster jern, og ved kraftige blødninger kan tabet være større, end kosten når at erstatte. Jernmangel udvikler sig langsomt og mærkes som vedvarende træthed, forpustethed ved trapper, bleghed, koncentrationsbesvær, hovedpine og for nogle uro i benene om natten. Det bliver ofte afskrevet som travlhed eller dårlig søvn. En simpel blodprøve hos lægen måler hæmoglobin og jerndepoter, og behandlingen er enkel. Jerntilskud skal dog ikke tages i blinde; for meget jern er heller ikke godt. Hvis trætheden ikke letter i follikelfasen, er det et tegn på, at noget andet trækker.',
+        'Gråd i PMS-dagene kommer ofte pludseligt og over noget, der ikke virker stort: en reklame, et rodet køkken, en kommentar. Hun ved det selv og bliver ofte flov eller irriteret over det, hvilket giver flere tårer. Det, der sker, er en lav tærskel, ikke en stor sorg. Det værste, du kan gøre, er at kræve en forklaring eller at gå i gang med at løse det, hun græder over. Det bedste er kedeligt: at være der, tilbyde en hånd eller en kop te, og lade det gå over af sig selv. Hvis der er noget bag tårerne, kommer det frem, når hun er klar. Og det er i orden at sige "du behøver ikke forklare".',
       action:
-        'Spørg, om hun har fået målt sit jern inden for det seneste år. Hvis ikke, og hun bløder kraftigt, så foreslå det som en helt almindelig tjek-ting.',
-      phaseTags: ['follicular'],
-      sources: [NHS_IRON, NHS_HEAVY],
+        'Næste gang tårerne kommer: sæt dig ved siden af hende, sig "du behøver ikke forklare", og bliv siddende i fem minutter uden at gøre noget.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 12),
       month: M,
       day: 12,
-      title: 'Søvngæld hen over cyklussen',
+      title: 'Raseri: den svære følelse',
       insight:
-        'Søvnen følger også cyklussen. I lutealfasen holder progesteron kropstemperaturen oppe, og mange vågner oftere og sover lettere. I PMS-dagene forstyrrer uro og hormonfald. På menstruationens første nætter vækker smerte og lækage. Hver enkelt nat er måske kun lidt dårligere, men over ti-tolv dage bliver det til en søvngæld, som forklarer, hvorfor irritabilitet, hovedpine og smertefølsomhed er værst lige omkring blødningen: søvnmangel sænker smertetærsklen målbart. Follikelfasen er der, gælden betales tilbage, hvis hun får lov. Det betyder, at en tidlig sengetid dag 3-8 ikke er dovenskab, men reparation, og at du kan hjælpe ved at beskytte de nætter.',
+        'Vrede er det PMS-symptom, både hun og du helst vil undgå at tale om. Men det er et af de mest almindelige ved PMDD: en pludselig, kropslig vrede, der kommer hurtigt og føles ude af proportion, også for hende selv. Mange beskriver bagefter, at de så sig selv udefra og ikke kunne stoppe. Det er ikke en undskyldning for at behandle dig dårligt, og det vender vi tilbage til. Men det er vigtigt at forstå, at vreden i det øjeblik ofte er mere fysiologi end hensigt. Det, der eskalerer, er at svare igen med samme styrke. Det, der de-eskalerer, er at sænke din egen stemme, tage en pause og vende tilbage senere.',
       action:
-        'Foreslå en tidlig sengetid i aften uden skærm, og tag det, der plejer at holde hende oppe: opvasken, madpakkerne, det sidste tjek af noget.',
-      phaseTags: [],
+        'Aftal med dig selv én sætning til næste gang, det koger over: "Jeg går i køkkenet i ti minutter, og så kommer jeg tilbage." Sig den roligt, og hold den.',
+      phaseTags: ['luteal'],
+      sources: [ACOG_PMS],
     },
     {
       id: dailyId(M, 13),
       month: M,
       day: 13,
-      title: 'Bevægelse forebygger smerte',
+      title: 'Hjernetåge',
       insight:
-        'Det lyder forkert, men regelmæssig motion er en af de bedst dokumenterede måder at få mildere menstruationssmerter på. Ikke under kramperne, men i ugerne før. Fysisk aktivitet forbedrer blodgennemstrømningen i bækkenet, sænker niveauet af stresshormoner og frigiver kroppens egne smertedæmpende stoffer. Kvinder, der bevæger sig jævnligt, rapporterer i gennemsnit kortere og mildere smerter. Det behøver ikke være hårdt: rask gang, cykling, svømning eller yoga tæller. Follikelfasen er det oplagte tidspunkt, fordi energien og lysten er der. Din rolle er ikke at være træner, men at gøre det let at komme afsted, og allerhelst at tage med.',
+        'Koncentrationsbesvær, glemsomhed og følelsen af at tænke gennem vat er almindelige i dagene før menstruation, og de forsvinder ligesom de andre symptomer, når blødningen begynder. Det hænger sammen med både serotoninfaldet og den dårlige søvn i lutealfasen. Hjernetåge er frustrerende for hende, især i et job, der kræver overblik, og den giver nemt konflikter derhjemme: hun glemmer en aftale, mister overblikket over ugen, eller kan ikke tage en beslutning. Det, der hjælper, er at tage kognitiv belastning fra: færre valg, kortere beskeder, én ting ad gangen. Det er ikke at tale ned til hende. Det er at tage noget fra i en uge, hvor det er tungt.',
       action:
-        'Foreslå en gåtur eller cykeltur sammen i dag, og gør det til jer, ikke til "for din menstruations skyld".',
-      phaseTags: ['follicular'],
-      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
+        'Tag én planlægningsopgave fra hende i dag: aftensmaden, en aftale der skal flyttes, eller en besked der skal svares på. Sig bare "den tager jeg".',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 14),
       month: M,
       day: 14,
-      title: 'Væske og koffein: to stille hovedpine-kilder',
+      title: 'Sådan svarer du på skarp tone',
       insight:
-        'To af de hyppigste hovedpine-udløsere har intet med hormoner at gøre, men de forstærker de hormonelle. Væskemangel giver hovedpine i sig selv og gør en migræne værre, og mange drikker mindre, når de har det dårligt. Koffein er dobbelt: en stabil daglig mængde er fint og kan endda dæmpe hovedpine, men springes den vante kop over, kommer der abstinenshovedpine inden for et døgn. Uregelmæssigt koffeinindtag, meget en dag og lidt den næste, er derfor en klassisk udløser. Kaffe sent på dagen forværrer også den søvn, der i forvejen er skrøbelig i lutealfasen. Det enkleste råd er kedeligt: samme mængde kaffe hver dag, ikke efter klokken 15, og et glas vand ved siden af.',
+        'I måned 1 lærte du at reagere på behovet, ikke på tonen. Her er teknikken i tre trin. Ét: hold en pause på tre sekunder, før du siger noget. Det lyder banalt, men det er de tre sekunder, der afgør, om du forsvarer dig eller lytter. To: oversæt sætningen i hovedet. "Du hjælper aldrig til" bliver "jeg føler mig alene med det". Tre: svar på oversættelsen, ikke på ordene. "Det lyder som om du står med for meget. Hvad tager jeg nu?" Hvis du rammer forkert, retter hun dig, og det er fint. Hvis tonen fortsætter, selv om du har svaret på behovet, er det tid til en pause, ikke til en kamp. Det får du mere om senere på måneden.',
       action:
-        'Stil et glas vand eller en flaske ved hendes plads i dag, morgen og aften, uden at kommentere det.',
-      phaseTags: [],
-      sources: [NHS_MIGRAINE, NHS_TENSION],
+        'Øv de tre sekunder i dag, i en hvilken som helst samtale: træk vejret én gang, før du svarer. Det skal sidde i kroppen, når du får brug for det.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 15),
       month: M,
       day: 15,
-      title: 'Ægløsningssmerte: et jag i den ene side',
+      title: 'Reparation efter en konflikt',
       insight:
-        'Omkring hver femte kvinde mærker ægløsningen som en smerte i den ene side af underlivet, når folliklen brister og lidt væske irriterer bughinden. Det kaldes ægløsningssmerte eller mittelschmerz. Den varer fra nogle minutter til et par dage, kan skifte side fra måned til måned, og er som regel mild og harmløs. Nogle mærker den også som en tyngde eller let kvalme. Den er faktisk nyttig, fordi den er et af de mest præcise tegn på, hvor i cyklussen hun er. Kraftig ægløsningssmerte, smerte med feber, eller smerte, der kommer sammen med usædvanlig blødning, hører ikke til det normale og fortjener en læge.',
+        'Alle par har konflikter i PMS-vinduet, uanset hvor godt de forstår mekanismen. Det, der afgør, om forholdet tager skade, er ikke konflikten, men reparationen bagefter. Når blødningen er begyndt og roen vendt tilbage, er der et vindue til at samle op. Det skal ikke være en retssag om, hvem der sagde hvad. Det skal være kort: hvad skete der, hvad kan vi gøre anderledes næste gang, og er der noget, en af jer skal sige undskyld for. Hun kan godt sige undskyld for tonen, uden at det betyder, at emnet var forkert. Du kan sige undskyld for at forsvare dig, uden at det betyder, at du fortjente tonen. Begge dele kan være sande.',
       action:
-        'Hvis hun nævner et jag i siden i dag: log det i kalenderen sammen med hende, og se om appens ægløsningsdato passer.',
-      phaseTags: ['ovulation'],
+        'Hvis der var en konflikt i den seneste PMS-uge, så sig i dag: "Kan vi lige tale om i sidste uge, kort? Ikke for at finde skyld, bare for at lære af det."',
+      phaseTags: ['menstrual'],
     },
     {
       id: dailyId(M, 16),
       month: M,
       day: 16,
-      title: 'Hovedpine midt i cyklussen',
+      title: 'Sætninger, du skal lade blive i munden',
       insight:
-        'Menstruationsmigræne er det kendte mønster, men nogle kvinder får også migræne omkring ægløsningen. Forklaringen er formentlig det bratte østrogenfald lige efter østrogentoppen, samme mekanisme som før menstruationen, bare mindre. Det bliver sjældent opdaget, fordi hovedpine dag 14 ikke "lyder hormonel", og fordi kalendere sjældent læses for midtcyklus-symptomer. Efter et par loggede cyklusser kan mønstret være tydeligt: hovedpine to steder i måneden, begge med præcis timing. Hvis det er tilfældet, er det vigtig viden for både hende og lægen, fordi behandling kan tilrettelægges efter det. Det starter med, at symptomet bliver logget, også når det ikke passer ind i det forventede.',
+        'Du kender de klassiske: "Er du PMS-ramt?", "Det er bare hormonerne", "Du overreagerer". Her er de mindre åbenlyse, der gør lige så meget skade. "Du var også sådan sidste måned" bruger kalenderen som våben. "Jeg siger jo ingenting" er en forsvarstale forklædt som uskyld. "Jeg kan ikke gøre noget rigtigt" gør hendes symptom til dit problem. "Skal vi ikke tage den, når du er dig selv igen?" siger, at hun ikke er sig selv nu. Fællesnævneren er, at de alle handler om dig og gør hende til problemet. Det er ikke forbudt at have brug for en pause. Det er måden, det siges på: "Jeg trænger til ti minutter, og så er jeg tilbage" siger det samme uden at ramme.',
       action:
-        'Kig i kalenderen efter hovedpine i dagene omkring ægløsningen i de sidste cyklusser. Fortæl hende, hvad du så, uanset svaret.',
-      phaseTags: ['ovulation'],
-      sources: [NHS_MIGRAINE],
+        'Find den ene af sætningerne, du er mest tilbøjelig til at bruge, og skriv dit alternativ ned på en note i din telefon.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 17),
       month: M,
       day: 17,
-      title: 'Sådan læser du kalenderen',
+      title: 'Det, der faktisk hjælper at sige',
       insight:
-        'En log er kun værdifuld, hvis den bliver læst, og de fleste læser den forkert: én dag ad gangen. Prøv i stedet at læse den som en linje. Find de sidste to-tre menstruationsstarter. Tæl bagud fra hver: hvilken dag kom hovedpinen? Hvor mange dage før blødningen begyndte trætheden? Hvor mange dage varede smerten? Læg tallene ved siden af hinanden. Rammer de samme cyklusdag plus minus én, er det et mønster. Rammer de tilfældigt, er det noget andet. Så tag mønstret og læg det fremad: hvis hovedpinen plejer at komme to dage før blødning, og appen forventer blødning på fredag, er onsdag dagen at være klar. Det er hele metoden.',
+        'De sætninger, der virker i PMS-dagene, har tre ting til fælles: de anerkender, de kræver ikke noget, og de tilbyder noget konkret. "Det lyder hårdt. Jeg er her." "Du behøver ikke forklare." "Jeg tager aftensmaden, læg dig bare." "Vil du have, jeg bliver, eller skal du have lidt fred?" "Jeg ved, det er en tung uge, og jeg synes, du klarer den godt." Læg mærke til, hvad der ikke er med: ingen forklaringer på, hvorfor hun har det sådan, ingen forslag til, hvad hun burde gøre, ingen spørgsmål der kræver et svar med begrundelse. Hun ved godt, hvad der sker i hendes krop. Hun har ikke brug for information, hun har brug for selskab.',
       action:
-        'Vælg ét symptom, hun logger ofte, og find dets cyklusdag i de sidste to cyklusser. Regn ud, hvornår det forventes næste gang.',
-      phaseTags: [],
+        'Vælg én af sætningerne, og sig den til hende i dag, uden anledning og uden at forvente noget igen.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 18),
       month: M,
       day: 18,
-      title: 'Symptomdagbog til lægen',
+      title: 'Hendes egne strategier',
       insight:
-        'Skal hun til lægen med smerter eller migræne, er det bedste, hun kan tage med, en dagbog over to-tre cyklusser. Lægen har brug for at vide: hvilke dage, hvor slemt på en skala fra 1 til 10, hvor længe det varede, hvad hun tog og om det virkede, og om hun måtte aflyse noget. Netop det sidste, funktionstab, er det, der flytter en konsultation fra "det er nok normalt" til "det skal vi undersøge". Appens kalender og noter er en færdig dagbog, hvis de er brugt, og den kan læses op eller vises på fem minutter. Mange lever med smerter i årevis, fordi de i lægens kontor ikke kan huske, hvor slemt det egentlig var. Din opgave er at sikre, at det er skrevet ned.',
+        'De fleste kvinder, der har haft PMS i mange år, har udviklet deres egne måder at komme igennem ugen på. Nogle løber, nogle går tidligt i seng, nogle aflyser alt socialt, nogle har brug for at være alene, nogle det modsatte. Nogle ved, at et bestemt måltid, et bad eller en bestemt serie hjælper. Du kender måske nogle af dem, men sjældent alle, fordi hun ikke har sat ord på dem. Follikelfasen er det rigtige tidspunkt at spørge, for nu er der overskud til at tænke over det, og det føles ikke som kritik. Det er ikke din opgave at finde bedre strategier. Det er at kende hendes, så du kan bakke dem op i stedet for at stå i vejen for dem.',
       action:
-        'Spørg, om der er en lægetid, hun har udskudt. Tilbyd at samle de sidste cyklussers smertedage fra kalenderen på et stykke papir.',
-      phaseTags: [],
-      sources: [NHS_ENDO, NHS_MIGRAINE],
+        'Spørg i dag: "Hvad gør du selv, der hjælper i ugen før? Og hvad gør jeg nogle gange, der forstyrrer det?" Lyt til det sidste uden at forsvare dig.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 19),
       month: M,
       day: 19,
-      title: 'Ledsmerter og stive morgener',
+      title: 'Støt strategien uden at overtage den',
       insight:
-        'Nogle kvinder mærker ømme eller stive led, især knæ, hænder og lænd, i dagene før og under menstruationen. Mekanismen er ikke fuldt forstået, men østrogen har en dæmpende effekt på betændelse og smerte, og når det falder, mærkes led og muskler mere. Væskeophobning i lutealfasen kan gøre led stive og hænder hævede, og prostaglandiner bidrager til den generelle ømhed. Kvinder med gigtsygdomme oplever ofte, at symptomerne svinger med cyklussen. Mild, cyklisk ledømhed er almindelig og går over med blødningen. Vedvarende hævelse, rødme, varme eller stivhed over en time om morgenen er noget andet og fortjener en læge. Varme, bevægelse og at undgå tunge løft de dage hjælper.',
+        'Når du kender hendes strategier, er fristelsen at administrere dem: "Skulle du ikke løbe i dag?" "Du sagde jo, du ville i seng klokken ti." Det er velment og lander som kontrol, især i en uge hvor følsomheden for kritik er høj. Støtte ser anderledes ud. Det er at rydde vejen: tage børnene, så hun kan løbe, uden at nævne løbeturen. Gøre soveværelset klar klokken halv ti uden at sige, at hun burde gå i seng. Lade være med at foreslå gæster i den uge. Og acceptere, at strategien nogle dage er at ligge på sofaen, og at det også er en strategi. Du hjælper mest, når hun ikke skal bruge energi på at forklare eller forsvare det, hun gør.',
       action:
-        'Tag de tunge løft i dag: indkøbsposer, vasketøjskurven, det der skal flyttes. Sig ikke hvorfor, bare gør det.',
+        'Vælg én af hendes strategier, og gør plads til den i dag uden at kommentere på det: tag en opgave, ryd en time eller lad være med at planlægge noget.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 20),
       month: M,
       day: 20,
-      title: 'Forstoppelse i lutealfasen',
+      title: 'Søvn, mad og bevægelse som medicin',
       insight:
-        'Hvor menstruationen giver løs mave, giver lutealfasen ofte det modsatte. Progesteron får glat muskulatur til at slappe af, også i tarmen, så maden bevæger sig langsommere igennem. Resultatet er forstoppelse, oppustethed og luft i ugen før menstruationen, ofte ovenpå den væskeophobning, der i forvejen strammer bukserne. Når blødningen begynder og prostaglandinerne tager over, vender det, ofte brat. Det er en af grundene til, at maven kan føles så forskellig fra uge til uge. Det, der hjælper, er kedeligt og effektivt: fibre fra grøntsager, frugt og fuldkorn, rigeligt vand, og daglig bevægelse. Det, der ikke hjælper, er at kommentere maven.',
+        'De tre ting, der har bedst dokumentation for at dæmpe PMS uden medicin, er også de tre, der er sværest at holde fast i, netop når man har PMS: regelmæssig motion, nok søvn og regelmæssige måltider. Motion øger serotonin og dæmper angst, søvn stabiliserer humøret, og jævne måltider forhindrer de blodsukkerfald, der forstærker irritabilitet mere end noget andet. Mindre alkohol og koffein i den uge hjælper også flere, end der tror på det. Det er ikke din opgave at sætte hende på et program. Det er at gøre de tre ting nemme: en gåtur sammen efter aftensmaden, en tidlig aften uden skærm, og at der er mad i huset, så måltidet ikke bliver sprunget over.',
       action:
-        'Lav aftensmad med rigeligt grønt og fuldkorn i dag, og foreslå en kort gåtur efter maden.',
+        'Foreslå en gåtur på 20 minutter efter aftensmaden i dag, uden dagsorden. Går hun ikke med, så lav en tidlig aften i stedet.',
       phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'Lutealtræthed er fysiologi, ikke dovenskab',
+      title: 'Hvornår det fortjener en læge',
       insight:
-        'Trætheden i den sidste uge før menstruationen har sin egen forklaring. Progesteron virker sløvende på hjernen, næsten som et mildt beroligende middel. Kropstemperaturen er forhøjet, hvilket i sig selv koster energi og forstyrrer søvnen. Serotonin falder med østrogen. Kroppen forbrænder lidt mere og efterspørger mere mad. Lagt sammen giver det en tyngde, hvor alt kræver mere, og hvor sofaen kalder klokken 20. Det er ikke mangel på vilje, og det bliver ikke bedre af at blive presset. Det bliver bedre af søvn, mad til tiden, lavere krav, og at nogen tager det praktiske. Ligger trætheden i loggen på samme dage hver måned, ved du præcis, hvornår du skal sænke tempoet.',
+        'Du kan ikke afgøre, om det er PMS eller PMDD, og det skal du heller ikke. Men der er tegn, der betyder, at det bør vurderes: hvis symptomerne hver måned forstyrrer hendes arbejde, relationer eller hverdag. Hvis hun selv siger, at hun ikke kan genkende sig selv i den uge. Hvis der er tanker om ikke at ville leve, også selv om de "kun" kommer i PMS-dagene. Hvis I begge frygter ugen på forhånd. Hvis hun har prøvet det, hun kunne selv, og det ikke er nok. Ét af tegnene er nok. Ved tanker om selvmord skal det være nu, ikke efter to cyklusser med dagbog. Alt andet kan vente på det rigtige tidspunkt at tale om det.',
       action:
-        'Kig i kalenderen: hvornår forventes næste menstruation? Ryd eller flyt én aftale i de fem dage før, uden at spørge først.',
-      phaseTags: ['luteal'],
+        'Gå listen igennem for dig selv i dag. Genkender du ét eller flere tegn, så læs morgendagens kort, før du siger noget.',
+      phaseTags: [],
+      sources: [NHS_PMS, SUNDHED_PMS],
     },
     {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'Spændingshovedpine: nakke, skærm og stress',
+      title: 'Sådan foreslår du en læge',
       insight:
-        'Spændingshovedpine er den mest almindelige hovedpine overhovedet: et trykkende bånd om panden eller nakken, på begge sider, mild til moderat, uden kvalme. Den udløses af stress, anspændte nakke- og skuldermuskler, for lang tid ved skærmen, for lidt søvn, for lidt vand og sprunget mad. I lutealfasen, hvor søvnen er dårligere og stresstærsklen lavere, kommer den lettere. Den behandles med det enkle: pause, vand, mad, frisk luft, varme på nakken, og paracetamol eller ibuprofen, hvis den ikke slipper. Hyppig spændingshovedpine, mere end et par gange om ugen, er et signal om, at hverdagen presser for hårdt, ikke bare at der mangler en pille.',
+        'At foreslå en læge kan lyde som "der er noget galt med dig", hvis det siges forkert eller på det forkerte tidspunkt. Det forkerte tidspunkt er midt i PMS-ugen. Det rigtige er nu, i follikelfasen, hvor der er ro til at høre det. Den forkerte måde er at diagnosticere: "Jeg tror, du har PMDD." Den rigtige er at beskrive og tilbyde: "Jeg kan se, at ugen før er virkelig hård for dig, og jeg har læst, at der findes behandling. Vil du overveje at tale med lægen om det? Jeg tager gerne med." Hvis hun siger nej, så respekter det og lad døren stå åben. Beslutningen er hendes. Din rolle er at gøre den mulig, ikke at tage den.',
       action:
-        'Hvis hun har hovedpine i dag: tag børnene, lyden eller opgaven ud af rummet i en halv time, og sæt vand og noget at spise ved hende.',
-      phaseTags: ['luteal'],
-      sources: [NHS_TENSION],
+        'Hvis du genkendte tegnene i går: sig sætningen i dag, og tilbyd at hjælpe med at printe eller sende de loggede cyklusser til lægen.',
+      phaseTags: ['follicular'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'Reager før hun beder om det',
+      title: 'Dine følelser tæller også',
       insight:
-        'Det er månedens vigtigste færdighed, og den er enkel: mønstret i loggen fortæller, hvad der kommer, og du handler dagen før. Plejer migrænen at ramme to dage før blødning, sørger du for stilhed, mørke gardiner og at hendes medicin ligger fremme dagen før. Plejer trætheden at komme dag 26, laver du mad og lader hende gå tidligt i seng. Plejer rygsmerterne at komme dag 1, er varmedunken fyldt aftenen før. Ingen af delene kræver, at hun forklarer sig eller beder om noget, og det er pointen. At bede om hjælp koster energi, som hun ikke har de dage. At få den uden at bede er beviset på, at nogen har lagt mærke til hende.',
+        'Hele denne måned handler om at forstå hende. Men du er også et menneske, der lever i det samme hus i den samme uge. Det er okay at blive ked af det, når tonen er skarp. Det er okay at være træt af at gå på listesko. Det er okay at være bange for ugen på forhånd. Hvis du bider det i dig, hober det sig op og kommer ud som kulde eller sarkasme, typisk på det værste tidspunkt. Det, der virker, er at have et sted at lægge det: en ven, en søskende, en gåtur alene, en note på telefonen. Og at sige det til hende, når roen er tilbage: "Sidste uge var hård for mig også." Ikke som en anklage. Som en oplysning.',
       action:
-        'Find det ene symptom, der er mest forudsigeligt i hendes log, og gør én forberedelse til det i dag, før det rammer.',
-      phaseTags: ['luteal'],
+        'Skriv tre linjer i dag om, hvordan den seneste PMS-uge var for dig. Ikke til hende, til dig selv. Læs dem igen om en måned.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 24),
       month: M,
       day: 24,
-      title: 'Migræne: hvad der hjælper, når det rammer',
+      title: 'Ro er ikke det samme som at finde sig i alt',
       insight:
-        'Et migræneanfald kan ikke "tages sig sammen" igennem, men det kan gøres mindre. Behandlingen skal ind tidligt: ibuprofen eller anden håndkøbsmedicin ved første tegn, og triptaner, hvis lægen har ordineret dem. Derefter: et mørkt, stille, køligt rum, søvn hvis det er muligt, en kold klud på panden eller varme i nakken, små slurke vand, og noget let at spise mod kvalmen. Det, der forværrer, er lys, lyd, lugte, skærme og at skulle svare på spørgsmål. Din rolle er at fjerne verden fra hende i nogle timer: børn, telefon, aftaler, gæster. "Jeg tager det hele, læg dig" er den sætning, der hjælper mest. Bagefter er hun ofte udmattet i et døgn; det er en del af anfaldet.',
+        'At holde roen i PMS-dagene betyder ikke, at alt er tilladt. Skarp tone, kort lunte og tårer er symptomer. Nedladende bemærkninger, at blive kaldt ting, at få smidt ting efter sig eller at blive råbt ad foran børnene er ikke symptomer, og hormonerne fritager ikke for ansvar. Forskellen er vigtig for jer begge. Hun har ret til at have en svær uge. Du har ret til at sige "sådan taler du ikke til mig", roligt, og gå. Det er ikke at afvise hendes følelser. Det er en grænse, og grænser er det, der gør, at du kan blive ved med at være tålmodig i det lange løb. Hvis grænsen overskrides hver måned, er det en samtale, der skal tages i den gode uge, og måske med hjælp udefra.',
       action:
-        'Sørg for, at soveværelset kan gøres helt mørkt og stille i aften, og aftal et ord, hun kan sende, der betyder "migræne, tag over".',
-      phaseTags: ['luteal', 'menstrual'],
-      sources: [NHS_MIGRAINE],
+        'Formulér for dig selv én grænse, der ikke afhænger af cyklussen. Sig den til hende i den gode uge, ikke som ultimatum, men som information.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 25),
       month: M,
       day: 25,
-      title: 'Hvornår hovedpine fortjener en læge',
+      title: 'Udsæt, undgå ikke',
       insight:
-        'Det meste hovedpine er ufarlig, men to slags kræver handling. Den akutte: hovedpine, der kommer som et lyn fra en klar himmel og er værst inden for et minut, hovedpine med feber, nakkestivhed eller udslæt, efter et slag mod hovedet, eller sammen med lammelse, talebesvær, synstab eller forvirring. Der ringer man 112 eller lægevagten med det samme. Den kroniske: migræne flere dage om måneden, hovedpine der forstyrrer arbejde eller søvn, eller anfald der bliver hyppigere. Det fortjener en tid hos egen læge, som kan tilbyde forebyggende behandling og tilpasse den til cyklussen. Har hun migræne med aura, skal lægen desuden vide det, før hun får p-piller med østrogen, fordi kombinationen frarådes.',
+        'Du ved nu, at svære samtaler bør lægges uden for PMS-vinduet. Der er en fælde i det: at "vi tager den senere" bliver til "vi tager den aldrig", fordi der altid er en grund. Så vokser emnet, og det kommer ud i PMS-ugen alligevel, bare større. Forskellen mellem at udsætte og at undgå er, om der er en dato. "Kan vi tage den på søndag?" er at udsætte. "Ikke nu" uden mere er at undgå. Og hvis det er hende, der rejser emnet på dag 26, så lyt først. Hun har ret til at blive hørt, også når timingen er dårlig. Det, du kan foreslå, er at beslutte senere, ikke at lytte senere.',
       action:
-        'Læs de akutte tegn højt for dig selv én gang, så du kan dem. Spørg så, om hendes migræne har ændret sig det seneste år.',
-      phaseTags: [],
-      sources: [NHS_MIGRAINE],
+        'Er der et emne, I har skubbet foran jer? Foreslå en konkret dag i næste follikelfase, og sæt den i kalenderen i dag.',
+      phaseTags: ['luteal', 'follicular'],
     },
     {
       id: dailyId(M, 26),
       month: M,
       day: 26,
-      title: 'Smerte, der ikke er normal',
+      title: 'Den gode uge er til aftaler',
       insight:
-        'Almindelige menstruationssmerter reagerer på varme og ibuprofen, holder sig til de første par dage, og forhindrer ikke hverdagen. Alt andet fortjener en læge. Tegnene er: smerte, der også kommer uden for menstruationen, smerte ved sex, smerte ved afføring eller vandladning omkring blødningen, kraftig blødning med klumper, smerter der ikke rykkes af medicin, og menstruationer der koster sygedage. Bag det kan ligge endometriose, adenomyose eller fibromer, tre tilstande, der er almindelige, kan behandles, og alligevel tager år at få stillet, fordi smerten normaliseres af alle omkring hende, ofte også af hende selv. Du skal ikke gætte, hvad det er. Du skal være den, der siger, at det ikke skal være sådan.',
+        'Follikelfasen er ikke bare den behagelige uge. Den er også den uge, hvor I kan lave aftaler om den svære. Med overskud og afstand kan I tale om, hvad der virkede sidst, hvad der ikke gjorde, og hvad I vil prøve næste gang. Mange par opdager, at de har talt om PMS hundrede gange, men aldrig uden for PMS. Det er som at lave brandøvelse, mens det brænder. Aftalerne behøver ikke være store: hvem tager aftensmaden i den uge, om gæster er en god idé, hvad hun vil have, du gør, når tonen bliver skarp, og hvad du må gøre, når du selv har brug for en pause. Skriv dem ned. Hukommelsen er den første, der forsvinder på dag 26.',
       action:
-        'Hvis to eller flere af tegnene passer på hende: sig det højt i dag, "det her fortjener en læge", og tilbyd at booke tiden og tage med.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_ENDO, NHS_FIBROIDS],
+        'Sæt 15 minutter af i dag til at lave to-tre aftaler for næste PMS-uge, og skriv dem i en note, I begge kan finde.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 27),
       month: M,
       day: 27,
-      title: 'Mange piller er også et signal',
+      title: 'Toppen før faldet',
       insight:
-        'Smertestillende er gode, når de bruges rigtigt, men de har en bagside: tages de for ofte, kan de selv give hovedpine. Det kaldes medicinoverforbrugshovedpine og opstår typisk, når almindelige smertestillende bruges 15 eller flere dage om måneden, eller triptaner 10 eller flere dage, i flere måneder i træk. Hovedpinen bliver daglig og dump, og hver pille giver en kort pause, hvorefter den kommer tilbage. Den eneste vej ud er at stoppe, og det bør gøres med lægen. Tæller du dagene i loggen, hvor hun tager noget, og tallet nærmer sig ti om måneden, er det ikke et tegn på, at hun er svag, men på, at grundproblemet skal behandles bedre.',
+        'Omkring ægløsningen er østrogen på sit højeste, og for mange er det cyklussens bedste dage: energi, lyst, humør og selvtillid. Det er værd at nyde. Det er også værd at vide, at faldet begynder herfra, og at der typisk er 7-10 dage, til PMS-vinduet åbner. Det gør ægløsningen til et naturligt tidspunkt at kigge fremad: hvad ligger i kalenderen om 10-14 dage? En stor familiefest, en deadline, en rejse, en svær samtale? Det, du kan flytte, er billigst at flytte nu. Det, du ikke kan flytte, kan du forberede: mindre program omkring det, en buffer af ro før og efter, og en aftale om, at hun må trække sig, hvis hun har brug for det.',
       action:
-        'Tæl i kalenderen, hvor mange dage i sidste cyklus der blev taget smertestillende. Er det over otte, så nævn det roligt og uden dom.',
-      phaseTags: [],
-      sources: [NHS_MIGRAINE, NHS_PARACETAMOL],
+        'Åbn kalenderen, find de dage, appen forventer bliver PMS-vinduet, og kig efter én ting, der kan flyttes eller gøres mindre.',
+      phaseTags: ['ovulation'],
     },
     {
       id: dailyId(M, 28),
       month: M,
       day: 28,
-      title: 'Forbered menstruationen ud fra loggen',
+      title: 'Aftal et signal',
       insight:
-        'Måned 1 lærte dig de fire ting, der skal være i huset: bind eller tamponer, smertestillende, nem mad og varme. Nu kan du gøre det personligt. Loggen fortæller, hvad netop hun har brug for: er dag 1 en rygdag, er varmen vigtigst; er det en migrænedag, er mørke og ro vigtigst; er det maven, er mild mad og et frit badeværelse vigtigst; er det trætheden, er en ryddet kalender vigtigst. Forberedelsen skal ligge dagen før den forventede blødning, ikke på dagen, fordi symptomerne ofte starter før blodet. Og fordi forudsigelsen er et skøn, gælder den fra to dage før. En forberedelse, der rammer, mærkes ikke som noget, du gjorde. Den mærkes som, at det var lettere.',
+        'Et af de enkleste og mest effektive redskaber par bruger er et signal, et ord eller en sætning, der betyder "jeg er i vinduet nu, og det er ikke dig". Det kan være så simpelt som "det er en tung dag" eller et aftalt ord, der ikke betyder andet. Formålet er, at hun ikke skal forklare sig, og at du ikke skal gætte. Signalet virker kun, hvis det er aftalt på forhånd, i en rolig fase, og hvis du reagerer på det hver gang på samme måde: med lavere forventninger og højere omsorg, ikke med "nå, så det er derfor". Det må også gå den anden vej: et signal fra dig, der betyder "jeg trænger til en pause, og jeg kommer tilbage".',
       action:
-        'Tjek appens forventede dato for næste menstruation. Lav din egen liste med tre ting ud fra hendes log, og gør dem klar i dag.',
-      phaseTags: ['luteal'],
+        'Foreslå et signal i dag, og aftal, hvad du gør, når du hører det. Test det i den kommende PMS-uge.',
+      phaseTags: ['ovulation'],
     },
     {
       id: dailyId(M, 29),
       month: M,
       day: 29,
-      title: 'Sætninger om smerte, der gør skade',
+      title: 'Lettelsen, når blødningen kommer',
       insight:
-        '"Så slemt kan det da ikke være." "Min søster har aldrig noget." "Har du prøvet at tage en panodil?" "Du havde det også dårligt sidste måned." Sætningerne er ofte kærligt ment, men de gør det samme: de sætter spørgsmålstegn ved, om smerten er ægte, eller om hun håndterer den rigtigt. Smerte kan ikke ses udefra, og kvinders smerte bliver i gennemsnit taget mindre alvorligt, også af sundhedsvæsenet. Det, hun har brug for fra dig, er det modsatte: at blive troet på uden bevis. "Det lyder virkelig slemt, hvad kan jeg gøre?" er nok. Sammenligninger med andre, forslag hun har hørt tusind gange, og påmindelser om, at det er tilbagevendende, hjælper aldrig, selv når de er sande.',
+        'For mange kvinder med udtalt PMS er første menstruationsdag ikke en dårlig dag, men en lettelse. Tågen letter, angsten falder til ro, og hun kan mærke sig selv igen. Nogle beskriver det som at vågne. Det er et godt tidspunkt at sige noget, du måske ikke fik sagt i ugen før: at du så, hvor hårdt det var, og at hun kom igennem det. Det er også et tidspunkt, hvor hun kan have dårlig samvittighed over ting, der blev sagt. Der er ikke brug for, at du bekræfter, at det var slemt. Der er brug for, at du bekræfter, at I stadig er på samme hold. Og så er det tid til at logge, hvordan ugen var, mens I begge husker det.',
       action:
-        'Vælg én sætning fra listen, du har brugt, og sig til hende, at du er holdt op med den. Spørg, om der er andre, hun ville ønske, du droppede.',
-      phaseTags: [],
+        'Sig i dag: "Jeg kunne se, det var en hård uge. Godt du er igennem." Og skriv sammen tre ord i noten om, hvordan ugen var.',
+      phaseTags: ['menstrual'],
     },
     {
       id: dailyId(M, 30),
@@ -398,9 +361,9 @@ export const month07: MonthContent = {
       day: 30,
       title: 'Måned 7: det har du lært',
       insight:
-        'Du ved nu, at prostaglandiner forklarer kramper, løs mave, kvalme og "menstruationsinfluenza" på én gang, og at ibuprofen taget tidligt rammer dem alle. Du ved, at menstruationsmigræne udløses af østrogenfaldet i et præcist vindue, at spændingshovedpine og migræne er to forskellige ting, og hvornår hovedpine kræver en læge. Du ved, at træthed kan være jern, søvngæld eller progesteron, og at loggen viser hvilken. Vigtigst: du ved, hvordan man læser kalenderen som en linje, finder cyklusdagen for et symptom, og handler dagen før. Og du ved, at smerte, der slår hende ud, aldrig er "bare menstruation". Næste måned bygger vi videre med kost, træning og restitution i hver fase.',
+        'Du ved nu, at PMS er et gradvist hormonfald, som hjernen reagerer på med lavere serotonin, og at det er følsomheden, ikke hormonmængden, der er forskellig. Du ved, at PMDD er en reel diagnose hos 3-8 procent, at den stilles med dagbog over to cyklusser, og at der findes behandling. Du kan genkende afvisningsfølsomhed, angst, tårer, raseri og hjernetåge, og du ved, hvad du skal sige og lade være med at sige. Du ved, at reparation efter konflikt betyder mere end konflikten, at ro ikke er det samme som at finde sig i alt, og at udsætte kræver en dato. Vigtigst: du ved, at forstærkeren er hormonel, og indholdet er ægte, og at begge dele fortjener dig.',
       action:
-        'Fortæl hende de to mønstre, du har fundet i hendes log denne måned, og hvad du vil gøre ved dem. Tag så månedens quiz.',
+        'Fortæl hende de to ting fra denne måned, der har ændret mest i, hvordan du ser på PMS-ugen. Tag så månedens quiz.',
       phaseTags: [],
     },
   ],
@@ -409,169 +372,168 @@ export const month07: MonthContent = {
       id: weeklyId(M, 1),
       month: M,
       week: 1,
-      title: 'Menstruationsmigræne: østrogenfaldet, timingen og hvad der hjælper',
+      title: 'Hvad PMS gør ved hjernen',
       body: [
-        'Migræne rammer omkring hver syvende voksen, og kvinder cirka tre gange så ofte som mænd. Forskellen opstår i puberteten og forsvinder igen efter overgangsalderen, og det er ikke tilfældigt: hormonerne er en stor del af forklaringen. For mange kvinder er cyklussen den mest pålidelige migræneudløser, de har, og samtidig den mest oversete. Denne artikel handler om, hvordan det hænger sammen, og hvad du kan gøre.',
-        'Mekanismen er østrogenfald. I dagene før menstruationen falder østrogen brat, og hos kvinder med anlæg for migræne reagerer hjernen på faldet med et anfald. Det er ikke det lave niveau i sig selv, men hastigheden på faldet, der udløser det. Derfor ligger anfaldet så præcist: fra to dage før blødningen til tre dage inde i den. Sker det i mindst to ud af tre cyklusser, kalder lægerne det menstruationsmigræne. Nogle får kun migræne der; de fleste får den også på andre tidspunkter, men anfaldene omkring menstruationen er typisk længere, kraftigere, mere præget af kvalme og sværere at behandle. Nogle kvinder får desuden et mindre anfald omkring ægløsningen, hvor østrogen også falder efter sin top.',
-        'Et migræneanfald er ikke bare en slem hovedpine. Det er typisk ensidigt og dunkende, forværres af bevægelse, og kommer med kvalme, lysfølsomhed og lydfølsomhed. Det varer fra fire timer til tre døgn. Nogle får aura først: flimren for øjnene, prikken i hånden eller talebesvær i op til en time. Bagefter kommer ofte et "tømmermændsdøgn" med udmattelse og koncentrationsbesvær. Menstruationsmigræne kommer oftest uden aura. Men spørg hende, for har hun migræne med aura, skal lægen vide det, før hun får p-piller med østrogen, fordi kombinationen øger risikoen for blodprop og frarådes.',
-        'Hvad hjælper? For det første timing. Al migrænebehandling virker bedst, jo tidligere den tages, og det gælder både håndkøbsmedicin som ibuprofen og receptpligtige triptaner. Kender man vinduet fra loggen, kan man have medicinen fremme dagen før. For det andet det gamle: mørkt, stille og køligt rum, søvn, væske, og noget let at spise mod kvalmen. For det tredje det forebyggende, som er en lægesamtale: ved menstruationsmigræne kan lægen tilbyde behandling, der tages i nogle dage omkring den forventede menstruation, eller hormonelle metoder, der udjævner østrogenfaldet. Det kræver, at mønstret er dokumenteret, og det er præcis det, kalenderen kan.',
-        'Udløsere, der forstærker et hormonelt anfald, er de kedelige: for lidt søvn, sprunget mad, væskemangel, uregelmæssig koffein, alkohol, stress og skærmlys. Ingen af dem giver migræne alene hos de fleste, men i vinduet lige før menstruationen er tærsklen lavere, og så tipper den ekstra dårlige nat læsset. Det er derfor, søvn, mad og vand i de sidste dage af lutealfasen er migræneforebyggelse, ikke bare god pleje.',
-        'Din rolle er tredelt. Før anfaldet: læs loggen, kend vinduet, sørg for at medicinen er tilgængelig, og beskyt søvn og måltider i dagene op til. Under anfaldet: fjern verden fra hende. Børn, telefon, aftaler, lyd, lys, lugte og spørgsmål. "Jeg tager det hele, læg dig" er den vigtigste sætning. Efter anfaldet: forvent et døgn med lavere kapacitet, og skriv ned, hvad der hjalp. Og hvis anfaldene er hyppige, forstyrrer arbejdet, eller ændrer sig, så vær den, der siger, at det fortjener en læge, og tilbyd at samle dagene fra kalenderen.',
-        'Én advarsel til sidst, som du bør kunne udenad: hovedpine, der kommer som et lyn og er værst inden for et minut, hovedpine med feber og nakkestivhed, efter et slag mod hovedet, eller sammen med lammelse, talebesvær, synstab eller forvirring, er ikke migræne, før det modsatte er bevist. Der ringer man 112 med det samme.',
+        'I måned 1 fik du modellen: hormonerne falder i ugen før menstruationen, og det mærkes som PMS. I denne artikel går vi et lag dybere, for jo bedre du forstår mekanismen, jo mindre personligt tager du det, og jo mere præcist kan du hjælpe.',
+        'Efter ægløsningen producerer det gule legeme progesteron, og østrogen får en mindre, anden top. Bliver ægget ikke befrugtet, begynder det gule legeme at visne omkring en uge før menstruationen, og begge hormoner falder gradvist over 5-7 dage. Det er ikke ét fald, men en kurve. Det er derfor, symptomerne typisk starter mildt og tager til, og derfor de sidste to-tre dage før blødningen ofte er de sværeste.',
+        'Hjernen mærker faldet på to måder. Østrogen støtter produktionen og virkningen af serotonin, signalstoffet der holder humøret stabilt, dæmper angst og regulerer søvn og appetit. Når østrogen falder, falder serotoninaktiviteten med, og det ligner på mange måder en miniudgave af det, man ser ved depression: nedtrykthed, irritabilitet, trang til sødt, søvnproblemer. Samtidig nedbrydes progesteron i kroppen til et stof, der virker beroligende på hjernens GABA-system, det samme system som alkohol og beroligende medicin påvirker. Når progesteron forsvinder, forsvinder den beroligende effekt også. Resultatet er uro, angst og en følelse af, at alt er lidt for meget.',
+        'Her kommer det vigtigste at forstå: hormonniveauerne hos kvinder med svær PMS er som regel helt normale. Man har målt og sammenlignet, og forskellen ligger ikke i mængden af hormoner, men i hvor kraftigt hjernen reagerer på udsvingene. Nogle hjerner er mere følsomme over for de samme skift. Det betyder, at "hun har for mange hormoner" er forkert, og at "hun er bare følsom" er forkert på en anden måde. Hun har et nervesystem, der reagerer stærkere på en normal biologisk proces. Det kan hun ikke vælge fra, lige så lidt som man kan vælge migræne fra.',
+        'Derfor holder sætningen fra måned 1: PMS forstærker følelser, den opfinder dem ikke. Tænk på det som et filter, der normalt sorterer småting fra og dæmper de store. I PMS-dagene er filteret tyndere. Det, der på dag 10 registreres og glemmes, kommer på dag 26 igennem i fuld størrelse. Det gælder irritation over en skæv opgavefordeling, sårbarhed over noget, du sagde, og bekymring for noget på arbejdet. Det gælder også det gode: en kærlig sætning rammer dybere. Indholdet er ægte. Lydstyrken er hormonel. Begge dele er virkelige.',
+        'Hvad gør du med det? Først: hold op med at forsøge at afgøre, om en følelse er "rigtig" eller "hormonel". Det er et falsk valg. Følelsen er rigtig, og den er forstærket, på samme tid. Handl på indholdet, og lad være med at reagere på lydstyrken. Dernæst: lær hendes profil. PMS er ikke én ting; over 150 symptomer er beskrevet, og hver kvinde har sin egen faste kombination. Nogle bliver stille og trætte, andre kort for hovedet og rastløse, andre sørgmodige. Den generelle viden i denne artikel hjælper et stykke. Hendes profil, som I finder i kalenderen efter to-tre loggede cyklusser, hjælper resten af vejen.',
+        'Og til sidst: fordi det er en kurve, kan du følge med. Dag 24 og dag 27 er ikke det samme. Kig i appen, se hvor mange dage der er til forventet menstruation, og justér forventningerne derefter. Det er ikke at behandle hende som en kalender. Det er at tage hendes biologi lige så alvorligt, som hun selv er nødt til.',
       ],
       conversationQuestion:
-        'Hvis din hovedpine har et mønster i cyklussen, hvornår ligger den så, og hvad ville du helst have, at jeg gjorde dagen før og på selve dagen?',
-      sources: [NHS_MIGRAINE, SUNDHED_DK_MIGRAENE],
+        'Hvordan mærker du selv faldet i ugen før: kommer det gradvist eller pludseligt, og hvilke dage er de sværeste for dig?',
+      sources: [NHS_PMS, ACOG_PMS, SUNDHED_PMS],
     },
     {
       id: weeklyId(M, 2),
       month: M,
       week: 2,
-      title: 'Kroppen på dag 1: prostaglandiner, mave, ryg og medicin brugt rigtigt',
+      title: 'PMDD: en reel lidelse med behandling',
       body: [
-        'Måned 2 handlede om menstruationen som helhed. Denne artikel går et lag dybere i det fysiske: hvorfor så mange forskellige symptomer rammer på én gang, hvorfor de hænger sammen, og hvordan smertestillende bruges, så de faktisk virker.',
-        'Det starter med prostaglandiner. Når livmoderslimhinden afstødes, frigiver den store mængder af disse signalstoffer, som får livmoderens muskel til at trække sig sammen for at skubbe slimhinden ud. Kvinder med kraftige menstruationssmerter har målbart højere niveauer end kvinder med milde. Men prostaglandiner bliver ikke, hvor de dannes. De rammer tarmen, som ligger lige ved siden af, og får den til at trække sig sammen: løs mave, luft og for nogle kvalme og opkastning, når kramperne er værst. De kommer ud i blodbanen og giver ømme muskler, kuldegysninger, hovedpine og den let febrile fornemmelse, mange kalder menstruationsinfluenza. Og de sender smerten ud i lænden og lårene, fordi livmoderen deler nerveforsyning med ryggen. Én mekanisme, mange symptomer.',
-        'Det er godt nyt, fordi det betyder, at én behandling rammer bredt. Ibuprofen og lignende midler blokerer det enzym, der danner prostaglandin. Derfor virker de bedre mod menstruationssmerter end paracetamol, og derfor hjælper de også på maven og ømheden. Men de kan ikke fjerne det prostaglandin, der allerede er dannet. Tages pillen ved første tegn, murren, træk i lænden, den kendte tyngde, forebygger den. Tages den, når smerten er på toppen, kæmper den op ad bakke. Mange udskyder, fordi de ikke vil tage medicin unødigt. Ved menstruationssmerter er det omvendt: tidlig medicin er ofte mindre medicin i alt. Ibuprofen skal tages med mad, og det er ikke for alle: ved mavesår, visse hjerte- og nyresygdomme, astma, der reagerer på det, og under graviditet er det en samtale med lægen eller apoteket. Paracetamol er skånsomt mod maven, virker mindre på kramper, men kan kombineres med ibuprofen. Følg pakken, hold afstand mellem doserne, og bland aldrig to produkter med samme stof.',
-        'Varme er det andet ben. En varmepude eller varmedunk på maven eller lænden får musklen til at slappe af og øger den blodgennemstrømning, som sammentrækningerne har strammet. Studier viser en effekt på niveau med håndkøbsmedicin, og de to kan bruges sammen. Et varmt bad virker på samme måde. Let bevægelse, en gåtur, hjælper flere end man tror, fordi det også øger blodgennemstrømningen og frigiver kroppens egne smertedæmpere. Og på lidt længere sigt er regelmæssig motion i ugerne før en af de bedst dokumenterede måder at få mildere kramper på.',
-        'Maven fortjener sit eget afsnit, fordi ingen taler om den. Diarré på dag 1 og 2 er meget almindelig, følger smerten, og dæmpes af det samme: ibuprofen tidligt. Derudover hjælper mild, nem mad, ikke for fed, ikke for meget kaffe, som i sig selv sætter gang i tarmen, og let adgang til badeværelset. Kvalme dæmpes af små portioner, og ingefær hjælper nogle. Ugen før, i lutealfasen, er problemet ofte det modsatte: progesteron gør tarmen langsom, og forstoppelse og oppustethed er normalt. Fibre, vand og bevægelse hjælper der. At maven er så forskellig fra uge til uge er ikke mærkeligt; det er to forskellige hormoner, der skiftes til at bestemme.',
-        'Det praktiske for dig: hav begge slags smertestillende i huset og kend forskellen, så du kan hente det rigtige. Læg dem synligt, når loggen siger, at menstruationen nærmer sig. Hav varmen klar, ikke i skabet, men på hendes plads. Lav mild mad uden at spørge, om hun vil have den, og lad hende springe over. Tag opgaverne dag 1 og 2 som en selvfølge. Og behandl "jeg føler mig sløj" som en sygedag, ikke som noget, der skal argumenteres for.',
-        'Til sidst grænsen. Almindelige menstruationssmerter reagerer på varme og ibuprofen, holder sig til de første dage, og forhindrer ikke hverdagen. Smerter, der ikke rykkes af medicin, giver sygedage eller opkastning, kommer uden for blødningen eller ved sex, er ikke almindelige. De kan skyldes endometriose, adenomyose eller fibromer, som alle kan behandles. Du skal ikke gætte hvilken. Du skal sige, at det fortjener en læge.',
+        'Tre ud af fire kvinder mærker PMS i en eller anden grad. For 3-8 procent er det så voldsomt, at det har sit eget navn: præmenstruel dysfori, PMDD. Det er en anerkendt diagnose, og det er vigtigt at sige tydeligt, for mange har gået årevis med det og fået at vide, at det "bare er PMS", "bare hormoner" eller noget, de skulle tage sig sammen over.',
+        'Forskellen på PMS og PMDD er graden, ikke typen. Ved PMDD er de psykiske symptomer dominerende og så kraftige, at de forstyrrer arbejde, relationer eller hverdag i en uge eller mere hver måned: svær nedtrykthed, angst og anspændthed, pludseligt raseri, følelsen af at miste kontrollen, håbløshed, og hos nogle tanker om ikke at ville leve. Symptomerne begynder i ugen før menstruationen, topper de sidste dage og forsvinder næsten helt inden for få dage efter, at blødningen er begyndt. De gode uger er virkelig gode, og det er netop kontrasten, der gør PMDD så opslidende: hun ved præcis, hvad der kommer, og kan ikke forhindre det.',
+        'Det er kalenderen, der adskiller PMDD fra depression og angstlidelser. Ved PMDD er der en tydelig symptomfri periode fra menstruationens slutning til omkring ægløsning. Ved depression er der ikke. Nogle kvinder har begge dele, en underliggende depression der bliver markant værre i ugen før, og det kræver en anden behandling. Derfor stilles diagnosen ikke på en beskrivelse, men på daglige registreringer over mindst to cyklusser, hvor symptomerne skal være til stede før menstruationen og væk efter. Hukommelsen husker de hårde dage og glemmer de gode; dagbogen husker begge. Appens kalender er præcis sådan en dagbog, hvis den udfyldes hver dag, også når alt er fint. Det er "ingen symptomer" på dag 8, der gør "voldsom angst" på dag 26 til et mønster.',
+        'Det, de færreste ved, er, at PMDD kan behandles, og at der er flere veje. SSRI-præparater, den type medicin der også bruges mod depression, er førstevalg og virker anderledes ved PMDD end ved depression: ofte inden for få dage i stedet for uger. Derfor kan nogle tage dem kun i de sidste to uger af cyklussen. Hormonel prævention, der holder ægløsningen tilbage, fjerner udsvingene for nogle, især visse typer p-piller. Kognitiv adfærdsterapi lærer teknikker til at genkende og håndtere tankerne, når de kommer, og har god dokumentation ved både PMS og PMDD. Regelmæssig motion, søvn, jævne måltider og mindre alkohol og koffein dæmper det hele. I meget svære tilfælde findes der yderligere muligheder, som en speciallæge kan vurdere. Det er lægens opgave at vælge. Din opgave er at vide, at der er noget at vælge imellem.',
+        'Hvornår fortjener det en læge? Hvis symptomerne hver måned forstyrrer hendes arbejde, relationer eller hverdag. Hvis hun selv siger, at hun ikke kan genkende sig selv i den uge. Hvis I begge frygter ugen på forhånd. Hvis hun har prøvet det, hun kunne selv, og det ikke rækker. Og hvis der er tanker om ikke at ville leve, også selv om de "kun" kommer i PMS-dagene, så skal det være nu, ikke om to cyklusser. Ét af tegnene er nok.',
+        'Måden, du foreslår det på, betyder næsten lige så meget som at du gør det. Ikke i PMS-ugen, hvor det lyder som "der er noget galt med dig". I follikelfasen, hvor der er ro til at høre det. Ikke som diagnose: "Jeg tror, du har PMDD." Men som observation og tilbud: "Jeg kan se, at ugen før er virkelig hård for dig, og jeg har læst, at der findes behandling. Vil du overveje at tale med lægen? Jeg tager gerne med." Tilbyd at hjælpe med at få de loggede cyklusser med til lægen, for det er dem, samtalen står på. Og hvis hun siger nej, så respekter det og lad døren stå åben. Beslutningen er hendes. Din rolle er at gøre den mulig.',
+        'Uanset om det er PMS eller PMDD, er det ikke dig, der skal stille diagnosen, og heller ikke dig, der skal behandle. Du skal gøre to ting: tage det alvorligt, og gøre vejen til hjælp kortere. Det er mere, end de fleste får.',
       ],
       conversationQuestion:
-        'Hvad rammer dig hårdest på dag 1, maven, ryggen, hovedet eller trætheden, og hvad vil du have, at jeg har klar aftenen før?',
-      sources: [NHS_PAIN, ACOG_DYSMENORRHEA, NHS_IBUPROFEN, NHS_PARACETAMOL],
+        'Hvis du skulle give ugen før menstruationen en karakter fra 1 til 10 for, hvor meget den forstyrrer dit liv, hvad ville du så sige? Og er det et tal, du selv er okay med?',
+      sources: [NHS_PMS, ACOG_PMS, NHS_CBT],
     },
     {
       id: weeklyId(M, 3),
       month: M,
       week: 3,
-      title: 'Træthed hen over cyklussen: jern, søvn og progesteron',
+      title: 'Skarp tone, tårer og raseri: sådan reagerer du',
       body: [
-        'Træthed er det symptom, der oftest logges og sjældnest tages alvorligt, fordi alle er trætte. Men cyklisk træthed, den der kommer igen på de samme dage hver måned, har forklaringer, som kan skilles ad. Og de tre vigtigste kræver hver sin reaktion fra dig.',
-        'Den første er jern. Hver menstruation koster blod, og med blodet jern. Ved en normal blødning erstatter kosten tabet. Ved kraftige blødninger, bind eller tampon der skiftes hver time, blødning over syv dage, store klumper, kan tabet være større, end kosten når at dække, og jerndepoterne tømmes langsomt over måneder. Jernmangel mærkes som vedvarende træthed, forpustethed ved trapper, bleghed, hovedpine, koncentrationsbesvær, skøre negle og for nogle uro i benene om natten. Det afskrives typisk som travlhed. Kendetegnet er, at trætheden ikke letter i follikelfasen, hvor energien ellers plejer at vende tilbage. En blodprøve hos lægen måler hæmoglobin og jerndepoter, og behandlingen er enkel. Tilskud bør dog ikke tages i blinde, for for meget jern er heller ikke godt. Kosten hjælper: kød, fisk og æg, eller linser, bønner og grønne blade sammen med C-vitamin, og kaffe og te væk fra måltidet.',
-        'Den anden er søvngæld. I lutealfasen holder progesteron kropstemperaturen 0,3-0,5 grader oppe, og mange sover lettere og vågner oftere. I PMS-dagene forstyrrer uro og hormonfald. På menstruationens første nætter vækker smerte og lækage. Hver nat er måske kun lidt dårligere, men over ti-tolv dage bliver det til en gæld. Søvnmangel sænker smertetærsklen, øger irritabilitet og udløser hovedpine, så det, der føles som "slem PMS" eller "slem menstruation", er ofte PMS eller menstruation plus en uges dårlig søvn. Follikelfasen er der, gælden kan betales tilbage. Tidlige sengetider dag 3-8 er reparation, ikke dovenskab.',
-        'Den tredje er progesteron selv. I den sidste uge før menstruationen virker det sløvende på hjernen, næsten som et mildt beroligende middel, samtidig med at serotonin falder med østrogen, og kroppen forbrænder lidt mere og efterspørger mere mad. Lagt sammen giver det en tyngde, hvor alt kræver mere. Det er ikke mangel på vilje, og det bliver ikke bedre af pres. Det bliver bedre af søvn, mad til tiden, lavere krav og at nogen tager det praktiske. Og det er helt forudsigeligt: ligger trætheden i loggen på de samme cyklusdage hver måned, ved du, hvornår du skal sænke tempoet.',
-        'Sådan skiller du dem ad med kalenderen. Træthed, der kun ligger i lutealfasen og de første menstruationsdage, og som letter tydeligt i follikelfasen, er hormonel og søvnrelateret; svaret er beskyttet søvn og lavere krav på de dage. Træthed, der ligger hen over hele cyklussen, også i de uger, hvor energien burde være tilbage, og som følges af kraftige blødninger, peger på jern eller noget andet; svaret er en blodprøve. Det er ikke en diagnose, det er en sortering, og den gør lægesamtalen bedre.',
-        'Det praktiske for dig: beskyt søvnen i follikelfasen ved at tage aftenopgaverne og foreslå tidlig sengetid uden at gøre det til et projekt. Sørg for mad med jern i og efter menstruationen. Hold koffein stabilt og væk fra sen eftermiddag. Sænk tempoet i den sidste luteal-uge, uden at hun skal bede om det, og uden at sige "det er nok fordi du snart skal have menstruation". Og hvis trætheden aldrig letter, så sig, at det fortjener en blodprøve, og tilbyd at komme med.',
-        'Det, du ikke skal gøre, er at foreslå, at hun bare tager sig sammen, går tidligere i seng "ligesom dig", eller motionerer mere, når hun er mest træt. Alle tre lyder som hjælp og lander som kritik. At blive troet på er den første hjælp; resten kommer bagefter.',
+        'De psykiske PMS-symptomer er dem, der rammer et forhold hårdest, fordi de kommer ud som noget, der ligner en reaktion på dig. Denne artikel gennemgår de fem mest almindelige, hvad der ligger bag, og hvad du konkret gør, når de kommer.',
+        'Afvisningsfølsomhed er det mindst kendte. I PMS-dagene leder en hjerne med lavt serotonin efter fare, og småting, der normalt ikke registreres, bliver til beviser på, at du er ligeglad: en kort besked, et blik på telefonen, mens hun taler, at du går i seng uden at sige godnat. Det hjælper ikke at sige "det var ikke sådan ment", for det er en forklaring på noget, der allerede har gjort ondt. Det hjælper at forebygge: lidt mere blik, lidt mere tydelighed, lidt mere "jeg er her", netop i de dage. Læg telefonen væk, når hun taler. Sig godnat med øjenkontakt. Det koster ingenting.',
+        'Angst og uro føles som en motor, der kører for højt: tanker i ring, bekymring om ting, der ellers er håndterbare, en følelse af at noget forfærdeligt er på vej. Det hænger sammen med, at det beroligende stof, progesteron nedbrydes til, forsvinder med faldet. Argumentér ikke med angsten, og bevis ikke, at bekymringen er ubegrundet; det virker afvisende. Vær rolig, konkret og tæt på. "Jeg er her. Vi tager én ting ad gangen." Tilbyd en gåtur eller bare dit selskab, og lad hende vælge.',
+        'Tårer kommer pludseligt og over noget, der ikke virker stort. Hun ved det selv og bliver flov, hvilket giver flere tårer. Det er en lav tærskel, ikke en stor sorg. Kræv ikke en forklaring, og gå ikke i gang med at løse det, hun græder over. Sæt dig ved siden af hende, sig "du behøver ikke forklare", og bliv siddende. Hvis der er noget bag, kommer det, når hun er klar. Hjernetåge, koncentrationsbesvær og glemsomhed, er det symptom, der oftest giver praktiske konflikter: en glemt aftale, en beslutning der ikke kan tages. Det, der hjælper, er at tage kognitiv belastning fra: færre valg, kortere beskeder, én ting ad gangen. "Den tager jeg" er den bedste sætning i den uge.',
+        'Raseri er det symptom, ingen af jer vil tale om, og et af de mest almindelige ved PMDD: en pludselig, kropslig vrede, der kommer hurtigt og føles ude af proportion, også for hende. Mange beskriver bagefter, at de så sig selv udefra og ikke kunne stoppe. Det, der eskalerer, er at svare igen med samme styrke. Det, der de-eskalerer, er at sænke din stemme, tage en pause og komme tilbage. Og når tonen bliver skarp uden at det er raseri, så brug de tre trin: tre sekunders pause, oversæt sætningen ("du hjælper aldrig til" betyder "jeg føler mig alene med det"), og svar på oversættelsen: "Det lyder som om du står med for meget. Hvad tager jeg nu?"',
+        'Der er sætninger, der altid gør det værre. De åbenlyse: "Er du PMS-ramt?", "Det er bare hormonerne", "Du overreagerer". Og de mindre åbenlyse: "Du var også sådan sidste måned" (kalenderen som våben), "Jeg siger jo ingenting" (forsvar forklædt som uskyld), "Jeg kan ikke gøre noget rigtigt" (hendes symptom bliver dit problem), "Skal vi tage den, når du er dig selv igen?" (hun er ikke sig selv nu). Fællesnævneren er, at de handler om dig og gør hende til problemet. Det, der virker, anerkender, kræver ikke noget og tilbyder noget konkret: "Det lyder hårdt. Jeg er her." "Jeg tager aftensmaden, læg dig bare." "Vil du have, jeg bliver, eller skal du have fred?" Hun har ikke brug for information om sin egen krop. Hun har brug for selskab.',
+        'Til sidst det vigtigste: der bliver konflikter alligevel. Det, der afgør, om forholdet tager skade, er reparationen. Når blødningen er begyndt og roen tilbage, så tag en kort samtale: hvad skete der, hvad gør vi anderledes næste gang, og er der noget, en af jer vil sige undskyld for. Hun kan sige undskyld for tonen, uden at emnet var forkert. Du kan sige undskyld for at forsvare dig, uden at du fortjente tonen. Begge dele kan være sande på én gang. Det er sådan, man bliver på samme hold.',
       ],
       conversationQuestion:
-        'Hvornår i din cyklus er trætheden værst, og letter den helt, når energien vender tilbage, eller hænger den ved hele måneden?',
-      sources: [NHS_IRON, NHS_HEAVY],
+        'Hvilket af de fem, afvisningsfølsomhed, angst, tårer, hjernetåge eller vrede, kender du bedst fra dig selv, og hvad vil du helst have, jeg gør, når det kommer?',
+      sources: [NHS_PMS, ACOG_PMS],
     },
     {
       id: weeklyId(M, 4),
       month: M,
       week: 4,
-      title: 'Læs loggen, handl dagen før, og vid hvornår det er nok',
+      title: 'Dine grænser, hendes strategier og jeres aftaler',
       body: [
-        'De første tre artikler handlede om mekanismer. Denne handler om metoden: hvordan du omsætter loggen til handling, og hvornår handlingen skal være en lægetid.',
-        'Først læsningen. De fleste læser kalenderen én dag ad gangen, og så ser man ingenting. Læs den i stedet som en linje. Find de sidste to-tre menstruationsstarter. Tæl bagud og fremad fra hver: hvilken cyklusdag kom hovedpinen? Hvor mange dage før blødningen begyndte trætheden? Hvor mange dage varede smerten? Læg tallene ved siden af hinanden. Rammer et symptom samme cyklusdag plus minus én i to eller tre cyklusser, er det et mønster. Rammer det tilfældigt, er det noget andet, og det er også værd at vide. Efter tre-fire cyklusser er de fleste mønstre tydelige, og de er ofte mere præcise, end hun selv tror, fordi hukommelsen om dårlige dage er dårlig.',
-        'Så fremskrivningen. Appen giver en forventet dato for næste menstruation. Den er et skøn, ikke en måling, så regn med to dages usikkerhed. Har hovedpinen et mønster på "to dage før blødning", og blødningen forventes fredag, er onsdag dagen at være klar, og tirsdag er ikke for tidligt. Har trætheden et mønster på dag 25-27, er det de dage, kalenderen skal ryddes. Har ryggen et mønster på dag 1, er varmedunken fyldt torsdag aften. Det er ikke svært. Det er bare noget, ingen har gjort før.',
-        'Så handlingen. Pointen med at handle dagen før er ikke effektivitet. Det er, at det fjerner behovet for at bede. At bede om hjælp koster energi, og de dage, hvor hun har mest brug for hjælp, er dem, hvor hun har mindst energi at bede med. Mange kvinder bider derfor tænderne sammen i stedet. Når varmen, roen, medicinen, maden og den ryddede kalender bare er der, uden forklaring, er det beviset på, at nogen har lagt mærke til hende. Det er den form for omsorg, der bliver husket. Forberedelsen skal være konkret og lille: tre ting, ikke ti. Og den skal passe til hendes log, ikke til en generel liste. Er dag 1 en migrænedag, er mørke gardiner vigtigere end suppe.',
-        'Så dokumentationen. Den samme log er den bedste forberedelse til en lægetid, der findes. Lægen har brug for at vide, hvilke dage, hvor slemt på en skala fra 1 til 10, hvor længe, hvad hun tog, om det virkede, og om hun måtte aflyse noget. Det sidste, funktionstab, er det, der flytter en konsultation fra "det er nok normalt" til "det skal vi undersøge". Mange lever med smerter i årevis, fordi de i lægens kontor ikke kan huske, hvor slemt det egentlig var. Tilbyd at samle de sidste tre cyklussers smertedage på ét stykke papir. Det tager ti minutter, og det kan spare år.',
-        'Og til sidst grænsen, som er hele grunden til, at loggen betyder noget. Almindelige menstruationssmerter og almindelig hovedpine reagerer på varme, hvile og håndkøbsmedicin, holder sig til nogle få dage, og forhindrer ikke hverdagen. Tegnene på, at noget andet er på spil, er: smerte uden for menstruationen, smerte ved sex, smerte ved afføring eller vandladning omkring blødningen, kraftig blødning med klumper, smerter der ikke rykkes af medicin, menstruationer der koster sygedage, migræne flere dage om måneden, eller smertestillende ti eller flere dage om måneden. Bag det kan ligge endometriose, adenomyose, fibromer eller en hovedpinelidelse, der skal forebygges. Alle kan behandles. Ingen af dem bliver bedre af at vente. Du skal ikke gætte hvilken. Du skal være den, der siger "det her fortjener en læge", tilbyde at booke tiden, tage med, og have papiret med.',
-        'Det er månedens hele budskab i én sætning: læs loggen som en linje, handl dagen før, og normalisér aldrig smerte, der slår hende ud.',
+        'De første tre uger handlede om at forstå hende. Denne sidste artikel handler om dig, om det I kan gøre sammen, og om at holde til det år efter år. For tålmodighed er ikke uudtømmelig, og et forhold, hvor den ene altid tilpasser sig, holder ikke i længden.',
+        'Start med dine egne følelser. Det er okay at blive ked af det, når tonen er skarp. Det er okay at være træt af at gå på listesko, og det er okay at frygte ugen på forhånd. Hvis du bider det i dig, hober det sig op og kommer ud som kulde, sarkasme eller en eksplosion, typisk på det værste tidspunkt. Hav et sted at lægge det: en ven, en søskende, en gåtur alene, en note på telefonen. Og sig det til hende, når roen er tilbage, ikke som anklage, men som oplysning: "Sidste uge var hård for mig også." Det er ikke at gøre hendes symptomer til dit problem. Det er at være ærlig om, at I bor i samme hus.',
+        'Så til grænserne. At holde roen betyder ikke, at alt er tilladt. Skarp tone, kort lunte og tårer er symptomer. Nedladende bemærkninger, at blive kaldt ting, at få smidt ting efter sig eller at blive råbt ad foran børnene er ikke symptomer, og hormonerne fritager ikke for ansvar. Hun har ret til en svær uge. Du har ret til at sige "sådan taler du ikke til mig", roligt, og gå ud af rummet. Det er ikke at afvise hendes følelser. Det er en grænse, og grænser er det, der gør, at du kan blive ved med at være tålmodig i det lange løb. Overskrides den hver måned, er det en samtale til den gode uge, og måske en, I skal have hjælp til udefra. Formulér én grænse for dig selv, der ikke afhænger af cyklussen, og sig den til hende i follikelfasen. Ikke som ultimatum. Som information.',
+        'Den samme logik gælder svære samtaler. I måned 1 og 2 lærte du at lægge dem uden for PMS-vinduet. Fælden er, at "vi tager den senere" bliver til "vi tager den aldrig", og så vokser emnet og kommer ud i PMS-ugen alligevel, bare større. Forskellen mellem at udsætte og at undgå er, om der er en dato. "Kan vi tage den på søndag?" er at udsætte. "Ikke nu" uden mere er at undgå. Og hvis det er hende, der rejser emnet på dag 26, så lyt først. Hun har ret til at blive hørt, også når timingen er dårlig. Det, du kan foreslå, er at beslutte senere, ikke at lytte senere.',
+        'Nu til hendes egne strategier. De fleste kvinder med mange års PMS har fundet deres måder at komme igennem ugen på: løb, tidlig sengetid, ingen gæster, tid alene, et bestemt måltid, et bad, en serie. Du kender nogle af dem, sjældent alle, fordi hun ikke har sat ord på dem. Spørg i follikelfasen: "Hvad gør du selv, der hjælper? Og hvad gør jeg nogle gange, der forstyrrer det?" Lyt til det sidste uden at forsvare dig. Og når du kender strategierne, så administrer dem ikke. "Skulle du ikke løbe i dag?" er velment og lander som kontrol. Støtte er at rydde vejen: tag børnene, så hun kan løbe, uden at nævne løbeturen. Gør soveværelset klar uden at sige, hun burde i seng. Lad være med at foreslå gæster i den uge. Og accepter, at strategien nogle dage er sofaen.',
+        'Alt det her bliver først til noget, når det bliver til aftaler, og aftaler laves i den gode uge. Mange par har talt om PMS hundrede gange, men aldrig uden for PMS. Det er som at holde brandøvelse, mens det brænder. Sæt et kvarter af i follikelfasen: hvem tager aftensmaden i den uge, er gæster en god idé, hvad vil hun have, du gør, når tonen bliver skarp, og hvad må du gøre, når du selv har brug for en pause. Aftal et signal, et ord eller en sætning, der betyder "jeg er i vinduet, og det er ikke dig", og et tilsvarende fra dig, der betyder "jeg trænger til ti minutter, og jeg kommer tilbage". Brug ægløsningen til at kigge 10-14 dage frem i kalenderen og flytte eller skrumpe det, der ligger i vinduet. Skriv aftalerne ned et sted, I begge kan finde. Hukommelsen er det første, der forsvinder på dag 26.',
+        'Og når blødningen kommer, og tågen letter, så sig det, du måske ikke fik sagt i ugen før: at du så, hvor hårdt det var, og at hun kom igennem det. Hun kan have dårlig samvittighed over ting, der blev sagt. Der er ikke brug for, at du bekræfter, at det var slemt. Der er brug for, at du bekræfter, at I stadig er på samme hold. Så logger I ugen sammen, mens I begge husker den, og så er I bedre forberedt næste gang. Det er ikke en kur. Det er et forhold, der ved, hvad det har med at gøre.',
       ],
       conversationQuestion:
-        'Er der noget i din cyklus, du selv har vænnet dig til at holde ud, som vi burde tage til lægen med, og hvad ville gøre det lettere at bestille tiden?',
-      sources: [NHS_ENDO, NHS_FIBROIDS, NHS_MIGRAINE],
+        'Hvad skal vores signal være, og hvad vil du have, jeg gør, når du bruger det? Og hvad vil du have, jeg gør, når jeg selv trænger til en pause?',
+      sources: [NHS_PMS],
     },
   ],
   wrap: {
     id: wrapId(M),
     month: M,
-    title: 'Måned 7: Smerte, træthed og hovedpine',
+    title: 'Måned 7: PMS og PMDD',
     summary: [
-      'Denne måned gik i dybden med de tre symptomer, flest logger. Prostaglandiner forklarer kramper, løs mave, kvalme, rygsmerter og "menstruationsinfluenza" på én gang, og ibuprofen taget tidligt rammer dem alle. Menstruationsmigræne udløses af østrogenfaldet i et vindue fra to dage før til tre dage inde i blødningen, den er anderledes end spændingshovedpine, og den kan forudsiges og forberedes. Træthed kan være jern, søvngæld eller progesteron, og loggen viser hvilken.',
-      'Du har lært at læse kalenderen som en linje, finde cyklusdagen for et symptom og handle dagen før, så hun ikke skal bede. Du har lært grundreglerne for paracetamol og ibuprofen, hvornår mange piller er et signal, hvornår hovedpine kræver 112, og at smerte, der slår hende ud, kraftig blødning, smerte uden for menstruationen eller ved sex aldrig er "bare menstruation", men fortjener en læge med loggen i hånden.',
-      'Næste måned handler om kost, træning og restitution: hvad I kan lave og spise i hver fase, så de gode dage bliver flere, og de svære bliver lettere.',
+      'Denne måned gik i dybden med den uge, der giver flest misforståelser. Du ved nu, at PMS er et gradvist hormonfald over 5-7 dage, som hjernen mærker som lavere serotonin og tabt beroligelse, og at hormonniveauerne typisk er normale: det er følsomheden, der er forskellig. Du kender de fem psykiske symptomer, der rammer et forhold hårdest, afvisningsfølsomhed, angst, tårer, raseri og hjernetåge, og du ved, at forstærkeren er hormonel, mens indholdet er ægte.',
+      'Du ved, at PMDD rammer 3-8 procent, er en reel diagnose, stilles med dagbog over to cyklusser og kan behandles med SSRI, hormonel prævention, kognitiv adfærdsterapi og livsstil. Du ved, hvornår det fortjener en læge, og hvordan du foreslår det uden at diagnosticere. Du har lært at svare på skarp tone i tre trin, at reparere efter konflikt, hvad du aldrig skal sige, og at ro ikke er det samme som at finde sig i alt. Og du ved, at aftaler laves i den gode uge, og at udsætte kræver en dato.',
+      'Næste måned handler om smerte, træthed og hovedpine: hvordan du genkender mønstre i hendes log og reagerer, før hun beder om det.',
     ],
     keepDoing: [
-      'Læs loggen som en linje efter hver menstruation, og skriv ned, hvilken cyklusdag symptomerne rammer.',
-      'Handl dagen før: varme, medicin, mørke, mild mad eller en ryddet kalender, alt efter hvad hendes log siger.',
-      'Hav både ibuprofen og paracetamol i huset, synligt når menstruationen nærmer sig.',
-      'Beskyt søvnen i follikelfasen, og sænk tempoet i den sidste luteal-uge uden at spørge først.',
-      'Sig "det fortjener en læge" højt, når tegnene er der, og tilbyd at samle smertedagene på papir.',
+      'Log humør hver dag, også de gode dage, så mønstret bliver synligt.',
+      'Tre sekunders pause, oversæt sætningen, svar på behovet.',
+      'Læg telefonen væk og sig godnat med øjenkontakt i PMS-ugen.',
+      'Tag en kort reparationssamtale, når blødningen er begyndt.',
+      'Lav aftaler og et signal i follikelfasen, og skriv dem ned.',
+      'Sig dine egne grænser og følelser højt i den gode uge.',
     ],
     quiz: [
       {
         question:
-          'Hun mærker de første træk i lænden og siger "jeg tror, den kommer i morgen". Hvad hjælper mest lige nu?',
+          'Hun siger i ugen før menstruationen, at hun ikke kan genkende sig selv, og at hun frygter ugen hver måned. Hvad hjælper mest?',
         options: [
-          'Vente og se, om det bliver til noget, før hun tager medicin',
-          'Foreslå at hun tager ibuprofen med mad nu, og fylde varmedunken',
-          'Sige at hun jo klarede det fint sidste måned',
-          'Booke en lægetid med det samme',
+          'Sige at det er normalt, tre ud af fire har PMS',
+          'Foreslå i follikelfasen, at hun taler med lægen, og tilbyde at tage med',
+          'Fortælle hende at du tror, hun har PMDD',
+          'Foreslå at hun prøver at løbe mere',
         ],
         correctIndex: 1,
         explanation:
-          'Ibuprofen blokerer dannelsen af prostaglandin, men fjerner ikke det, der allerede er dannet. Taget tidligt forebygger det; taget på toppen halter det bagefter. Varme forstærker effekten.',
+          'Det er et af tegnene på, at det fortjener en læge. Foreslå det roligt i den gode uge, som observation og tilbud, ikke som diagnose.',
       },
       {
         question:
-          'Loggen viser hovedpine dag 27 i tre cyklusser i træk. Appen forventer menstruation på fredag. Hvad gør du?',
+          'I overvejer, om det kan være PMDD. Hvad er det mest nyttige, I kan gøre de næste to måneder?',
         options: [
-          'Venter til fredag og ser, om hun får hovedpine',
-          'Fortæller hende, at hun får hovedpine på onsdag',
-          'Sørger tirsdag-onsdag for at medicinen ligger fremme, at aftenerne er rolige, og at hun sover',
-          'Foreslår at hun dropper kaffen helt i denne uge',
+          'Vente og se om det bliver bedre af sig selv',
+          'Læse alt om PMDD på nettet',
+          'Logge humør og symptomer hver dag, også de gode dage',
+          'Undgå alle konflikter i ugen før',
         ],
         correctIndex: 2,
         explanation:
-          'Læs loggen som en linje, læg mønstret fremad, og handl dagen før med to dages margen. At droppe kaffe brat giver i øvrigt selv hovedpine; hold koffein stabilt.',
+          'Diagnosen bygger på daglige registreringer over mindst to cyklusser. Det er de symptomfri dage, der gør de svære dage til et mønster.',
       },
       {
         question:
-          'Hun ligger med dunkende hovedpine i den ene side, er kvalm og kan ikke tåle lys. Hvad er den bedste hjælp?',
+          'Dag 26. Hun siger skarpt: "Du hjælper aldrig til." Hvad er det bedste første skridt?',
         options: [
-          'Åbne vinduet og foreslå en gåtur i frisk luft',
-          'Gøre soveværelset mørkt og stille, tage børn og telefon, og lade hende sove',
-          'Sætte sig hos hende og spørge, hvad der har udløst det',
-          'Sige at paracetamol nok er bedre end ibuprofen mod migræne',
+          'Nævne alt det, du faktisk har gjort i denne uge',
+          'Tre sekunders pause, og så: "Det lyder som om du står med for meget. Hvad tager jeg nu?"',
+          'Sige "det er nok fordi du er i vinduet"',
+          'Gå uden at sige noget',
         ],
         correctIndex: 1,
         explanation:
-          'Det lyder som migræne, og migræne forværres af lys, lyd, bevægelse og spørgsmål. Fjern verden fra hende i nogle timer. Behandlingen skulle helst være taget tidligere; næste gang kan loggen hjælpe med det.',
+          'Oversæt sætningen til behovet bag, og svar på det. Forsvar giver en konflikt om tonen; hjælp får tonen til at forsvinde.',
       },
       {
-        question:
-          'Hun er træt hele måneden, også i ugen efter menstruationen, og bløder kraftigt med klumper. Hvad er mest hjælpsomt?',
+        question: 'Hun græder pludseligt over et rodet køkken. Hvad virker bedst?',
         options: [
-          'Foreslå at hun går tidligere i seng og motionerer mere',
-          'Sige at alle er trætte, og at det nok er arbejdet',
-          'Foreslå en blodprøve for jern hos lægen og tilbyde at tage med',
-          'Købe jerntilskud og stille dem ved morgenmaden',
+          'Spørge hvad der egentlig er galt',
+          'Gå i gang med at rydde op med det samme',
+          'Sætte sig ved siden af hende, sige "du behøver ikke forklare", og blive',
+          'Sige at det jo bare er køkkenet',
         ],
         correctIndex: 2,
         explanation:
-          'Træthed, der ikke letter i follikelfasen, sammen med kraftige blødninger, peger på jernmangel. Det måles med en simpel blodprøve, og tilskud bør ikke tages i blinde.',
+          'Tårerne er en lav tærskel, ikke en stor sorg. Selskab uden krav om forklaring virker; løsninger og spørgsmål giver flere tårer.',
       },
       {
         question:
-          'Du tæller i kalenderen, at hun tog smertestillende 12 dage i sidste cyklus. Hvad er den rigtige reaktion?',
+          'Hun har råbt nedladende ting ad dig foran børnene, tredje måned i træk. Hvad er rigtigt?',
         options: [
-          'Gemme pillerne, så hun tager færre',
-          'Sige at det er alt for mange, og at hun skal holde igen',
-          'Nævne tallet roligt, og foreslå at hun tager loggen med til lægen, fordi grundproblemet skal behandles bedre',
-          'Ikke sige noget, det er hendes krop',
+          'Finde sig i det, det er hormonerne',
+          'Råbe igen, så hun forstår, hvordan det føles',
+          'Sige roligt "sådan taler du ikke til mig", gå, og tage samtalen om grænsen i den gode uge',
+          'Aldrig nævne det igen, for at undgå konflikt',
         ],
         correctIndex: 2,
         explanation:
-          'Smertestillende mange dage om måneden kan selv give hovedpine og er et tegn på, at det underliggende ikke er behandlet godt nok. Det er en lægesamtale, ikke en irettesættelse.',
+          'Ro er ikke det samme som at finde sig i alt. Symptomer forklarer, men fritager ikke for ansvar. En grænse sat roligt gør tålmodighed mulig i længden.',
       },
       {
-        question:
-          'Hun har smerter ved sex, smerter når hun har afføring under menstruationen, og medicinen hjælper ikke rigtigt. Hun siger, det nok er normalt. Hvad gør du?',
+        question: 'Der er et svært emne om økonomi, som hun bringer op på dag 27. Hvad gør du?',
         options: [
-          'Tager hendes ord for det, hun kender sin krop bedst',
-          'Siger "det her fortjener en læge", tilbyder at booke tiden, tage med og samle smertedagene fra kalenderen',
-          'Foreslår en stærkere håndkøbsmedicin fra apoteket',
-          'Googler symptomerne og fortæller hende, hvad det er',
+          'Siger "ikke nu" og lader det ligge',
+          'Lytter først, og foreslår så en konkret dag i næste follikelfase til at beslutte',
+          'Tager hele diskussionen med det samme, så den er overstået',
+          'Skifter emne',
         ],
         correctIndex: 1,
         explanation:
-          'Smerte uden for blødningen, ved sex eller afføring, og smerte medicinen ikke rykker, er tegn der fortjener udredning. Du skal ikke stille diagnosen, du skal være den, der ikke normaliserer det, og gøre lægetiden let.',
+          'Udsæt beslutningen, ikke lytningen. Forskellen mellem at udsætte og at undgå er, om der er en dato.',
       },
     ],
   },

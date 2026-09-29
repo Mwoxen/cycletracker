@@ -1,44 +1,44 @@
 import type { MonthContent, Source } from '../types';
 import { dailyId, weeklyId, wrapId } from '../types';
 
-const NHS_IRON: Source = {
-  label: 'NHS: Iron deficiency anaemia',
-  url: 'https://www.nhs.uk/conditions/iron-deficiency-anaemia/',
+const NHS_MIGRAINE: Source = {
+  label: 'NHS: Migraine',
+  url: 'https://www.nhs.uk/conditions/migraine/',
 };
-const NHS_PMS: Source = {
-  label: 'NHS: PMS',
-  url: 'https://www.nhs.uk/conditions/pre-menstrual-syndrome/',
-};
-const NHS_EATWELL: Source = {
-  label: 'NHS: Eat well',
-  url: 'https://www.nhs.uk/live-well/eat-well/',
+const NHS_TENSION: Source = {
+  label: 'NHS: Tension headaches',
+  url: 'https://www.nhs.uk/conditions/tension-headaches/',
 };
 const NHS_PAIN: Source = {
   label: 'NHS: Period pain',
   url: 'https://www.nhs.uk/conditions/period-pain/',
 };
-const NHS_VITAMINS: Source = {
-  label: 'NHS: Vitamins and minerals',
-  url: 'https://www.nhs.uk/conditions/vitamins-and-minerals/',
+const NHS_HEAVY: Source = {
+  label: 'NHS: Heavy periods',
+  url: 'https://www.nhs.uk/conditions/heavy-periods/',
 };
-const NHS_EXERCISE: Source = {
-  label: 'NHS: Exercise',
-  url: 'https://www.nhs.uk/live-well/exercise/',
+const NHS_IRON: Source = {
+  label: 'NHS: Iron deficiency anaemia',
+  url: 'https://www.nhs.uk/conditions/iron-deficiency-anaemia/',
 };
-const NHS_SLEEP: Source = {
-  label: 'NHS: Sleep and tiredness',
-  url: 'https://www.nhs.uk/live-well/sleep-and-tiredness/',
+const NHS_ENDO: Source = {
+  label: 'NHS: Endometriosis',
+  url: 'https://www.nhs.uk/conditions/endometriosis/',
 };
-const NHS_EATING: Source = {
-  label: 'NHS: Eating disorders',
-  url: 'https://www.nhs.uk/conditions/eating-disorders/',
+const NHS_FIBROIDS: Source = {
+  label: 'NHS: Fibroids',
+  url: 'https://www.nhs.uk/conditions/fibroids/',
 };
-const ACOG_PMS: Source = {
-  label: 'ACOG: Premenstrual Syndrome (PMS)',
-  url: 'https://www.acog.org/womens-health/faqs/premenstrual-syndrome',
+const NHS_PARACETAMOL: Source = {
+  label: 'NHS: Paracetamol for adults',
+  url: 'https://www.nhs.uk/medicines/paracetamol-for-adults/',
+};
+const NHS_IBUPROFEN: Source = {
+  label: 'NHS: Ibuprofen for adults',
+  url: 'https://www.nhs.uk/medicines/ibuprofen-for-adults/',
 };
 const ACOG_DYSMENORRHEA: Source = {
-  label: 'ACOG: Dysmenorrhea: Painful Periods',
+  label: 'ACOG: Dysmenorrhea (painful periods)',
   url: 'https://www.acog.org/womens-health/faqs/dysmenorrhea-painful-periods',
 };
 
@@ -46,354 +46,345 @@ const M = 8;
 
 export const month08: MonthContent = {
   month: M,
-  theme: 'Food, exercise and recovery',
-  focus:
-    'Make the good choice the easy choice: what you can cook, eat and do together in each phase.',
+  theme: 'Pain, fatigue and headaches',
+  focus: 'Recognise the patterns in her log, and act before she has to ask.',
   daily: [
     {
       id: dailyId(M, 1),
       month: M,
       day: 1,
-      title: 'Food shifts things, but it does not cure',
+      title: 'This month: from surprise to pattern',
       insight:
-        'This month is about food, exercise and recovery, and it starts with an honest frame: no diet removes PMS, and no training plan removes cramps. But food, movement and sleep are the three levers that are easiest to pull in everyday life, and they shift things you can measure: iron levels, blood sugar, sleep quality and pain. The good thing about them is that they are shared. You eat the same food, sleep in the same bed and can walk the same route. Your role is not to become her coach. It is to make the good choice the easy choice for both of you, without anyone having to explain themselves.',
+        'Pain, fatigue and headaches are the three symptoms most women log, and the three partners most often notice too late. It is not that you do not care. It is that they arrive as single days, and single days are hard to remember. Last month the headache may have been on day 27. The fatigue on day 1 and 2. The back pain on day 1. But in memory they blur into "a bad week". The calendar in the app remembers what you do not. This month you learn to read it, so you can act a day before the symptom instead of a day after. That is the whole difference between being kind and being useful.',
       action:
-        'Ask her today: "Is there anything about food or sleep you would like us to do differently this month?" Then listen without suggesting anything yet.',
+        'Open the calendar, go back one cycle, and count how many days have pain, fatigue or headache logged. Just the number.',
       phaseTags: [],
-      sources: [NHS_EATWELL],
     },
     {
       id: dailyId(M, 2),
       month: M,
       day: 2,
-      title: 'Iron: what the bleeding costs',
+      title: 'Prostaglandins: the source of most of it',
       insight:
-        'Every period costs iron, and women of childbearing age are the group most often affected by iron deficiency. Iron carries oxygen in the blood, and a low store shows up as tiredness that sleep does not fix, breathlessness on stairs, cold hands, headaches and a short fuse. If she has heavy periods, the risk is markedly higher. Iron comes in two forms: haem iron from meat, fish and offal, which is absorbed easily, and non-haem iron from lentils, beans, tofu, oats and leafy greens, which is absorbed less well. Both count, and the period week is when it makes most sense to think about it. Weeks of tiredness deserve a blood test, not a theory.',
+        'When the lining is shed, it releases prostaglandins, signalling substances that make the uterus contract. Those are the cramps. But prostaglandins do not stay in the uterus. They also hit the bowel, which contracts and gives loose stools, and they can cause nausea, headache, chills and aching all over the body. Women with severe cramps have measurably more prostaglandin than women with mild ones. It explains why day 1 can feel like flu, and why the same medicine, ibuprofen, helps several symptoms at once: it blocks the production of prostaglandin. One mechanism, many symptoms.',
       action:
-        'Put iron on the dinner table today without mentioning the word iron: meat, lentils, beans or chickpeas. Just cook it.',
+        'If she has her period: ask whether it is the belly, the back, the head or all of it. The answer tells you what to have ready next time.',
       phaseTags: ['menstrual'],
-      sources: [NHS_IRON],
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
     },
     {
       id: dailyId(M, 3),
       month: M,
       day: 3,
-      title: 'Vitamin C unlocks plant iron',
+      title: 'Menstrual migraine and the estrogen drop',
       insight:
-        'Iron from plants is absorbed several times less well than iron from meat, but it can be helped along. Vitamin C in the same meal makes non-haem iron far easier to absorb; it is one of the best documented combinations in nutrition. No supplement needed: peppers, broccoli, citrus, kiwi, strawberries and tomatoes are enough, as long as they are on the plate at the same time. A lentil soup with lemon, a bean salad with peppers, porridge with berries. If she eats little or no meat, that combination is not a detail but the foundation. And it is something you can do in the kitchen without saying a word about diet.',
+        'Migraine is about three times as common in women as in men, and hormones are a big part of the explanation. When estrogen falls sharply just before the period, the brain of some women responds with a migraine attack. It is called menstrual migraine and typically strikes in the window from two days before to three days into the bleeding. The attacks are often longer, more severe and harder to treat than migraines at other times. It is the fall in estrogen, not the low level itself, that triggers it. That is why the attack lands so precisely, and why it can be predicted in the calendar once the pattern has been seen two or three times.',
       action:
-        'At dinner: put something with vitamin C next to whatever has iron. Lemon wedges, raw pepper, or an orange for dessert.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_IRON, NHS_VITAMINS],
+        'Check the log: is there a headache in the days right around the start of the last two periods? Write it down if there is.',
+      phaseTags: ['menstrual', 'luteal'],
+      sources: [NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 4),
       month: M,
       day: 4,
-      title: 'Coffee and tea with the meal',
+      title: 'Migraine or headache? The difference matters',
       insight:
-        'Both coffee and tea contain compounds, polyphenols and tannins, that bind iron in the gut and can halve absorption from a meal. This applies especially to plant iron. The effect is greatest when the drink is taken with the food or right after, and small if an hour or so passes. No need to drop the morning coffee, just move it away from the iron-rich meal. Large amounts of milk and calcium with the meal also reduce absorption somewhat. It is one of the few dietary rules that is actually worth knowing, because it is free, and because it can make a real difference for a woman who bleeds every month.',
+        'The word headache covers two very different things. A tension headache feels like a band around the head, on both sides, pressing, and you can usually carry on with the day. A migraine is typically one-sided and throbbing, gets worse with movement, and often comes with nausea, sensitivity to light and sensitivity to sound. Some get warning signs, an aura, such as flickering vision or tingling in one hand. A migraine attack lasts from four hours to three days and makes normal life impossible. The two are treated differently, and they are logged differently. When she says "headache", it is worth knowing which she means, because one needs a glass of water and a break, the other needs darkness and quiet.',
       action:
-        'Serve water or a glass of juice with dinner, and make the coffee or tea an hour later instead.',
-      phaseTags: ['menstrual', 'luteal'],
-      sources: [NHS_IRON],
+        'Ask her whether her headaches are usually "a band around the head" or "throbbing on one side with nausea". Remember the answer.',
+      phaseTags: [],
+      sources: [NHS_MIGRAINE, NHS_TENSION],
     },
     {
       id: dailyId(M, 5),
       month: M,
       day: 5,
-      title: 'Heat or cold?',
+      title: 'Early is the whole secret',
       insight:
-        'Heat is the best documented home treatment for period cramps. A heating pad at around 40 degrees on the lower belly for a couple of hours has worked as well as ibuprofen in studies, and the combination is better than either alone. Heat relaxes the uterine muscle and increases blood flow. Cold does nothing for cramps, but many find it useful for other things: a cold cloth on the neck for period headaches, a cool pack on tender breasts in the days before. Rule of thumb: heat for cramps and lower back, cold for headache and swelling. A warm bath in the evening covers both, because it also helps sleep.',
+        'The most common mistake with painkillers is waiting. Ibuprofen and similar drugs block the production of prostaglandin, but they cannot remove the prostaglandin that has already been made. Taken at the first signs, the dull ache, the pull in the lower back, the familiar heaviness, the tablet gets ahead of it. Taken when the pain is at its peak, it fights uphill for an hour. The same goes for migraine: the earlier the treatment, the better it works. Many women put it off because they do not want to "take medicine unnecessarily". But well-timed medicine is often less medicine in total. Your role is not to push, but to make choosing early easy.',
       action:
-        'Fill the hot water bottle or warm the pad before she asks, and put it on the sofa or bed where she is.',
+        'Put the painkillers somewhere visible and easy to reach, and say: "They are there if you feel it coming."',
       phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
+      sources: [NHS_PAIN, NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 6),
       month: M,
       day: 6,
-      title: 'Movement as pain relief',
+      title: 'Paracetamol and ibuprofen: the ground rules',
       insight:
-        "It sounds wrong when you are in pain, but gentle movement eases period pain for many. A walk, easy cycling, yoga or stretching increases blood flow in the pelvis and releases the body's own painkillers, endorphins. Studies suggest that women who move regularly have milder cramps, and that a single gentle session can take the edge off the pain right now. That is not the same as training through it. Hard training on day 1 makes it worse for some. The point is gentle activity, ideally outdoors, and ideally together. It is easier to go for a walk when someone walks with you.",
+        'Two kinds of over-the-counter medicine do most of the work. Ibuprofen acts on prostaglandin and is therefore the best choice for period pain; it should be taken with food and is not suitable for everyone, including people with stomach ulcers, certain heart and kidney conditions, asthma that reacts to it, and during pregnancy. Paracetamol is gentler on the stomach, does less for cramps, but is a good supplement and can be combined with ibuprofen. Follow the dosing on the pack, keep the gap between doses, and never mix products that contain the same ingredient. If she is unsure what she can take, the pharmacy is a free and good place to ask. Your job is to know the difference, so you can fetch the right one.',
       action:
-        'Suggest a short 15-20 minute walk today, at her pace. Take a no without trying to persuade.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PAIN, NHS_EXERCISE],
+        'Check that there is both ibuprofen and paracetamol in the house and that the expiry dates are fine. Stock up today if anything is missing.',
+      phaseTags: [],
+      sources: [NHS_IBUPROFEN, NHS_PARACETAMOL],
     },
     {
       id: dailyId(M, 7),
       month: M,
       day: 7,
-      title: 'Fluids, headaches and blood loss',
+      title: 'Lower back pain and heat',
       insight:
-        'Lack of fluid amplifies two things that are already in play during the period and the days before: headache and fatigue. The body loses fluid with the blood, and many drink less when they feel nauseous or are lying down. Mild dehydration can also make cramps worse, because muscles become more sensitive. The recommendation is six to eight glasses of fluid a day, and everything counts: water, tea, milk, soup. Thirst is a late signal, so a bottle within reach helps more than good advice. If the headache keeps returning around the period, it is often hormonal migraine, which deserves a doctor, not just more water.',
+        'Period pain is not only in the belly. The uterus shares nerve supply with the lower back, and many feel the cramps as a deep, dull ache at the base of the spine, sometimes down into the thighs. That is called referred pain and is completely common. Heat is still the best documented home remedy: a heating pad on the lower back, a warm bath, or a hot water bottle under her back when she lies down. Heat relaxes the muscles and increases the blood flow that the prostaglandins have tightened. Gentle stretching of the lower back helps some too. You cannot remove the pain, but you can move the heat to where it does good, without her having to get up and find it.',
       action:
-        'Put a full glass or bottle of water where she is sitting or lying, and refill it when it is empty.',
-      phaseTags: ['menstrual', 'luteal'],
-      sources: [NHS_EATWELL],
+        'Warm a hot water bottle or heating pad and put it ready on her side of the sofa or bed, before she asks.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_PAIN],
     },
     {
       id: dailyId(M, 8),
       month: M,
       day: 8,
-      title: 'Omega-3 and pain',
+      title: '"Period flu" is not imagination',
       insight:
-        'Oily fish like salmon, mackerel, herring and sardines contain omega-3 fatty acids, which dampen the production of the prostaglandins that cause cramps. Several smaller studies have found that women who get omega-3 daily over a few months report milder period pain and use less painkiller. The evidence is not rock solid, the studies are small, but the effect points the same way in most of them, and the risk of eating fish twice a week is zero. Plant sources like flaxseed, chia seeds and walnuts provide a different form of omega-3 that converts less well, but still counts. This is a change for the whole month, not just the period week.',
+        'Many women describe the days leading into the period as feeling like coming down with something: chills, aching muscles, a heavy body, a slightly feverish feeling, nausea. It is not an official diagnosis, but the mechanism is well known. Prostaglandins and other inflammatory substances enter the bloodstream and affect the whole body, not just the uterus, and the hormone drop amplifies the experience. It typically passes once the bleeding is well under way. What helps is the same as for ordinary flu: rest, fluids, warmth, easy food and ibuprofen for the aching. What does not help is doubting whether it is "real". If she has logged it before, you know it is coming again.',
       action:
-        'Make or buy a meal with oily fish today, or put fish on the list for two evenings in the coming week.',
-      phaseTags: [],
-      sources: [NHS_EATWELL, ACOG_DYSMENORRHEA],
+        'If she says she feels unwell: treat it as a sick day without discussion. Tea, blanket, and take the evening chores.',
+      phaseTags: ['menstrual', 'luteal'],
+      sources: [NHS_PAIN],
     },
     {
       id: dailyId(M, 9),
       month: M,
       day: 9,
-      title: 'The follicular phase: time for strength',
+      title: 'The gut: diarrhoea and nausea',
       insight:
-        'When the bleeding stops and estrogen rises, most people get more energy and faster recovery. Estrogen has a protective effect on muscle and helps with rebuilding after training. Some smaller studies have found that strength training concentrated in the follicular phase produced slightly more muscle growth than the same amount of training in the luteal phase. The evidence is still thin, but the principle holds regardless: put the hard sessions where the body has the capacity for them. This is when heavy lifts, intervals, long runs and new personal bests make the most sense. It is also when training together is most fun, because you can both go all in.',
+        'Loose stools on the first days of the period are so common that they have a nickname in many languages, yet few talk about it. The prostaglandins that make the uterus contract also hit the bowel, which sits right next to it. The result is diarrhoea, wind, and for some nausea and even vomiting when the cramps are at their worst. It is unpleasant and embarrassing, not dangerous, and it follows the pain: less prostaglandin, calmer gut. That is why ibuprofen taken early helps the gut too. Easy, mild food, not too fatty, not too much coffee, and easy access to the bathroom do the rest. Nausea is eased by small portions and, for some, ginger.',
       action:
-        'Ask if she fancies training or running together this week, and book a specific day and time.',
-      phaseTags: ['follicular'],
-      sources: [NHS_EXERCISE],
+        'Make something mild and easy to eat today, like rice, soup, bread or porridge, and let her skip it if she cannot.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
     },
     {
       id: dailyId(M, 10),
       month: M,
       day: 10,
-      title: 'Protein for recovery',
+      title: 'Take stock, now that there is energy',
       insight:
-        'Muscles are built after training, not during, and that takes protein. The general recommendation for adults is around 0.8 grams per kilo of body weight a day, but with regular strength training, 1.2-1.6 grams per kilo is a reasonable target. For a woman of 65 kilos, that is roughly 80-100 grams of protein a day, spread across meals: eggs and yoghurt in the morning, beans, chicken, fish or tofu at lunch and dinner. Many women eat too little protein, especially at breakfast, and feel it as tiredness and hunger after training. It is not a "gym bro thing". Protein also keeps you full and helps keep blood sugar stable.',
+        'The follicular phase is the best time to talk about the hard part, because the hard part is over and the energy is back. That goes for pain too. Asking "how was your period this time?" in the middle of the cramps feels like an interrogation. Asking it a week later, while you cook, feels like interest. And this is when her memory of those days is still fresh enough to be accurate. Was it worse or better than last time? What helped? Was there anything she was missing? The answers are gold for next month, and they are only available if someone asks at the right time. You are the one holding the calendar.',
       action:
-        'Make sure there is protein in the first meal tomorrow: eggs, skyr, cottage cheese or beans. Get it ready tonight.',
+        'Ask today: "What was the worst part of your period this time, and did anything help?" Write the answer in a note in the calendar.',
       phaseTags: ['follicular'],
-      sources: [NHS_EATWELL],
     },
     {
       id: dailyId(M, 11),
       month: M,
       day: 11,
-      title: 'Cook together',
+      title: 'Cyclical fatigue and iron',
       insight:
-        'The follicular phase is the best time to build habits, because there is energy for it. Cooking is one of the few household tasks that can be enjoyable rather than a demand when you do it together. It is not about making anything fancy, but about being in the kitchen at the same time: one chops, one stirs, music in the background. It creates conversation without it being "a conversation", and it creates shared ownership of what gets eaten. The partner who never cooks ends up commenting on the food. The one who cooks understands why things are the way they are. That is the difference many women notice most.',
+        'Fatigue that returns every month can have several sources, but one is easy to miss: iron. Every period costs iron, and with heavy bleeding the loss can be more than the diet manages to replace. Iron deficiency develops slowly and shows as persistent tiredness, breathlessness on stairs, paleness, poor concentration, headaches and, for some, restless legs at night. It often gets written off as a busy life or bad sleep. A simple blood test at the doctor measures haemoglobin and iron stores, and treatment is straightforward. Iron supplements should not be taken blind, though; too much iron is not good either. If the fatigue does not lift in the follicular phase, that is a sign something else is pulling.',
       action:
-        'Cook dinner together tonight. You pick the dish and do the shopping, so she only has to show up in the kitchen.',
+        'Ask whether she has had her iron checked in the past year. If not, and she bleeds heavily, suggest it as a perfectly ordinary check-up thing.',
       phaseTags: ['follicular'],
+      sources: [NHS_IRON, NHS_HEAVY],
     },
     {
       id: dailyId(M, 12),
       month: M,
       day: 12,
-      title: 'Shopping list: first half of the cycle',
+      title: 'Sleep debt across the cycle',
       insight:
-        'If you do the shopping, you decide a large part of what is possible to eat at home. In the first half of the cycle, from the period towards ovulation, these are the things worth having in the house: iron-rich foods (beef, lentils, chickpeas, beans, oats, spinach), vitamin C alongside (peppers, citrus, kiwi, broccoli), protein for recovery (eggs, skyr, chicken, fish, tofu) and oily fish a couple of times a week. Plus whatever she actually likes. A list made only of "healthy" does not get eaten. A list that accounts for what the body loses and rebuilds is a quiet form of care.',
+        'Sleep follows the cycle too. In the luteal phase progesterone keeps body temperature up, and many wake more often and sleep more lightly. In the PMS days restlessness and the hormone drop interfere. On the first nights of the period, pain and leaks wake her. Each single night may only be a little worse, but over ten to twelve days it adds up to a sleep debt, which explains why irritability, headaches and pain sensitivity peak right around the bleeding: lack of sleep measurably lowers the pain threshold. The follicular phase is where the debt gets repaid, if she is allowed. That means an early night on day 3-8 is not laziness but repair, and you can help by protecting those nights.',
       action:
-        "Write this week's shopping list today, and make sure at least five items come from the list above. Show it to her and ask what is missing.",
-      phaseTags: ['follicular'],
-      sources: [NHS_EATWELL, NHS_IRON],
+        'Suggest an early night tonight without screens, and take whatever usually keeps her up: the dishes, the packed lunches, the last check of something.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 13),
       month: M,
       day: 13,
-      title: 'Her food is not your project',
+      title: 'Movement prevents pain',
       insight:
-        'There is a line between making the good choice easy and keeping watch. Comments like "do you really need more?", "haven\'t you had enough sugar today?" or "that\'s not very healthy" never help, however lovingly they are meant. They turn food into something that has to be defended, which is exactly the opposite of what the body needs, especially in the luteal phase, when appetite rises for biological reasons. Your influence lies in what is in the fridge, what you cook, and what you eat yourself. Not in what she puts in her mouth. She is an adult, and her body is hers. That rule has no exceptions.',
+        "It sounds wrong, but regular exercise is one of the best documented ways to get milder period pain. Not during the cramps, but in the weeks before. Physical activity improves blood flow in the pelvis, lowers stress hormones and releases the body's own pain-relieving substances. Women who move regularly report shorter and milder pain on average. It does not need to be hard: brisk walking, cycling, swimming or yoga all count. The follicular phase is the obvious time, because the energy and the motivation are there. Your role is not to be a coach, but to make it easy to get out the door, and ideally to come along.",
       action:
-        'Notice today whether you are about to comment on something she eats. If so: say nothing. Comment instead on something you will do yourself.',
-      phaseTags: [],
+        'Suggest a walk or a bike ride together today, and make it about the two of you, not "for the sake of your period".',
+      phaseTags: ['follicular'],
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA],
     },
     {
       id: dailyId(M, 14),
       month: M,
       day: 14,
-      title: 'Ovulation: use the peak',
+      title: 'Water and caffeine: two quiet headache sources',
       insight:
-        'Around ovulation estrogen peaks, and many experience the highest energy, best mood and fastest recovery of the cycle. This is the time for the hardest workout, the long hike, the race or the new activity you have talked about. Some feel a brief twinge in the lower belly and a little bloating, but otherwise the body is on side. One thing is worth knowing: estrogen affects ligament stiffness, and some studies point to more knee injuries in the days around ovulation. That is not a reason to hold back, but a reason to warm up properly. Otherwise: go for it together while the body is up for it.',
+        'Two of the most common headache triggers have nothing to do with hormones, but they amplify the hormonal ones. Dehydration causes headaches on its own and makes a migraine worse, and many drink less when they feel unwell. Caffeine cuts both ways: a steady daily amount is fine and can even ease a headache, but skip the usual cup and a withdrawal headache arrives within a day. Irregular caffeine intake, a lot one day and little the next, is therefore a classic trigger. Coffee late in the day also worsens the sleep that is already fragile in the luteal phase. The simplest advice is boring: the same amount of coffee every day, none after 3 pm, and a glass of water beside it.',
       action:
-        'Plan something active and slightly ambitious within the next few days: a long hike, a hard session, a swim.',
-      phaseTags: ['ovulation'],
-      sources: [NHS_EXERCISE],
+        'Put a glass of water or a bottle at her place today, morning and evening, without commenting on it.',
+      phaseTags: [],
+      sources: [NHS_MIGRAINE, NHS_TENSION],
     },
     {
       id: dailyId(M, 15),
       month: M,
       day: 15,
-      title: 'Alcohol across the cycle',
+      title: 'Ovulation pain: a twinge on one side',
       insight:
-        'Alcohol does not land the same way all month. Around ovulation there is often an urge to celebrate, and there is nothing wrong with a glass. But in the luteal phase, and especially in the PMS days, it costs more: alcohol disrupts sleep, which is already worse because of progesterone, and it worsens mood swings and anxiety the next day. Studies have found a link between alcohol and both the frequency and severity of PMS. Alcohol also drains the body of fluid and lowers blood sugar later in the night, which amplifies restlessness and hunger. No bans, just timing: the glass that is a joy on day 14 is often a bad deal on day 26.',
+        'Around one in five women feel ovulation as a pain on one side of the lower abdomen, when the follicle bursts and a little fluid irritates the lining of the pelvis. It is called ovulation pain or mittelschmerz. It lasts from a few minutes to a couple of days, can switch sides from month to month, and is usually mild and harmless. Some also feel it as heaviness or slight nausea. It is actually useful, because it is one of the most precise signs of where in the cycle she is. Severe ovulation pain, pain with fever, or pain that comes with unusual bleeding does not belong to the normal picture and deserves a doctor.',
       action:
-        'If you are having a drink tonight, make sure there is food and water alongside. If she is in the PMS days, suggest something alcohol-free yourself.',
-      phaseTags: ['ovulation', 'luteal'],
-      sources: [NHS_PMS],
+        "If she mentions a twinge in her side today: log it in the calendar together, and see whether the app's ovulation date matches.",
+      phaseTags: ['ovulation'],
     },
     {
       id: dailyId(M, 16),
       month: M,
       day: 16,
-      title: 'Cycle syncing: myth and sense',
+      title: 'Headaches mid-cycle',
       insight:
-        'You may have seen "cycle syncing": plans that tell you exactly what to eat and how to train in each phase. The honest status is that there is very little research behind the detailed schedules. The body\'s energy needs rise only about 100-300 calories a day in the luteal phase, and no food "balances hormones". What holds up are the simple principles: iron and vitamin C during the period, hard sessions when energy is high, stable blood sugar and more recovery in the last week. That is ordinary good nutrition with better timing, not magic. Be sceptical of anything that sells supplements or requires a subscription. Be open to what she notices works for her.',
+        'Menstrual migraine is the well-known pattern, but some women also get migraines around ovulation. The explanation is probably the sharp estrogen drop right after the estrogen peak, the same mechanism as before the period, only smaller. It rarely gets noticed, because a headache on day 14 does not "sound hormonal", and because calendars are rarely read for mid-cycle symptoms. After a couple of logged cycles the pattern can be obvious: headaches at two points in the month, both with precise timing. If that is the case, it is important knowledge for both her and the doctor, because treatment can be planned around it. It starts with the symptom being logged, even when it does not fit what is expected.',
       action:
-        'Ask her whether she has come across cycle syncing and what she thinks of it. Share the honest version from this card.',
-      phaseTags: [],
-      sources: [NHS_EATWELL, NHS_PMS],
+        'Look in the calendar for headaches in the days around ovulation in the last few cycles. Tell her what you found, whatever the answer.',
+      phaseTags: ['ovulation'],
+      sources: [NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 17),
       month: M,
       day: 17,
-      title: 'The luteal phase: keep blood sugar steady',
+      title: 'How to read the calendar',
       insight:
-        'After ovulation, progesterone makes the body slightly less sensitive to insulin, and metabolism rises a little. That means blood sugar swings more: fast carbohydrates give a higher spike and a deeper dip. The dip is felt as sudden hunger, shakiness, irritability and a craving for more of the same. It is a large part of why the PMS days feel so unstable. The countermeasure is boring and effective: regular meals every three to four hours, protein and fibre in each, and never too long without food. A late lunch on day 25 is a well-known recipe for an argument at three in the afternoon.',
+        'A log is only valuable if it is read, and most people read it wrong: one day at a time. Try reading it as a line instead. Find the last two or three period starts. Count backwards from each: which day did the headache come? How many days before the bleeding did the fatigue start? How many days did the pain last? Put the numbers side by side. If they hit the same cycle day, give or take one, that is a pattern. If they land at random, it is something else. Then take the pattern and project it forward: if the headache usually comes two days before bleeding, and the app expects bleeding on Friday, Wednesday is the day to be ready. That is the whole method.',
       action:
-        'Check when she last ate if the mood shifts this afternoon. Put something with protein out without commenting on it.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PMS],
+        'Pick one symptom she logs often and find its cycle day in the last two cycles. Work out when it is expected next time.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 18),
       month: M,
       day: 18,
-      title: 'Fibre makes fullness last',
+      title: 'A symptom diary for the doctor',
       insight:
-        'Fibre slows the uptake of sugar from the gut, so a meal with wholegrains, beans, vegetables and fruit gives a smoother blood sugar curve than the same calories from white bread and sweets. The recommendation is 30 grams of fibre a day, and most people get about half. Fibre also helps with the constipation progesterone often causes in the luteal phase, because it slows the gut down. Oats, rye bread, lentils, apples, pears, carrots, nuts and seeds are the easy sources. Together with plenty of water, it is one of the most underrated things against bloating. Swap one white product for a wholegrain one and you are on your way.',
+        'If she is going to the doctor about pain or migraine, the best thing she can bring is a diary covering two or three cycles. The doctor needs to know: which days, how bad on a scale of 1 to 10, how long it lasted, what she took and whether it worked, and whether she had to cancel anything. That last one, loss of function, is what moves a consultation from "that is probably normal" to "we should look into this". The app\'s calendar and notes are a ready-made diary if they have been used, and can be shown in five minutes. Many live with pain for years because at the doctor\'s they cannot remember how bad it really was. Your job is to make sure it is written down.',
       action:
-        'Swap one thing in the house to wholegrain today: the bread, the rice, the pasta or the breakfast cereal. Without making a thing of it.',
-      phaseTags: ['luteal'],
-      sources: [NHS_EATWELL],
+        "Ask whether there is a doctor's appointment she has been putting off. Offer to gather the pain days from the last few cycles from the calendar onto one sheet of paper.",
+      phaseTags: [],
+      sources: [NHS_ENDO, NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 19),
       month: M,
       day: 19,
-      title: 'Magnesium and PMS: what the evidence says',
+      title: 'Joint pain and stiff mornings',
       insight:
-        'Magnesium is often recommended for PMS, and it is worth knowing the honest status. Some smaller studies have found that magnesium reduced bloating, breast tenderness and mood symptoms, and that combining it with B6 worked slightly better. Other studies found no effect. Overall: limited evidence, but low risk at sensible doses, and a possible benefit. Magnesium from food is beyond doubt: wholegrains, nuts, seeds, beans, dark chocolate and leafy greens are all good sources. If she is considering a supplement, that is a conversation with the pharmacist or doctor, not an influencer, especially if she takes other medication or has kidney problems.',
+        'Some women notice sore or stiff joints, especially knees, hands and lower back, in the days before and during the period. The mechanism is not fully understood, but estrogen dampens inflammation and pain, and when it falls, joints and muscles are felt more. Fluid retention in the luteal phase can make joints stiff and hands puffy, and prostaglandins add to the general aching. Women with arthritis often find their symptoms swing with the cycle. Mild, cyclical joint soreness is common and passes with the bleeding. Persistent swelling, redness, warmth, or stiffness lasting over an hour in the morning is something else and deserves a doctor. Heat, movement and avoiding heavy lifting on those days help.',
       action:
-        'Put out nuts, seeds or dark chocolate as a snack today. That is magnesium without calling it magnesium.',
+        'Take the heavy lifting today: shopping bags, the laundry basket, whatever needs moving. Do not say why, just do it.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS, NHS_VITAMINS],
     },
     {
       id: dailyId(M, 20),
       month: M,
       day: 20,
-      title: 'Calcium and PMS: the best of the weak',
+      title: 'Constipation in the luteal phase',
       insight:
-        'Of all supplements for PMS, calcium is the one with the most consistent evidence. A larger randomised trial found that 1200 mg of calcium daily over three cycles markedly reduced mood symptoms, water retention, pain and food cravings, and later studies have pointed the same way. The mechanism is not fully clear, but calcium levels in the blood shift with estrogen. Calcium from food is the safest place to start: milk, yoghurt, cheese, calcium-fortified plant milk, sardines, almonds and kale. The daily recommendation for adults is around 700-1000 mg. Vitamin D is needed to absorb calcium, and in a northern winter it is hard to get enough from the sun alone.',
+        'Where the period brings loose stools, the luteal phase often brings the opposite. Progesterone relaxes smooth muscle, including in the gut, so food moves through more slowly. The result is constipation, bloating and wind in the week before the period, often on top of the fluid retention that is already making the trousers tight. When the bleeding starts and the prostaglandins take over, it flips, often abruptly. It is one of the reasons the belly can feel so different from week to week. What helps is boring and effective: fibre from vegetables, fruit and whole grains, plenty of water, and daily movement. What does not help is commenting on the belly.',
       action:
-        'Check the fridge: is there yoghurt, cheese, milk or fortified plant milk? If not, buy it today.',
+        'Make dinner with plenty of vegetables and whole grains today, and suggest a short walk after the meal.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS, ACOG_PMS],
     },
     {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'Salt, bloating and fluid',
+      title: 'Luteal fatigue is physiology, not laziness',
       insight:
-        'Bloating in the luteal phase happens because progesterone and estrogen affect how the kidneys handle salt and fluid. The body holds on to more, and the belly, fingers and breasts can feel swollen. It is not fat, it is water, and it goes when the period starts. A lot of salt makes it worse: ready meals, crisps, salted nuts and takeaway often contain several times the salt you would use yourself. The countermeasure is not to drink less, quite the opposite; plenty of water helps the kidneys get rid of the excess. Potassium from potatoes, bananas and vegetables helps too. And clothes that do not squeeze the belly are not a detail that week.',
+        'The tiredness in the last week before the period has its own explanation. Progesterone has a sedating effect on the brain, almost like a mild tranquilliser. Body temperature is raised, which in itself costs energy and disturbs sleep. Serotonin falls along with estrogen. The body burns a little more and asks for more food. Added up, it gives a heaviness where everything takes more, and the sofa calls at 8 pm. It is not a lack of willpower, and it does not improve under pressure. It improves with sleep, meals on time, lower demands, and someone taking the practical things. If the fatigue sits on the same days in the log every month, you know exactly when to slow the pace.',
       action:
-        'Cook from scratch tonight instead of a ready meal or takeaway, and serve plenty of water with it.',
+        'Look in the calendar: when is the next period expected? Clear or move one commitment in the five days before, without asking first.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'Caffeine in the late luteal phase',
+      title: 'Tension headaches: neck, screens and stress',
       insight:
-        'Caffeine has a half-life of around five hours, so a cup at 3 pm is still half active at 8 pm. In the luteal phase, when sleep is already lighter because of progesterone and a higher body temperature, that can be the difference between falling asleep and tossing and turning. Caffeine can also amplify restlessness, palpitations and breast tenderness in the PMS days, and it is one of the few things health authorities actually recommend cutting down on for PMS. That does not mean no coffee. It means earlier coffee and fewer cups in the last week. And it is easiest to do if you both do it.',
+        'The tension headache is the most common headache of all: a pressing band around the forehead or the back of the head, on both sides, mild to moderate, without nausea. It is triggered by stress, tight neck and shoulder muscles, too long at a screen, too little sleep, too little water and skipped meals. In the luteal phase, when sleep is worse and the stress threshold lower, it comes more easily. It is treated with the simple things: a break, water, food, fresh air, heat on the neck, and paracetamol or ibuprofen if it will not let go. Frequent tension headaches, more than a couple of times a week, are a signal that everyday life is pressing too hard, not just that a tablet is missing.',
       action:
-        'Make the coffee early today, and suggest something caffeine-free after lunch: herbal tea, decaf, or just water.',
+        'If she has a headache today: take the kids, the noise or the task out of the room for half an hour, and put water and something to eat beside her.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS],
+      sources: [NHS_TENSION],
     },
     {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'Lower the intensity, raise the recovery',
+      title: 'Act before she has to ask',
       insight:
-        'In the last week before the period, many have lower energy, worse sleep and longer recovery after hard training. Body temperature is higher, which makes heat and endurance training more demanding, and progesterone breaks down muscle a little more than estrogen builds it. It is not the time for new records, and not the time to push through when the body says no. But movement still helps mood and PMS symptoms, so the key is less intensity, not less movement. Walks, light strength work, swimming, yoga. Regular, moderate exercise noticeably reduces PMS symptoms, and it is the consistency, not the hardness, that counts.',
+        "This is the month's most important skill, and it is simple: the pattern in the log tells you what is coming, and you act the day before. If the migraine usually strikes two days before bleeding, you make sure of quiet, dark curtains and her medicine lying out the day before. If the fatigue usually arrives on day 26, you cook and let her go to bed early. If the back pain usually comes on day 1, the hot water bottle is filled the evening before. None of it requires her to explain herself or ask for anything, and that is the point. Asking for help costs energy she does not have on those days. Getting it without asking is the proof that someone has noticed her.",
       action:
-        'If you have hard training planned together this week, suggest turning it down and going for a walk instead. Make it your suggestion, not her defeat.',
+        'Find the one symptom that is most predictable in her log, and make one preparation for it today, before it hits.',
       phaseTags: ['luteal'],
-      sources: [NHS_PMS, NHS_EXERCISE],
     },
     {
       id: dailyId(M, 24),
       month: M,
       day: 24,
-      title: 'Sleep hygiene in the hard week',
+      title: 'Migraine: what helps when it hits',
       insight:
-        'Poor sleep is the single factor that worsens PMS most, and the luteal phase makes sleep harder by itself: higher body temperature, more frequent waking, more restlessness. So sleep hygiene is not a luxury concept that week, it is first aid. The things that work are known: the same bedtime every day, a cool and dark bedroom, no screens for the last half hour, no caffeine after noon and no alcohol as a "sleep aid". And calm in the evening, which does not come by itself if there are still dishes, messages and plans at 10 pm. That is where you come in. You cannot sleep for her, but you can clear the evening for her.',
+        'A migraine attack cannot be pushed through, but it can be made smaller. Treatment needs to go in early: ibuprofen or another over-the-counter painkiller at the first sign, and triptans if the doctor has prescribed them. Then: a dark, quiet, cool room, sleep if possible, a cold cloth on the forehead or heat on the neck, small sips of water, and something light to eat against the nausea. What makes it worse is light, sound, smells, screens and having to answer questions. Your role is to remove the world from her for a few hours: kids, phone, appointments, guests. "I have got everything, go and lie down" is the sentence that helps most. Afterwards she is often wiped out for a day; that is part of the attack.',
       action:
-        'Take the whole evening routine today: dishes, kids, locks, lights. Say "just go to bed, I\'ve got the rest" half an hour earlier than usual.',
-      phaseTags: ['luteal'],
-      sources: [NHS_SLEEP, NHS_PMS],
+        'Make sure the bedroom can be made fully dark and quiet tonight, and agree on a word she can send that means "migraine, take over".',
+      phaseTags: ['luteal', 'menstrual'],
+      sources: [NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 25),
       month: M,
       day: 25,
-      title: 'Shopping list: second half of the cycle',
+      title: 'When a headache deserves a doctor',
       insight:
-        'In the week before the period, needs change, and the shopping list can reflect that. Worth having: wholegrains and fibre (oats, rye bread, brown rice, lentils), protein for every meal (eggs, skyr, chicken, fish, beans), calcium (yoghurt, cheese, milk), magnesium (nuts, seeds, dark chocolate), potassium against fluid retention (bananas, potatoes), oily fish, and good snacks for the hungry hours: fruit, nuts, cottage cheese, wholegrain crackers. Less of: ready meals, crisps, fizzy drinks, alcohol. And yes, the chocolate or crisps she actually wants. The purpose of the list is not to control, but to make it easy to eat regularly without having to think about it.',
+        'Most headaches are harmless, but two kinds demand action. The acute: a headache that strikes like a thunderclap and is at its worst within a minute, a headache with fever, stiff neck or a rash, after a blow to the head, or together with weakness, trouble speaking, loss of vision or confusion. That is an emergency call, right away. The chronic: migraines several days a month, headaches that disrupt work or sleep, or attacks that are getting more frequent. That deserves an appointment with her own doctor, who can offer preventive treatment and tailor it to the cycle. If she has migraine with aura, the doctor also needs to know before she is given a combined pill with estrogen, because that combination is advised against.',
       action:
-        'Shop for the next three days from the list above, and leave a snack with protein visibly out on the kitchen counter.',
-      phaseTags: ['luteal'],
-      sources: [NHS_PMS, NHS_EATWELL],
+        'Read the emergency signs out loud to yourself once, so you know them. Then ask whether her migraines have changed over the past year.',
+      phaseTags: [],
+      sources: [NHS_MIGRAINE],
     },
     {
       id: dailyId(M, 26),
       month: M,
       day: 26,
-      title: 'Body image: what you say sticks',
+      title: 'Pain that is not normal',
       insight:
-        'The body changes through the cycle: bloated in the luteal phase, heavier during the period, lighter around ovulation. Weight can swing a couple of kilos in a week from fluid alone. Many women know that perfectly well and still find it hard not to measure themselves by it, because the body has been commented on their whole life. What you say lands on top of that. Even "you look healthy" or "have you lost weight?" says that the body is being assessed. The most helpful thing is to make the body a non-topic: talk about what it can do, how the day was, what she did well. And never comment on belly, weight or portions.',
+        'Ordinary period pain responds to heat and ibuprofen, stays within the first couple of days, and does not stop everyday life. Anything else deserves a doctor. The signs are: pain that also comes outside the period, pain during sex, pain when passing stools or urine around the bleeding, heavy bleeding with clots, pain that painkillers do not shift, and periods that cost sick days. Behind it can be endometriosis, adenomyosis or fibroids, three conditions that are common, can be treated, and still take years to diagnose, because the pain gets normalised by everyone around her, often by her too. You do not have to guess what it is. You have to be the one who says it should not be like this.',
       action:
-        'Say something today about what she did or could do, not how she looked. And notice how easily the opposite comes.',
-      phaseTags: [],
+        'If two or more of the signs fit her: say it out loud today, "this deserves a doctor", and offer to book the appointment and come along.',
+      phaseTags: ['menstrual'],
+      sources: [NHS_ENDO, NHS_FIBROIDS],
     },
     {
       id: dailyId(M, 27),
       month: M,
       day: 27,
-      title: 'When food becomes a problem: it deserves a doctor',
+      title: 'Many tablets are a signal too',
       insight:
-        'Eating disorders are common, often hidden, and they do not only affect teenagers. Signs worth taking seriously: meals skipped or eaten in secret, rules that keep tightening, training that cannot be cancelled no matter what, strong distress around food she has not controlled herself, and a cycle that becomes irregular or disappears because the body lacks energy. You are not to diagnose, and you are not to monitor. But you may say that you are worried, and that it deserves a doctor. Without mentioning weight, without commenting on the food, and without turning it into a debate. Just: "I\'m worried about you, and I want to help."',
+        'Painkillers are good when used well, but they have a downside: taken too often, they can cause headaches themselves. It is called medication overuse headache and typically develops when ordinary painkillers are used on 15 or more days a month, or triptans on 10 or more, for several months in a row. The headache becomes daily and dull, and each tablet gives a short break before it returns. The only way out is to stop, and that should be done with the doctor. If you count the days in the log where she takes something and the number is approaching ten a month, it is not a sign that she is weak, but that the underlying problem needs better treatment.',
       action:
-        'If anything on the list rings true: say the sentence today, calmly and without demands. If not: keep the card, and stay attentive.',
+        'Count in the calendar how many days in the last cycle painkillers were taken. If it is over eight, mention it calmly and without judgement.',
       phaseTags: [],
-      sources: [NHS_EATING],
+      sources: [NHS_MIGRAINE, NHS_PARACETAMOL],
     },
     {
       id: dailyId(M, 28),
       month: M,
       day: 28,
-      title: 'Supplements: what is worth knowing',
+      title: 'Prepare for the period from the log',
       insight:
-        'The market for supplements against PMS and period problems is enormous, and most of it is not worth the money. Status for the most talked-about: calcium has the best evidence, magnesium and B6 have weak evidence with low risk, omega-3 seems to help with pain, and vitamin D matters in the winter months. Iron supplements should only be taken if a blood test shows a deficiency, because too much iron is harmful. St John\'s wort and other herbs can interact with other medication, including the pill. The ground rule is the same as for everything else this month: food first, supplements after talking to a doctor or pharmacist, and expensive "hormone balance" products are advertising, not medicine.',
+        'Month 1 taught you the four things to have in the house: pads or tampons, painkillers, easy food and heat. Now you can make it personal. The log tells you what she in particular needs: if day 1 is a back day, heat matters most; if it is a migraine day, darkness and quiet matter most; if it is the gut, mild food and a free bathroom matter most; if it is the fatigue, a cleared calendar matters most. The preparation belongs the day before the expected bleeding, not on the day, because symptoms often start before the blood. And because the prediction is an estimate, it applies from two days before. A preparation that lands is not felt as something you did. It is felt as things being easier.',
       action:
-        'If there are supplements in the cupboard, ask with curiosity what they are for and whether they work for her. No judgement, just interest.',
-      phaseTags: [],
-      sources: [NHS_VITAMINS, NHS_PMS],
+        "Check the app's expected date for the next period. Make your own list of three things based on her log, and get them ready today.",
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 29),
       month: M,
       day: 29,
-      title: 'Recovery is not laziness',
+      title: 'Sentences about pain that do harm',
       insight:
-        'Recovery is the part of training and daily life that most often gets skipped. Muscles are built when you rest, the immune system is restored when you sleep, and mood stabilises when there are breaks. Across a cycle the need for recovery is not constant: it is highest in the first days of the period and the last week before it, lowest around ovulation. A woman who rests on day 27 is not lazy. She is wise. The culture around us rewards pushing through, and many women have learned to ignore signals until the body shouts. As a partner you can be the one who makes pausing legitimate, by taking the pause together with her.',
+        '"It cannot be that bad." "My sister never has any trouble." "Have you tried taking a paracetamol?" "You felt bad last month too." The sentences are often kindly meant, but they all do the same thing: they question whether the pain is real, or whether she is handling it properly. Pain cannot be seen from the outside, and women\'s pain is on average taken less seriously, including by healthcare. What she needs from you is the opposite: to be believed without proof. "That sounds really bad, what can I do?" is enough. Comparisons with others, suggestions she has heard a thousand times, and reminders that it keeps coming back never help, even when they are true.',
       action:
-        'Sit down with her tonight, no screens and no agenda, for 20 minutes. Call it recovery, and mean it.',
+        'Pick one sentence from the list you have used, and tell her you have stopped using it. Ask whether there are others she wishes you would drop.',
       phaseTags: [],
-      sources: [NHS_SLEEP],
     },
     {
       id: dailyId(M, 30),
@@ -401,9 +392,9 @@ export const month08: MonthContent = {
       day: 30,
       title: 'Month 8: what you have learned',
       insight:
-        'You now know that the period costs iron, and that vitamin C and the timing of coffee make that iron usable. That heat works on cramps, cold on headaches, and gentle movement on both. That calcium and omega-3 have the best evidence, magnesium the weakest, and that cycle syncing is sensible principles wrapped in marketing. That blood sugar swings more in the luteal phase, and that regular meals with protein and fibre are the best PMS defence there is. That hard sessions belong in the first half, recovery in the second. And most importantly: your role is the fridge, the kitchen and the evening, not her plate. Comments about food and body never help; easy choices do.',
+        'You now know that prostaglandins explain cramps, loose stools, nausea and "period flu" all at once, and that ibuprofen taken early hits all of them. You know that menstrual migraine is triggered by the estrogen drop in a precise window, that tension headaches and migraines are two different things, and when a headache needs a doctor. You know that fatigue can be iron, sleep debt or progesterone, and that the log shows which. Most importantly: you know how to read the calendar as a line, find the cycle day of a symptom, and act the day before. And you know that pain that knocks her out is never "just a period". Next month builds on this with food, exercise and recovery in each phase.',
       action:
-        "Tell her the three things from this month you are going to keep doing. Then take the month's quiz.",
+        "Tell her the two patterns you have found in her log this month, and what you plan to do about them. Then take the month's quiz.",
       phaseTags: [],
     },
   ],
@@ -412,167 +403,169 @@ export const month08: MonthContent = {
       id: weeklyId(M, 1),
       month: M,
       week: 1,
-      title: 'Food and the cycle: what the evidence actually supports',
+      title: 'Menstrual migraine: the estrogen drop, the timing and what helps',
       body: [
-        'There are thousands of pieces of advice about what women should eat in each phase of the cycle, and most of it is guesswork wrapped in pretty colours. This article separates what holds up from what does not, so you can spend your energy on what actually moves something.',
-        'The best documented thing is iron. Every period costs iron, and iron deficiency is the most common nutritional deficiency among women of childbearing age. The symptoms are tiredness that sleep does not fix, breathlessness, headaches, poor concentration and a short fuse, and they often get blamed on everything else. Iron from meat, fish and offal is absorbed easily. Iron from lentils, beans, tofu, oats and leafy greens is absorbed less well, but vitamin C in the same meal makes a big difference: peppers, citrus, broccoli, kiwi. Coffee and tea with the meal reduce absorption, so move them an hour or so away. Iron supplements should only follow a blood test, because too much iron is harmful. If she has been tired for weeks, that is a doctor, not a theory.',
-        'The second best documented thing is blood sugar. After ovulation, progesterone makes the body slightly less sensitive to insulin, and metabolism rises by roughly 100-300 calories a day. The result is that fast carbohydrates give higher spikes and deeper dips, and the dip is felt as sudden hunger, shakiness, irritability and cravings for more. The countermeasure is not a diet, it is regularity: meals every three to four hours, protein and fibre in each, and snacks that are easy to grab. Hunger amplifies everything in the PMS days, and a late lunch is a well-known recipe for an argument.',
-        'Among supplements, calcium has the most consistent evidence. A larger randomised trial found that 1200 mg daily over three cycles markedly reduced mood symptoms, water retention, pain and cravings. Omega-3 from oily fish appears in several smaller studies to reduce period pain, because it inhibits the prostaglandins that cause cramps. Magnesium and B6 have weak evidence: some studies find an effect on bloating and mood, others find none. What they all have in common is that food is the safest place to start. Dairy, sardines and kale for calcium; salmon, mackerel and herring for omega-3; nuts, seeds, wholegrains and dark chocolate for magnesium. Supplements are a conversation with a pharmacist or doctor, not with an advert.',
-        'Which brings us to "cycle syncing", the idea that you should eat specific foods in each phase to "balance your hormones". The honest status is that there is almost no research behind the detailed schedules. No food balances hormones. What the schedules get right are the simple principles above: iron and vitamin C during the period, stable blood sugar and more fibre in the luteal phase, less caffeine and alcohol in the last week. That is ordinary good nutrition with better timing. Be sceptical of anything that sells a product. Be open to what she notices herself.',
-        'That brings us to the most important thing: your role. You cannot, and should not, control what she eats. Comments about portions, sugar or "is that healthy?" never help, and they turn food into something that has to be defended. Your influence is indirect and large: what gets bought, what gets cooked, what is in the fridge at 3 pm on day 25, and what you eat yourself. Make the good choice the easy choice, and leave the rest to her.',
-        'This week the task is simple: get iron and vitamin C on the table during the period days, and move the coffee. It is a small thing that makes a real difference to a body that bleeds every month.',
+        'Migraine affects around one in seven adults, and women about three times as often as men. The difference appears at puberty and fades again after menopause, and that is no coincidence: hormones are a large part of the explanation. For many women the cycle is the most reliable migraine trigger they have, and at the same time the most overlooked. This article is about how it fits together, and what you can do.',
+        'The mechanism is estrogen withdrawal. In the days before the period, estrogen falls sharply, and in women prone to migraine the brain responds to the fall with an attack. It is not the low level itself but the speed of the drop that triggers it. That is why the attack lands so precisely: from two days before the bleeding to three days into it. If it happens in at least two out of three cycles, doctors call it menstrual migraine. Some only get migraines then; most also get them at other times, but the attacks around the period are typically longer, more severe, more dominated by nausea and harder to treat. Some women also get a smaller attack around ovulation, when estrogen falls after its peak.',
+        'A migraine attack is not just a bad headache. It is typically one-sided and throbbing, worsens with movement, and comes with nausea, sensitivity to light and sensitivity to sound. It lasts from four hours to three days. Some get an aura first: flickering vision, tingling in one hand or trouble speaking for up to an hour. Afterwards there is often a "hangover day" of exhaustion and poor concentration. Menstrual migraine usually comes without aura. But ask her, because if she has migraine with aura, the doctor needs to know before she is given a combined pill with estrogen, since the combination raises the risk of stroke and is advised against.',
+        'What helps? First, timing. All migraine treatment works better the earlier it is taken, and that goes for over-the-counter medicine like ibuprofen as well as prescription triptans. If the window is known from the log, the medicine can be lying out the day before. Second, the old remedies: a dark, quiet, cool room, sleep, fluids, and something light to eat against the nausea. Third, prevention, which is a conversation with the doctor: for menstrual migraine the doctor can offer treatment taken for a few days around the expected period, or hormonal methods that smooth out the estrogen drop. That requires the pattern to be documented, and that is exactly what the calendar can do.',
+        'Triggers that amplify a hormonal attack are the boring ones: too little sleep, skipped meals, dehydration, irregular caffeine, alcohol, stress and screen light. For most people none of them cause a migraine alone, but in the window just before the period the threshold is lower, and then the one extra bad night tips the load. That is why sleep, food and water in the last days of the luteal phase are migraine prevention, not just good care.',
+        'Your role has three parts. Before the attack: read the log, know the window, make sure the medicine is within reach, and protect sleep and meals in the days leading up. During the attack: remove the world from her. Kids, phone, appointments, sound, light, smells and questions. "I have got everything, go and lie down" is the most important sentence. After the attack: expect a day of lower capacity, and write down what helped. And if the attacks are frequent, disrupt work, or are changing, be the one who says it deserves a doctor, and offer to gather the days from the calendar.',
+        'One warning to finish, which you should know by heart: a headache that strikes like a thunderclap and is at its worst within a minute, a headache with fever and stiff neck, after a blow to the head, or together with weakness, trouble speaking, loss of vision or confusion, is not a migraine until proven otherwise. That is an emergency call, right away.',
       ],
       conversationQuestion:
-        'Is there any food you notice helps you on particular days of the cycle, and anything you would like us to have in the house more often?',
-      sources: [NHS_IRON, NHS_PMS, NHS_EATWELL],
+        'If your headaches have a pattern in the cycle, where does it sit, and what would you most like me to do the day before and on the day itself?',
+      sources: [NHS_MIGRAINE],
     },
     {
       id: weeklyId(M, 2),
       month: M,
       week: 2,
-      title: 'Exercise across the cycle: hard when she can, gentle when she needs',
+      title: 'The body on day 1: prostaglandins, gut, back and medicine used right',
       body: [
-        'Exercise is one of the things with the best documented effect on both period pain and PMS. But how and when is not irrelevant. This article is about putting the intensity where the body can use it, and the recovery where the body needs it. And about how you can join in rather than stand on the sidelines.',
-        'Start with what is certain. Regular, moderate exercise noticeably reduces PMS symptoms like irritability, low mood, bloating and fatigue, and it is one of the first recommendations health authorities make. Gentle movement during the period, a walk, easy cycling, yoga, eases cramps for many, because it increases blood flow in the pelvis and releases endorphins. That is not the same as training through the pain. Hard training on day 1 makes it worse for some. Gentle activity, ideally outdoors, is the rule.',
-        'Then timing. In the follicular phase estrogen rises, and with it energy, recovery capacity and pain threshold. Estrogen has a protective effect on muscle, and some smaller studies have found that strength training concentrated in the follicular phase produced slightly more muscle growth than the same training placed in the luteal phase. The evidence is thin, and the differences between women are large, but the principle holds whatever the research ends up saying: put the hard sessions, the intervals, the long runs and the new records where the body has the capacity for them. Around ovulation, energy is at its highest for many. One detail is worth knowing: estrogen affects ligament stiffness, and there are signs of more knee injuries in the days around ovulation. That is not a reason to hold back, but a reason to warm up properly.',
-        'In the luteal phase it shifts. Progesterone raises body temperature, which makes heat and long endurance sessions more demanding, sleep becomes lighter, and recovery takes longer. Progesterone breaks down muscle a little more than estrogen builds it. The last week before the period is not the time to chase records or push through when the body says no. But it is not the time to stop either, because movement is among the things that help most with PMS. The key is lower intensity, not less movement: walks, light strength work, swimming, yoga, easy cycling. Consistency counts more than hardness.',
-        'Recovery is the part that most often gets skipped, and it is not the same all month. The need is highest in the first days of the period and the last week before it, lowest around ovulation. Recovery is sleep, enough food, protein to rebuild after training, and breaks. A woman who rests on day 27 is not lazy. She is listening to something many have learned to ignore. The culture rewards pushing through, and that goes not least for women, who have often been told that a period must never be an excuse for anything. It can perfectly well be a reason to turn it down.',
-        'What can you do? Train together when energy is high: it is more fun, and it makes the hard sessions something shared. Suggest turning it down yourself in the last week, so it becomes your suggestion and not her defeat. Walk with her in the period days, and take a no without persuading. Make sure there is protein after training and enough food in general. And take the pause together with her when it is time to pause. Exercise is not something you need to motivate her into. It is something you can do together at the pace the cycle allows.',
-        'Finally, a boundary. Training that cannot be cancelled regardless of pain, fever or exhaustion, and a cycle that becomes irregular or disappears while the training load rises, is not discipline. It can be a sign that the body is getting too little energy, and that deserves a doctor. You are not to diagnose. You may say that you are worried.',
+        'Month 3 covered the period as a whole. This article goes one layer deeper into the physical side: why so many different symptoms hit at once, why they are connected, and how painkillers are used so they actually work.',
+        'It starts with prostaglandins. When the uterine lining is shed, it releases large amounts of these signalling substances, which make the muscle of the uterus contract to push the lining out. Women with severe period pain have measurably higher levels than women with mild pain. But prostaglandins do not stay where they are made. They hit the bowel, which sits right next door, and make it contract: loose stools, wind, and for some nausea and vomiting when the cramps are at their worst. They enter the bloodstream and cause aching muscles, chills, headache and the slightly feverish feeling many call period flu. And they send the pain out into the lower back and thighs, because the uterus shares nerve supply with the back. One mechanism, many symptoms.',
+        'That is good news, because it means one treatment reaches widely. Ibuprofen and similar drugs block the enzyme that produces prostaglandin. That is why they work better for period pain than paracetamol, and why they also help the gut and the aching. But they cannot remove the prostaglandin that is already made. Taken at the first sign, the dull ache, the pull in the lower back, the familiar heaviness, the tablet gets ahead of it. Taken at the peak, it fights uphill. Many put it off because they do not want to take medicine unnecessarily. With period pain it is the other way round: early medicine is often less medicine in total. Ibuprofen should be taken with food, and it is not for everyone: with stomach ulcers, certain heart and kidney conditions, asthma that reacts to it, and in pregnancy it is a conversation with the doctor or pharmacist. Paracetamol is gentle on the stomach, does less for cramps, but can be combined with ibuprofen. Follow the pack, keep the gap between doses, and never mix two products with the same ingredient.',
+        "Heat is the second leg. A heating pad or hot water bottle on the belly or lower back relaxes the muscle and restores the blood flow the contractions have squeezed off. Studies show an effect on a par with over-the-counter painkillers, and the two can be used together. A warm bath works the same way. Gentle movement, a walk, helps more people than you would think, because it also increases blood flow and releases the body's own pain relievers. And in the slightly longer run, regular exercise in the weeks before is one of the best documented ways to get milder cramps.",
+        'The gut deserves its own paragraph, because nobody talks about it. Diarrhoea on day 1 and 2 is very common, follows the pain, and is eased by the same thing: ibuprofen early. Beyond that, mild, easy food helps, not too fatty, not too much coffee, which gets the bowel going on its own, and easy access to the bathroom. Nausea is eased by small portions, and ginger helps some. The week before, in the luteal phase, the problem is often the opposite: progesterone slows the gut, and constipation and bloating are normal. Fibre, water and movement help there. That the belly is so different from week to week is not strange; it is two different hormones taking turns in charge.',
+        'The practical part for you: have both kinds of painkiller in the house and know the difference, so you can fetch the right one. Put them somewhere visible when the log says the period is close. Have the heat ready, not in the cupboard but at her place. Make mild food without asking whether she wants it, and let her skip it. Take the chores on day 1 and 2 as a matter of course. And treat "I feel rough" as a sick day, not as something that needs arguing for.',
+        'Finally, the line. Ordinary period pain responds to heat and ibuprofen, stays within the first days, and does not stop everyday life. Pain that medicine does not shift, that costs sick days or causes vomiting, that comes outside the bleeding or during sex, is not ordinary. It can be caused by endometriosis, adenomyosis or fibroids, all of which can be treated. You do not have to guess which. You have to say it deserves a doctor.',
       ],
       conversationQuestion:
-        'When in your cycle do you most feel like training hard, and when would you wish someone said "let\'s just go for a walk instead"?',
-      sources: [NHS_PMS, NHS_PAIN, NHS_EXERCISE],
+        'What hits you hardest on day 1, the belly, the back, the head or the tiredness, and what do you want me to have ready the evening before?',
+      sources: [NHS_PAIN, ACOG_DYSMENORRHEA, NHS_IBUPROFEN, NHS_PARACETAMOL],
     },
     {
       id: weeklyId(M, 3),
       month: M,
       week: 3,
-      title: 'Sleep, caffeine, alcohol and heat: recovery in practice',
+      title: 'Fatigue across the cycle: iron, sleep and progesterone',
       body: [
-        'If there is one thing that worsens PMS more than anything else, it is poor sleep. And the luteal phase makes sleep worse by itself. This article is about what disrupts recovery in the last week, what helps, and where you can concretely make a difference without saying a word about it.',
-        'Start with why sleep gets harder. Progesterone raises body temperature by 0.3-0.5 degrees throughout the luteal phase, and a warm body falls asleep less easily and wakes more often. In the last week both progesterone and estrogen fall, and with them serotonin, which is also the building block for melatonin, the sleep hormone. The result is lighter sleep, more waking and more restlessness. It is not imagination, and it is not something she can decide her way out of. It is physiology with a calendar.',
-        "Caffeine fits badly into that picture. The half-life is around five hours, so a cup at 3 pm is still half active at bedtime. Caffeine also amplifies restlessness, palpitations and breast tenderness in the PMS days, and it is one of the few dietary changes health authorities directly recommend for PMS. That does not mean no coffee. It means coffee early and fewer cups in the last week, and it is far easier if you both do it. Remember too that coffee and tea with a meal reduce iron absorption; an hour's gap is enough.",
-        'Alcohol is the other big sleep disruptor. A glass makes it easier to fall asleep, but the sleep becomes shallow, and you wake earlier. In the luteal phase, when sleep is already fragile, it costs more than the rest of the month. Alcohol also drains the body of fluid and lowers blood sugar later in the night, which amplifies restlessness and hunger, and studies have found a link between alcohol and both the frequency and severity of PMS. No bans. Just timing: the glass that is a joy around ovulation is often a bad deal on day 26.',
-        'Now to what helps. Sleep hygiene sounds like a luxury concept, but in the luteal phase it is first aid: the same bedtime every day, a cool and dark bedroom, a lighter duvet, no screens for the last half hour, and calm in the evening. Heat has its own place: a heating pad on the lower belly eases cramps as well as over-the-counter painkillers in studies, and a warm bath in the evening helps both pain and falling asleep, because the body cools down afterwards. Cold is good for other things: a cold cloth on the neck for period headaches, a cool pack on tender breasts. Enough fluid through the day prevents headaches and worsened cramps.',
-        'Here is your role. You cannot sleep for her, but you can clear the evening. Calm in the evening does not come by itself if there are still dishes, messages, children and plans at 10 pm. Take the evening routine in the last week: dishes, locks, lights, the practical things. Make the bedroom cool. Make the coffee early, and suggest something without caffeine and without alcohol yourself, so she does not have to be the one who says no. Fill the hot water bottle before she asks. It is invisible work, and it is some of the most concrete you can do to make the PMS days easier.',
-        'One last thing: if the sleep problems are there all month, or if the tiredness is so heavy that it affects daily life regardless of sleep, it is not the luteal phase. It could be iron deficiency, thyroid, sleep apnoea or something else that can be treated. That deserves a doctor.',
+        'Fatigue is the symptom logged most often and taken seriously least often, because everyone is tired. But cyclical fatigue, the kind that returns on the same days every month, has explanations that can be told apart. And the three most important ones each call for a different response from you.',
+        'The first is iron. Every period costs blood, and with the blood, iron. With normal bleeding the diet replaces the loss. With heavy bleeding, a pad or tampon changed every hour, bleeding for more than seven days, large clots, the loss can be more than the diet covers, and the iron stores empty slowly over months. Iron deficiency shows as persistent tiredness, breathlessness on stairs, paleness, headaches, poor concentration, brittle nails and, for some, restless legs at night. It usually gets written off as a busy life. The tell-tale sign is that the fatigue does not lift in the follicular phase, when energy would normally return. A blood test at the doctor measures haemoglobin and iron stores, and treatment is simple. Supplements should not be taken blind, though, because too much iron is not good either. Diet helps: meat, fish and eggs, or lentils, beans and leafy greens together with vitamin C, and coffee and tea away from the meal.',
+        'The second is sleep debt. In the luteal phase progesterone keeps body temperature 0.3-0.5 degrees higher, and many sleep more lightly and wake more often. In the PMS days restlessness and the hormone drop interfere. On the first nights of the period, pain and leaks wake her. Each night may only be slightly worse, but over ten to twelve days it becomes a debt. Lack of sleep lowers the pain threshold, increases irritability and triggers headaches, so what feels like "bad PMS" or "a bad period" is often PMS or a period plus a week of poor sleep. The follicular phase is where the debt can be repaid. Early nights on day 3-8 are repair, not laziness.',
+        'The third is progesterone itself. In the last week before the period it has a sedating effect on the brain, almost like a mild tranquilliser, while serotonin falls along with estrogen, and the body burns a little more and asks for more food. Added up, it gives a heaviness where everything takes more. It is not a lack of willpower, and it does not improve under pressure. It improves with sleep, meals on time, lower demands and someone taking the practical things. And it is entirely predictable: if the fatigue sits on the same cycle days in the log every month, you know when to slow the pace.',
+        'Here is how to tell them apart with the calendar. Fatigue that sits only in the luteal phase and the first days of the period, and lifts clearly in the follicular phase, is hormonal and sleep-related; the answer is protected sleep and lower demands on those days. Fatigue that runs across the whole cycle, including the weeks when energy should be back, and comes with heavy bleeding, points to iron or something else; the answer is a blood test. That is not a diagnosis, it is a sorting, and it makes the conversation with the doctor better.',
+        'The practical part for you: protect sleep in the follicular phase by taking the evening chores and suggesting an early night without making it a project. Make sure there is food with iron in it during and after the period. Keep caffeine steady and away from the late afternoon. Slow the pace in the last luteal week, without her having to ask, and without saying "it is probably because your period is coming". And if the fatigue never lifts, say it deserves a blood test, and offer to come along.',
+        'What you should not do is suggest she just pull herself together, go to bed earlier "like you do", or exercise more when she is at her most tired. All three sound like help and land as criticism. Being believed is the first help; the rest comes after.',
       ],
       conversationQuestion:
-        'What disturbs your sleep most in the week before your period, and what could I take over in the evening so you could go to bed when you are tired?',
-      sources: [NHS_SLEEP, NHS_PMS, NHS_PAIN],
+        'When in your cycle is the tiredness worst, and does it lift completely when the energy comes back, or does it hang around all month?',
+      sources: [NHS_IRON, NHS_HEAVY],
     },
     {
       id: weeklyId(M, 4),
       month: M,
       week: 4,
-      title: 'Sharing the food without becoming the food police',
+      title: 'Read the log, act the day before, and know when enough is enough',
       body: [
-        'Everything this month has been about, iron, blood sugar, fibre, calcium, sleep, only works if it gets done. And it does not get done because one person tells the other what she should eat. It gets done because it is easy, because it is shared, and because nobody has to defend themselves. This article is about how you become part of the food without becoming its police.',
-        'Start with the practical. Whoever does the shopping decides a large part of what is possible to eat. It is a quiet power, and it can be used well. In the first half of the cycle: iron-rich foods, vitamin C alongside, protein for recovery, oily fish. In the second half: wholegrains and fibre, protein at every meal, calcium, nuts and seeds, bananas and potatoes against fluid retention, and snacks that are easy to grab: fruit, cottage cheese, wholegrain crackers. Less ready-made food and crisps, because the salt worsens bloating. And always something she actually likes, including the chocolate. A list made only of "healthy" does not get eaten.',
-        'Cooking is the other part. The partner who never cooks ends up commenting on the food. The one who cooks understands why things are the way they are. Cooking together is one of the few household tasks that can be enjoyable rather than a demand: one chops, one stirs, music in the background. It creates conversation without it being "a conversation". And it creates shared ownership. In the luteal phase, when energy is low, you are the one who cooks and has it ready on time, because a late dinner on day 25 is a well-known recipe for an argument.',
-        'Now the line. There is a world of difference between making the good choice easy and keeping watch. "Do you really need more?", "haven\'t you had enough sugar today?", "is that healthy?" never help, however lovingly they are meant. They turn food into something that has to be defended, and that is the opposite of what the body needs, especially in the luteal phase, when appetite rises for purely biological reasons. Your influence is what is in the fridge, what you cook, and what you eat yourself. Not what she puts in her mouth. She is an adult, and her body is hers.',
-        'The same goes for the body. Weight swings a couple of kilos across the cycle from fluid alone, the belly is bloated in the luteal phase, and clothes fit differently. Many women know that perfectly well and still find it hard not to measure themselves by it, because the body has been commented on their whole life. Even "you look healthy" and "have you lost weight?" say that the body is being assessed. The most helpful thing is to make the body a non-topic and talk about what she did, what she could do, how the day was. And never comment on belly, weight or portions.',
-        'Then something important to know. Eating disorders are common, often hidden, and they do not only affect teenagers. Signs worth taking seriously: meals skipped or eaten in secret, rules that keep tightening, training that cannot be cancelled no matter what, strong distress around food she has not controlled herself, and a cycle that becomes irregular or disappears because the body lacks energy. You are not to diagnose, and you are not to monitor. But you may say, calmly and without mentioning weight: "I\'m worried about you, and I want to help." And that it deserves a doctor.',
-        "This week's task is the simplest of the month: shop for the phase, cook the food, and say nothing about what she eats. That is not passive. It is taking responsibility for what you actually influence, and leaving the rest to her.",
+        "The first three articles were about mechanisms. This one is about the method: how you turn the log into action, and when the action should be a doctor's appointment.",
+        'First, the reading. Most people read the calendar one day at a time, and then they see nothing. Read it as a line instead. Find the last two or three period starts. Count backwards and forwards from each: which cycle day did the headache come? How many days before the bleeding did the fatigue start? How many days did the pain last? Put the numbers side by side. If a symptom hits the same cycle day, give or take one, in two or three cycles, that is a pattern. If it lands at random, it is something else, and that is worth knowing too. After three or four cycles most patterns are clear, and they are often more precise than she herself thinks, because memory of bad days is poor.',
+        'Then the projection. The app gives an expected date for the next period. It is an estimate, not a measurement, so allow two days of uncertainty. If the headache has a pattern of "two days before bleeding", and bleeding is expected on Friday, Wednesday is the day to be ready, and Tuesday is not too early. If the fatigue has a pattern on day 25-27, those are the days the calendar needs clearing. If the back has a pattern on day 1, the hot water bottle is filled on Thursday evening. It is not hard. It is just something nobody has done before.',
+        'Then the action. The point of acting the day before is not efficiency. It is that it removes the need to ask. Asking for help costs energy, and the days when she most needs help are the days when she has the least energy to ask with. Many women grit their teeth instead. When the heat, the quiet, the medicine, the food and the cleared calendar are simply there, without explanation, it is proof that someone has noticed her. That is the kind of care that gets remembered. The preparation should be concrete and small: three things, not ten. And it should fit her log, not a generic list. If day 1 is a migraine day, blackout curtains matter more than soup.',
+        'Then the documentation. The same log is the best preparation for a doctor\'s appointment there is. The doctor needs to know which days, how bad on a scale of 1 to 10, how long, what she took, whether it worked, and whether she had to cancel anything. That last one, loss of function, is what moves a consultation from "that is probably normal" to "we should look into this". Many live with pain for years because in the doctor\'s office they cannot remember how bad it really was. Offer to gather the pain days from the last three cycles onto one sheet of paper. It takes ten minutes, and it can save years.',
+        'And finally the line, which is the whole reason the log matters. Ordinary period pain and ordinary headaches respond to heat, rest and over-the-counter medicine, stay within a few days, and do not stop everyday life. The signs that something else is going on are: pain outside the period, pain during sex, pain when passing stools or urine around the bleeding, heavy bleeding with clots, pain that medicine does not shift, periods that cost sick days, migraines several days a month, or painkillers on ten or more days a month. Behind it can be endometriosis, adenomyosis, fibroids or a headache disorder that needs prevention. All can be treated. None of them improve by waiting. You do not have to guess which. You have to be the one who says "this deserves a doctor", offer to book the appointment, come along, and bring the sheet of paper.',
+        "That is the month's whole message in one sentence: read the log as a line, act the day before, and never normalise pain that knocks her out.",
       ],
       conversationQuestion:
-        'Have I ever said something about your food or your body that stuck with you? And what would you have wanted me to do instead?',
-      sources: [NHS_EATWELL, NHS_EATING, NHS_PMS],
+        'Is there anything in your cycle you have got used to putting up with that we should take to the doctor, and what would make booking the appointment easier?',
+      sources: [NHS_ENDO, NHS_FIBROIDS, NHS_MIGRAINE],
     },
   ],
   wrap: {
     id: wrapId(M),
     month: M,
-    title: 'Month 8: Food, exercise and recovery',
+    title: 'Month 8: Pain, fatigue and headaches',
     summary: [
-      'This month was about the three levers that are easiest to pull in everyday life: food, movement and sleep. You have learned that the period costs iron, that vitamin C makes plant iron usable, and that coffee and tea with the meal reduce absorption. That blood sugar swings more in the luteal phase, and that regular meals with protein and fibre are the best defence against the instability of the PMS days. That calcium and omega-3 have the best evidence among supplements, magnesium the weakest, and that cycle syncing is sensible principles wrapped in marketing.',
-      'You have also learned that hard training sessions belong in the follicular phase and around ovulation, that the last week calls for lower intensity and more recovery, and that gentle movement and heat are among the best documented remedies for cramps. That caffeine and alcohol cost most in the luteal phase, and that sleep hygiene that week is first aid, not luxury. And that your role is the fridge, the kitchen and the evening, never her plate or her body.',
-      'Next month is about communication and support: language, timing, asking instead of guessing, and the conflict patterns that repeat phase by phase.',
+      'This month went deep into the three symptoms most people log. Prostaglandins explain cramps, loose stools, nausea, back pain and "period flu" all at once, and ibuprofen taken early hits all of them. Menstrual migraine is triggered by the estrogen drop in a window from two days before to three days into the bleeding, it is different from a tension headache, and it can be predicted and prepared for. Fatigue can be iron, sleep debt or progesterone, and the log shows which.',
+      'You have learned to read the calendar as a line, find the cycle day of a symptom, and act the day before, so she does not have to ask. You have learned the ground rules for paracetamol and ibuprofen, when many tablets are a signal, when a headache is an emergency, and that pain that knocks her out, heavy bleeding, pain outside the period or during sex is never "just a period" but deserves a doctor with the log in hand.',
+      'Next month is about food, exercise and recovery: what you can do and eat in each phase, so the good days become more and the hard ones become easier.',
     ],
     keepDoing: [
-      'Put iron and vitamin C on the table during the period days, and move the coffee an hour away from the meal.',
-      'Keep protein and fibre snacks visibly out in the luteal phase, and say nothing when they get eaten.',
-      'Train hard together in the first half, and suggest turning it down yourself in the last week.',
-      'Take the evening routine in the week before the period, so she can go to bed when she is tired.',
-      'Never comment on her food, portions or body. Comment on what she does and can do.',
+      'Read the log as a line after every period, and write down which cycle day the symptoms hit.',
+      'Act the day before: heat, medicine, darkness, mild food or a cleared calendar, depending on what her log says.',
+      'Keep both ibuprofen and paracetamol in the house, visible when the period is close.',
+      'Protect sleep in the follicular phase, and slow the pace in the last luteal week without asking first.',
+      'Say "this deserves a doctor" out loud when the signs are there, and offer to gather the pain days on paper.',
     ],
     quiz: [
       {
         question:
-          'She is on day 2 and has been unusually tired for several weeks, even after good nights. What helps most?',
+          'She feels the first pull in her lower back and says "I think it is coming tomorrow". What helps most right now?',
         options: [
-          'Buy iron supplements and ask her to take them every day',
-          'Cook iron-rich food with vitamin C alongside, and suggest a blood test at the doctor if the tiredness continues',
-          'Say it is normal to be tired during the period',
-          'Suggest an extra cup of coffee with the meal',
+          'Wait and see whether it turns into anything before she takes medicine',
+          'Suggest she takes ibuprofen with food now, and fill the hot water bottle',
+          'Say that she managed fine last month',
+          "Book a doctor's appointment straight away",
         ],
         correctIndex: 1,
         explanation:
-          'Weeks of tiredness can be iron deficiency, but supplements should only follow a blood test, because too much iron is harmful. Food first, doctor when in doubt.',
+          'Ibuprofen blocks the production of prostaglandin but does not remove what is already made. Taken early it gets ahead; taken at the peak it lags behind. Heat adds to the effect.',
       },
       {
         question:
-          'It is day 26, 3 pm, and she snaps at you. She has not eaten since 11. What works best?',
+          'The log shows a headache on day 27 in three cycles in a row. The app expects the period on Friday. What do you do?',
         options: [
-          'Ask whether she is premenstrual',
-          'Ask whether she should not eat something healthy',
-          'Put something with protein and fibre out without commenting on it',
-          'Withdraw and leave her alone',
+          'Wait until Friday and see whether she gets a headache',
+          'Tell her she is going to get a headache on Wednesday',
+          'Make sure on Tuesday and Wednesday that her medicine is out, the evenings are quiet, and she sleeps',
+          'Suggest she cuts out coffee completely this week',
         ],
         correctIndex: 2,
         explanation:
-          'Blood sugar swings more in the luteal phase, and hunger amplifies irritability. Food without comment often solves the problem; a comment makes it bigger.',
+          'Read the log as a line, project the pattern forward, and act the day before with a two-day margin. Cutting caffeine abruptly causes headaches on its own; keep it steady.',
       },
       {
         question:
-          'She asks whether magnesium works for PMS. What is the most honest and helpful answer?',
+          'She is lying down with a throbbing headache on one side, feels sick and cannot bear light. What is the best help?',
         options: [
-          'Say it definitely works, and buy it for her',
-          'Say the evidence is limited but the risk is low, suggest nuts, seeds and wholegrains first, and supplements after a chat with the pharmacist',
-          'Say it is a waste of money and she should drop the idea',
+          'Open the window and suggest a walk in the fresh air',
+          'Make the bedroom dark and quiet, take the kids and the phone, and let her sleep',
+          'Sit with her and ask what triggered it',
+          'Say that paracetamol is probably better than ibuprofen for migraine',
         ],
         correctIndex: 1,
         explanation:
-          'Magnesium has weak evidence and low risk. Honesty about the evidence, food first and a professional for supplements is the stance that holds for every supplement.',
+          'That sounds like a migraine, and migraines get worse with light, sound, movement and questions. Remove the world from her for a few hours. The treatment should ideally have gone in earlier; next time the log can help with that.',
       },
       {
         question:
-          'You have planned a hard training session together on day 27, and she is clearly worn out. What is most helpful?',
+          'She is tired all month, including the week after her period, and bleeds heavily with clots. What is most helpful?',
         options: [
-          'Push on, because exercise helps with PMS',
-          'Suggest a walk or a light session instead, yourself',
-          'Cancel everything and tell her to rest',
-          'Train alone without saying anything',
-        ],
-        correctIndex: 1,
-        explanation:
-          'In the late luteal phase the key is lower intensity, not less movement. Making it your suggestion turns it into a shared choice rather than her defeat.',
-      },
-      {
-        question: 'On day 24 she says: "I feel so fat today." What helps most?',
-        options: [
-          '"You look fine."',
-          '"It\'s probably just water, it will pass."',
-          'Acknowledge that it is a hard day, do not comment on the body, and offer something concrete like a warm bath or a walk',
-          'Suggest you have salad tonight',
+          'Suggest she goes to bed earlier and exercises more',
+          'Say that everyone is tired and it is probably work',
+          'Suggest a blood test for iron at the doctor and offer to come along',
+          'Buy iron supplements and put them out at breakfast',
         ],
         correctIndex: 2,
         explanation:
-          'Any comment about the body, even a positive one, confirms that it is being assessed. Acknowledgement and something concrete help; explanations and food suggestions make it worse.',
+          'Fatigue that does not lift in the follicular phase, together with heavy bleeding, points to iron deficiency. It is measured with a simple blood test, and supplements should not be taken blind.',
       },
       {
         question:
-          'You have noticed she skips meals, trains no matter what, and her period has not come for several months. What is the right response?',
+          'You count in the calendar that she took painkillers on 12 days last cycle. What is the right response?',
         options: [
-          'Keep an eye on what she eats and point it out',
-          'Say calmly that you are worried about her, that it deserves a doctor, and that you want to help, without mentioning weight or food',
-          'Wait and see whether it passes by itself',
-          'Cook more food and insist she finishes her plate',
+          'Hide the tablets so she takes fewer',
+          'Say that is far too many and she needs to cut back',
+          'Mention the number calmly, and suggest she takes the log to the doctor, because the underlying problem needs better treatment',
+          'Say nothing, it is her body',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Painkillers on many days a month can cause headaches themselves and are a sign the underlying problem is not treated well enough. It is a conversation with the doctor, not a telling-off.',
+      },
+      {
+        question:
+          'She has pain during sex, pain when passing stools during her period, and the medicine does not really help. She says it is probably normal. What do you do?',
+        options: [
+          'Take her word for it, she knows her body best',
+          'Say "this deserves a doctor", offer to book the appointment, come along, and gather the pain days from the calendar',
+          'Suggest a stronger over-the-counter painkiller from the pharmacy',
+          'Google the symptoms and tell her what it is',
         ],
         correctIndex: 1,
         explanation:
-          'The signs can point to an eating disorder or too little energy for the body. You are not to monitor or diagnose, but to voice your worry and point to the doctor.',
+          'Pain outside the bleeding, during sex or when passing stools, and pain that medicine does not shift, are signs that deserve investigation. You do not make the diagnosis; you are the one who does not normalise it, and who makes the appointment easy.',
       },
     ],
   },

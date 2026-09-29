@@ -311,7 +311,7 @@ export const month11: MonthContent = {
       day: 21,
       title: 'PMDD: when PMS is not PMS',
       insight:
-        'Month 6 was about PMS and PMDD. Here is the short refresher, because it belongs in this month’s theme. PMDD, premenstrual dysphoric disorder, affects 3-8 percent and is not severe PMS but a heightened sensitivity in the brain to normal hormone swings. The symptoms are serious: deep low mood, anxiety, rage, hopelessness and for some suicidal thoughts in the days before the period, lifting when the bleeding comes. The diagnosis is made by logging symptoms for at least two cycles, and that is exactly what the app can help with. Treatment exists: antidepressants, which work quickly in this context, hormonal treatment and therapy. Nobody should have to live dreading half of every month.',
+        'Month 7 was about PMS and PMDD. Here is the short refresher, because it belongs in this month’s theme. PMDD, premenstrual dysphoric disorder, affects 3-8 percent and is not severe PMS but a heightened sensitivity in the brain to normal hormone swings. The symptoms are serious: deep low mood, anxiety, rage, hopelessness and for some suicidal thoughts in the days before the period, lifting when the bleeding comes. The diagnosis is made by logging symptoms for at least two cycles, and that is exactly what the app can help with. Treatment exists: antidepressants, which work quickly in this context, hormonal treatment and therapy. Nobody should have to live dreading half of every month.',
       action:
         'Look in the calendar: are there two or more cycles where the last days before the period are logged as very heavy? Then show her the pattern and suggest she brings it to the doctor.',
       phaseTags: ['luteal'],

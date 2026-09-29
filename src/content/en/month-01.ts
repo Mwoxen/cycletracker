@@ -463,7 +463,7 @@ export const month01: MonthContent = {
     summary: [
       'The first month was about getting the model in place. The cycle is counted from the first day of bleeding, typically lasts 21-35 days and has four phases: menstruation, follicular phase, ovulation and luteal phase. Estrogen builds up and brings energy in the first half; progesterone brings calm in the second half, and the drop in both hormones during the last week is what is felt as PMS.',
       'You have learned that heat works on cramps, that iron and sleep matter, that ovulation is one day and the fertile window six, that contraception is a shared responsibility, that PMS amplifies rather than invents feelings, and that timing conversations is free help. And you have learned that your most important role is not to fix, but to notice, ask and take care of the practical.',
-      'Next month we go deeper into the period itself: pain, bleeding, energy, and what you can concretely do on the days when it is hardest.',
+      'Next month is about communication and support: language, timing, asking instead of guessing, and the conflict patterns that repeat phase by phase.',
     ],
     keepDoing: [
       'Keep the calendar updated together so the predictions improve.',

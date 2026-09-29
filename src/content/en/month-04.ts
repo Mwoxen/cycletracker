@@ -9,388 +9,354 @@ const ACOG_CYCLE: Source = {
   label: 'ACOG: The Menstrual Cycle',
   url: 'https://www.acog.org/womens-health/faqs/your-first-period',
 };
-const NHS_OVULATION_PAIN: Source = {
-  label: 'NHS: Ovulation pain',
-  url: 'https://www.nhs.uk/conditions/ovulation-pain/',
+const NHS_PMS: Source = {
+  label: 'NHS: PMS',
+  url: 'https://www.nhs.uk/conditions/pre-menstrual-syndrome/',
 };
-const NHS_DISCHARGE: Source = {
-  label: 'NHS: Vaginal discharge',
-  url: 'https://www.nhs.uk/conditions/vaginal-discharge/',
-};
-const NHS_IRREGULAR: Source = {
-  label: 'NHS: Irregular periods',
-  url: 'https://www.nhs.uk/conditions/irregular-periods/',
-};
-const NHS_MISSED: Source = {
-  label: 'NHS: Stopped or missed periods',
-  url: 'https://www.nhs.uk/conditions/stopped-or-missed-periods/',
-};
-const NHS_PCOS: Source = {
-  label: 'NHS: Polycystic ovary syndrome',
-  url: 'https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/',
+const NHS_HEAVY: Source = {
+  label: 'NHS: Heavy periods',
+  url: 'https://www.nhs.uk/conditions/heavy-periods/',
 };
 const NHS_CONTRACEPTION: Source = {
   label: 'NHS: Contraception',
-  url: 'https://www.nhs.uk/contraception/',
-};
-const ACOG_FAB: Source = {
-  label: 'ACOG: Fertility awareness-based methods',
-  url: 'https://www.acog.org/womens-health/faqs/fertility-awareness-based-methods-of-family-planning',
-};
-const ACOG_INFERTILITY: Source = {
-  label: 'ACOG: Evaluating infertility',
-  url: 'https://www.acog.org/womens-health/faqs/evaluating-infertility',
+  url: 'https://www.nhs.uk/conditions/contraception/',
 };
 
 const M = 4;
 
 export const month04: MonthContent = {
   month: M,
-  theme: 'Ovulation',
-  focus:
-    'Know the signs and the fertile window, and use that knowledge for closeness without pressure.',
+  theme: 'The follicular phase',
+  focus: 'Energy and capacity rise: plan the big things together, and use the surplus wisely.',
   daily: [
     {
       id: dailyId(M, 1),
       month: M,
       day: 1,
-      title: 'The invisible midpoint of the cycle',
+      title: 'The follicular phase already starts on day 1',
       insight:
-        'This month is about the one day the rest of the cycle builds towards: ovulation. A mature egg leaves the ovary, lives for up to a day, and is either fertilised or dissolves. Everything before is preparation, everything after is the aftermath. It sounds simple, but ovulation is the most overlooked part of the cycle because it is invisible: no bleeding, no cramps, only small signs you have to know about to notice. Many feel more energy, more desire and more capacity in the days around it. The goal this month is knowledge without pressure: you know the signs and the window, and neither of you has to perform on particular dates. The date in the app is an estimate, not a measurement. We will come back to that.',
+        'Technically, the follicular phase begins on the same day as the period. It runs from day 1 to ovulation, so it overlaps the bleeding. What most people experience as "the follicular phase" is the last part: the days after the bleeding, when estrogen is really on its way up. So this month is mostly about the time from the end of the period to ovulation, roughly day 6 to 13 in a 28-day cycle. But it is worth knowing that the ovaries are already at work while she is bleeding. The body prepares the next round before the previous one is finished. This month is about that preparation, what it does to energy, mood and brain, and how the two of you use the best week wisely.',
       action:
-        'Look at the estimated ovulation date in the app for this cycle, and ask her whether it usually matches what she notices herself.',
-      phaseTags: [],
-      sources: [ACOG_CYCLE],
+        'Look at the Home screen to see which cycle day she is on today, and work out roughly how many days there are until ovulation.',
+      phaseTags: ['menstrual', 'follicular'],
+      sources: [ACOG_CYCLE, NHS_PERIODS],
     },
     {
       id: dailyId(M, 2),
       month: M,
       day: 2,
-      title: 'The LH surge: the starting gun',
+      title: 'FSH: the starting signal comes from the brain',
       insight:
-        'During the follicular phase a group of follicles matures in the ovary, and one becomes dominant. It produces rising amounts of estrogen, and once estrogen has stayed high for about two days the brain changes strategy: the pituitary sends a sharp wave of luteinising hormone, LH. That is the LH surge, the starting gun itself. 24-36 hours later the follicle ruptures and the egg is released. The surge typically lasts only a day and is what ovulation tests measure in urine. That is also why a test turns positive before ovulation, not on the day. For you it means this: the days she feels her very best are often the days leading up to ovulation, when estrogen peaks, not the day after.',
+        'It all starts in the brain. When the hormones hit bottom during the period, the pituitary picks that up and sends FSH, follicle-stimulating hormone, into the blood. FSH does exactly what the name says: it stimulates a small group of follicles in the ovaries, each with an immature egg inside, to grow. The follicles answer by producing estrogen. As soon as estrogen rises, it signals back to the brain to turn FSH down. It is a loop, not a switch. That also means anything that disturbs the brain, such as stress, lack of sleep and illness, can delay the start without anything being wrong with the ovaries. The follicular phase is the part of the cycle the brain has most influence over.',
       action:
-        'Notice whether she seems sharper and more energetic today than last week, and tell her so without explaining why.',
-      phaseTags: ['follicular', 'ovulation'],
+        'Say the model out loud to yourself: "The brain sends FSH, the follicles answer with estrogen, estrogen brings capacity." That is the whole phase in one line.',
+      phaseTags: [],
       sources: [ACOG_CYCLE],
     },
     {
       id: dailyId(M, 3),
       month: M,
       day: 3,
-      title: 'The egg lives for a day',
+      title: 'The follicles compete, and one wins',
       insight:
-        'When the follicle ruptures, the egg is caught by the funnel of the fallopian tube and starts its journey towards the uterus. It can be fertilised for 12-24 hours. After that it dissolves, and the cycle carries on unchanged towards the next period. That is a very short lifespan, and it is the whole reason timing matters so much for fertility. If two eggs are released it can result in non-identical twins, but that is rare. Ovulation is not usually felt as an event; most signs come before or after. So when the app says "ovulation today", it has often already happened or happens tomorrow. One day, not a week: that is the sentence to remember.',
+        'At the start of the phase, 10-20 follicles grow at the same time. Around day 5-7 a selection happens: the follicle most sensitive to FSH becomes dominant, and the others shrink back. The winner grows to around two centimetres and produces most of the estrogen of the cycle. That is why estrogen rises steeply in the second half of the follicular phase rather than evenly. The egg in the dominant follicle finishes maturing while the follicle prepares to burst at ovulation. It is an impressive process that happens without her feeling it, and that starts over every single cycle. Every month the body picks one egg out of a whole group, entirely on its own.',
       action:
-        'Say the sentence to yourself: "The egg lives a day, sperm live five days." It explains the whole fertile window.',
-      phaseTags: ['ovulation'],
+        "Tell her one thing from today's card that you did not know before. It makes the knowledge shared without lecturing.",
+      phaseTags: [],
       sources: [ACOG_CYCLE],
     },
     {
       id: dailyId(M, 4),
       month: M,
       day: 4,
-      title: 'Sperm are the patient ones',
+      title: 'Estrogen builds up: lining and capacity',
       insight:
-        'Sperm can survive up to five days in the cervix and fallopian tubes if the mucus is the right kind. Around ovulation the mucus in the cervix becomes thin and slippery, and it keeps sperm alive and carries them forward. For the rest of the cycle the mucus is thick and acidic, and sperm die within hours. That is why the fertile window lies before ovulation: the sperm need to be in place and waiting when the egg arrives. Sex the day after ovulation almost never leads to pregnancy, while sex two days before is among the most fertile moments. That holds whatever you two are hoping for. Knowing how long sperm live is as much your responsibility as hers.',
+        'Estrogen from the follicles has two jobs. One is local: it makes the uterine lining grow back after the period, ready for a possible fertilised egg. The other job happens throughout the body. Estrogen affects the brain, skin, muscles, bones, blood vessels and metabolism. There are estrogen-sensitive cells almost everywhere. That is why rising estrogen is not felt only in the pelvis but as a general lift: more energy, better mood, clearer thinking, smoother skin and often better sleep. It is not a mood hormone, it is a building hormone that happens to build capacity too. The rest of the month is about what that lift means in practice, and how the two of you use it.',
       action:
-        'Count five days back from the ovulation date in the app, and notice where the fertile window falls in this cycle.',
-      phaseTags: ['ovulation', 'follicular'],
+        'Notice today whether there is something she does more easily or faster than a week ago, and tell her.',
+      phaseTags: ['follicular'],
       sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 5),
       month: M,
       day: 5,
-      title: 'Six days: the fertile window',
+      title: 'The shift after the period',
       insight:
-        'Add the egg\'s single day to the sperm\'s five, and you get the fertile window: the five days before ovulation and the day itself. The chance of pregnancy is highest in the two or three days just before ovulation and drops sharply the day after. Outside the window pregnancy is very unlikely, but the window moves, because ovulation moves. Stress, illness and travel can delay it by days or weeks, and the window shifts with it. That is why the estimate in the app cannot be used to pick "safe days". It is an average of previous cycles, not a measurement of this one. Use the window to understand her body and your shared responsibility, not to plan contraception.',
+        'The shift from period to follicular phase is often obvious if you look for it. The bleeding tapers off, the cramps let go, and somewhere between day 4 and 7 there is a day when she gets up and simply feels better. Many women describe it as "coming back to themselves". It is one of the most predictable transitions of the cycle, and yet most partners miss it, because we notice more when something gets worse than when it gets better. It is worth training the opposite. Being seen on the good days matters at least as much as being helped on the hard ones.',
       action:
-        'Open the calendar together and find the fertile window in this cycle. Talk about what it means for you right now: hope, caution, or both.',
-      phaseTags: ['ovulation'],
-      sources: [NHS_PERIODS, ACOG_CYCLE],
+        'If the period has just ended or is about to: ask "can you feel the energy coming back?" and listen to the answer.',
+      phaseTags: ['menstrual', 'follicular'],
     },
     {
       id: dailyId(M, 6),
       month: M,
       day: 6,
-      title: 'The discharge tells the story',
+      title: 'Serotonin and dopamine: why the mood rises',
       insight:
-        'The most reliable daily sign that ovulation is approaching is the discharge from the cervix. After the period there is often little or none. As estrogen rises it becomes creamy and whitish, and in the days just before ovulation it turns clear, slippery and stretchy, like raw egg white. That is the body opening the door for sperm. After ovulation, progesterone makes it thick and sticky again within a day or two. Many women know the pattern without ever having put words to it. Discharge that smells strongly, itches or is greenish is something else and deserves a doctor. Normal discharge simply changes in step with the hormones.',
+        'Estrogen affects the two messengers that matter most for mood and motivation. Serotonin keeps mood stable and dampens unease; estrogen increases both its production and the brain\'s sensitivity to it. Dopamine drives motivation, reward and the urge to get started; it rises with estrogen too. The result is a week when things feel possible, when there is appetite for starting projects, and when the irritation threshold is higher. It is not "artificially good mood". It is the brain\'s normal chemistry with a bit of a tailwind. And it is exactly what is missing in the week before the period, when estrogen falls and takes serotonin down with it. It is the same brain, with different conditions.',
       action:
-        'Ask whether she notices her discharge changing across the cycle. Ask out of curiosity, not as a test.',
-      phaseTags: ['follicular', 'ovulation'],
-      sources: [NHS_DISCHARGE],
+        'If there is a project at home you have both been pushing ahead of you, suggest starting on it today or tomorrow.',
+      phaseTags: ['follicular'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 7),
       month: M,
       day: 7,
-      title: 'Temperature confirms it afterwards',
+      title: 'The words come more easily',
       insight:
-        'Progesterone raises body temperature by 0.2-0.5 degrees, and the rise only happens after ovulation. If she takes her temperature every morning before getting up, a shift becomes visible: low in the first half, high in the second. The method is called basal body temperature. It does not tell you that ovulation is coming, but that it has happened. That is useful for learning her pattern and for confirming that a cycle actually had an ovulation. Fever, alcohol, poor sleep and a late night disturb the reading, so a single day says nothing. Whether she wants to measure is her choice; it is a daily effort. Your role is to make it easy, not to keep an eye on the numbers.',
+        'Several studies suggest that verbal ability, the capacity to find words, express yourself and recall words, is slightly better when estrogen is high. The effect is small on average and varies a lot from person to person, so it is not a rule. But many women recognise it: conversations flow more easily mid-cycle, and the words are harder to find in the days before the period. For the two of you that means something quite concrete. The conversations where it matters that she is heard correctly, and where you both need to express yourselves precisely, are best placed here. Not because she is worse at other times, but because the conditions are better.',
       action:
-        'If she takes her temperature: make sure she can do it in peace in the morning, without you starting a conversation or switching on the light.',
-      phaseTags: ['luteal'],
-      sources: [ACOG_FAB],
+        'Have one conversation today that you would normally postpone because it needs you both to express yourselves well. Pick something medium-sized, not the biggest thing.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 8),
       month: M,
       day: 8,
-      title: 'Ovulation pain',
+      title: 'More appetite for the new',
       insight:
-        'Around one in five women feels ovulation as a pain on one side of the lower abdomen. It is called mittelschmerz, German for "middle pain". It can be a brief stab or a dull ache lasting hours, rarely more than a day, and typically only on the side where ovulation happens that month. The cause is probably the stretching of the follicle and a little fluid or blood irritating the lining of the abdomen. It is normal and rarely needs more than heat and perhaps an over-the-counter painkiller. Severe pain, pain with fever or vomiting, or pain lasting several days is something else and deserves a doctor. If she notices a regular pain day in the log, you have a reliable sign.',
+        'Together, estrogen and dopamine make the brain more open to new things and more willing to take a chance. It shows in small ways: wanting to try a new route, saying yes to an invitation, making a decision that has been waiting. It is also why the follicular phase is a good time to suggest changes, from swapping routines at home to discussing a job change. The same suggestion can sound like an opportunity on day 10 and like a threat on day 26. The difference is not the suggestion. Do keep in mind, though, that "more courage" is not the same as "better judgement"; the big things should still sleep on it for a night.',
       action:
-        'Ask whether she ever feels a stab on one side in the middle of the cycle. If yes, suggest logging it as a symptom today.',
-      phaseTags: ['ovulation'],
-      sources: [NHS_OVULATION_PAIN],
+        'Is there a suggestion you have been carrying around for a while? Present it today as an idea, not a decision, and let her chew on it.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 9),
       month: M,
       day: 9,
-      title: 'Ovulation tests',
+      title: 'Appetite drops',
       insight:
-        'Ovulation tests measure LH in urine and turn positive when the surge arrives, typically 24-36 hours before ovulation. They are the most precise home method for predicting the day. She tests daily from a few days before the expected ovulation, ideally around midday, and many need five to ten sticks per cycle. Women with PCOS can have constantly raised LH and get misleading results. The test shows that the body is trying, not that the egg is actually released. It is useful if you are hoping for pregnancy, or if she wants to get to know her cycle. It is not contraception: by the time the test is positive, the most fertile days are already under way.',
+        'Many notice that they eat less in the follicular phase. It is not imagination. Estrogen dampens appetite a little, and at the same time the body\'s energy use is slightly lower than in the luteal phase, when progesterone demands 100-300 extra calories a day. The cravings for sweet and salty that fill the week before the period are largely gone. She finds it easier to feel real hunger and real fullness. For you, the point is simple: do not measure her appetite by this week. It is low now and high in two weeks, and both are normal. And skip praise like "you are so good at eating healthily"; it turns into a reproach a fortnight from now.',
       action:
-        'If she uses ovulation tests: ask whether you should buy them next time, so the shopping is not always hers.',
-      phaseTags: ['follicular', 'ovulation'],
-      sources: [ACOG_FAB],
+        'Make a meal today that is light and fresh, and do not ask whether she has eaten enough. She can feel that herself this week.',
+      phaseTags: ['follicular'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 10),
       month: M,
       day: 10,
-      title: 'Desire and testosterone',
+      title: 'Sleep is often best now',
       insight:
-        'Women produce testosterone too, and it peaks together with estrogen around ovulation. For many, the combination brings more desire, more imagination and more initiative than at other times of the month. It is biology working towards pregnancy, whether or not pregnancy is wanted. That does not mean desire arrives on demand. Tiredness, stress, conflict and children who wake up beat the hormones every time. Nor does it mean that low desire in the luteal phase is a problem to be solved. What you can use it for is understanding the rhythm and being available without demanding. Closeness she has initiated herself is the best kind.',
+        'Sleep follows the cycle. In the luteal phase progesterone keeps body temperature up, and the hormone drop in the last week gives many restless nights. In the follicular phase temperature is lower, estrogen supports deep sleep, and most sleep better and wake fresher. That is one of the reasons the surplus feels so clear: she is not only hormonally up, she is also rested. It also means the week suits late evenings, early mornings and a bit more load, because there is something to draw on. But do not use the good sleep to pay off the overdraft from last week. Use it to add to the balance.',
       action:
-        'Clear space this evening without announcing it: no screens, no plans. Let her choose what the evening is for.',
-      phaseTags: ['ovulation'],
-      sources: [ACOG_CYCLE],
+        'Suggest an evening out or an early morning walk this week, something you would not schedule in the week before the period.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 11),
       month: M,
       day: 11,
-      title: 'Confidence and social energy',
+      title: 'The skin tells the same story',
       insight:
-        'Estrogen affects the reward system in the brain and raises serotonin and dopamine. Around ovulation many describe feeling sharper, more outgoing and more self-assured. Studies suggest women talk a little more, dress a little differently and seek more company in the days before ovulation. These are small effects, not a personality change, but they are real. It is a good time for parties, job interviews and meeting new people. It is also a time when she may need to do something without you. Wanting to see friends is not a rejection of you. It is energy that needs somewhere to go.',
+        'Estrogen makes the skin thicker, more hydrated and more elastic and keeps oil production calm. That is why the skin is often clearest in the days around ovulation and most troubled in the week before the period, when estrogen falls and progesterone increases oil. It is one of the most visible traces of the cycle, and it is worth knowing for one reason: comments. "You look fresh" is a fine sentence today. "You look tired" is a bad sentence three weeks from now. The skin is not something she controls, and it is not something you need an opinion about. But you can learn to see it as one of the signs that tell you where in the cycle she is.',
       action:
-        'Say yes to the social things she suggests this week, or suggest yourself that she sees friends while you hold the fort at home.',
-      phaseTags: ['ovulation', 'follicular'],
+        "Notice the skin today without commenting on it. Write it in the app's note for the day if you see a pattern over the next cycles.",
+      phaseTags: ['follicular', 'ovulation'],
     },
     {
       id: dailyId(M, 12),
       month: M,
       day: 12,
-      title: 'A no counts at the peak too',
+      title: 'Training can be turned up',
       insight:
-        'Knowledge about desire and hormones can be misused. If you have read that desire peaks at ovulation and she says no, the answer is still no. Hormones are a backdrop, not an obligation, and no estimate in an app tells you what she wants today. The worst thing the app can do is make you expectant on particular dates. The best thing it can do is make you more attentive and less personal about a refusal. She sees the same content you do. If she senses that you are counting on something because the app said so, you both lose trust in it. Closeness is something you find together, not something the calendar assigns.',
+        'The studies are less clear-cut than fitness blogs make them out to be, but the tendency is there: many experience better performance, faster recovery and more appetite for hard training in the follicular phase. Estrogen has a protective effect on muscle, and the lower body temperature and better sleep do the rest. That does not mean she should train by a phase calendar. It means that if she feels like pushing herself this week, it is a good time, and if she feels less like it in the week before the period, that is not laziness. The most important rule is still her own sense of things. The calendar is a supplement, not a programme.',
       action:
-        'Say it out loud to her today: "I use the app to understand you better, not to expect anything." And mean it.',
-      phaseTags: ['ovulation'],
+        'Suggest a shared activity with a bit of pulse this week: a run, a long bike ride, a swim. Let her choose the intensity.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 13),
       month: M,
       day: 13,
-      title: 'Spotting mid-cycle',
+      title: 'Social energy: put the guests here',
       insight:
-        'Some women see light pink or brownish spotting around ovulation. It is probably caused by the brief dip in estrogen just after the LH surge, or a little blood from the follicle. It lasts a day or two and is harmless. It can be mistaken for the start of a period, but the mid-cycle timing and the small amount give it away. Spotting can also come from other things: hormonal contraception, infection, polyps or bleeding after sex. Repeated bleeding outside the period, heavy bleeding or bleeding after sex deserves a doctor. A single light spotting in the middle of the cycle is rarely anything. Best is to log it, so the pattern becomes visible.',
+        'Social capacity is one of the things that swings most across the cycle. In the follicular phase there is typically appetite for people: dinners, family visits, parties, the big birthday. In the week before the period the same plan can feel like a burden, even though she looked forward to it when it was made. That does not mean she is unstable. It means plans are made with one brain and carried out with another. The easiest help you can give is to know the calendar: when you get invited, or when you are having guests yourselves, look at where in the cycle the date lands before you say yes. It is a simple check that saves a lot of cancellations.',
       action:
-        'If she mentions spotting: calmly ask where in the cycle it came, and suggest noting it in the calendar.',
-      phaseTags: ['ovulation'],
-      sources: [NHS_PERIODS],
+        'Look at the next social plan in the calendar. If it lands in the PMS week, suggest moving it a week earlier while that is still easy.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 14),
       month: M,
       day: 14,
-      title: 'Cycles without ovulation',
+      title: 'Travel and the big days',
       insight:
-        'Not every cycle has an ovulation. That is called an anovulatory cycle, and it is common: in puberty, after childbirth, while breastfeeding, in the years before menopause, and now and then in anyone under stress, illness, weight loss or hard training. Without ovulation no corpus luteum forms, and so no progesterone. A period may still come, but often late, lighter or heavier than usual, and the cycle becomes irregular. A single anovulatory cycle means nothing. If they become frequent, or the period stays away for more than three months without pregnancy, it is worth a conversation with a doctor. For you it means this: a cycle that does not fit is information, not an error.',
+        'Trips, moves, job interviews, exams, the big family gathering: everything that takes capacity, energy and patience with other people goes more easily, on average, in the follicular phase and around ovulation. There are no cramps, sleep is good, mood is robust, and there is courage for the unknown. You cannot always control it; exams are where they are. But what you plan yourselves, you can place wisely. A holiday that starts on day 7 is a different holiday from one that starts on day 24, with the same destination and the same budget. All it takes is looking at the app when you book. And remembering that the prediction is an estimate that can shift by a few days.',
       action:
-        'If this cycle has been different from expected, ask whether there has been extra pressure on her, instead of guessing.',
-      phaseTags: [],
-      sources: [NHS_IRREGULAR],
+        "Is there a trip or a big event in the making? Open the app's prediction and see which phase the dates hit.",
+      phaseTags: ['follicular', 'ovulation'],
     },
     {
       id: dailyId(M, 15),
       month: M,
       day: 15,
-      title: 'Stress delays ovulation',
+      title: 'Hard conversations: now is the time',
       insight:
-        "The brain runs the cycle through the hypothalamus, and the hypothalamus is also the body's stress centre. Under prolonged strain, such as illness, grief, lack of sleep, travel or heavy work pressure, the signals that make the follicle mature are dampened. Ovulation is postponed, and because the luteal phase after ovulation is fairly fixed at 12-14 days, the period arrives correspondingly later. The stress has to fall in the first half of the cycle to move ovulation; after ovulation it is too late. That is the body being wise, not weak. A late period after a hard month is normal. Your best help is to remove strain in the follicular phase, where it matters most, not to worry about the date.",
+        'Month 1 mentioned it briefly, and month 2 went into it in depth: put the hard conversations outside the PMS window. This week is the other half of that advice. The follicular phase is when stress resilience is highest, the words come most easily, and there is capacity to hear each other\'s perspective without getting defensive. That goes for both of you, because conflict is an interplay. It does not mean the conversation will be pleasant. Money, division of chores, family and the future are hard topics on any day. But they have better odds now. So do not wait for it to "feel right". Raising something hard rarely feels right. Use the calendar as the basis for the decision instead.',
       action:
-        'Find one burden you can take off her this week, and do it without mentioning the cycle.',
+        'Pick the one conversation you have postponed the longest, and ask: "Do you have the capacity for us to talk about money tonight or tomorrow?"',
       phaseTags: ['follicular'],
-      sources: [NHS_MISSED],
     },
     {
       id: dailyId(M, 16),
       month: M,
       day: 16,
-      title: 'Why the date in the app is an estimate',
+      title: 'Big decisions and the extra week',
       insight:
-        'The app calculates ovulation by subtracting about 14 days from the expected next period, which in turn is built on the average of her previous cycles. That is the best method without measurements, but it is statistics. Research shows that only a minority of women with a 28-day cycle actually ovulate on day 14; the spread is wide, even among women with regular cycles. The app does not know about this month\'s stress or illness. So the date should be read as "roughly here, give or take a few days". Her own signs, discharge, pain, tests and temperature, beat the app every time. As you log more cycles the estimate improves, but it never becomes a measurement.',
+        "Decisions about housing, children, work or money are easier to make when there is clarity and capacity, and there often is now. But there is a trap: a decision made in a week of high energy and big courage also has to hold in a week of low energy. That does not mean the decision is wrong if it feels heavy on day 26. It means you should test it against both states before you sign. The best approach is to talk the big thing through in the follicular phase, let it rest for a week or so, and confirm it when you both still agree. Not because her judgement fails, but because neither of you should make a big decision on one day's mood.",
       action:
-        'Open the settings and check that the cycle length is based on her own logged cycles and is not still sitting on the default value.',
-      phaseTags: [],
-      sources: [NHS_PERIODS],
+        'If you are facing something big, agree on a date about a week from now when you confirm the decision, instead of closing it today.',
+      phaseTags: ['follicular', 'ovulation'],
     },
     {
       id: dailyId(M, 17),
       month: M,
       day: 17,
-      title: 'There are no safe days in an app',
+      title: 'The danger of filling the calendar',
       insight:
-        'It needs saying plainly: this app is not contraception, and no calendar app is. Sperm live five days, ovulation can shift by a week, and the app guesses from the past. Even the old calendar method with strict rules has a typical failure rate where roughly one in four or five users becomes pregnant within a year. Ovulation tests do not help as contraception either, because they only turn positive when the fertile days are already under way. If you want to avoid pregnancy, you use a real method. If you want to use fertility awareness, it requires training, daily measurements and discipline. This is not about trusting her. It is about biology that cannot be negotiated.',
+        "There is a downside to the good week: it gets overbooked easily. When everything feels possible, you say yes to the dinner, the training, the project, the weekend trip and the family visit, and suddenly there are five things in a week that was also supposed to have rest in it. Capacity is not free; it gets used up. And the bill that follows often lands in the luteal phase, when she has the least to pay with. Your job is not to slow her down; it is her week and her energy. But you can be the one who keeps an eye on the total, and who makes sure the week's plan has gaps in it too.",
       action:
-        'Tell her you know the app is not contraception, and ask whether your current method feels safe to her.',
-      phaseTags: [],
-      sources: [NHS_CONTRACEPTION],
+        "Look at the week's calendar together, and remove or move one thing so that at least one completely free evening remains.",
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 18),
       month: M,
       day: 18,
-      title: 'Fertility awareness: the honest numbers',
+      title: 'Cycle syncing: myth and evidence',
       insight:
-        'Fertility awareness methods are a family of methods where you avoid sex or use a condom during the fertile window, determined from temperature, discharge and cycle length. Followed perfectly, the best methods are over 95 percent effective. With typical use, where life gets in the way, between roughly 2 and more than 20 out of 100 women become pregnant within a year, depending on the method. For comparison: the coil and the implant are under 1. The methods require instruction, daily recording and a partner who respects the fertile days without argument. That last part is your responsibility. If you are considering it, learn it properly, not from an app.',
+        '"Cycle syncing", the idea of planning food, training and work precisely by cycle phase, is popular on social media. Some of it holds: energy, sleep, appetite and mood follow the hormones on average, and timing the big things is real help. Much of it does not: there is no good evidence that particular foods "balance the hormones", that particular kinds of exercise are off limits in particular phases, or that all women follow the same template. The variation between women is bigger than the difference between phases. So use the calendar as an average to plan by, not as an answer key she has to live up to. Her own experience beats any table.',
       action:
-        'If you use or are considering fertility awareness: agree today that the fertile window means condom or a pause, and that you never negotiate about it.',
+        "Ask her whether there is anything in the app's phase entries that does not fit her. Note it down, and use her answer rather than the default.",
       phaseTags: [],
-      sources: [ACOG_FAB, NHS_CONTRACEPTION],
     },
     {
       id: dailyId(M, 19),
       month: M,
       day: 19,
-      title: 'Contraception is a shared responsibility',
+      title: 'The good weeks are hers',
       insight:
-        'In the fertile window, responsibility becomes concrete. If you use condoms, that is yours. If she takes the pill, the daily side effects are hers, but reminders, doctor visits and the cost can be shared. If you do not want more children, a vasectomy is a smaller procedure than female sterilisation. The responsibility is not only practical: it is also knowing her method, knowing what happens if a pill is missed, and where emergency contraception is available. Many men cannot say what contraception their partner uses. It is not meant unkindly, but it places the whole burden in one place. This month is a good occasion to move some of it.',
+        'There is a pitfall in learning about the cycle: you start explaining everything with hormones. When she is sharp, funny and full of energy on day 10, it is not "the estrogen" that is sharp. It is her, with good conditions. Just as the irritation on day 26 is her real irritation with bad conditions. If you credit the good days to hormones, you take the credit from her, and if you blame the hard days on hormones, you take the seriousness from her. The cycle explains the conditions, not the person. So never say "you are so happy, you must be in the follicular phase". Say "you are great today". It is both true and kinder.',
       action:
-        'Say it without looking it up: which contraception do you use, and what do you do if it fails? If you cannot, ask today.',
-      phaseTags: ['ovulation'],
-      sources: [NHS_CONTRACEPTION],
+        'Give her concrete recognition today for something she did well, without mentioning cycle, phase or hormones with a single word.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 20),
       month: M,
       day: 20,
-      title: 'What she carries',
+      title: 'Prepare the hard weeks now',
       insight:
-        'Hormonal contraception is effective, but it is not free for the body. Side effects can include mood changes, lower desire, headaches, spotting, tender breasts and weight change, and the hormones flatten or remove the natural cycle, so much of what you learn here looks different in her. The copper coil can make bleeding heavier, the hormonal coil irregular. It is something she lives with every day, often without mentioning it. On the pill, ovulation is usually suppressed entirely; then the "peak" the app shows is not real. Ask how she feels about her method. Not to change it, but to know what it costs her.',
+        'The best time to prepare for the luteal phase is while there is capacity for it. It sounds banal, but that is how understanding turns into help. Concretely: fill the freezer with a couple of easy meals. Check that there are painkillers, pads or tampons and a heating pad in the house. Look at the calendar for the week before the next period and clear it a little. Agree on who takes which of the regular chores on those days. All of that is easy now and heavy in two weeks. And it signals something important to her: that you do not only react when things are on fire, but think ahead. It is the kind of care that is hardest to see and easiest to feel.',
       action:
-        'Ask today: "Is there anything about your contraception you are tired of?" Listen, without suggesting solutions straight away.',
-      phaseTags: [],
-      sources: [NHS_CONTRACEPTION],
+        'Do one of the preparations today: put two portions of food in the freezer, or check the stock of practical things and top up.',
+      phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'If you want a pregnancy: timing without stress',
+      title: 'Spend the surplus on the two of you',
       insight:
-        'If you want a child, the advice is simple: sex every two to three days throughout the cycle hits the fertile window without turning it into a project. If you want to be more targeted, the two or three days before ovulation and the day itself matter most. The signs, egg-white discharge and a positive test, say more than the date in the app. For healthy couples under 35, about eight in ten conceive within a year; it takes time, even when everything is normal. Scheduled sex by date wears on the desire of both of you. If you have tried for a year without success, or six months if she is over 35, you both deserve an evaluation. About half of the causes lie with the man.',
+        'It is easy to spend the good week on all the practical things that piled up: cleaning, paperwork, projects, appointments. But remember to spend some of it on the two of you. The follicular phase and the days around ovulation are often when desire, closeness and the wish to be together are highest, and it is no accident that the relationship feels easiest here. The closeness you build now is the buffer you draw on in the PMS week. If the whole surplus goes to chores, you arrive at the luteal phase with an empty tank on both accounts. So plan something that is only for you: an evening out, a walk without phones, a slow morning in bed.',
       action:
-        'If you are trying: say today that this is something you do together, and that she should not be the one keeping track of the dates alone.',
-      phaseTags: ['ovulation', 'follicular'],
-      sources: [ACOG_INFERTILITY],
+        'Book one thing this week that is purely for the two of you, and put it in the calendar so it does not get eaten by practical tasks.',
+      phaseTags: ['follicular', 'ovulation'],
     },
     {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'If you do not want a pregnancy right now',
+      title: 'It is the follicular phase that varies',
       insight:
-        'Most couples have never properly talked about what they would do about an unplanned pregnancy. It is a hard conversation, and it does not get easier with a positive test in hand. A better time is now, in a calm phase, with no urgent reason. It is not about deciding everything, but about knowing where each of you stands: what would she think, what would you, what would you need. The conversation makes contraception something you share, and removes the quiet fear many carry every month in the run-up to the period. Emergency contraception works best as soon as possible, and a copper coil can be fitted within five days. That is worth knowing before it is needed.',
+        'When a cycle is longer or shorter than usual, it is almost always the follicular phase that has moved. The luteal phase is stable at 12-14 days because the corpus luteum has a fixed lifespan. The follicular phase, on the other hand, is run by the brain, and the brain responds to stress, sleep, illness, travel and weight changes by postponing ovulation. A pressured month can give a 33-day cycle instead of 28, and the extra five days are added before ovulation. That is worth knowing for two reasons: the app\'s ovulation prediction is an estimate and can shift, and a late period more often means "hard month" than anything else. The body waits until there is calm.',
       action:
-        'Have the conversation today, for five minutes: "What would we do if you got pregnant now?" Listen more than you talk.',
+        'If the current cycle looks like it will be longer than usual, ask calmly whether there has been more pressure than normal.',
       phaseTags: [],
-      sources: [NHS_CONTRACEPTION],
+      sources: [NHS_PERIODS],
     },
     {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'The luteal phase confirms ovulation',
+      title: 'If the energy does not come back',
       insight:
-        'After ovulation the empty follicle becomes the corpus luteum, which produces progesterone. It is progesterone that confirms ovulation has happened: temperature rises, discharge dries up, and she often becomes calmer and more inward. The luteal phase lasts 12-14 days regardless of cycle length, because the corpus luteum has a fixed lifespan. If it is shorter than 10 days over several cycles, that can make it harder to conceive and is worth mentioning to a doctor. The shift from the outgoing energy of ovulation to the calm of the luteal phase can come abruptly. It is not that she has grown tired of you. It is progesterone taking over.',
+        'Most feel a clear lift when the period is over. If that lift fails to come month after month, if she is as tired on day 10 as on day 2, it is worth taking seriously. It can be perfectly ordinary things: too little sleep, too much work, a stressful period. But persistent fatigue can also be due to iron deficiency after heavy bleeding, a thyroid that is out of balance, or low mood that does not follow the cycle. You cannot diagnose any of it, and none of it is something she should "pull herself together" about. But you can be the one who sees the pattern in the app and says: "This deserves a doctor." A blood test is quick and clears up a lot.',
       action:
-        'Notice the day when the energy shifts from outgoing to calm, and note it in the calendar. After three cycles you will see a pattern.',
-      phaseTags: ['luteal'],
-      sources: [ACOG_CYCLE],
+        'Look at the calendar for the last two cycles. Did the energy come back after the period? If not, mention it to her today.',
+      phaseTags: ['menstrual', 'follicular'],
+      sources: [NHS_HEAVY],
     },
     {
       id: dailyId(M, 24),
       month: M,
       day: 24,
-      title: 'The period tells you about ovulation',
+      title: 'She is not more "herself" now',
       insight:
-        'The period is a receipt. A regular bleed arriving 12-14 days after the signs of ovulation means the cycle ovulated and worked. During the bleed both hormones are at their lowest, but already now the pituitary starts sending FSH, which begins maturing the follicles for the next cycle. In a sense the next ovulation starts on day 1. Very irregular bleeds, very long cycles or periods that stop altogether often point to ovulation being irregular or absent. That is not dangerous in itself, but it is information a doctor can use, especially if you want children. Log the start of the bleed so the cycle can be worked out.',
+        'It is tempting to think of the follicular phase as "the real her" and the rest as noise. That is a mistake, and not a harmless one. If the energetic, social, patient version is the real one, then the tired, thoughtful, direct version in the luteal phase becomes a fault to be corrected. But the thoughts of the luteal phase are often just as true; they simply come without a filter. And the optimism of the follicular phase can overlook things too. She is the whole cycle. What you learn about the phases is conditions, not truths about who she is. The most respectful stance is that she is the same person all month with different amounts of capacity, and that both versions deserve to be taken seriously.',
       action:
-        'If she has her period now: check that day 1 is logged, and ask whether this cycle felt the way it usually does.',
-      phaseTags: ['menstrual'],
-      sources: [NHS_PERIODS],
+        'Think of something she said in the last luteal phase that you wrote off as "mood". If there was something to it, bring it up today.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 25),
       month: M,
       day: 25,
-      title: 'When ovulation goes missing',
+      title: 'Ovulation: the peak and the turning point',
       insight:
-        'Several conditions affect ovulation directly. PCOS, polycystic ovary syndrome, affects about one in ten women and often causes rare or absent ovulation, long cycles, skin problems and increased hair growth. Thyroid disease, very low weight, hard training and high prolactin can also stop ovulation. After childbirth and during breastfeeding it is often absent for months, and in the years before menopause it becomes irregular. What they all share: the cycle becomes irregular or stops. If periods come less often than every 35 days, or stay away for three months without pregnancy, it deserves a doctor. You are not there to make the diagnosis. You are there to say it is worth checking, and to come along.',
+        'The follicular phase ends with ovulation. Estrogen peaks, LH surges, and the dominant follicle bursts and releases its egg. For many, the days right here are the absolute high point of the cycle: most energy, most desire, most confidence. And then it turns. After ovulation progesterone takes over, and already a couple of days later the energy becomes more inward and calmer. It is not a drop, but a gear change. It is worth knowing because the window for using the surplus has an end date. What you have planned should ideally lie before or around ovulation, not after. Next month is all about ovulation, so today it is enough to know that the peak is there, and that it does not last.',
       action:
-        "Look at the calendar: have the last few cycles fallen within 21-35 days? If not, calmly suggest a doctor's appointment and offer to come along.",
-      phaseTags: ['menstrual'],
-      sources: [NHS_PCOS, NHS_MISSED],
+        "Check the app's estimated ovulation date for this cycle, and see whether your plans for the next few days lie on the right side of it.",
+      phaseTags: ['ovulation'],
+      sources: [ACOG_CYCLE],
     },
     {
       id: dailyId(M, 26),
       month: M,
       day: 26,
-      title: 'Closeness without an agenda',
+      title: 'The luteal phase: collect what you set aside',
       insight:
-        'For many, the days around ovulation are the best time in the cycle for closeness, but closeness is more than sex. It is sitting close, going for a walk, talking about something other than logistics, being seen. What most often ruins closeness is an agenda: the evening having to end in a particular place. She senses it, and it shifts the mood from being together to negotiating. Paradoxically, physical closeness comes more easily when it is not the goal. Use the energy of ovulation to be together in a way where both of you can relax. That builds the trust that lets closeness exist in the luteal phase too, when the hormones are not helping.',
+        'Now the preparation pays off. If you filled the freezer, cleared the calendar and agreed on who takes what during the follicular phase, the luteal phase is where it gets used. Not as a grand gesture, but as something that is simply in place. The food is there. The evening is free. The chore is already taken. That is how the good week becomes help in the hard one: not by you doing more when she feels worst, but by most of it already being done. If you did not get around to preparing anything this time, that is completely fine. Notice what is missing now, and write it down for the next follicular phase. It is a system that gets better with every round.',
       action:
-        'Suggest a walk or a screen-free evening today, and make it clear it does not have to lead anywhere.',
-      phaseTags: ['ovulation'],
+        'Use one of the things you prepared today, or write down the one thing you wish you had prepared, for next time.',
+      phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 27),
       month: M,
       day: 27,
-      title: 'Log the signs together',
+      title: 'Your energy does not follow hers',
       insight:
-        'The app only becomes really useful once the signs are logged: discharge, ovulation pain, desire, energy, spotting, and tests and temperature if used. After three or four cycles you can see how many days after the period the signs typically arrive, and how well the app\'s estimate fits. That turns the app from a generic model into her own. The logging should be hers, because it is her body and her observations, but you can make it easy: ask briefly, remember what she has said, and never use the log against her. "You logged yourself that you were in the mood on Tuesday" is the fastest way to make the logging stop.',
+        'One thing many partners overlook: your capacity does not follow her cycle. That means you can be the stable factor who has energy in the weeks when she has less. But it also means you need to be careful not to let her good week set the pace for both of you, so that you are used up yourself when the luteal phase comes. The best help requires that you have something to give. Look after your own sleep, your own training and your own breaks, especially in the week when everything moves fast. That is not selfishness, it is maintenance. A partner who is run down takes the tone personally and forgets to respond to the need.',
       action:
-        'Ask whether there is one sign she would like to log this cycle, and agree that it is her data, not your argument.',
-      phaseTags: ['follicular', 'ovulation'],
+        'Put one thing in the calendar this week that is only for you: a run, an evening with friends, an early night. Stick to it.',
+      phaseTags: [],
     },
     {
       id: dailyId(M, 28),
       month: M,
       day: 28,
-      title: 'When body and app disagree',
+      title: 'Log the good days too',
       insight:
-        "Sooner or later the app says one thing and the body another. The app predicts ovulation on day 14, but the egg-white discharge does not appear until day 19. Or she feels the stab while the app still shows the follicular phase. The body is right. The app is built on averages and does not know this month. The best thing you can do is trust her over the screen and treat the mismatch as information: the cycle was perhaps longer this time, so the period will come later. If you insist on the app's date, you make her the one who is wrong about her own body. Read the app like a weather forecast: useful, but what you see out of the window wins.",
+        'Most people log when something is wrong: pain, low mood, sleep problems. That is natural, but it produces a calendar that only shows problems, which is both unfair and impractical. If you also log the good days, high energy, good mood, good sleep, a day when everything flowed, you get two things. A more honest picture of the cycle having at least as many good days as hard ones. And a far better sense of when the shift comes, because you can see both ends of the curve. After three or four cycles you can say with reasonable confidence: "Around day 6 it turns." That is valuable knowledge, and it only comes from what gets logged.',
       action:
-        'If the app and her signs disagree this cycle, say it out loud: "Your body knows better than the app." And adjust your expectation for the next period.',
+        "Log today's energy and mood in the app, even if they are good. Ask her whether she will do the same this week.",
       phaseTags: [],
     },
     {
       id: dailyId(M, 29),
       month: M,
       day: 29,
-      title: 'Her body, her knowledge',
+      title: 'The PMS week with the follicular phase in mind',
       insight:
-        'You have learned a lot about ovulation this month. The biggest pitfall now is explaining her own body to her. Many women have followed their cycle for years without using the words LH or corpus luteum, and they know exactly how it feels. Your knowledge is useful when it is used to ask better questions, remember more and act before she asks. It is harmful when it turns into corrections or into expectations about what she should feel on particular days. Some never feel ovulation at all, and that is normal too. The goal is not for you to know more than her. The goal is that she is no longer alone in knowing.',
+        'In the last week of the luteal phase, it is easy to forget that there is a follicular phase on the other side. But that is the knowledge that makes the week easier to carry for both of you. Not as a "just wait, it will pass"; that is dismissive. But as an inner calm in you: this is a phase, it has an end date, and in about a week the energy turns. That makes it easier to keep the pace down, let the big conversations wait, and respond to the need rather than the tone. And it lets you promise something concrete: "Let us take it next week, when we both have the capacity." That is a promise you can keep, because the calendar keeps it for you.',
       action:
-        'Tell her one thing you have learned this month, and ask whether it matches her experience. Do not correct her answer.',
-      phaseTags: [],
+        'If something hard comes up in these days, say: "This is important. Can we take it next week, when there is more calm?" and set a date.',
+      phaseTags: ['luteal'],
+      sources: [NHS_PMS],
     },
     {
       id: dailyId(M, 30),
@@ -398,9 +364,9 @@ export const month04: MonthContent = {
       day: 30,
       title: 'Month 4: what you have learned',
       insight:
-        'Ovulation is one day, and the fertile window is the five days before plus the day itself. The LH surge triggers it, the egg lives a day, sperm live five days. The body shows signs: egg-white discharge before, a temperature rise after, and for some a pain on one side or light spotting. Desire, energy and confidence often peak, but a no always counts. Stress delays ovulation, not every cycle has one, and the date in the app is an estimate, never contraception. Contraception and fertility are shared responsibilities, and fertility awareness is a real method with real requirements, not a calendar. Most important: knowledge is for asking, noticing and helping, not for expecting.',
+        "You now know that the follicular phase begins with FSH from the brain, that the follicles answer with estrogen, and that estrogen lifts the lining, the brain, the skin, sleep and muscles alike. You know that serotonin and dopamine rise, that the words come more easily, that there is more appetite for the new, that appetite for food drops, and that training can be turned up. You know that this is the best week for guests, trips, hard conversations and big decisions, but that it must not be overbooked, and that the surplus can be used to prepare the hard week. And most importantly: you know that the good weeks are hers, not the hormones', and that she is the whole cycle, not only the peak of it.",
       action:
-        'Write down three things you will do differently around ovulation from the next cycle, tell her what they are, and take the quiz for the month.',
+        "Tell her the three things from this month that have changed most about how you see her cycle. Then take the month's quiz.",
       phaseTags: [],
     },
   ],
@@ -409,168 +375,169 @@ export const month04: MonthContent = {
       id: weeklyId(M, 1),
       month: M,
       week: 1,
-      title: 'Ovulation in detail: from LH surge to corpus luteum',
+      title: 'From FSH to estrogen: how a cycle is built',
       body: [
-        'Month 1 gave you the basic model: ovulation is the midpoint of the cycle, and it falls about 14 days before the next period. This article goes one layer deeper. Not because you need to become a biologist, but because the details explain why the signs appear, when they appear, and why the date in the app can only ever be an estimate.',
-        'It starts on day 1. While she is bleeding, the pituitary sends FSH, follicle-stimulating hormone, to the ovaries, and a group of 10-20 small follicles begins to grow. Each follicle holds an egg. During the first week one becomes dominant, and the rest wither away. The dominant follicle produces more and more estrogen, and that rise is what gives the follicular phase its energy and makes the uterine lining grow again.',
-        'Once estrogen has stayed high for a couple of days, something unusual happens: the brain, which otherwise dampens itself at high estrogen, does the opposite and sends a sharp wave of LH, luteinising hormone. The LH surge typically lasts a day. It makes the follicle finish maturing the egg, weaken its wall and rupture. 24-36 hours after the surge the egg is released and caught by the fallopian tube. That is ovulation. It is rarely felt as an event; for most, what they notice is the days before (discharge, desire, energy) and the days after (temperature, calm).',
-        'The egg lives 12-24 hours. Sperm live up to five days in the thin, slippery mucus that estrogen makes the cervix produce just before ovulation. Put the two together and you have the fertile window: the five days before ovulation plus the day itself. The chance is greatest in the two or three days just before. The day after ovulation pregnancy is very unlikely, but because nobody knows exactly when ovulation was until it is over, you cannot count backwards in real time.',
-        'The empty follicle becomes the corpus luteum, which produces progesterone. Progesterone raises temperature, thickens the mucus again, matures the lining and settles the mood into something calmer. The corpus luteum lives 12-14 days. If the egg is not fertilised, it dies, the hormones fall, and the period comes. If it is fertilised, the pregnancy hormone hCG keeps the corpus luteum alive. That is why the luteal phase is so stable in length, and why the app counts ovulation backwards from the period: it is the first half that varies.',
-        "And it varies a lot. Studies of thousands of cycles show that ovulation on day 14 only applies to a minority, even among women with regular 28-day cycles. Ovulation anywhere between day 10 and day 20 is common, and the same woman can vary by several days from month to month. Stress, illness and travel delay ovulation because they dampen the brain's signals to the ovaries. And some cycles have no ovulation at all; the period then often arrives late and different.",
-        "That is why the date in the app is an estimate. It rests on the average of her previous cycles and on the luteal phase being about 14 days. It is the best possible calculation without measurements, but it does not know about this month. Her own signs, which next week's article is about, are always more precise. And neither of them, app or signs, is contraception.",
-        'What you can take from the biology comes down to three things. Ovulation is one day. The fertile window lies before it, not after. And her best days, energy-wise, are often the days leading up to ovulation, when estrogen peaks, not the day the app marks. Know those three, and you understand most of what happens in the middle of the cycle.',
+        'Month 1 gave you the model: four phases, two hormones, one rhythm. This month we go deeper into the phase that brings the most capacity and gets the least attention: the follicular phase. It is interesting for two reasons. It is biologically impressive, and it is the point in the cycle where the two of you can gain the most from planning well.',
+        'First the timing. Technically, the follicular phase runs from day 1, the first day of bleeding, all the way to ovulation. So it overlaps the period. What most people experience as "the follicular phase" is the last part: the days after the bleeding, roughly day 6 to 13 in a 28-day cycle, when estrogen really rises. It is also the part of the cycle that varies most in length. The luteal phase after ovulation is fairly stable at 12-14 days, while the follicular phase can be anything from a week to several weeks, depending on what else is going on in her life.',
+        'It all begins in the brain. When estrogen and progesterone hit bottom during the period, the pituitary registers it and sends FSH, follicle-stimulating hormone, into the blood. FSH makes a group of 10-20 small follicles in the ovaries grow. Each follicle is a fluid-filled sac with an immature egg inside. The follicles answer by producing estrogen, and as estrogen rises it signals back to the brain to turn FSH down. It is a feedback loop, not a switch being flipped.',
+        'Around day 5-7 a selection happens. The follicle most sensitive to FSH survives when FSH falls; the others wither. The dominant follicle grows to around two centimetres and produces most of the estrogen of the cycle. That is why estrogen rises steeply in the last week before ovulation. At the same time estrogen makes the uterine lining grow back after the period, ready for a possible fertilised egg. When estrogen peaks, it triggers the LH surge, the follicle bursts, and the egg is released. That is ovulation, and it ends the follicular phase.',
+        'But estrogen does not only work in the pelvis. There are estrogen-sensitive cells in the brain, skin, muscles, bones, blood vessels and metabolism. That is why the rise is felt as a general lift: more energy, steadier mood, clearer thinking, better sleep, lower appetite, smoother skin and more appetite for training, talking and seeing people. It is not a mood hormone. It is a building hormone that happens to build capacity too. Next week we look more closely at what it does to the brain.',
+        'Because the follicular phase is run from the brain, it is also sensitive to everything the brain registers: stress, lack of sleep, illness, travel, hard training and weight changes. The brain responds by waiting to trigger ovulation. That is why a pressured month often gives a longer cycle, and why the app counts ovulation backwards from the expected period instead of forwards from day 1. The prediction is an estimate. The body waits until there is calm.',
+        'What you can do this week is notice the shift. Somewhere between day 4 and 7 there is typically a day when she gets up and simply feels better. Say it out loud when you see it, without mentioning hormones: "It seems like you have your energy back." And suggest one thing to do together in the week ahead. It is the easiest form of help there is: paying attention to the good, not only the hard.',
       ],
       conversationQuestion:
-        'Can you feel when you ovulate, and how does it match the day the app shows?',
+        'When after the period can you feel the energy turning? And what is the first thing you feel like doing when it does?',
       sources: [ACOG_CYCLE, NHS_PERIODS],
     },
     {
       id: weeklyId(M, 2),
       month: M,
       week: 2,
-      title: "The body's signs: how to read them together",
+      title: 'Estrogen and the brain: what the surplus is made of',
       body: [
-        'The app guesses. The body knows. This week is about the four signs that tell you where she is in relation to ovulation: discharge, temperature, pain and ovulation tests. None of them is perfect alone, but together they give a picture far more precise than any calculation. And they are her signs. Your role is to know them, ask about them and make them easy to log, not to monitor.',
-        'Cervical discharge is the sign that is easiest to follow daily. Just after the period there is often little or nothing, and it feels dry. As estrogen rises there is more, first creamy and whitish. In the last days before ovulation it becomes clear, slippery and stretchy like raw egg white; it can be stretched between two fingers without breaking. That is mucus designed to keep sperm alive and guide them forward. The last day of egg-white discharge typically falls on the same day as ovulation or the day before. After ovulation, progesterone makes it thick, sticky and sparse within a day or two. Discharge that smells strongly, itches or is green-yellow is something else and deserves a doctor.',
-        'Basal body temperature is the resting temperature, taken every morning at the same time, before getting up, with a thermometer showing two decimals. In the first half of the cycle it is low. After ovulation, progesterone raises it by 0.2-0.5 degrees, and it stays up until the period comes. The shift confirms ovulation afterwards; it does not predict it. The reading is disturbed by fever, alcohol, poor sleep, late nights and travel, so a single day says nothing. It is the curve over three or four cycles that is valuable. It is a daily effort, and whether she wants to do it is her choice. If she does, you can help by keeping the morning quiet until she has measured.',
-        'Ovulation pain, mittelschmerz, is felt by around one in five women. A stab or a dull ache on one side of the lower abdomen, typically for hours, rarely more than a day. It comes around the rupture of the follicle, so it is a reasonably precise sign if she has it. Severe pain, pain with fever or vomiting, or pain over several days is something else. Some also see light spotting mid-cycle; that is normal if it is sparse and brief, but repeated bleeding outside the period deserves a doctor.',
-        'Ovulation tests measure LH in urine. A positive test means the LH surge is under way and ovulation typically follows 24-36 hours later. They are the most precise home method for predicting the day. They require daily testing from a few days before expected ovulation, ideally around midday, and they can be misleading in women with PCOS, who often have constantly raised LH. Important: the test shows that the body is trying to ovulate, not that the egg is released. And it is not contraception: by the time it is positive, the most fertile days are already under way.',
-        'Put the signs together and they tell a story. Egg-white discharge and a positive test say "soon". The pain says "now". The temperature rise and dry discharge say "done". Logged over three or four cycles, they reveal how many days after the period her ovulation typically comes, and how well the app\'s estimate fits. That is how the app stops being a generic model and becomes hers.',
-        'Two things for you. First: she sees the same content, and she may have followed her signs for years without using the words. Ask before you explain. Second: the log is hers. It is valuable because she owns it. If she senses that you use it to expect something, she will stop logging, and that is not her fault. Help by making it easy, remembering what she has said, and acting on the practical: heat for ovulation pain, quiet in the morning, buying tests if you use them.',
+        '"She has more capacity" is an imprecise description. Capacity is made of several things, each of which can be felt, and each of which has an explanation. If you know the parts, you get better at seeing them and at using them well.',
+        "Start with mood. Estrogen affects two messengers in the brain. Serotonin keeps mood stable and dampens unease; estrogen increases both its production and the brain's sensitivity to it. Dopamine drives motivation, reward and the urge to get started; it rises with estrogen too. The result is a week when things feel possible, when the irritation threshold is higher, and when there is appetite for starting something. It is not artificially good mood, it is the brain's normal chemistry with a tailwind. And it is exactly what is missing in the week before the period, when estrogen falls and takes serotonin down with it. Same brain, different conditions.",
+        'Then the words. Several studies suggest that verbal ability, the capacity to find words, express yourself and recall words, is slightly better when estrogen is high. The effect is small on average and varies a lot from person to person, so it is not a law. But many recognise it: conversations flow more easily mid-cycle, and the words get stuck more in the days before the period. That means the conversations where it matters that you both express yourselves precisely and are heard correctly have better conditions here.',
+        'Then the courage. Together, estrogen and dopamine make the brain more open to the new and more willing to take a chance. A suggestion for change, from new routines at home to a job change, can sound like an opportunity on day 10 and like a threat on day 26. The difference is not the suggestion. But be careful not to confuse courage with judgement. Big decisions should still sleep for a week, so they also hold when the energy is lower.',
+        'Then the body. In the follicular phase body temperature is lower than in the luteal phase, and estrogen supports deep sleep, so most sleep better and wake fresher. Appetite drops a little, and the cravings for sweet and salty are largely gone. Many experience better performance and faster recovery in training, even though the studies are less clear-cut than fitness blogs make them out to be. The skin is often clearest around ovulation. All of these are small effects on their own, but they stack on top of each other and become what feels like capacity.',
+        'And finally the social side. Appetite for people is one of the things that swings most across the cycle. In the follicular phase there is typically a wish for dinners, family and parties. In the week before the period the same plan can feel like a burden, even though she looked forward to it when it was made. That is not instability. It is that plans are made with one brain and carried out with another.',
+        'Now for the important caveat. Everything above is averages. The variation between women is bigger than the difference between phases, and some feel almost none of it while others feel all of it. Her own experience beats any table. And even when the pattern fits, it is her who is sharp, funny and energetic on day 10, not her estrogen. The hormones explain the conditions. The person is the same all month.',
+        'What you can do this week: place a conversation you have postponed here. Present the suggestion you have been carrying as an idea, not a decision. Suggest an activity with a bit of pulse. Do not measure her appetite by this week, and do not comment on her skin. And give her recognition for what she does well, without mentioning the cycle with a single word.',
       ],
       conversationQuestion:
-        'Which signs of ovulation do you notice yourself, and are there any of them you would like me to know about?',
-      sources: [NHS_DISCHARGE, NHS_OVULATION_PAIN, ACOG_FAB],
+        'What do you notice most clearly yourself in the good week: the mood, the energy, the words or the appetite for new things? And is there something in it that I miss?',
+      sources: [NHS_PMS, ACOG_CYCLE],
     },
     {
       id: weeklyId(M, 3),
       month: M,
       week: 3,
-      title: 'Desire, closeness and a no that counts',
+      title: 'Use the surplus wisely: planning without overbooking',
       body: [
-        'Around ovulation, estrogen peaks and a little testosterone comes with it. For many women that brings more desire, more initiative, more confidence and more appetite for company. It is biology working towards pregnancy, whether or not pregnancy is wanted. And it is the part of the cycle where most partners make the same mistake: reading a hormone pattern as a promise.',
-        'Let us take the mechanism first. Estrogen raises serotonin and dopamine in the brain, which gives energy, motivation and good mood. Testosterone, which women also produce in small amounts, peaks around ovulation and is linked to desire and initiative. Studies point to small but measurable changes in the days before ovulation: women talk more, seek more company, feel more attractive. It is not a personality change; it is the same person with a little more to give. In the luteal phase, progesterone often dampens desire, and in the PMS days and the first days of the period the body is typically most closed. Some experience the exact opposite, and that is normal too.',
-        'What the pattern is good for is understanding. Low desire on day 24 is rarely about you. High desire on day 13 is not something you earned. Once you know the rhythm, you stop taking it personally in either direction, and that is a great relief for a relationship. What the pattern is not good for is expecting. Hormones are a backdrop. Tiredness, stress, a conflict from yesterday, children, work and how she feels about her body right now trump the backdrop every single time.',
-        'So here is the rule, and it is not up for negotiation: a no counts, even at the peak of desire. If you have read that desire peaks around ovulation and she says no, the answer is no. Not "no, but the app said". Not a sulky silence. Not a "why not?". Just no, and then another good evening. She sees exactly the same content you do. If she senses you are counting on something because the app said so, the app becomes pressure, and then you both lose what it was meant to give you. Closeness she has initiated herself is the best kind, and it only comes if she is certain that a no is free.',
-        'Closeness is also more than sex. For many, the days around ovulation are the best time in the cycle to be together: a walk, a conversation about something other than logistics, laughing, planning something. What most often ruins closeness is an agenda, the evening having to end in a particular place. She senses it, and the mood shifts from being together to negotiating. Paradoxically, physical closeness comes more easily when it is not the goal. So use the energy to be together in a way where both of you can relax. That builds the trust that lets closeness exist in the luteal phase too, when the hormones are not helping.',
-        'The energy of ovulation is not only for the two of you either. It is a good time for her to see friends, go to something, say yes to something social. Wanting to do something without you is not a rejection of you. It is energy that needs to be spent, and the best gift is to hold the fort at home while she spends it.',
-        'Finally: if desire is gone for a long time, in every phase, it is worth talking about and perhaps mentioning to a doctor. Hormonal contraception, antidepressants, lack of sleep, pain during sex and stress can all dampen desire, and much of it can be helped. But that is a conversation, not troubleshooting, and it starts with "how are you doing?", not with "you used to".',
+        'Timing is free help. You learned that in month 1. This week is about how you do it in practice: what should go in the follicular phase, how you avoid filling it too much, and how the good week becomes help in the hard one.',
+        'Start with the list of what has the best odds here: guests and parties, trips and moves, hard conversations, big decisions, hard training sessions, new projects, and anything that takes patience with other people. Not because it is impossible at other times, but because sleep is good, the cramps are gone, mood is robust, and there is courage for the unknown. The simplest habit you can adopt is to look at the app before you say yes to anything big. Where does the date land? A holiday that starts on day 7 is a different holiday from one that starts on day 24. Just remember that the prediction is an estimate that can shift by a few days.',
+        'The hard conversations deserve a paragraph of their own. Money, division of chores, family, the future: the topics are hard on any day, but they have better conditions when stress resilience is high and the words come easily. That goes for both of you, because conflict is an interplay. Do not wait for it to feel right; it rarely does. Use the calendar as the basis for the decision, and ask about capacity instead of throwing the topic on the table: "Do you have the capacity for us to talk about money tonight or tomorrow?" That gives her a choice, and it signals that you have thought about the timing.',
+        "Big decisions have a particular trap. A decision made in a week of high energy and big courage also has to hold in a week of low energy. That does not mean it is wrong if it feels heavy on day 26. But it does mean you should test it against both states. Talk the big thing through in the follicular phase, let it rest for a week, and confirm it when you still agree. Neither of you should make a big decision on one day's mood, and that goes for you too.",
+        'Now for the danger. The good week gets overbooked easily. When everything feels possible, you say yes to the dinner, the training, the project, the weekend trip and the family visit, and suddenly there are five things in a week that was also supposed to have rest in it. Capacity is not free; it gets used up. And the bill often lands in the luteal phase, when she has the least to pay with. Your job is not to slow her down, it is her week. But you can be the one who keeps an eye on the total, and who makes sure at least one completely free evening remains.',
+        'The most important use of the surplus may be the least visible one: preparing the hard week. Fill the freezer with a couple of easy meals. Check that there are painkillers, pads or tampons and a heating pad in the house. Look at the calendar for the week before the next period and clear it a little. Agree on who takes which of the regular chores on those days. All of that is easy now and heavy in two weeks. And it tells her something words cannot: that you think ahead, not only react.',
+        'Two things to finish. Spend some of the surplus on the two of you as well. The follicular phase and the days around ovulation are often when desire and closeness are highest, and that closeness is the buffer you draw on in the PMS week. If the whole surplus goes to chores, you arrive at the luteal phase with an empty tank on both accounts. And watch your own pace. Your capacity does not follow her cycle, and that is a strength, but only if you do not let her good week run you down so that you are used up when she needs you most.',
       ],
       conversationQuestion:
-        'How do you notice your own desire shifting across the cycle, and what makes it easiest for you to say no without feeling you have to explain?',
-      sources: [ACOG_CYCLE],
+        'If you look at the next two weeks in the calendar: what would you most like to move, and what would you most like us to put in?',
+      sources: [NHS_PMS],
     },
     {
       id: weeklyId(M, 4),
       month: M,
       week: 4,
-      title: 'Fertility awareness and shared responsibility',
+      title: 'Cycle syncing, myths and what is hers',
       body: [
-        'The fertile window is there whatever you hope for. For some couples it is an opportunity, for others a risk, for most both at different times of life. This article is about what lies between knowing and doing: how the cycle is actually used, what the methods can and cannot do, and why the responsibility is never hers alone.',
-        'First, what the app is not. It is not contraception. It predicts ovulation from averages, sperm live five days, and ovulation can move by a week because of a cold. Even the old calendar method, where cycle lengths are calculated by fixed rules, has a typical failure rate where roughly one in four or five users becomes pregnant within a year. An app showing a window is even less than that. Ovulation tests do not help as contraception either; they only turn positive when the most fertile days are already under way.',
-        'Then there is fertility awareness, or fertility awareness-based methods. It is a family of methods where the woman records signs every day, typically basal temperature and discharge, sometimes combined with cycle length, and the couple avoids sex or uses a condom in the fertile window. With perfect use the best methods are over 95 percent effective. With typical use, where readings are forgotten, signs misread and rules bent, between roughly 2 and more than 20 out of 100 women become pregnant within a year, depending on the method and how well it was learned. For comparison, fewer than 1 in 100 become pregnant with the coil or the implant. The methods require instruction, ideally from a trained teacher, daily recording, reasonably regular cycles, and a partner who respects the fertile days without argument. That last point is the whole difference between perfect and typical use, and it is yours.',
-        'If you want a pregnancy, the picture flips. Then the advice is simple: sex every two to three days through the cycle hits the window without turning it into a project. If you want to be more targeted, the two or three days before ovulation and the day itself matter most, and egg-white discharge and a positive test say more than the date in the app. For healthy couples, about eight in ten conceive within a year; it takes time, even when everything is normal. If you have tried for a year without success, or six months if she is over 35, you both deserve an evaluation. About half of the causes of infertility lie wholly or partly with the man, so the evaluation is yours too.',
-        'Then the responsibility. If you use condoms, that is yours. If she uses hormonal contraception, she carries the side effects every day: mood, desire, headaches, spotting, and often a cycle that is completely different from the one you have learned about here. What you can take is everything around it: knowing the method, remembering what to do if a pill is missed, knowing where emergency contraception is available, coming to the doctor, sharing the cost, buying tests and condoms, and once the family is complete, considering a vasectomy, which is a smaller procedure than female sterilisation. Many men cannot say what contraception their partner uses. It is not meant unkindly, but it puts the whole burden in one place.',
-        'And then there is the conversation most couples skip: what would we do if she got pregnant now? It is hard, and it does not get easier with a positive test in hand. Have it in a calm phase, with no urgent reason, not to decide everything, but to know where each of you stands. That conversation makes contraception something you share, and removes the quiet fear many carry alone every month in the run-up to the period.',
-        'In short: the app is for understanding, not contraception. Fertility awareness is a real method with real requirements and real failure rates, not a calendar. Fertility and contraception are shared, in practice and not only in principle. And the best way to show it is not to say it, but to take on one concrete task that has so far been hers.',
+        '"Cycle syncing" is the idea of planning food, training, work and social life precisely by cycle phase. It is popular on social media, and it is worth taking apart, because some of it is useful and some of it is noise. As a partner it matters that you do not end up expecting a template she does not fit into.',
+        'What holds: energy, sleep, appetite, mood and desire follow the hormones on average. The follicular phase typically brings capacity, the last week of the luteal phase typically brings less. Timing hard conversations, big decisions, guests and trips is real help, which is what this month has been about. That is evidence-based at the level where the NHS and other health authorities describe the cycle.',
+        'What does not hold: there is no good evidence that particular foods or seeds "balance the hormones", that particular kinds of exercise are off limits in particular phases, or that all women follow the same four-week template. The effects on performance and thinking are small on average, and the variation between women is bigger than the difference between phases. Some feel almost nothing, others feel everything. A calendar that says "you should have energy now" is not help if she does not have it. Then it is a demand.',
+        'One more caveat: if she uses hormonal contraception such as the pill, the ring or a hormonal coil, much of what you have read this month does not apply, or only partly. Most of those methods hold back ovulation, and then there is no follicle maturing and no natural rise in estrogen. The bleeding on the pill is a withdrawal bleed, not a period in the biological sense. She may still feel fluctuations, but they do not necessarily follow the phase model. Ask what she uses, and let her experience lead, not the table.',
+        "That brings us to the most important thing: her own experience beats any table. The app shows an average to plan by. She knows what actually happens. Ask her what fits and what does not. Log the good days too, not only the hard ones, so the calendar shows the whole picture and not only the problems. After three or four cycles you have a pattern that is hers, and that is worth more than all the blogs' templates put together.",
+        'There is also a myth that is harder to spot: that the follicular phase is "the real her" and the rest is noise. If the energetic, social, patient version is the real one, then the tired, thoughtful, direct version in the luteal phase becomes a fault to be corrected. But the thoughts of the luteal phase are often just as true; they simply come without a filter. And the optimism of the follicular phase can overlook things. She is the whole cycle. What you learn about the phases is conditions, not truths about who she is.',
+        'And finally: the good weeks are hers. When she is sharp, funny and full of energy on day 10, it is not the estrogen that is sharp. It is her, with good conditions. If you credit the good days to hormones, you take the credit from her; if you blame the hard days on hormones, you take the seriousness from her. Never say "you must be in the follicular phase". Say "you are great today". It is both true and kinder, and it is the attitude that makes it bearable for her that you follow her cycle at all.',
       ],
       conversationQuestion:
-        'Which part of the responsibility for contraception or fertility sits with you right now that I could take over or share?',
-      sources: [NHS_CONTRACEPTION, ACOG_FAB, ACOG_INFERTILITY],
+        'Is there anything about the way the app or I describe your cycle that does not fit you? What would you change?',
+      sources: [NHS_PERIODS, NHS_CONTRACEPTION],
     },
   ],
   wrap: {
     id: wrapId(M),
     month: M,
-    title: 'Month 4: Ovulation',
+    title: 'Month 4: The follicular phase',
     summary: [
-      'This month went beneath the surface of the midpoint of the cycle. The LH surge triggers ovulation 24-36 hours later, the egg lives a day, sperm up to five, and that gives a six-day fertile window that lies before ovulation. The body shows signs: egg-white discharge and a positive test before, a temperature rise and dry discharge after, and for some a pain on one side or light spotting.',
-      'You have learned that desire, energy and confidence often peak in the days before ovulation, and that a no still counts without explanation. That stress delays ovulation, that not every cycle has one, and that the date in the app is an estimate her signs always beat. That there are no safe days in an app, that fertility awareness is a real method with real requirements and failure rates, and that contraception and fertility are shared responsibilities in practice, not only in principle.',
-      'Next month is about the luteal phase: progesterone, sleep, appetite and the calm, inward time after ovulation, where the job is to lower expectations and raise care.',
+      'This month was about the best week of the cycle and about using it wisely. The follicular phase begins with FSH from the brain, the follicles answer with estrogen, one follicle wins, and estrogen builds both the lining and the capacity. It is felt as steady mood, easier words, more appetite for the new, better sleep, lower appetite for food, greater training capacity and a wish for people. All of it averages, with more variation between women than between phases.',
+      "You have learned to place guests, trips, hard conversations and big decisions here, to confirm the big decisions a week later, to keep an eye on the total so the week does not get overbooked, to prepare the hard week while there is capacity, and to spend some of the surplus on the two of you. And you have learned that she is the whole cycle, that the good weeks are hers and not the hormones', and that her experience beats any table, especially if she uses hormonal contraception.",
+      'Next month is about ovulation: the signs, the closeness and the fertile window, with knowledge and without pressure.',
     ],
     keepDoing: [
-      'Trust her signs over the date in the app, and say so out loud when they disagree.',
-      'Make it easy to log discharge, pain and tests, and never use the log as an argument.',
-      'Respect a no without explanation, in the middle of the cycle too.',
-      'Know your contraception, and take on one concrete part of the responsibility that has so far been hers.',
-      'Remove strain in the follicular phase, where stress matters most for ovulation.',
+      'Say it out loud when the energy turns after the period, without mentioning hormones.',
+      'Check the app before you say yes to anything big, and place it in the follicular phase.',
+      'Keep at least one free evening in the good week so it does not get overbooked.',
+      'Fill the freezer and clear the calendar for the PMS week while there is capacity.',
+      'Confirm big decisions a week after you agreed on them.',
+      "Log the good days too, so the pattern becomes hers and not the app's.",
     ],
     quiz: [
       {
-        question:
-          'The app shows ovulation today, but she says she felt the stab on one side three days ago. What helps most?',
+        question: 'What starts the follicular phase?',
         options: [
-          'Explain that the app is probably right because it works from averages',
-          'Trust her signs and adjust your expectation for the next period',
-          'Suggest she takes an ovulation test to settle it',
-          'Say nothing and wait for the next cycle',
+          'Progesterone from the corpus luteum',
+          'FSH from the pituitary, which makes the follicles grow',
+          'Iron from food after the period',
+          'Ovulation',
         ],
         correctIndex: 1,
         explanation:
-          'The body is right. The date in the app is an estimate from previous cycles; her signs are an observation of this one. If you insist on the app, you make her the one who is wrong about her own body.',
+          'The brain sends FSH, the follicles answer with estrogen. Because the start is run from the brain, stress and lack of sleep can delay the whole phase.',
       },
       {
         question:
-          'You do not want a pregnancy right now. What can the fertile window in the app be used for?',
+          'It is day 7, the period has just ended, and she seems noticeably lighter. What is most helpful?',
         options: [
-          'To find safe days when you can skip the condom',
-          'To understand her body and talk about your contraception, never as contraception',
-          'To know when to use ovulation tests as a safeguard',
-          'Nothing, it is only relevant if you want children',
-        ],
-        correctIndex: 1,
-        explanation:
-          'Sperm live five days, and ovulation can shift by a week. The app guesses from the past and is never contraception. The window is for understanding and for the conversation about shared responsibility.',
-      },
-      {
-        question: 'It is the middle of the cycle, and she says no to sex. What do you do?',
-        options: [
-          'Mention that desire is usually high around now',
-          'Go quiet and a little sulky for the rest of the evening',
-          'Say "totally fine" and suggest a walk or a quiet evening instead',
-          'Ask whether she might have PMS',
+          'Say "you must be in the follicular phase now"',
+          'Say nothing, it is just normal after all',
+          'Say "it seems like you have your energy back" and suggest something to do together',
+          'Ask whether she remembered to log it',
         ],
         correctIndex: 2,
         explanation:
-          'A no counts, even at the peak of desire. Hormones are a backdrop, not a promise. Closeness comes most easily when she is certain that a no is free.',
+          'The shift after the period is one of the most predictable transitions of the cycle. Seeing it and using it, without explaining it with hormones, is the help that matters most.',
       },
       {
         question:
-          'Her period is ten days late after a month of illness and work pressure. What is the best response?',
+          'You are invited to a big party, and the date lands three days before the expected period. What do you do?',
         options: [
-          'Say it is strange and worry out loud',
-          'Calmly ask whether there has been pressure on her, and let a pregnancy test settle the rest if relevant',
-          'Change the cycle length in the app so the date fits',
-          'Assume the app is broken',
+          'Check the app together with her and ask whether to request another date or plan to leave early',
+          'Say yes, she loves parties',
+          'Say no without asking her',
+          'Say yes and hope for the best',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Plans are made with one brain and carried out with another. A quick check of the calendar before you say yes saves many cancellations, and the decision is still hers.',
+      },
+      {
+        question: 'It is day 10, and she has said yes to five things this week. What helps most?',
+        options: [
+          'Say she is overdoing it',
+          'Book even more, now that there is energy',
+          'Say nothing, it is her week',
+          'Go through the week together and suggest moving one thing so there is a free evening',
+        ],
+        correctIndex: 3,
+        explanation:
+          'Capacity gets used up, and the bill lands in the luteal phase. Your role is not to slow her down, but to keep an eye on the total and make sure there are gaps in the plan.',
+      },
+      {
+        question:
+          'You have talked about moving, and on day 11 you both agree and are excited. What is wisest?',
+        options: [
+          'Sign today, while you agree',
+          'Agree on a date about a week from now when you confirm the decision',
+          'Wait for the luteal phase and see whether she still wants to',
+          'Let her decide alone',
         ],
         correctIndex: 1,
         explanation:
-          'Stress and illness in the first half of the cycle delay ovulation, and the period follows 12-14 days later. A late period after a hard month is normal; a test gives peace of mind if there is doubt.',
+          'A decision made with high energy and big courage also has to hold with low energy. Talk it through now, and confirm it a week later when you still agree.',
       },
       {
         question:
-          'You are considering fertility awareness as contraception. What helps most from your side?',
+          'A blog says she should eat particular seeds and avoid running in the luteal phase. What is the best reaction?',
         options: [
-          'Say that the app already shows the fertile window, so that is enough',
-          'Leave it to her, it is her body after all',
-          'Learn the method properly together and agree that the fertile days mean condom or a pause, without argument',
-          'Use ovulation tests as extra safety in the window',
+          'Buy the seeds and rearrange the training by the plan',
+          'Say the cycle makes no difference to training',
+          'Use the app as an average and ask her what she notices herself',
+          'Follow the plan for one month to test it',
         ],
         correctIndex: 2,
         explanation:
-          "The difference between perfect and typical use is whether the rules are followed every time, and that is as much the partner's responsibility as hers. The app and ovulation tests are not contraception.",
-      },
-      {
-        question: 'Her cycles have been 45-60 days long for six months. What helps most?',
-        options: [
-          'Say it must be nice to have fewer periods',
-          "Calmly suggest a doctor's appointment, because it can mean irregular ovulation, and offer to come along",
-          'Wait a year and see if it sorts itself out',
-          'Tell her it sounds like PCOS',
-        ],
-        correctIndex: 1,
-        explanation:
-          'Cycles over 35 days for several months often point to irregular or absent ovulation. That deserves a doctor, not a diagnosis from you, and coming along is concrete support.',
+          'Timing energy and capacity has evidence; seeds that balance hormones and forbidden kinds of exercise do not. Her own experience beats any table.',
       },
     ],
   },
