@@ -3,6 +3,7 @@ import {
   DefaultTheme,
   Stack,
   ThemeProvider,
+  type ErrorBoundaryProps,
   type NativeStackNavigationOptions,
 } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -14,10 +15,14 @@ import { useWidgetSync } from '@/hooks/use-widget-sync';
 import { setLanguage } from '@/i18n';
 import { installNotificationHandler, syncNotifications } from '@/notifications';
 import { selectActivePeriods, useStore } from '@/store/store';
+import { CatchBoundary, captureConsoleErrors, errorDetails } from '@/ui/catch-boundary';
 import { AppErrorBoundary } from '@/ui/error-boundary';
 
-export { AppErrorBoundary as ErrorBoundary };
+export function ErrorBoundary(props: ErrorBoundaryProps) {
+  return <AppErrorBoundary {...props} details={errorDetails(props.error)} />;
+}
 
+captureConsoleErrors();
 void SplashScreen.preventAutoHideAsync();
 installNotificationHandler();
 
@@ -67,18 +72,20 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Protected guard={!!profile}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="log/[date]" options={sheet} />
-          <Stack.Screen name="share" options={sheet} />
-          <Stack.Screen name="scan" options={sheet} />
-          <Stack.Screen name="import" options={sheet} />
-        </Stack.Protected>
-        <Stack.Protected guard={!profile}>
-          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-        </Stack.Protected>
-      </Stack>
+      <CatchBoundary>
+        <Stack>
+          <Stack.Protected guard={!!profile}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="log/[date]" options={sheet} />
+            <Stack.Screen name="share" options={sheet} />
+            <Stack.Screen name="scan" options={sheet} />
+            <Stack.Screen name="import" options={sheet} />
+          </Stack.Protected>
+          <Stack.Protected guard={!profile}>
+            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+          </Stack.Protected>
+        </Stack>
+      </CatchBoundary>
     </ThemeProvider>
   );
 }

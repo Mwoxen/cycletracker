@@ -1,6 +1,6 @@
 import type { ErrorBoundaryProps } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, ScrollView, Share, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useStore } from '@/store/store';
@@ -11,7 +11,11 @@ import { Button, Icon, Txt } from '@/ui/primitives';
  * Shown when a screen throws. Offers retry, and wiping local data as a last resort so a
  * corrupt store can never lock the user out for good.
  */
-export function AppErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+export function AppErrorBoundary({
+  error,
+  retry,
+  details,
+}: ErrorBoundaryProps & { details?: string }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const resetAll = useStore((s) => s.resetAll);
@@ -28,6 +32,11 @@ export function AppErrorBoundary({ error, retry }: ErrorBoundaryProps) {
         },
       },
     ]);
+  };
+
+  const report = `${error.name}: ${error.message}\n\n${details ?? error.stack ?? ''}`;
+  const share = () => {
+    void Share.share({ message: report }).catch(() => undefined);
   };
 
   return (
@@ -50,8 +59,16 @@ export function AppErrorBoundary({ error, retry }: ErrorBoundaryProps) {
         numberOfLines={4}>
         {error.message}
       </Txt>
+      {details ? (
+        <ScrollView style={styles.details} contentContainerStyle={{ padding: spacing.sm }}>
+          <Txt variant="caption" color={colors.tertiaryLabel} style={styles.mono}>
+            {details}
+          </Txt>
+        </ScrollView>
+      ) : null}
       <View style={{ alignSelf: 'stretch', gap: spacing.sm, marginTop: spacing.md }}>
         <Button title={t('error.retry')} onPress={() => void retry()} />
+        <Button title={t('error.share')} variant="plain" onPress={share} />
         <Button title={t('settings.resetAll')} variant="plain" onPress={wipe} />
       </View>
     </View>
@@ -67,4 +84,11 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     gap: spacing.md,
   },
+  details: {
+    alignSelf: 'stretch',
+    maxHeight: 220,
+    borderRadius: 8,
+    backgroundColor: colors.cardSecondary,
+  },
+  mono: { fontFamily: 'Menlo', fontSize: 10, lineHeight: 13 },
 });

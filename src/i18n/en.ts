@@ -345,6 +345,7 @@ const en: Translation = {
     title: 'Something went wrong',
     body: "Try again. If it keeps happening you can delete the app's local data as a last resort. With iCloud backup everything can be restored afterwards.",
     retry: 'Try again',
+    share: 'Share error report',
   },
   notifications: {
     dailyCardTitle: "Today's card is ready",

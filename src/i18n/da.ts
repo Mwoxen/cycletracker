@@ -343,6 +343,7 @@ const da = {
     title: 'Noget gik galt',
     body: 'Prøv igen. Hvis det bliver ved, kan du slette appens lokale data som sidste udvej. Har du iCloud-backup, kan alt gendannes bagefter.',
     retry: 'Prøv igen',
+    share: 'Del fejlrapport',
   },
   notifications: {
     dailyCardTitle: 'Dagens kort er klar',
