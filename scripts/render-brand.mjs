@@ -1,0 +1,65 @@
+/**
+ * Renders the SVG brand assets to the PNGs Expo needs, using headless Chromium.
+ *   node scripts/render-brand.mjs
+ * Set CHROME to the Chromium/Chrome binary if it is not found automatically.
+ */
+import { execFileSync } from 'node:child_process';
+import { existsSync, mkdtempSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
+
+const root = resolve(import.meta.dirname, '..');
+const candidates = [
+  process.env.CHROME,
+  '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell',
+  '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
+  '/usr/bin/chromium',
+  '/usr/bin/chromium-browser',
+  '/usr/bin/google-chrome',
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+].filter(Boolean);
+const chrome = candidates.find((c) => existsSync(c));
+if (!chrome) throw new Error('No Chromium found; set CHROME=/path/to/chrome');
+
+const work = mkdtempSync(join(tmpdir(), 'brand-'));
+
+function render({ svg, size, out, background = 'transparent', scale = 1 }) {
+  const html = `<!doctype html><html><head><style>
+    html,body{margin:0;padding:0;background:${background};width:${size}px;height:${size}px;overflow:hidden}
+    svg{display:block;width:${size}px;height:${size}px;transform:scale(${scale});transform-origin:center}
+  </style></head><body>${readFileSync(svg, 'utf8')}</body></html>`;
+  const page = join(work, `${out.split('/').pop()}.html`);
+  writeFileSync(page, html);
+  const shot = join(work, 'shot.png');
+  execFileSync(
+    chrome,
+    [
+      '--headless',
+      '--no-sandbox',
+      '--disable-gpu',
+      '--hide-scrollbars',
+      '--default-background-color=00000000',
+      `--window-size=${size},${size}`,
+      `--screenshot=${shot}`,
+      `file://${page}`,
+    ],
+    { stdio: 'ignore' },
+  );
+  copyFileSync(shot, resolve(root, out));
+  console.log('wrote', out);
+}
+
+render({
+  svg: 'assets/brand/icon.svg',
+  size: 1024,
+  out: 'assets/images/icon.png',
+  background: '#F9E6DC',
+});
+render({ svg: 'assets/brand/glyph.svg', size: 512, out: 'assets/images/splash-icon.png' });
+render({ svg: 'assets/brand/glyph.svg', size: 512, out: 'assets/images/splash-icon-dark.png' });
+render({
+  svg: 'assets/brand/icon.svg',
+  size: 64,
+  out: 'assets/images/favicon.png',
+  background: '#F9E6DC',
+});

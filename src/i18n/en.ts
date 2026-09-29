@@ -338,6 +338,11 @@ const en: Translation = {
     pairedWith: 'Paired with {{name}}',
     notPaired: 'Not paired yet',
   },
+  error: {
+    title: 'Something went wrong',
+    body: "Try again. If it keeps happening you can delete the app's local data as a last resort. With iCloud backup everything can be restored afterwards.",
+    retry: 'Try again',
+  },
   notifications: {
     dailyCardTitle: "Today's card is ready",
     dailyCardBody: "One minute on what's happening today, and one thing you can do.",

@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 
 import type { PeriodEvent, Profile, Settings } from '@/domain/types';
 import { addDaysISO, compareISO, fromISODate, todayISO } from '@/engine/dates';
+import { programPosition } from '@/content/program';
 import { predict } from '@/engine/cycle';
 import i18n from '@/i18n';
 
@@ -67,7 +68,8 @@ export async function syncNotifications(
     const r = settings.reminders;
     const isTracker = profile.role === 'tracker';
 
-    if (r.dailyCard) {
+    const programDone = programPosition(profile.programStartDate, todayISO()).completed;
+    if (r.dailyCard && !programDone) {
       await Notifications.scheduleNotificationAsync({
         identifier: 'daily-card',
         content: {

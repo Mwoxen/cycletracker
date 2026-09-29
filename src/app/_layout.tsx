@@ -13,6 +13,9 @@ import { useCloudBackup } from '@/hooks/use-cloud-backup';
 import { setLanguage } from '@/i18n';
 import { installNotificationHandler, syncNotifications } from '@/notifications';
 import { selectActivePeriods, useStore } from '@/store/store';
+import { AppErrorBoundary } from '@/ui/error-boundary';
+
+export { AppErrorBoundary as ErrorBoundary };
 
 void SplashScreen.preventAutoHideAsync();
 installNotificationHandler();

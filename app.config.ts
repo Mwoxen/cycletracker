@@ -46,7 +46,30 @@ const config: ExpoConfig = {
     bundleIdentifier: 'com.mwoxen.cycletracker',
     supportsTablet: false,
     usesIcloudStorage: true,
-    icon: './assets/expo.icon',
+    icon: './assets/app.icon',
+    appleTeamId: process.env.APPLE_TEAM_ID || undefined,
+    privacyManifests: {
+      NSPrivacyTracking: false,
+      NSPrivacyCollectedDataTypes: [],
+      NSPrivacyAccessedAPITypes: [
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryUserDefaults',
+          NSPrivacyAccessedAPITypeReasons: ['CA92.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryFileTimestamp',
+          NSPrivacyAccessedAPITypeReasons: ['C617.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategorySystemBootTime',
+          NSPrivacyAccessedAPITypeReasons: ['35F9.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryDiskSpace',
+          NSPrivacyAccessedAPITypeReasons: ['E174.1'],
+        },
+      ],
+    },
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
       CFBundleAllowMixedLocalizations: true,
@@ -60,10 +83,10 @@ const config: ExpoConfig = {
     [
       'expo-splash-screen',
       {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#FBF7F2',
         image: './assets/images/splash-icon.png',
-        imageWidth: 120,
-        dark: { backgroundColor: '#000000' },
+        imageWidth: 160,
+        dark: { backgroundColor: '#161311', image: './assets/images/splash-icon-dark.png' },
       },
     ],
     ['expo-notifications', { defaultChannel: 'default' }],

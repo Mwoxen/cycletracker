@@ -336,6 +336,11 @@ const da = {
     pairedWith: 'Parret med {{name}}',
     notPaired: 'Ikke parret endnu',
   },
+  error: {
+    title: 'Noget gik galt',
+    body: 'Prøv igen. Hvis det bliver ved, kan du slette appens lokale data som sidste udvej. Har du iCloud-backup, kan alt gendannes bagefter.',
+    retry: 'Prøv igen',
+  },
   notifications: {
     dailyCardTitle: 'Dagens kort er klar',
     dailyCardBody: 'Ét minut om, hvad der sker i dag, og én ting du kan gøre.',

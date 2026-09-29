@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F9E6DC"/>
+      <stop offset="1" stop-color="#E9A899"/>
+    </linearGradient>
+    <linearGradient id="heart" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D2705F"/>
+      <stop offset="1" stop-color="#B9503F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g transform="translate(512 512)" fill="none" stroke-width="64" stroke-linecap="round">
+    <!-- four phase arcs: menstrual (rose), follicular (sage), ovulation (amber), luteal (plum) -->
+    <path d="M -1 -300 A 300 300 0 0 1 300 -1" stroke="#D96C6C" opacity="0.95"/>
+    <path d="M 300 1 A 300 300 0 0 1 1 300" stroke="#7FA37A" opacity="0.95"/>
+    <path d="M -1 300 A 300 300 0 0 1 -300 1" stroke="#E0A458" opacity="0.95"/>
+    <path d="M -300 -1 A 300 300 0 0 1 -1 -300" stroke="#8C7AA6" opacity="0.95"/>
+  </g>
+  <g transform="translate(512 528)">
+    <path d="M 0 118 C -30 92 -128 32 -128 -46 C -128 -100 -86 -132 -46 -132 C -20 -132 -6 -118 0 -106 C 6 -118 20 -132 46 -132 C 86 -132 128 -100 128 -46 C 128 32 30 92 0 118 Z" fill="url(#heart)"/>
+  </g>
+</svg>
