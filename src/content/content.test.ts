@@ -1,4 +1,4 @@
-import { PHASES } from '@/domain/types';
+import { PHASES, SYMPTOMS } from '@/domain/types';
 
 import { content } from './index';
 import { DAYS_PER_MONTH, WEEKS_PER_MONTH, dailyId, weeklyId, wrapId } from './types';
@@ -14,6 +14,13 @@ describe.each(Object.entries(content))('%s content', (lang, data) => {
       expect(info.howSheMayFeel.length).toBeGreaterThan(0);
       expect(info.whatYouCanDo.length).toBeGreaterThanOrEqual(3);
       expect(info.avoid.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('has a tip for every symptom', () => {
+    for (const s of SYMPTOMS) {
+      expect(data.symptomTips[s].what.length).toBeGreaterThan(10);
+      expect(data.symptomTips[s].doThis.length).toBeGreaterThan(10);
     }
   });
 

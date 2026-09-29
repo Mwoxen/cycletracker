@@ -1,4 +1,4 @@
-import type { Phase } from '@/domain/types';
+import type { Phase, Symptom } from '@/domain/types';
 
 /** A source the content leans on; shown as a short reference. */
 export interface Source {
@@ -81,8 +81,16 @@ export interface PhaseInfo {
   avoid: string[];
 }
 
+export interface SymptomTip {
+  /** One sentence on what is going on. */
+  what: string;
+  /** One concrete thing the partner can do today. */
+  doThis: string;
+}
+
 export interface LanguageContent {
   phases: Record<Phase, PhaseInfo>;
+  symptomTips: Record<Symptom, SymptomTip>;
   months: MonthContent[];
 }
 

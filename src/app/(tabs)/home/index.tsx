@@ -6,7 +6,7 @@ import { useCycle } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { useProgram } from '@/hooks/use-program';
 import { relativeTime } from '@/hooks/use-relative-time';
-import { useStore } from '@/store/store';
+import { selectLogForDate, useStore } from '@/store/store';
 import { colors, spacing } from '@/ui/colors';
 import { DailyCardPreview } from '@/ui/daily-card';
 import { PhaseCard } from '@/ui/phase-card';
@@ -20,6 +20,7 @@ export default function HomeScreen() {
   const pairing = useStore((s) => s.pairing);
   const { today, snapshot } = useCycle();
   const program = useProgram();
+  const todayLog = useStore(selectLogForDate(today));
   const isTracker = profile?.role === 'tracker';
   const name = profile?.partnerName ?? '';
   const phase = snapshot.today?.phase;
@@ -62,6 +63,25 @@ export default function HomeScreen() {
           </Txt>
         </Card>
       )}
+
+      {todayLog && todayLog.symptoms.length > 0 ? (
+        <Card onPress={() => router.push(`/log/${today}`)}>
+          <Txt variant="footnote">
+            {isTracker ? t('home.sheLogged', { name }) : t('home.youLogged')}
+          </Txt>
+          <Txt variant="headline">
+            {todayLog.symptoms.map((s) => t(`log.symptomNames.${s}`)).join(' · ')}
+          </Txt>
+          {isTracker ? (
+            <>
+              <Txt variant="footnote">{program.content.symptomTips[todayLog.symptoms[0]].what}</Txt>
+              <Txt color={colors.tint}>
+                {program.content.symptomTips[todayLog.symptoms[0]].doThis}
+              </Txt>
+            </>
+          ) : null}
+        </Card>
+      ) : null}
 
       {phaseInfo && isTracker ? (
         <Card onPress={() => router.push(`/(tabs)/learn/phase/${phaseInfo.phase}`)}>

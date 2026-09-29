@@ -1,9 +1,12 @@
 import { useRouter } from 'expo-router';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { MONTHS_IN_PROGRAM, isMonthAvailable, isMonthWrapUnlocked, PHASE_ORDER } from '@/content';
+import { catchUpItems, readingStreak } from '@/engine/insights';
 import { useProgram } from '@/hooks/use-program';
+import { useToday } from '@/hooks/use-today';
 import { colors, phaseColor, phaseSymbol } from '@/ui/colors';
 import { Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 
@@ -13,6 +16,12 @@ export default function LearnScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { content, position, card, weekly, wrap, progress } = useProgram();
+  const today = useToday();
+  const streak = useMemo(() => readingStreak(progress, today), [progress, today]);
+  const catchUp = useMemo(
+    () => catchUpItems(content, position, progress),
+    [content, position, progress],
+  );
 
   const readCount = Object.values(progress).filter((p) => p.readAt).length;
   const doneCount = Object.values(progress).filter((p) => p.actionDoneAt).length;
@@ -23,7 +32,8 @@ export default function LearnScreen() {
       <Txt variant="footnote" style={{ marginLeft: 4 }}>
         {t('common.dayN', { n: position.programDay })} ·{' '}
         {t('learn.progress', { read: readCount, total: totalCards })} ·{' '}
-        {t('learn.actionsDone', { n: doneCount })}
+        {t('learn.actionsDone', { n: doneCount })} ·{' '}
+        {streak > 0 ? t('learn.streak', { n: streak }) : t('learn.streakNone')}
       </Txt>
 
       <SectionTitle>{t('learn.today')}</SectionTitle>
@@ -54,6 +64,40 @@ export default function LearnScreen() {
           symbol={wrap ? 'star.fill' : 'lock.fill'}
           symbolColor={wrap ? colors.orange : colors.tertiaryLabel}
           onPress={wrap ? () => router.push(`/(tabs)/learn/wrap/${wrap.id}`) : undefined}
+          last
+        />
+      </Card>
+
+      <Card style={{ padding: 0, paddingHorizontal: 16 }}>
+        <Row
+          title={t('learn.catchUp')}
+          subtitle={
+            catchUp.length ? t('learn.catchUpCount', { n: catchUp.length }) : t('learn.catchUpNone')
+          }
+          symbol={catchUp.length ? 'tray.full.fill' : 'checkmark.circle.fill'}
+          symbolColor={catchUp.length ? colors.orange : colors.green}
+          onPress={
+            catchUp.length
+              ? () => {
+                  const next = catchUp[0];
+                  router.push(`/(tabs)/learn/${next.kind}/${next.id}`);
+                }
+              : undefined
+          }
+          chevron={catchUp.length > 0}
+        />
+        <Row
+          title={t('learn.archive')}
+          subtitle={t('learn.archiveHint')}
+          symbol="magnifyingglass"
+          onPress={() => router.push('/(tabs)/learn/archive')}
+        />
+        <Row
+          title={t('learn.overview')}
+          subtitle={t('learn.overviewHint')}
+          symbol="heart.text.square.fill"
+          symbolColor={colors.pink}
+          onPress={() => router.push('/(tabs)/learn/overview')}
           last
         />
       </Card>

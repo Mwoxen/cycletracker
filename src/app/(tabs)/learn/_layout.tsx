@@ -16,6 +16,8 @@ export default function LearnLayout() {
       <Stack.Screen name="wrap/[id]" options={{ title: '', headerLargeTitleEnabled: false }} />
       <Stack.Screen name="phase/[phase]" options={{ title: '', headerLargeTitleEnabled: false }} />
       <Stack.Screen name="month/[month]" options={{ title: '' }} />
+      <Stack.Screen name="archive" options={{ title: '' }} />
+      <Stack.Screen name="overview" options={{ title: '', headerLargeTitleEnabled: false }} />
     </Stack>
   );
 }
