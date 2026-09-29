@@ -1,10 +1,12 @@
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { useTranslation } from 'react-i18next';
 
+import { colors } from '@/ui/colors';
+
 export default function TabsLayout() {
   const { t } = useTranslation();
   return (
-    <NativeTabs>
+    <NativeTabs tintColor={colors.tint}>
       <NativeTabs.Trigger name="home">
         <NativeTabs.Trigger.Label>{t('home.title')}</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf={{ default: 'sun.horizon', selected: 'sun.horizon.fill' }} />

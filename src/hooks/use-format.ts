@@ -13,5 +13,6 @@ export function useFormat() {
     short: (iso: ISODate) => format(fromISODate(iso), t('dates.formatShort'), { locale }),
     monthYear: (date: Date) => format(date, t('dates.formatMonthYear'), { locale }),
     weekday: (date: Date) => format(date, 'EEEEE', { locale }),
+    time: (date: Date) => format(date, 'p', { locale }),
   };
 }

@@ -5,7 +5,7 @@ import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet, Switch, TextInput, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 
 import { LANGUAGES, type Language, type Role } from '@/domain/types';
 import { fromISODate, toISODate } from '@/engine/dates';
@@ -16,7 +16,7 @@ import { relativeTime } from '@/hooks/use-relative-time';
 import { useToday } from '@/hooks/use-today';
 import { hasNotificationPermission, requestNotificationPermission } from '@/notifications';
 import { previewMerge, selectSnapshotData, useStore } from '@/store';
-import { colors, spacing } from '@/ui/colors';
+import { colors, palette, spacing } from '@/ui/colors';
 import { Button, Card, Chip, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Stepper } from '@/ui/stepper';
 
@@ -37,6 +37,7 @@ export default function SettingsScreen() {
   const resetAll = useStore((s) => s.resetAll);
   const [notifGranted, setNotifGranted] = useState<boolean | undefined>();
   const [name, setName] = useState(profile?.partnerName ?? '');
+  const [openPicker, setOpenPicker] = useState<'start' | 'time' | null>(null);
 
   useEffect(() => {
     void hasNotificationPermission().then(setNotifGranted);
@@ -63,6 +64,7 @@ export default function SettingsScreen() {
   };
   const reminderTime = new Date();
   reminderTime.setHours(r.dailyCardHour, r.dailyCardMinute, 0, 0);
+  const locale = profile.language === 'da' ? 'da_DK' : 'en_GB';
 
   const exportFile = async () => {
     try {
@@ -175,17 +177,26 @@ export default function SettingsScreen() {
             />
           ))}
         </View>
-        <Txt variant="footnote" style={{ marginTop: spacing.sm }}>
-          {t('settings.programStart')}
-        </Txt>
-        <DateTimePicker
-          value={fromISODate(profile.programStartDate)}
-          mode="date"
-          display="compact"
-          onValueChange={(_, d) => updateProfile({ programStartDate: toISODate(d) })}
-          locale={profile.language === 'da' ? 'da_DK' : 'en_GB'}
-          style={{ alignSelf: 'flex-start' }}
-        />
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => setOpenPicker(openPicker === 'start' ? null : 'start')}
+          style={[styles.row, { marginTop: spacing.sm }]}>
+          <Txt style={{ flex: 1 }}>{t('settings.programStart')}</Txt>
+          <Txt color={openPicker === 'start' ? colors.tint : colors.secondaryLabel}>
+            {fmt.long(profile.programStartDate)}
+          </Txt>
+        </Pressable>
+        {openPicker === 'start' ? (
+          <DateTimePicker
+            value={fromISODate(profile.programStartDate)}
+            mode="date"
+            display="inline"
+            accentColor={palette.light.tint}
+            onValueChange={(_, d) => updateProfile({ programStartDate: toISODate(d) })}
+            locale={locale}
+            style={{ alignSelf: 'stretch' }}
+          />
+        ) : null}
       </Card>
 
       <SectionTitle>{t('settings.cycle')}</SectionTitle>
@@ -230,18 +241,29 @@ export default function SettingsScreen() {
           <Switch value={r.dailyCard} onValueChange={(v) => void toggleReminder('dailyCard', v)} />
         </View>
         {r.dailyCard ? (
-          <View style={styles.row}>
-            <Txt style={{ flex: 1 }}>{t('settings.dailyCardTime')}</Txt>
-            <DateTimePicker
-              value={reminderTime}
-              mode="time"
-              display="compact"
-              onValueChange={(_, d) =>
-                updateReminders({ dailyCardHour: d.getHours(), dailyCardMinute: d.getMinutes() })
-              }
-              locale={profile.language === 'da' ? 'da_DK' : 'en_GB'}
-            />
-          </View>
+          <>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setOpenPicker(openPicker === 'time' ? null : 'time')}
+              style={styles.row}>
+              <Txt style={{ flex: 1 }}>{t('settings.dailyCardTime')}</Txt>
+              <Txt color={openPicker === 'time' ? colors.tint : colors.secondaryLabel}>
+                {fmt.time(reminderTime)}
+              </Txt>
+            </Pressable>
+            {openPicker === 'time' ? (
+              <DateTimePicker
+                value={reminderTime}
+                mode="time"
+                display="spinner"
+                onValueChange={(_, d) =>
+                  updateReminders({ dailyCardHour: d.getHours(), dailyCardMinute: d.getMinutes() })
+                }
+                locale={locale}
+                style={{ alignSelf: 'stretch' }}
+              />
+            ) : null}
+          </>
         ) : null}
         <View style={styles.row}>
           <Txt style={{ flex: 1 }}>{t('settings.periodSoon')}</Txt>
