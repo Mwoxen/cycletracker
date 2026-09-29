@@ -1,0 +1,369 @@
+/**
+ * Smoke tests that render every screen through Expo Router with the real route files in
+ * src/app. They exist to catch runtime errors before a build: render loops, undefined imports,
+ * hook misuse, bad props and i18n crashes. Native-only modules are mocked in src/test/jest.setup.
+ */
+import { render } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor } from 'expo-router/testing-library';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { getContent, dailyId, weeklyId, wrapId } from '@/content';
+import { PHASES, type Role } from '@/domain/types';
+import { addDaysISO, todayISO } from '@/engine/dates';
+import { setLanguage } from '@/i18n';
+import da from '@/i18n/da';
+import { createSyncSnapshot, selectActivePeriods, selectSnapshotData, useStore } from '@/store';
+import { encodePayload } from '@/sync/payload';
+import { renderApp, withinTab } from '@/test/render-app';
+import { AppErrorBoundary } from '@/ui/error-boundary';
+
+/** Fixed clock so the program position and the cycle phase are the same on every run. */
+const TODAY = '2026-05-10';
+
+function freezeToday(iso: string = TODAY) {
+  jest.useFakeTimers();
+  jest.setSystemTime(new Date(`${iso}T12:00:00`));
+}
+
+function onboard(role: Role, programStartDate = todayISO()) {
+  useStore.getState().completeOnboarding({
+    role,
+    language: 'da',
+    partnerName: 'Anna',
+    programStartDate,
+    lastPeriodStart: addDaysISO(todayISO(), -10),
+    cycleLength: 28,
+    periodLength: 5,
+  });
+}
+
+const content = getContent('da');
+const month1 = content.months[0];
+const upper = (s: string) => s.toUpperCase();
+const homeTab = () => withinTab(da.home.title);
+const learnTab = () => withinTab(da.learn.title);
+const calendarTab = () => withinTab(da.calendar.title);
+const settingsTab = () => withinTab(da.settings.title);
+/** Waits for the tabs to mount after a navigation that replaces the root stack. */
+const homeTabWhenReady = () => waitFor(() => homeTab(), { timeout: 3000 });
+
+beforeEach(() => {
+  freezeToday();
+  setLanguage('da');
+  useStore.getState().resetAll();
+  useStore.getState().setHydrated(true);
+});
+
+afterEach(() => {
+  jest.useRealTimers();
+});
+
+describe('fresh install', () => {
+  it('shows onboarding when there is no profile', async () => {
+    const app = await renderApp('/');
+    expect(await screen.findByText(da.onboarding.welcomeTitle)).toBeTruthy();
+    expect(screen.getByText(upper(da.onboarding.chooseRole))).toBeTruthy();
+    expect(app.getPathname()).toBe('/onboarding');
+  });
+
+  it('completes onboarding from the screen and lands on home', async () => {
+    await renderApp('/onboarding');
+    await fireEvent.press(await screen.findByText(da.roles.tracker));
+    await fireEvent.changeText(screen.getByPlaceholderText(da.onboarding.namePlaceholder), 'Anna');
+    await fireEvent.press(screen.getByText(da.onboarding.finish));
+    expect(await homeTabWhenReady()).toBeTruthy();
+    expect(homeTab().getByText(da.home.todaysCard)).toBeTruthy();
+    expect(useStore.getState().profile?.partnerName).toBe('Anna');
+    expect(useStore.getState().profile?.role).toBe('tracker');
+  });
+});
+
+describe('home', () => {
+  it('renders the phase card and daily card for a tracker', async () => {
+    onboard('tracker');
+    await renderApp('/home');
+    const home = homeTab();
+    expect(await home.findByText(/^Anna er i /)).toBeTruthy();
+    expect(home.getByText(da.home.todaysCard)).toBeTruthy();
+    expect(home.getByText(month1.daily[0].title)).toBeTruthy();
+    expect(home.getByText(da.home.neverSynced)).toBeTruthy();
+  });
+
+  it('renders for the user role', async () => {
+    onboard('user');
+    await renderApp('/home');
+    const home = homeTab();
+    expect(await home.findByText(/^Du er i /)).toBeTruthy();
+    expect(home.getByText(da.home.partnerLearnsToday)).toBeTruthy();
+    expect(home.getByText(da.home.neverShared)).toBeTruthy();
+  });
+
+  it('renders without cycle data', async () => {
+    useStore.getState().completeOnboarding({
+      role: 'tracker',
+      language: 'da',
+      partnerName: 'Anna',
+      programStartDate: todayISO(),
+    });
+    await renderApp('/home');
+    expect(await homeTab().findByText(da.home.noDataTitle)).toBeTruthy();
+  });
+
+  it('marks the daily action as done', async () => {
+    onboard('tracker');
+    await renderApp('/home');
+    const home = homeTab();
+    await fireEvent.press(await home.findByText(da.home.markActionDone));
+    expect(useStore.getState().progress[dailyId(1, 1)]?.actionDoneAt).toBeDefined();
+    expect(await home.findByText(da.home.actionDone)).toBeTruthy();
+  });
+
+  it('shows a logged symptom with the tip for the partner', async () => {
+    onboard('tracker');
+    useStore.getState().upsertLog(todayISO(), { symptoms: ['cramps'] });
+    await renderApp('/home');
+    expect(await homeTab().findByText(content.symptomTips.cramps.doThis)).toBeTruthy();
+  });
+
+  it('shows pairing rows once a partner is synced', async () => {
+    onboard('tracker');
+    useStore.getState().setPairing({
+      partnerDeviceId: 'partner',
+      partnerName: 'Bo',
+      lastSyncAt: Date.now() - 60_000,
+    });
+    await renderApp('/home');
+    const home = homeTab();
+    expect(await home.findByText(/^Sidst synkroniseret /)).toBeTruthy();
+    expect(home.queryByText(da.home.neverSynced)).toBeNull();
+    expect(settingsTab().getByText(da.sync.pairedWith.replace('{{name}}', 'Bo'))).toBeTruthy();
+  });
+});
+
+describe('tabs', () => {
+  it('renders learn', async () => {
+    onboard('tracker');
+    await renderApp('/learn');
+    const learn = learnTab();
+    expect(await learn.findByText(da.learn.catchUp)).toBeTruthy();
+    expect(learn.getByText(month1.daily[0].title)).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.phaseLibrary))).toBeTruthy();
+    // Today's card and this week's read are unread, so the catch-up list is never empty on day 1.
+    expect(learn.getByText('2 ulæste')).toBeTruthy();
+  });
+
+  it('renders calendar and moves between months', async () => {
+    onboard('tracker');
+    await renderApp('/calendar');
+    const calendar = calendarTab();
+    expect(await calendar.findByText(da.calendar.period)).toBeTruthy();
+    expect(calendar.getByText(da.calendar.predictedPeriod)).toBeTruthy();
+    expect(calendar.getByText('maj 2026')).toBeTruthy();
+    await fireEvent.press(calendar.getByLabelText(da.calendar.nextMonth));
+    expect(await calendar.findByText('juni 2026')).toBeTruthy();
+  });
+
+  it('renders settings and switches language', async () => {
+    onboard('tracker');
+    await renderApp('/settings');
+    const settings = settingsTab();
+    expect(await settings.findByText(upper(da.settings.profile))).toBeTruthy();
+    await fireEvent.press(settings.getByText(da.settings.languageNames.en));
+    expect(useStore.getState().profile?.language).toBe('en');
+    // The root layout follows the profile language, so the UI re-renders in English.
+    expect(await settings.findByText('PROFILE')).toBeTruthy();
+  });
+});
+
+describe('learn sub-screens', () => {
+  it('renders a daily card and marks it read', async () => {
+    onboard('tracker');
+    const id = dailyId(1, 1);
+    await renderApp(`/learn/daily/${id}`);
+    const learn = learnTab();
+    expect(await learn.findByText(month1.daily[0].insight)).toBeTruthy();
+    expect(learn.getByText(upper(da.home.action))).toBeTruthy();
+    expect(useStore.getState().progress[id]?.readAt).toBeDefined();
+  });
+
+  it('renders a weekly read', async () => {
+    onboard('tracker');
+    await renderApp(`/learn/weekly/${weeklyId(1, 1)}`);
+    const learn = learnTab();
+    expect(await learn.findByText(month1.weekly[0].body[0])).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.conversationQuestion))).toBeTruthy();
+  });
+
+  it('renders a monthly wrap and plays the quiz', async () => {
+    onboard('tracker');
+    await renderApp(`/learn/wrap/${wrapId(1)}`);
+    const learn = learnTab();
+    expect(await learn.findByText(month1.wrap.summary[0])).toBeTruthy();
+    await fireEvent.press(learn.getByText(da.learn.startQuiz));
+    const [first] = month1.wrap.quiz;
+    expect(await learn.findByText(first.question)).toBeTruthy();
+    await fireEvent.press(learn.getByText(first.options[first.correctIndex]));
+    expect(await learn.findByText(da.learn.correct)).toBeTruthy();
+  });
+
+  it.each(PHASES)('renders the %s phase', async (phase) => {
+    onboard('tracker');
+    await renderApp(`/learn/phase/${phase}`);
+    const learn = learnTab();
+    expect(await learn.findByText(content.phases[phase].avoid[0])).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.avoid))).toBeTruthy();
+  });
+
+  it('renders a program month', async () => {
+    onboard('tracker');
+    await renderApp('/learn/month/1');
+    const learn = learnTab();
+    expect(await learn.findByText(month1.theme)).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.daily))).toBeTruthy();
+    expect(learn.getAllByText(month1.daily[month1.daily.length - 1].title)).toHaveLength(1);
+  });
+
+  it('renders the archive', async () => {
+    onboard('tracker');
+    await renderApp('/learn/archive');
+    const learn = learnTab();
+    const phaseRows = await learn.findAllByText(new RegExp(`^${da.learn.kindPhase} · `));
+    expect(phaseRows).toHaveLength(PHASES.length);
+  });
+
+  it('renders the overview', async () => {
+    onboard('tracker');
+    useStore.getState().upsertLog(todayISO(), { symptoms: ['cramps'], mood: 'low' });
+    await renderApp('/learn/overview');
+    const learn = learnTab();
+    expect(await learn.findByText(upper(da.learn.yearSummary))).toBeTruthy();
+    expect(learn.getByText(content.symptomTips.cramps.doThis)).toBeTruthy();
+  });
+});
+
+describe('sheets', () => {
+  it('renders the log sheet and toggles a period', async () => {
+    onboard('tracker');
+    const today = todayISO();
+    await renderApp(`/log/${today}`);
+    expect(await screen.findByText(da.log.periodStartsToday)).toBeTruthy();
+    const before = selectActivePeriods(useStore.getState()).length;
+    const [startSwitch] = screen.getAllByRole('switch');
+    await fireEvent(startSwitch, 'valueChange', true);
+    const periods = selectActivePeriods(useStore.getState());
+    expect(periods).toHaveLength(before + 1);
+    expect(periods.some((p) => p.startDate === today)).toBe(true);
+    await fireEvent.press(screen.getByText(da.log.symptomNames.cramps));
+    expect(Object.values(useStore.getState().logs)[0]?.symptoms).toEqual(['cramps']);
+  });
+
+  it('renders the share sheet', async () => {
+    onboard('user');
+    await renderApp('/share');
+    expect(await screen.findByText(da.sync.shareTitle)).toBeTruthy();
+    expect(screen.getByText(da.sync.sendLink)).toBeTruthy();
+  });
+
+  it('renders the import sheet without a payload', async () => {
+    onboard('tracker');
+    await renderApp('/import');
+    expect(await screen.findByText(da.sync.importInvalid)).toBeTruthy();
+  });
+
+  it('renders the import sheet with a partner payload and imports it', async () => {
+    onboard('tracker');
+    const partner = {
+      ...selectSnapshotData(useStore.getState()),
+      periods: { p1: { id: 'p1', startDate: addDaysISO(todayISO(), -3), updatedAt: 5 } },
+      logs: {},
+    };
+    const payload = encodePayload(createSyncSnapshot(partner, 'partner-device'));
+    await renderApp(`/import?d=${payload}`);
+    expect(await screen.findByText(da.sync.importUnknownSender)).toBeTruthy();
+    await fireEvent.press(screen.getByText(da.sync.importButton));
+    expect(await screen.findByText(da.sync.importDone)).toBeTruthy();
+    expect(useStore.getState().periods.p1).toBeDefined();
+    expect(useStore.getState().pairing.partnerDeviceId).toBe('partner-device');
+  });
+
+  it('renders the scan sheet', async () => {
+    onboard('tracker');
+    await renderApp('/scan');
+    expect(await screen.findAllByText(da.sync.scanTitle)).toHaveLength(2); // title and button
+    expect(screen.getByText(da.sync.pasteLink)).toBeTruthy();
+  });
+});
+
+describe('later in the program', () => {
+  it('renders month 2 content 40 days after the start', async () => {
+    onboard('tracker', addDaysISO(TODAY, -40));
+    await renderApp('/home');
+    // Day 41 is month 2, day 11.
+    const card = content.months[1].daily.find((c) => c.day === 11)!;
+    expect(await homeTab().findByText(card.title)).toBeTruthy();
+  });
+
+  it('renders month 7 and the catch-up list 200 days after the start', async () => {
+    onboard('tracker', addDaysISO(TODAY, -200));
+    await renderApp('/learn');
+    const learn = learnTab();
+    // Day 201 is month 7, day 21: everything before it is unread.
+    expect(await learn.findByText(/^\d+ ulæste$/)).toBeTruthy();
+    expect(learn.getByText(content.months[6].daily.find((c) => c.day === 21)!.title)).toBeTruthy();
+    // The oldest unread item is the month 1 week 1 read.
+    await fireEvent.press(learn.getByText(da.learn.catchUp));
+    expect(await learn.findByText(month1.weekly[0].body[0])).toBeTruthy();
+  });
+
+  it('renders the month screen for month 7', async () => {
+    onboard('tracker', addDaysISO(TODAY, -200));
+    await renderApp('/learn/month/7');
+    expect(await learnTab().findByText(content.months[6].theme)).toBeTruthy();
+  });
+
+  it('keeps showing the last card after the program has completed', async () => {
+    onboard('tracker', addDaysISO(TODAY, -400));
+    await renderApp('/home');
+    const last = content.months[11].daily.find((c) => c.day === 30)!;
+    expect(await homeTab().findByText(last.title)).toBeTruthy();
+  });
+
+  it('renders home before the program has started', async () => {
+    onboard('tracker', addDaysISO(TODAY, 5));
+    await renderApp('/home');
+    expect(await homeTab().findByText(/^Programmet starter/)).toBeTruthy();
+  });
+});
+
+describe('error boundary', () => {
+  const metrics = {
+    frame: { x: 0, y: 0, width: 390, height: 844 },
+    insets: { top: 47, right: 0, bottom: 34, left: 0 },
+  };
+
+  it('shows the retry button', async () => {
+    const retry = jest.fn(async () => undefined);
+    await render(
+      <SafeAreaProvider initialMetrics={metrics}>
+        <AppErrorBoundary error={new Error('boom')} retry={retry} />
+      </SafeAreaProvider>,
+    );
+    expect(screen.getByText(da.error.title)).toBeTruthy();
+    expect(screen.getByText('boom')).toBeTruthy();
+    await fireEvent.press(screen.getByText(da.error.retry));
+    expect(retry).toHaveBeenCalled();
+  });
+
+  it('catches a screen that throws and offers retry', async () => {
+    onboard('tracker');
+    // React reports the caught error through console.error; that is the point of this test.
+    (console.error as jest.Mock).mockImplementation(() => undefined);
+    function Boom(): null {
+      throw new Error('boom from screen');
+    }
+    await renderApp('/boom', { boom: Boom });
+    expect(await screen.findByText(da.error.title)).toBeTruthy();
+    expect(screen.getByText('boom from screen')).toBeTruthy();
+    expect(screen.getByText(da.error.retry)).toBeTruthy();
+  });
+});

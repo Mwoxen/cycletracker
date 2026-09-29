@@ -16,6 +16,10 @@ This is an Expo (React Native) iOS app written in TypeScript. Read `README.md` f
   `src/content/validate.ts`). A single month can be checked before registration with
   `CONTENT_MONTH=07 npx jest src/content/month.test.ts`. Every daily card must end in something the
   partner can do.
+- `src/app/__tests__/screens.test.tsx` renders every route through Expo Router in Jest (real
+  route files, store and i18n; native-only modules mocked in `src/test/jest.setup.tsx`). It fails
+  on render loops, missing exports and React key/update errors, so run it before every build and
+  add a case when you add a screen.
 - Every UI string goes through i18n (`src/i18n/da.ts` is the source of truth; `en.ts` is typed
   against it so missing keys fail typecheck).
 - The home-screen widget lives in `targets/widget` (Swift, built by `@bacons/apple-targets`) and
