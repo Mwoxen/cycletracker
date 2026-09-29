@@ -11,9 +11,11 @@ This is an Expo (React Native) iOS app written in TypeScript. Read `README.md` f
 - Routes live in `src/app/`. Non-route code goes in `src/engine`, `src/store`, `src/content`,
   `src/i18n`, `src/ui`, `src/hooks`, `src/notifications`.
 - The cycle engine (`src/engine/cycle.ts`) is pure and fully unit tested. Change tests with behavior.
-- Content is authored per language in `src/content/<lang>/month-NN.ts` and validated by
-  `src/content/content.test.ts` (card length, an action on every card, weekly reading time, quiz
-  validity, language parity). Every daily card must end in something the partner can do.
+- Content is authored per language in `src/content/<lang>/month-NN.ts` following
+  `docs/CONTENT_GUIDE.md`, and validated by `src/content/content.test.ts` (rules in
+  `src/content/validate.ts`). A single month can be checked before registration with
+  `CONTENT_MONTH=07 npx jest src/content/month.test.ts`. Every daily card must end in something the
+  partner can do.
 - Every UI string goes through i18n (`src/i18n/da.ts` is the source of truth; `en.ts` is typed
   against it so missing keys fail typecheck).
 - Privacy: no analytics, no crash reporting, no network calls besides EAS Update and iCloud.
