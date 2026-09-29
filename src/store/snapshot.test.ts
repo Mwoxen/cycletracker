@@ -5,6 +5,7 @@ import {
   createSyncSnapshot,
   mergeSnapshot,
   parseSnapshot,
+  previewMerge,
   serializeSnapshot,
   type SnapshotData,
 } from './snapshot';
@@ -164,5 +165,32 @@ describe('createSyncSnapshot', () => {
     expect(snap.periods.map((x) => x.id)).toEqual(['b']);
     expect(snap.profile).toBeUndefined();
     expect(snap.progress).toEqual([]);
+  });
+});
+
+describe('previewMerge', () => {
+  it('counts what a merge would change without writing', () => {
+    const current = data({
+      periods: { a: p('a', '2026-03-01', 10), b: p('b', '2026-03-29', 20) },
+    });
+    const incoming = createSnapshot(
+      data({
+        periods: {
+          a: p('a', '2026-03-02', 5),
+          b: p('b', '2026-03-30', 25),
+          c: p('c', '2026-04-27', 1),
+        },
+      }),
+      'dev2',
+    );
+    const preview = previewMerge(current, incoming);
+    expect(preview).toEqual({
+      newPeriods: 1,
+      updatedPeriods: 1,
+      newLogs: 0,
+      updatedLogs: 0,
+      periodRange: { from: '2026-03-02', to: '2026-04-27' },
+    });
+    expect(current.periods.b.startDate).toBe('2026-03-29');
   });
 });

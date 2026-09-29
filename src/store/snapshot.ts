@@ -190,3 +190,39 @@ function isSyncable(v: unknown): v is Syncable {
     typeof (v as Syncable).updatedAt === 'number'
   );
 }
+
+export interface MergePreview {
+  newPeriods: number;
+  updatedPeriods: number;
+  newLogs: number;
+  updatedLogs: number;
+  /** Earliest and latest period start in the incoming snapshot. */
+  periodRange?: { from: string; to: string };
+}
+
+/** What would change if the snapshot were merged; never writes. */
+export function previewMerge(current: SnapshotData, snapshot: Snapshot): MergePreview {
+  const count = <T extends Syncable>(existing: Record<string, T>, incoming: T[]) => {
+    let added = 0;
+    let updated = 0;
+    for (const item of incoming) {
+      const cur = existing[item.id];
+      if (!cur) added += 1;
+      else if (item.updatedAt > cur.updatedAt) updated += 1;
+    }
+    return { added, updated };
+  };
+  const p = count(current.periods, snapshot.periods);
+  const l = count(current.logs, snapshot.logs);
+  const starts = snapshot.periods
+    .filter((x) => !x.deleted)
+    .map((x) => x.startDate)
+    .sort();
+  return {
+    newPeriods: p.added,
+    updatedPeriods: p.updated,
+    newLogs: l.added,
+    updatedLogs: l.updated,
+    periodRange: starts.length ? { from: starts[0], to: starts[starts.length - 1] } : undefined,
+  };
+}
