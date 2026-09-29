@@ -305,6 +305,12 @@ const da = {
     language: 'Sprog',
     programStart: 'Programstart',
     cycle: 'Cyklus',
+    appearance: 'Udseende',
+    appearanceNames: {
+      system: 'System',
+      light: 'Lys',
+      dark: 'Mørk',
+    },
     cycleLength: 'Cykluslængde',
     periodLength: 'Blødningsdage',
     lutealLength: 'Lutealfase',

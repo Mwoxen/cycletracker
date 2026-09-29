@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet, Switch, TextInput } from 'react-native';
 
-import { LANGUAGES, type Language, type Role } from '@/domain/types';
+import { APPEARANCES, LANGUAGES, type Language, type Role } from '@/domain/types';
 import { fromISODate, toISODate } from '@/engine/dates';
 import { readCloudBackup } from '@/backup/cloud';
 import { exportSnapshotFile, pickSnapshotFile } from '@/backup/file';
@@ -165,6 +165,10 @@ export default function SettingsScreen() {
     value: l,
     label: t(`settings.languageNames.${l}`),
   }));
+  const appearanceOptions = APPEARANCES.map((a) => ({
+    value: a,
+    label: t(`settings.appearanceNames.${a}`),
+  }));
 
   return (
     <TabSwipe tab="settings">
@@ -221,6 +225,21 @@ export default function SettingsScreen() {
               style={styles.picker}
             />
           ) : null}
+        </Card>
+
+        <SectionTitle>{t('settings.appearance')}</SectionTitle>
+        <Card style={styles.rowsCard}>
+          <Row
+            title={t('settings.appearance')}
+            last
+            trailing={
+              <Segmented
+                options={appearanceOptions}
+                value={settings.appearance}
+                onChange={(appearance) => updateSettings({ appearance })}
+              />
+            }
+          />
         </Card>
 
         <SectionTitle>{t('settings.cycle')}</SectionTitle>

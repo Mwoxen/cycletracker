@@ -307,6 +307,12 @@ const en: Translation = {
     language: 'Language',
     programStart: 'Program start',
     cycle: 'Cycle',
+    appearance: 'Appearance',
+    appearanceNames: {
+      system: 'System',
+      light: 'Light',
+      dark: 'Dark',
+    },
     cycleLength: 'Cycle length',
     periodLength: 'Period days',
     lutealLength: 'Luteal phase',

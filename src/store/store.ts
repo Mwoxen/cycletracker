@@ -271,6 +271,19 @@ export const useStore = create<AppState>()(
         void version;
         return persisted as AppState;
       },
+      // Settings added in later versions get their defaults instead of being undefined.
+      merge: (persisted, current) => {
+        const p = (persisted ?? {}) as Partial<AppState>;
+        return {
+          ...current,
+          ...p,
+          settings: {
+            ...DEFAULT_SETTINGS,
+            ...p.settings,
+            reminders: { ...DEFAULT_SETTINGS.reminders, ...p.settings?.reminders },
+          },
+        };
+      },
       onRehydrateStorage: () => (state) => {
         state?.setHydrated(true);
       },

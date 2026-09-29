@@ -227,6 +227,16 @@ describe('tabs', () => {
     // The root layout follows the profile language, so the UI re-renders in English.
     expect(await settings.findByText('PROFILE')).toBeTruthy();
   });
+
+  it('lets the user pick a light, dark or system appearance', async () => {
+    onboard('tracker');
+    await renderApp('/settings');
+    const settings = settingsTab();
+    await fireEvent.press(await settings.findByText(da.settings.appearanceNames.dark));
+    expect(useStore.getState().settings.appearance).toBe('dark');
+    await fireEvent.press(settings.getByText(da.settings.appearanceNames.system));
+    expect(useStore.getState().settings.appearance).toBe('system');
+  });
 });
 
 describe('learn sub-screens', () => {

@@ -2,18 +2,21 @@
  * Snapshot: one versioned, serializable object holding everything worth keeping.
  * The same format is used for iCloud backup, manual export/import and partner sync.
  */
-import type {
-  DayLog,
-  ISODate,
-  LessonProgress,
-  PairingInfo,
-  PeriodEvent,
-  Profile,
-  Settings,
-  Symptom,
-  Syncable,
+import {
+  APPEARANCES,
+  DEFAULT_SETTINGS,
+  SYMPTOMS,
+  type Appearance,
+  type DayLog,
+  type ISODate,
+  type LessonProgress,
+  type PairingInfo,
+  type PeriodEvent,
+  type Profile,
+  type Settings,
+  type Symptom,
+  type Syncable,
 } from '@/domain/types';
-import { DEFAULT_SETTINGS, SYMPTOMS } from '@/domain/types';
 import { isValidISODate } from '@/engine/dates';
 
 export const SNAPSHOT_VERSION = 1;
@@ -252,6 +255,9 @@ function sanitizeSettings(v: unknown): Settings | undefined {
     defaultPeriodLength: int(s.defaultPeriodLength, d.defaultPeriodLength, 2, 10),
     lutealLength: int(s.lutealLength, d.lutealLength, 10, 16),
     cloudBackup: typeof s.cloudBackup === 'boolean' ? s.cloudBackup : d.cloudBackup,
+    appearance: (APPEARANCES as string[]).includes(s.appearance as string)
+      ? (s.appearance as Appearance)
+      : d.appearance,
     reminders: {
       dailyCard: typeof r.dailyCard === 'boolean' ? r.dailyCard : d.reminders.dailyCard,
       dailyCardHour: int(r.dailyCardHour, d.reminders.dailyCardHour, 0, 23),

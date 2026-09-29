@@ -8,7 +8,7 @@ import {
 } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { Appearance, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useCloudBackup } from '@/hooks/use-cloud-backup';
@@ -47,6 +47,11 @@ export default function RootLayout() {
   useEffect(() => {
     if (language) setLanguage(language);
   }, [language]);
+
+  const appearance = settings.appearance;
+  useEffect(() => {
+    Appearance.setColorScheme(appearance === 'system' ? 'unspecified' : appearance);
+  }, [appearance]);
 
   useEffect(() => {
     if (hydrated) void SplashScreen.hideAsync();

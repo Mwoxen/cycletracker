@@ -105,7 +105,12 @@ export interface Settings {
   lutealLength: number;
   reminders: Reminders;
   cloudBackup: boolean;
+  /** Light/dark override; 'system' follows the phone. */
+  appearance: Appearance;
 }
+
+export type Appearance = 'system' | 'light' | 'dark';
+export const APPEARANCES: Appearance[] = ['system', 'light', 'dark'];
 
 export interface Profile {
   id: string;
@@ -146,4 +151,5 @@ export const DEFAULT_SETTINGS: Settings = {
     pmsWindow: true,
   },
   cloudBackup: true,
+  appearance: 'system',
 };
