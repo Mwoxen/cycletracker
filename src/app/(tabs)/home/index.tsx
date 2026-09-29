@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { useCycle } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { useProgram } from '@/hooks/use-program';
+import { relativeTime } from '@/hooks/use-relative-time';
 import { useStore } from '@/store/store';
 import { colors, spacing } from '@/ui/colors';
 import { DailyCardPreview } from '@/ui/daily-card';
@@ -16,6 +17,7 @@ export default function HomeScreen() {
   const router = useRouter();
   const fmt = useFormat();
   const profile = useStore((s) => s.profile);
+  const pairing = useStore((s) => s.pairing);
   const { today, snapshot } = useCycle();
   const program = useProgram();
   const isTracker = profile?.role === 'tracker';
@@ -106,6 +108,31 @@ export default function HomeScreen() {
           onPress={() => router.push(`/log/${today}`)}
         />
       ) : null}
+
+      {isTracker ? (
+        <Button
+          title={t('home.scanPartner')}
+          symbol="qrcode.viewfinder"
+          variant="secondary"
+          onPress={() => router.push('/scan')}
+        />
+      ) : (
+        <Button
+          title={t('home.shareWithPartner')}
+          symbol="qrcode"
+          variant="secondary"
+          onPress={() => router.push('/share')}
+        />
+      )}
+      <Txt variant="footnote" style={{ textAlign: 'center' }}>
+        {isTracker
+          ? pairing.lastSyncAt
+            ? t('home.lastSynced', { when: relativeTime(pairing.lastSyncAt) })
+            : t('home.neverSynced')
+          : pairing.lastSharedAt
+            ? t('home.lastShared', { when: relativeTime(pairing.lastSharedAt) })
+            : t('home.neverShared')}
+      </Txt>
     </Screen>
   );
 }

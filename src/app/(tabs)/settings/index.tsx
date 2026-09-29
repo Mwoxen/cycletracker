@@ -2,15 +2,20 @@ import { DateTimePicker } from '@expo/ui/community/datetime-picker';
 import Constants from 'expo-constants';
 import * as Haptics from 'expo-haptics';
 import * as Linking from 'expo-linking';
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet, Switch, TextInput, View } from 'react-native';
 
 import { LANGUAGES, type Language, type Role } from '@/domain/types';
 import { fromISODate, toISODate } from '@/engine/dates';
+import { readCloudBackup } from '@/backup/cloud';
+import { exportSnapshotFile, pickSnapshotFile } from '@/backup/file';
 import { useFormat } from '@/hooks/use-format';
+import { relativeTime } from '@/hooks/use-relative-time';
+import { useToday } from '@/hooks/use-today';
 import { hasNotificationPermission, requestNotificationPermission } from '@/notifications';
-import { useStore } from '@/store/store';
+import { previewMerge, selectSnapshotData, useStore } from '@/store';
 import { colors, spacing } from '@/ui/colors';
 import { Button, Card, Chip, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Stepper } from '@/ui/stepper';
@@ -18,7 +23,13 @@ import { Stepper } from '@/ui/stepper';
 export default function SettingsScreen() {
   const { t } = useTranslation();
   const fmt = useFormat();
+  const router = useRouter();
+  const today = useToday();
   const profile = useStore((s) => s.profile);
+  const pairing = useStore((s) => s.pairing);
+  const backupStatus = useStore((s) => s.backupStatus);
+  const deviceId = useStore((s) => s.deviceId);
+  const applySnapshot = useStore((s) => s.applySnapshot);
   const settings = useStore((s) => s.settings);
   const updateProfile = useStore((s) => s.updateProfile);
   const updateSettings = useStore((s) => s.updateSettings);
@@ -52,6 +63,60 @@ export default function SettingsScreen() {
   };
   const reminderTime = new Date();
   reminderTime.setHours(r.dailyCardHour, r.dailyCardMinute, 0, 0);
+
+  const exportFile = async () => {
+    try {
+      await exportSnapshotFile(selectSnapshotData(useStore.getState()), deviceId, today);
+    } catch (e) {
+      Alert.alert(t('settings.export'), e instanceof Error ? e.message : String(e));
+    }
+  };
+
+  const importFile = async () => {
+    try {
+      const snapshot = await pickSnapshotFile();
+      if (!snapshot) return;
+      const preview = previewMerge(selectSnapshotData(useStore.getState()), snapshot);
+      const own = snapshot.deviceId === deviceId || !!snapshot.profile;
+      Alert.alert(t('settings.import'), t('sync.importSummary', { ...preview }), [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('sync.importButton'),
+          onPress: () => {
+            const r = applySnapshot(snapshot, { includeProfile: own, includeProgress: own });
+            void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            Alert.alert(t('sync.importDone'), t('settings.cloudRestoreDone', r));
+          },
+        },
+      ]);
+    } catch {
+      Alert.alert(t('settings.import'), t('settings.importFailed'));
+    }
+  };
+
+  const restoreFromCloud = async () => {
+    try {
+      const snapshot = await readCloudBackup();
+      if (!snapshot) {
+        Alert.alert(t('settings.cloudRestore'), t('settings.cloudRestoreNone'));
+        return;
+      }
+      const preview = previewMerge(selectSnapshotData(useStore.getState()), snapshot);
+      Alert.alert(t('settings.cloudRestore'), t('sync.importSummary', { ...preview }), [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('sync.importButton'),
+          onPress: () => {
+            const r = applySnapshot(snapshot, { includeProfile: true, includeProgress: true });
+            void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            Alert.alert(t('sync.importDone'), t('settings.cloudRestoreDone', r));
+          },
+        },
+      ]);
+    } catch {
+      Alert.alert(t('settings.cloudRestore'), t('settings.importFailed'));
+    }
+  };
 
   const confirmReset = () => {
     Alert.alert(t('settings.resetConfirmTitle'), t('settings.resetConfirmBody'), [
@@ -199,30 +264,69 @@ export default function SettingsScreen() {
       </Card>
 
       <SectionTitle>{t('settings.backup')}</SectionTitle>
+      <Card>
+        <View style={styles.row}>
+          <View style={{ flex: 1 }}>
+            <Txt>{t('settings.cloudBackup')}</Txt>
+            <Txt variant="footnote">
+              {!backupStatus.available
+                ? t('settings.cloudBackupUnavailable')
+                : backupStatus.lastError
+                  ? t('settings.cloudBackupError', { error: backupStatus.lastError })
+                  : backupStatus.lastBackupAt
+                    ? t('settings.cloudBackupLast', {
+                        when: relativeTime(backupStatus.lastBackupAt),
+                      })
+                    : t('settings.cloudBackupNever')}
+            </Txt>
+          </View>
+          <Switch
+            value={settings.cloudBackup}
+            disabled={!backupStatus.available}
+            onValueChange={(v) => updateSettings({ cloudBackup: v })}
+          />
+        </View>
+        <Txt variant="footnote">{t('settings.cloudBackupHelp')}</Txt>
+      </Card>
       <Card style={{ padding: 0, paddingHorizontal: 16 }}>
         <Row
-          title={t('settings.cloudBackup')}
-          subtitle={t('common.comingSoon')}
-          symbol="icloud"
+          title={t('settings.cloudRestore')}
+          symbol="icloud.and.arrow.down"
+          onPress={() => void restoreFromCloud()}
           chevron={false}
         />
         <Row
           title={t('settings.export')}
-          subtitle={t('common.comingSoon')}
+          subtitle={t('settings.exportHelp')}
           symbol="square.and.arrow.up"
+          onPress={() => void exportFile()}
           chevron={false}
         />
         <Row
           title={t('settings.import')}
-          subtitle={t('common.comingSoon')}
           symbol="square.and.arrow.down"
+          onPress={() => void importFile()}
           chevron={false}
         />
         <Row
           title={t('settings.share')}
-          subtitle={t('common.comingSoon')}
+          subtitle={
+            pairing.lastSharedAt
+              ? t('home.lastShared', { when: relativeTime(pairing.lastSharedAt) })
+              : t('home.neverShared')
+          }
           symbol="qrcode"
-          chevron={false}
+          onPress={() => router.push('/share')}
+        />
+        <Row
+          title={t('settings.scan')}
+          subtitle={
+            pairing.partnerDeviceId
+              ? t('sync.pairedWith', { name: pairing.partnerName ?? '?' })
+              : t('sync.notPaired')
+          }
+          symbol="qrcode.viewfinder"
+          onPress={() => router.push('/scan')}
           last
         />
       </Card>

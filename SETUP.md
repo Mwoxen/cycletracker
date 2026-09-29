@@ -63,6 +63,14 @@ Apple tillader ikke, at et script opretter selve app-posten, så det er det enes
 Herefter henter appen selv nye JavaScript-versioner ved næste åbning efter hver push til `main`.
 Kun når native afhængigheder ændres, kører der et nyt build (automatisk), og TestFlight sender en ny version.
 
+## Om backup, deling og Expo Go
+
+- **iCloud-backup** og **deep links** (`cycletracker://import?…`) virker kun i den rigtige app fra
+  TestFlight, ikke i Expo Go. Første gang `package.json` ændres, bygger EAS automatisk en ny version.
+- **QR-scanning**, **eksport/import af fil** og **Del som link** virker også i Expo Go.
+- iCloud-containeren `iCloud.com.mwoxen.cycletracker` oprettes automatisk af EAS ud fra
+  app-konfigurationen, når det første build med iCloud kører. Den kræver ikke noget fra dig.
+
 ## Hvis noget driller
 
 - **EAS Update fejler med "project not found"**: slet `.eas-project-id` fra repoet og kør workflowet igen.

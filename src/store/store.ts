@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import {
   DEFAULT_SETTINGS,
+  type BackupStatus,
   type DayLog,
   type ISODate,
   type Language,
@@ -35,8 +36,10 @@ export interface AppState extends SnapshotData {
   schemaVersion: number;
   deviceId: string;
   hydrated: boolean;
+  backupStatus: BackupStatus;
 
   setHydrated: (value: boolean) => void;
+  setBackupStatus: (patch: Partial<BackupStatus>) => void;
   completeOnboarding: (input: OnboardingInput) => void;
   updateProfile: (patch: Partial<Omit<Profile, 'id'>>) => void;
   updateSettings: (patch: Partial<Settings>) => void;
@@ -74,9 +77,11 @@ export const useStore = create<AppState>()(
     (set, get) => ({
       schemaVersion: SCHEMA_VERSION,
       hydrated: false,
+      backupStatus: { available: false },
       ...initialData(),
 
       setHydrated: (value) => set({ hydrated: value }),
+      setBackupStatus: (patch) => set({ backupStatus: { ...get().backupStatus, ...patch } }),
 
       completeOnboarding: (input) => {
         const now = Date.now();

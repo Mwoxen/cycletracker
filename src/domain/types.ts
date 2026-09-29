@@ -121,7 +121,17 @@ export interface Profile {
 
 export interface PairingInfo {
   partnerDeviceId?: string;
+  partnerName?: string;
+  /** Last time a snapshot from the partner was imported. */
   lastSyncAt?: number;
+  /** Last time this device shared a snapshot; the next share only includes newer changes. */
+  lastSharedAt?: number;
+}
+
+export interface BackupStatus {
+  available: boolean;
+  lastBackupAt?: number;
+  lastError?: string;
 }
 
 export const DEFAULT_SETTINGS: Settings = {

@@ -45,6 +45,7 @@ const config: ExpoConfig = {
   ios: {
     bundleIdentifier: 'com.mwoxen.cycletracker',
     supportsTablet: false,
+    usesIcloudStorage: true,
     icon: './assets/expo.icon',
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
@@ -66,6 +67,15 @@ const config: ExpoConfig = {
       },
     ],
     ['expo-notifications', { defaultChannel: 'default' }],
+    [
+      'expo-camera',
+      {
+        cameraPermission:
+          "Cycle Tracker uses the camera only to scan the QR code on your partner's phone.",
+        recordAudioAndroid: false,
+      },
+    ],
+    ['react-native-cloud-storage', { iCloudContainerEnvironment: 'Production' }],
   ],
   experiments: {
     typedRoutes: true,

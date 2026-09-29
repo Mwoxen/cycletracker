@@ -1,7 +1,7 @@
 import { DateTimePicker } from '@expo/ui/community/datetime-picker';
 import { SegmentedControl } from '@expo/ui/community/segmented-control';
 import * as Haptics from 'expo-haptics';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
@@ -15,7 +15,10 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { Language, Role } from '@/domain/types';
+import { readCloudBackup } from '@/backup/cloud';
 import { addDaysISO, fromISODate, toISODate, todayISO } from '@/engine/dates';
+import { useFormat } from '@/hooks/use-format';
+import type { Snapshot } from '@/store/snapshot';
 import { LANGUAGES, deviceLanguage, setLanguage } from '@/i18n';
 import { requestNotificationPermission } from '@/notifications';
 import { useStore } from '@/store/store';
@@ -27,6 +30,31 @@ export default function Onboarding() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const completeOnboarding = useStore((s) => s.completeOnboarding);
+  const applySnapshot = useStore((s) => s.applySnapshot);
+  const fmt = useFormat();
+  const [backup, setBackup] = useState<Snapshot | undefined>();
+  const [checkingBackup, setCheckingBackup] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    readCloudBackup()
+      .then((s) => {
+        if (active && s?.profile) setBackup(s);
+      })
+      .catch(() => undefined)
+      .finally(() => {
+        if (active) setCheckingBackup(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const restore = () => {
+    if (!backup) return;
+    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    applySnapshot(backup, { includeProfile: true, includeProgress: true });
+  };
   const defaults = useStore((s) => s.settings);
 
   const [language, setLang] = useState<Language>(deviceLanguage());
@@ -73,6 +101,29 @@ export default function Onboarding() {
           <Txt variant="largeTitle">{t('onboarding.welcomeTitle')}</Txt>
           <Txt color={colors.secondaryLabel}>{t('onboarding.welcomeBody')}</Txt>
         </View>
+
+        {backup ? (
+          <Card style={{ borderWidth: 2, borderColor: colors.tint }}>
+            <Txt variant="headline">{t('onboarding.restoreTitle')}</Txt>
+            <Txt variant="footnote">
+              {t('onboarding.restoreBody', {
+                when: fmt.short(new Date(backup.exportedAt).toISOString().slice(0, 10)),
+                name: backup.profile?.partnerName ?? '',
+                periods: backup.periods.filter((p) => !p.deleted).length,
+                logs: backup.logs.filter((l) => !l.deleted).length,
+              })}
+            </Txt>
+            <Button
+              title={t('onboarding.restoreButton')}
+              symbol="icloud.and.arrow.down"
+              onPress={restore}
+            />
+          </Card>
+        ) : checkingBackup ? (
+          <Txt variant="footnote" style={{ marginLeft: spacing.xs }}>
+            {t('onboarding.restoreChecking')}
+          </Txt>
+        ) : null}
 
         <SectionTitle>{t('onboarding.language')}</SectionTitle>
         <SegmentedControl

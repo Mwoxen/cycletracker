@@ -1,14 +1,28 @@
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import {
+  DarkTheme,
+  DefaultTheme,
+  Stack,
+  ThemeProvider,
+  type NativeStackNavigationOptions,
+} from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
+import { useCloudBackup } from '@/hooks/use-cloud-backup';
 import { setLanguage } from '@/i18n';
 import { installNotificationHandler, syncNotifications } from '@/notifications';
 import { selectActivePeriods, useStore } from '@/store/store';
 
 void SplashScreen.preventAutoHideAsync();
 installNotificationHandler();
+
+const sheet: NativeStackNavigationOptions = {
+  presentation: 'formSheet',
+  sheetAllowedDetents: [0.7, 1],
+  sheetGrabberVisible: true,
+  headerShown: false,
+};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -17,6 +31,7 @@ export default function RootLayout() {
   const settings = useStore((s) => s.settings);
   const periods = useStore(selectActivePeriods);
   const language = profile?.language;
+  useCloudBackup();
 
   useEffect(() => {
     if (language) setLanguage(language);
@@ -47,15 +62,10 @@ export default function RootLayout() {
       <Stack>
         <Stack.Protected guard={!!profile}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="log/[date]"
-            options={{
-              presentation: 'formSheet',
-              sheetAllowedDetents: [0.7, 1],
-              sheetGrabberVisible: true,
-              headerShown: false,
-            }}
-          />
+          <Stack.Screen name="log/[date]" options={sheet} />
+          <Stack.Screen name="share" options={sheet} />
+          <Stack.Screen name="scan" options={sheet} />
+          <Stack.Screen name="import" options={sheet} />
         </Stack.Protected>
         <Stack.Protected guard={!profile}>
           <Stack.Screen name="onboarding" options={{ headerShown: false }} />

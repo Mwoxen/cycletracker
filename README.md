@@ -39,12 +39,15 @@ src/content      Læringsindhold pr. sprog (da/en) og leveringslogik
 src/i18n         UI-strenge
 src/ui           Genbrugelige komponenter
 src/notifications Lokale påmindelser
+src/backup       iCloud-backup og fil-eksport/import
+src/sync         Payload-format til QR og deep links
 ```
 
 ## Status
 
-Fase 1 (fundament, pipeline og funktionel MVP) er bygget. Se planen i projektets historik for de
-næste faser: backup og sync, resten af årets indhold, App Store, design.
+Fase 1 (fundament, pipeline og funktionel MVP) og Fase 2 (iCloud-backup, eksport/import,
+QR- og link-deling mellem partnernes telefoner) er bygget. Næste faser: resten af årets indhold,
+App Store, design.
 
 ## Ansvarsfraskrivelse
 
