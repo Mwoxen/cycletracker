@@ -1,12 +1,14 @@
 import { Stack, useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
 import { searchIndex, searchItems, type SearchItem } from '@/engine/insights';
 import { useProgram } from '@/hooks/use-program';
-import { colors } from '@/ui/colors';
+import type { Phase } from '@/domain/types';
+import { colors, phaseColor, phaseSymbol } from '@/ui/colors';
 import { Empty } from '@/ui/empty';
-import { Card, Row, Screen } from '@/ui/primitives';
+import { Card, Icon, Row, Screen } from '@/ui/primitives';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -16,6 +18,20 @@ const kindSymbol: Record<SearchItem['kind'], SFSymbol> = {
   wrap: 'star.fill',
   phase: 'circle.hexagongrid.fill',
 };
+
+/** Same badge as the phase page header, so the list and the page match. */
+function PhaseLead({ phase }: { phase: Phase }) {
+  return (
+    <View style={[styles.phaseLead, { backgroundColor: phaseColor[phase] }]}>
+      <Icon
+        name={phaseSymbol[phase] as SFSymbol}
+        size={15}
+        color={colors.white}
+        weight="semibold"
+      />
+    </View>
+  );
+}
 
 export default function ArchiveScreen() {
   const { t } = useTranslation();
@@ -65,12 +81,15 @@ export default function ArchiveScreen() {
                 key={`${item.kind}-${item.id}`}
                 title={item.title}
                 subtitle={`${t(`learn.kind${item.kind[0].toUpperCase()}${item.kind.slice(1)}` as 'learn.kindDaily')} · ${item.subtitle}`}
-                symbol={
-                  item.read && item.kind !== 'phase'
-                    ? 'checkmark.circle.fill'
-                    : kindSymbol[item.kind]
+                lead={
+                  item.kind === 'phase' ? (
+                    <PhaseLead phase={item.id as Phase} />
+                  ) : item.read ? (
+                    <Icon name="checkmark.circle.fill" color={colors.green} />
+                  ) : (
+                    <Icon name={kindSymbol[item.kind]} color={colors.tint} />
+                  )
                 }
-                symbolColor={item.read && item.kind !== 'phase' ? colors.green : colors.tint}
                 onPress={() => open(item)}
                 last={i === Math.min(results.length, 80) - 1}
               />
@@ -81,3 +100,13 @@ export default function ArchiveScreen() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  phaseLead: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
