@@ -6,8 +6,7 @@ import { View } from 'react-native';
 import { DAYS_PER_MONTH, findDaily, getMonth } from '@/content';
 import { useProgram } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
-import { spacing } from '@/ui/colors';
-import { ActionRow } from '@/ui/daily-card';
+import { ActionBox } from '@/ui/daily-card';
 import { Screen, Txt } from '@/ui/primitives';
 import {
   NextDailyRow,
@@ -41,10 +40,12 @@ export default function DailyCardScreen() {
   }
 
   const programDay = (card.month - 1) * DAYS_PER_MONTH + card.day;
-  const kicker =
+  const kicker = [
     programDay === position.programDay
       ? t('home.todaysCardDay', { day: programDay })
-      : t('reading.cardDay', { day: programDay });
+      : t('reading.cardDay', { day: programDay }),
+    ...card.phaseTags.map((p) => t(`phases.${p}`)),
+  ].join(' · ');
   const minutes = readingMinutes([card.insight]);
   const meta = [
     isTracker ? undefined : t('learn.writtenForPartner'),
@@ -65,12 +66,7 @@ export default function DailyCardScreen() {
         <Screen onScroll={onScroll} scrollEventThrottle={32}>
           <ReadingHero kicker={kicker} title={card.title} meta={meta} phase={card.phaseTags[0]} />
           <ReadingBody paragraphs={card.insight.split(/\n\s*\n/)} lede />
-          {isTracker ? (
-            <View style={{ gap: spacing.xs }}>
-              <Txt variant="headline">{t('home.action')}</Txt>
-              <ActionRow card={card} />
-            </View>
-          ) : null}
+          {isTracker ? <ActionBox card={card} /> : null}
           <NextDailyRow content={content} position={position} card={card} />
           {card.sources?.length ? <Sources sources={card.sources} /> : null}
         </Screen>

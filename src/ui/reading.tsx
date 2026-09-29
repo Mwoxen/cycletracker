@@ -4,11 +4,10 @@
  * daily card, weekly read, monthly wrap and phase pages.
  */
 import { usePathname, useRouter } from 'expo-router';
-import { useCallback, useState, type PropsWithChildren } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
-  type ColorValue,
   Text,
   useColorScheme,
   View,
@@ -158,37 +157,14 @@ export function ReadingBody({
   );
 }
 
-/**
- * A titled section of a reading page, drawn straight on the background. `accent` adds a thin
- * left rule in that colour for the section the page is really about.
- */
-export function ReadingSection({
-  title,
-  accent,
-  children,
-}: PropsWithChildren<{ title: string; accent?: ColorValue }>) {
-  return (
-    <View
-      style={[styles.section, accent ? [styles.sectionAccent, { borderLeftColor: accent }] : null]}>
-      <Txt variant="title" style={styles.sectionTitle} accessibilityRole="header">
-        {title}
-      </Txt>
-      {children}
-    </View>
-  );
-}
-
-/** Bulleted (or numbered, for things to do) list in the reading typeface. */
-export function ReadingBullets({ items, numbered }: { items: string[]; numbered?: boolean }) {
+/** Bulleted list in the reading typeface, for the sections on a phase page. */
+export function ReadingBullets({ items }: { items: string[] }) {
   return (
     <View style={{ gap: spacing.sm }}>
       {items.map((item, i) => (
         <View key={i} style={styles.bullet}>
-          <Text
-            allowFontScaling
-            maxFontSizeMultiplier={BODY_MAX_SCALE}
-            style={[styles.bulletDot, numbered && styles.bulletNumber]}>
-            {numbered ? `${i + 1}.` : '•'}
+          <Text allowFontScaling maxFontSizeMultiplier={BODY_MAX_SCALE} style={styles.bulletDot}>
+            •
           </Text>
           <Text
             allowFontScaling
@@ -370,12 +346,8 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: colors.label,
   },
-  section: { paddingHorizontal: spacing.sm, gap: spacing.sm },
-  sectionAccent: { borderLeftWidth: 3, paddingLeft: 14, marginLeft: spacing.sm - 3 },
-  sectionTitle: { fontFamily: fonts?.rounded },
   bullet: { flexDirection: 'row', gap: spacing.sm },
   bulletDot: { fontSize: 19, lineHeight: 29, color: colors.secondaryLabel },
-  bulletNumber: { fontFamily: fonts?.serif, minWidth: 22 },
   progressTrack: {
     position: 'absolute',
     top: 0,
