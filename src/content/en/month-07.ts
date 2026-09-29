@@ -254,7 +254,7 @@ export const month07: MonthContent = {
       day: 18,
       title: 'A symptom diary for the doctor',
       insight:
-        'If she is going to the doctor about pain or migraine, the best thing she can bring is a diary covering two or three cycles. The doctor needs to know: which days, how bad on a scale of 1 to 10, how long it lasted, what she took and whether it worked, and whether she had to cancel anything. That last one, loss of function, is what moves a consultation from "that is probably normal" to "we should look into this". The app\'s calendar and notes are a ready-made diary if they have been used, and they can be read out or shown in five minutes. Many live with pain for years because in the doctor\'s office they cannot remember how bad it really was. Your job is to make sure it is written down.',
+        'If she is going to the doctor about pain or migraine, the best thing she can bring is a diary covering two or three cycles. The doctor needs to know: which days, how bad on a scale of 1 to 10, how long it lasted, what she took and whether it worked, and whether she had to cancel anything. That last one, loss of function, is what moves a consultation from "that is probably normal" to "we should look into this". The app\'s calendar and notes are a ready-made diary if they have been used, and can be shown in five minutes. Many live with pain for years because at the doctor\'s they cannot remember how bad it really was. Your job is to make sure it is written down.',
       action:
         "Ask whether there is a doctor's appointment she has been putting off. Offer to gather the pain days from the last few cycles from the calendar onto one sheet of paper.",
       phaseTags: [],
