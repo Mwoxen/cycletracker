@@ -46,14 +46,16 @@ export function CycleRing({
     counts[phaseForCycleDay(d, total, periodLength, lutealLength)] += 1;
 
   const gap = 4;
-  let angle = 0;
-  const arcs = ORDER.map((phase) => {
-    const span = (counts[phase] / total) * 360;
-    const start = angle + gap / 2;
-    const end = angle + span - gap / 2;
-    angle += span;
-    return { phase, d: end > start ? arc(c, c, r, start, end) : '' };
-  });
+  const arcs = ORDER.reduce<{ angle: number; items: { phase: Phase; d: string }[] }>(
+    (acc, phase) => {
+      const span = (counts[phase] / total) * 360;
+      const start = acc.angle + gap / 2;
+      const end = acc.angle + span - gap / 2;
+      acc.items.push({ phase, d: end > start ? arc(c, c, r, start, end) : '' });
+      return { angle: acc.angle + span, items: acc.items };
+    },
+    { angle: 0, items: [] },
+  ).items;
   const marker = polar(c, c, r, ((today.cycleDay - 0.5) / total) * 360);
   const isDark = scheme === 'dark';
 
