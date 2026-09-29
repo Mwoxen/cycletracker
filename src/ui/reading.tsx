@@ -119,9 +119,9 @@ export function PullQuote({ text }: { text: string }) {
 }
 
 /**
- * Body paragraphs on the screen background. `lede` styles the first paragraph as an opening,
- * `pullQuote` is drawn after the
- * second paragraph without removing it from its paragraph.
+ * Body paragraphs on the screen background. `lede` styles the first paragraph as an opening
+ * when there is more to follow (a single paragraph is just the body), `pullQuote` is drawn
+ * after the second paragraph without removing it from its paragraph.
  */
 export function ReadingBody({
   paragraphs,
@@ -132,11 +132,12 @@ export function ReadingBody({
   lede?: boolean;
   pullQuote?: string;
 }) {
+  const withLede = lede && paragraphs.length > 1;
   return (
     <View style={styles.body}>
       {paragraphs.map((p, i) => {
         const block =
-          lede && i === 0 ? (
+          withLede && i === 0 ? (
             <Text
               key={i}
               allowFontScaling
@@ -307,7 +308,7 @@ const styles = StyleSheet.create({
     marginTop: -spacing.sm,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.md,
-    paddingBottom: spacing.sm,
+    paddingBottom: 0,
     gap: spacing.xs,
   },
   kicker: { fontWeight: '600', letterSpacing: 0.6 },
@@ -318,7 +319,8 @@ const styles = StyleSheet.create({
     fontFamily: fonts?.rounded,
     color: colors.label,
   },
-  body: { paddingHorizontal: spacing.sm, gap: spacing.md },
+  // Pulls the first line up under the hero's meta line: the screen's own gap is for cards.
+  body: { paddingHorizontal: spacing.sm, gap: spacing.md, marginTop: -spacing.sm },
   paragraph: {
     fontFamily: fonts?.serif,
     fontSize: 19,
