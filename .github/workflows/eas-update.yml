@@ -60,8 +60,8 @@ jobs:
             echo "EAS project id: $(cat .eas-project-id)"
             exit 0
           fi
-          # `eas whoami` prints the username on the first line, followed by the accounts list.
-          ACCOUNT="${EXPO_ACCOUNT_OVERRIDE:-$(eas whoami 2>/dev/null | head -n 1 | tr -d '[:space:]')}"
+          # `eas whoami` prints "<username> (authenticated using EXPO_TOKEN)" on the first line.
+          ACCOUNT="${EXPO_ACCOUNT_OVERRIDE:-$(eas whoami 2>/dev/null | head -n 1 | awk '{print $1}')}"
           echo "Creating or linking EAS project for account: $ACCOUNT"
           eas init --account "$ACCOUNT" --non-interactive --force --json > eas-init.json || true
           cat eas-init.json || true
