@@ -190,7 +190,10 @@ describe('learn sub-screens', () => {
     onboard('tracker');
     const id = content.months[0].daily[0].id;
     await renderApp(`/home/daily/${id}`);
-    expect(await screen.findByText(content.months[0].daily[0].title)).toBeTruthy();
+    // The title appears both on the Home preview and on the pushed card screen.
+    expect((await screen.findAllByText(content.months[0].daily[0].title)).length).toBeGreaterThan(
+      1,
+    );
   });
 
   it('renders a weekly read', async () => {
