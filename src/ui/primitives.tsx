@@ -2,7 +2,6 @@ import { SymbolView } from 'expo-symbols';
 import type { PropsWithChildren, ReactNode } from 'react';
 import {
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -13,6 +12,7 @@ import {
   type TextProps,
   type ViewStyle,
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
 import { colors, fonts, radius, spacing } from './colors';
