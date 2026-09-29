@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
 import { colors, spacing } from '@/ui/colors';
-import { Card, Symbol, Txt } from '@/ui/primitives';
+import { Card, Icon, Txt } from '@/ui/primitives';
 
 export function Empty({ symbol, text }: { symbol: SFSymbol; text: string }) {
   return (
@@ -16,7 +16,7 @@ export function Empty({ symbol, text }: { symbol: SFSymbol; text: string }) {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Symbol name={symbol} size={24} color={colors.secondaryLabel} />
+        <Icon name={symbol} size={24} color={colors.secondaryLabel} />
       </View>
       <Txt color={colors.secondaryLabel} style={{ textAlign: 'center' }}>
         {text}

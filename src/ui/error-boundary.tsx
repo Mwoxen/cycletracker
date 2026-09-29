@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useStore } from '@/store/store';
 import { colors, spacing } from '@/ui/colors';
-import { Button, Symbol, Txt } from '@/ui/primitives';
+import { Button, Icon, Txt } from '@/ui/primitives';
 
 /**
  * Shown when a screen throws. Offers retry, and wiping local data as a last resort so a
@@ -36,7 +36,7 @@ export function AppErrorBoundary({ error, retry }: ErrorBoundaryProps) {
         styles.container,
         { paddingTop: insets.top + spacing.xl, paddingBottom: insets.bottom + spacing.lg },
       ]}>
-      <Symbol name="exclamationmark.triangle.fill" size={40} color={colors.orange} />
+      <Icon name="exclamationmark.triangle.fill" size={40} color={colors.orange} />
       <Txt variant="title" style={{ textAlign: 'center' }}>
         {t('error.title')}
       </Txt>

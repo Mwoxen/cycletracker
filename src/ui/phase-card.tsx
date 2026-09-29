@@ -6,7 +6,7 @@ import type { CycleSnapshot } from '@/engine/cycle';
 import { useStore } from '@/store/store';
 import { colors, phaseColor, phaseGradient, phaseSymbol, spacing } from '@/ui/colors';
 import { CycleRing } from '@/ui/cycle-ring';
-import { Badge, Card, Symbol, Txt } from '@/ui/primitives';
+import { Badge, Card, Icon, Txt } from '@/ui/primitives';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -67,7 +67,7 @@ export function PhaseCard({
             size={84}
           />
           <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
-            <Symbol name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
+            <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
           </View>
         </View>
         <View style={{ flex: 1 }}>
@@ -80,7 +80,7 @@ export function PhaseCard({
             {t('common.cycleDay', { n: today.cycleDay })} · {t(`phases.short.${phase}`)}
           </Txt>
         </View>
-        <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
+        <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
       </View>
       <View style={styles.badges}>
         {today.isPms ? <Badge label={t('home.pmsWindow')} color={colors.purple} /> : null}

@@ -6,7 +6,7 @@ import { PHASES, type Phase } from '@/domain/types';
 import { useContent } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
 import { colors, phaseColor, phaseSymbol, spacing } from '@/ui/colors';
-import { Bullets, Card, Screen, SectionTitle, Symbol, Txt } from '@/ui/primitives';
+import { Bullets, Card, Screen, SectionTitle, Icon, Txt } from '@/ui/primitives';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -24,7 +24,7 @@ export default function PhaseScreen() {
       <Screen>
         <View style={styles.header}>
           <View style={[styles.icon, { backgroundColor: phaseColor[key] }]}>
-            <Symbol name={phaseSymbol[key] as SFSymbol} size={26} color={colors.white} />
+            <Icon name={phaseSymbol[key] as SFSymbol} size={26} color={colors.white} />
           </View>
           <View style={{ flex: 1 }}>
             <Txt variant="title">{info.name}</Txt>

@@ -2,7 +2,7 @@ import * as Haptics from 'expo-haptics';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { colors, radius, spacing } from './colors';
-import { Symbol, Txt } from './primitives';
+import { Icon, Txt } from './primitives';
 
 export function Stepper({
   value,
@@ -40,7 +40,7 @@ export function Stepper({
             pressed && styles.pressed,
             value <= min && styles.disabled,
           ]}>
-          <Symbol name="minus" size={16} color={colors.label} weight="semibold" />
+          <Icon name="minus" size={16} color={colors.label} weight="semibold" />
         </Pressable>
         <View style={styles.divider} />
         <Pressable
@@ -54,7 +54,7 @@ export function Stepper({
             pressed && styles.pressed,
             value >= max && styles.disabled,
           ]}>
-          <Symbol name="plus" size={16} color={colors.label} weight="semibold" />
+          <Icon name="plus" size={16} color={colors.label} weight="semibold" />
         </Pressable>
       </View>
     </View>

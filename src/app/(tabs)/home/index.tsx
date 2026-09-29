@@ -10,7 +10,7 @@ import { selectLogForDate, useStore } from '@/store/store';
 import { colors, spacing } from '@/ui/colors';
 import { DailyCardPreview } from '@/ui/daily-card';
 import { PhaseCard } from '@/ui/phase-card';
-import { Bullets, Button, Card, Screen, Symbol, Txt } from '@/ui/primitives';
+import { Bullets, Button, Card, Screen, Icon, Txt } from '@/ui/primitives';
 import { Reveal } from '@/ui/reveal';
 
 export default function HomeScreen() {
@@ -97,7 +97,7 @@ export default function HomeScreen() {
               justifyContent: 'space-between',
             }}>
             <Txt variant="footnote">{t('home.whatYouCanDo')}</Txt>
-            <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
+            <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
           </View>
           <Bullets items={phaseInfo.whatYouCanDo.slice(0, 3)} />
         </Card>
@@ -112,7 +112,7 @@ export default function HomeScreen() {
               justifyContent: 'space-between',
             }}>
             <Txt variant="footnote">{t('home.whatHappensNow')}</Txt>
-            <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} />
+            <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
           </View>
           <Bullets items={phaseInfo.howSheMayFeel.slice(0, 3)} />
         </Card>

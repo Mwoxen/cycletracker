@@ -69,7 +69,8 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "check": "npm run lint && npm run typecheck && npm run test"
+    "check:compiler": "node scripts/check-compiler-output.mjs",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run check:compiler"
   },
   "private": true,
   "jest": {

@@ -6,7 +6,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import type { DailyCard } from '@/content';
 import { useStore } from '@/store/store';
 import { colors, radius, spacing } from '@/ui/colors';
-import { Card, Symbol, Txt } from '@/ui/primitives';
+import { Card, Icon, Txt } from '@/ui/primitives';
 
 /** Compact view of a daily card for the Home screen, with the action toggle. */
 export function DailyCardPreview({ card, isTracker }: { card: DailyCard; isTracker: boolean }) {
@@ -19,7 +19,7 @@ export function DailyCardPreview({ card, isTracker }: { card: DailyCard; isTrack
           {isTracker ? t('home.todaysCard') : t('home.partnerLearnsToday')}
         </Txt>
         {progress?.readAt ? (
-          <Symbol name="checkmark.circle.fill" size={16} color={colors.green} />
+          <Icon name="checkmark.circle.fill" size={16} color={colors.green} />
         ) : null}
       </View>
       <Link href={`/(tabs)/learn/daily/${card.id}`} asChild>
@@ -58,7 +58,7 @@ export function ActionBox({ card }: { card: DailyCard }) {
           toggle(card.id);
         }}
         style={({ pressed }) => [styles.actionButton, pressed && { opacity: 0.7 }]}>
-        <Symbol
+        <Icon
           name={done ? 'checkmark.circle.fill' : 'circle'}
           size={22}
           color={done ? colors.green : colors.tint}

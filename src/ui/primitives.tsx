@@ -90,7 +90,7 @@ export function SectionTitle({
   );
 }
 
-export function Symbol({
+export function Icon({
   name,
   size = 18,
   color = colors.tint,
@@ -140,7 +140,7 @@ export function Row({
     <View style={[styles.row, !last && styles.rowBorder]}>
       {symbol ? (
         <View style={styles.rowSymbol}>
-          <Symbol name={symbol} color={symbolColor ?? colors.tint} />
+          <Icon name={symbol} color={symbolColor ?? colors.tint} />
         </View>
       ) : null}
       <View style={styles.rowText}>
@@ -157,7 +157,7 @@ export function Row({
         </Txt>
       ) : null}
       {trailing}
-      {chevron ? <Symbol name="chevron.right" size={14} color={colors.tertiaryLabel} /> : null}
+      {chevron ? <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} /> : null}
     </View>
   );
   if (!onPress) return content;
@@ -207,7 +207,7 @@ export function Button({
         { backgroundColor: bg, opacity: disabled ? 0.4 : pressed ? 0.7 : 1 },
         style,
       ]}>
-      {symbol ? <Symbol name={symbol} color={fg} size={16} weight="semibold" /> : null}
+      {symbol ? <Icon name={symbol} color={fg} size={16} weight="semibold" /> : null}
       <Txt variant="headline" color={fg}>
         {title}
       </Txt>

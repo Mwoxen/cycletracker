@@ -4,7 +4,7 @@ import { Pressable, View } from 'react-native';
 
 import type { Source } from '@/content';
 import { colors, spacing } from '@/ui/colors';
-import { Symbol, Txt } from '@/ui/primitives';
+import { Icon, Txt } from '@/ui/primitives';
 
 export function Sources({ sources }: { sources: Source[] }) {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ export function Sources({ sources }: { sources: Source[] }) {
           <Txt variant="footnote" color={s.url ? colors.tint : colors.secondaryLabel}>
             {s.label}
           </Txt>
-          {s.url ? <Symbol name="arrow.up.right" size={10} color={colors.tint} /> : null}
+          {s.url ? <Icon name="arrow.up.right" size={10} color={colors.tint} /> : null}
         </Pressable>
       ))}
     </View>

@@ -17,7 +17,7 @@ import { useCalendarDays } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { selectActiveLogs, useStore } from '@/store/store';
 import { colors, phaseTint, spacing } from '@/ui/colors';
-import { Card, Symbol, Txt } from '@/ui/primitives';
+import { Card, Icon, Txt } from '@/ui/primitives';
 
 const WEEK_STARTS_ON = 1; // Monday
 
@@ -65,7 +65,7 @@ export function MonthGrid({
           hitSlop={12}
           accessibilityRole="button"
           accessibilityLabel={t('calendar.previousMonth')}>
-          <Symbol name="chevron.left" size={18} />
+          <Icon name="chevron.left" size={18} />
         </Pressable>
         <Pressable
           onPress={() => setOffset(0)}
@@ -78,7 +78,7 @@ export function MonthGrid({
           hitSlop={12}
           accessibilityRole="button"
           accessibilityLabel={t('calendar.nextMonth')}>
-          <Symbol name="chevron.right" size={18} />
+          <Icon name="chevron.right" size={18} />
         </Pressable>
       </View>
       <View style={styles.weekRow}>

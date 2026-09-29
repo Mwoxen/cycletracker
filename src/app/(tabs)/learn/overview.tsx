@@ -10,7 +10,7 @@ import { useCycle } from '@/hooks/use-cycle';
 import { useProgram } from '@/hooks/use-program';
 import { selectActiveLogs, useStore } from '@/store/store';
 import { colors, phaseColor, phaseSymbol, spacing } from '@/ui/colors';
-import { Bullets, Card, Row, Screen, SectionTitle, Symbol, Txt } from '@/ui/primitives';
+import { Bullets, Card, Row, Screen, SectionTitle, Icon, Txt } from '@/ui/primitives';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -54,7 +54,7 @@ export default function OverviewScreen() {
             <View key={phase} style={{ gap: spacing.sm }}>
               <View style={styles.header}>
                 <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
-                  <Symbol name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
+                  <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
                 </View>
                 <Txt variant="title">{info.name}</Txt>
               </View>

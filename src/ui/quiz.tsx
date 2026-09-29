@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { QuizQuestion } from '@/content';
 import { colors, radius, spacing } from '@/ui/colors';
-import { Button, Card, Symbol, Txt } from '@/ui/primitives';
+import { Button, Card, Icon, Txt } from '@/ui/primitives';
 
 export function Quiz({
   questions,
@@ -103,10 +103,10 @@ export function Quiz({
                 {option}
               </Txt>
               {answered && isCorrect ? (
-                <Symbol name="checkmark" size={16} color={colors.white} weight="bold" />
+                <Icon name="checkmark" size={16} color={colors.white} weight="bold" />
               ) : null}
               {answered && isChosen && !isCorrect ? (
-                <Symbol name="xmark" size={16} color={colors.white} weight="bold" />
+                <Icon name="xmark" size={16} color={colors.white} weight="bold" />
               ) : null}
             </Pressable>
           );

@@ -24,6 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      # Part of the native fingerprint (ios.appleTeamId). Must match the build workflow, or the
+      # runtime version differs and no update ever reaches the TestFlight build.
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
     steps:
       - name: Stop early when EXPO_TOKEN is missing
         if: env.EXPO_TOKEN == ''

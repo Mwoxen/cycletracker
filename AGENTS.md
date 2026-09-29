@@ -33,7 +33,7 @@ npm ci
 npm run lint        # eslint
 npm run typecheck   # tsc --noEmit
 npm test            # jest
-npm run check       # all three
+npm run check       # all of the above plus check:compiler (React Compiler output)
 npx expo config --type public   # verify app.config.ts resolves
 ```
 

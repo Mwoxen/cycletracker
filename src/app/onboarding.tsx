@@ -23,7 +23,7 @@ import { LANGUAGES, deviceLanguage, setLanguage } from '@/i18n';
 import { requestNotificationPermission } from '@/notifications';
 import { useStore } from '@/store/store';
 import { colors, radius, spacing } from '@/ui/colors';
-import { Button, Card, Screen, SectionTitle, Symbol, Txt } from '@/ui/primitives';
+import { Button, Card, Screen, SectionTitle, Icon, Txt } from '@/ui/primitives';
 import { Stepper } from '@/ui/stepper';
 
 export default function Onboarding() {
@@ -261,12 +261,12 @@ function RoleCard({
         selected && styles.roleCardSelected,
         pressed && { opacity: 0.8 },
       ]}>
-      <Symbol name={symbol} size={28} color={selected ? colors.tint : colors.secondaryLabel} />
+      <Icon name={symbol} size={28} color={selected ? colors.tint : colors.secondaryLabel} />
       <View style={{ flex: 1, gap: 2 }}>
         <Txt variant="headline">{title}</Txt>
         <Txt variant="footnote">{description}</Txt>
       </View>
-      {selected ? <Symbol name="checkmark.circle.fill" size={22} color={colors.tint} /> : null}
+      {selected ? <Icon name="checkmark.circle.fill" size={22} color={colors.tint} /> : null}
     </Pressable>
   );
 }
