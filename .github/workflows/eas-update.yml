@@ -63,10 +63,12 @@ jobs:
           # `eas whoami` prints "<username> (authenticated using EXPO_TOKEN)" on the first line.
           ACCOUNT="${EXPO_ACCOUNT_OVERRIDE:-$(eas whoami 2>/dev/null | head -n 1 | awk '{print $1}')}"
           echo "Creating or linking EAS project for account: $ACCOUNT"
-          eas init --account "$ACCOUNT" --non-interactive --force --json > eas-init.json || true
-          cat eas-init.json || true
-          PROJECT_ID=$(node -e "try{const j=require('./eas-init.json');console.log(j.id||j.projectId||'')}catch(e){console.log('')}")
-          rm -f eas-init.json
+          # With a dynamic app.config.ts, `eas init` creates the project but exits non-zero because it
+          # cannot write the id into the config itself. The id is still printed, so read it from the output.
+          eas init --account "$ACCOUNT" --non-interactive --force > eas-init.log 2>&1 || true
+          cat eas-init.log
+          PROJECT_ID=$(grep -Eo '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' eas-init.log | head -n 1)
+          rm -f eas-init.log
           if ! echo "$PROJECT_ID" | grep -Eq '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'; then
             echo "::error::Could not determine the EAS project id (got '$PROJECT_ID'). Set a repository variable EXPO_ACCOUNT to your Expo username and re-run."
             exit 1
