@@ -1,86 +1,72 @@
-import {
-  addMonths,
-  eachDayOfInterval,
-  endOfMonth,
-  endOfWeek,
-  startOfMonth,
-  startOfWeek,
-} from 'date-fns';
-import * as Haptics from 'expo-haptics';
-import { useMemo, useState } from 'react';
+import { eachDayOfInterval, endOfMonth, endOfWeek, startOfWeek } from 'date-fns';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  type ColorValue,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
 
 import type { ISODate } from '@/domain/types';
-import { fromISODate, toISODate } from '@/engine/dates';
-import { useCalendarDays } from '@/hooks/use-cycle';
+import { toISODate } from '@/engine/dates';
+import {
+  bandKind,
+  bandSegments,
+  isPredictedDay,
+  useCalendarDays,
+  type BandKind,
+} from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { selectActiveLogs, useStore } from '@/store/store';
-import { colors, phaseTint, spacing } from '@/ui/colors';
-import { Card, Icon, Txt } from '@/ui/primitives';
+import { colors, fonts, phaseTint, radius, spacing } from '@/ui/colors';
+import { Card, Txt } from '@/ui/primitives';
 
 const WEEK_STARTS_ON = 1; // Monday
+const CELL = 36;
 
+const bandColor: Record<BandKind, ColorValue> = {
+  period: phaseTint.menstrual,
+  fertile: colors.fill,
+  pms: phaseTint.luteal,
+};
+
+/** One month as a card: heading, weekday row and a grid with continuous phase bands. */
 export function MonthGrid({
+  month,
   today,
   onSelectDay,
 }: {
+  /** Any date inside the month to show (normally its first day). */
+  month: Date;
   today: ISODate;
   onSelectDay: (date: ISODate) => void;
 }) {
-  const { t } = useTranslation();
   const fmt = useFormat();
-  const [offset, setOffset] = useState(0);
-  const hasData = useStore((s) => Object.values(s.periods).some((p) => !p.deleted));
   const logs = useStore(selectActiveLogs);
 
-  const monthStart = useMemo(
-    () => startOfMonth(addMonths(fromISODate(today), offset)),
-    [today, offset],
-  );
-  const days = useMemo(() => {
-    const start = startOfWeek(monthStart, { weekStartsOn: WEEK_STARTS_ON });
-    const end = endOfWeek(endOfMonth(monthStart), { weekStartsOn: WEEK_STARTS_ON });
-    return eachDayOfInterval({ start, end }).map((d) => ({
+  const weeks = useMemo(() => {
+    const start = startOfWeek(month, { weekStartsOn: WEEK_STARTS_ON });
+    const end = endOfWeek(endOfMonth(month), { weekStartsOn: WEEK_STARTS_ON });
+    const days = eachDayOfInterval({ start, end }).map((d) => ({
       date: d,
       iso: toISODate(d),
-      inMonth: d.getMonth() === monthStart.getMonth(),
+      inMonth: d.getMonth() === month.getMonth(),
     }));
-  }, [monthStart]);
-  const isos = useMemo(() => days.map((d) => d.iso), [days]);
+    const rows: (typeof days)[] = [];
+    for (let i = 0; i < days.length; i += 7) rows.push(days.slice(i, i + 7));
+    return rows;
+  }, [month]);
+  const isos = useMemo(() => weeks.flat().map((d) => d.iso), [weeks]);
   const statuses = useCalendarDays(isos);
   const loggedDates = useMemo(() => new Set(logs.map((l) => l.date)), [logs]);
-  const weekdays = useMemo(() => days.slice(0, 7).map((d) => fmt.weekday(d.date)), [days, fmt]);
-
-  const move = (delta: number) => {
-    void Haptics.selectionAsync();
-    setOffset((o) => o + delta);
-  };
+  const weekdays = useMemo(() => weeks[0].map((d) => fmt.weekday(d.date)), [weeks, fmt]);
 
   return (
     <Card style={{ gap: spacing.sm }}>
-      <View style={styles.header}>
-        <Pressable
-          onPress={() => move(-1)}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={t('calendar.previousMonth')}>
-          <Icon name="chevron.left" size={18} />
-        </Pressable>
-        <Pressable
-          onPress={() => setOffset(0)}
-          accessibilityRole="button"
-          accessibilityLabel={t('common.today')}>
-          <Txt variant="headline">{fmt.monthYear(monthStart)}</Txt>
-        </Pressable>
-        <Pressable
-          onPress={() => move(1)}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel={t('calendar.nextMonth')}>
-          <Icon name="chevron.right" size={18} />
-        </Pressable>
-      </View>
+      <Txt style={styles.heading}>{fmt.monthYear(month)}</Txt>
       <View style={styles.weekRow}>
         {weekdays.map((w, i) => (
           <Txt key={i} variant="caption" style={styles.weekday}>
@@ -88,115 +74,137 @@ export function MonthGrid({
           </Txt>
         ))}
       </View>
-      <View style={styles.grid}>
-        {days.map((d) => {
-          const s = statuses.get(d.iso);
-          const isToday = d.iso === today;
-          const period = s?.isLoggedPeriod && !s.projected;
-          const predicted = (s?.isPredictedPeriod || (s?.isLoggedPeriod && s.projected)) && !period;
-          const bg = period
-            ? colors.red
-            : s && !predicted
-              ? s.isPms
-                ? phaseTint.luteal
-                : s.isFertile
-                  ? phaseTint.ovulation
-                  : s.phase === 'follicular'
-                    ? phaseTint.follicular
-                    : s.phase === 'luteal'
-                      ? 'transparent'
-                      : phaseTint[s.phase]
-              : 'transparent';
-          return (
-            <Pressable
-              key={d.iso}
-              onPress={() => onSelectDay(d.iso)}
-              accessibilityRole="button"
-              accessibilityLabel={fmt.long(d.iso)}
-              style={({ pressed }) => [styles.cell, pressed && { opacity: 0.6 }]}>
-              <View
-                style={[
-                  styles.circle,
-                  { backgroundColor: bg },
-                  predicted && styles.predicted,
-                  isToday && styles.today,
-                  !d.inMonth && { opacity: 0.35 },
-                ]}>
-                <Txt
-                  variant="callout"
-                  color={period ? colors.white : colors.label}
-                  style={isToday && { fontWeight: '700' }}>
-                  {d.date.getDate()}
-                </Txt>
-                {s?.isOvulation ? <View style={styles.ovulationDot} /> : null}
-              </View>
-              <View style={[styles.logDot, { opacity: loggedDates.has(d.iso) ? 1 : 0 }]} />
-            </Pressable>
-          );
-        })}
-      </View>
-      {!hasData ? <Txt variant="footnote">{t('calendar.noData')}</Txt> : null}
+      {weeks.map((week) => {
+        const segments = bandSegments(week.map((d) => bandKind(statuses.get(d.iso))));
+        return (
+          <View key={week[0].iso} style={styles.weekRow}>
+            {week.map((d, i) => {
+              const s = statuses.get(d.iso);
+              const seg = segments[i];
+              const isToday = d.iso === today;
+              const predicted = isPredictedDay(s);
+              const ovulation = !!s?.isOvulation && !predicted && !isToday;
+              const number = isToday
+                ? colors.white
+                : d.inMonth
+                  ? colors.label
+                  : colors.tertiaryLabel;
+              return (
+                <Pressable
+                  key={d.iso}
+                  onPress={() => onSelectDay(d.iso)}
+                  accessibilityRole="button"
+                  accessibilityLabel={fmt.long(d.iso)}
+                  style={({ pressed }) => [styles.cell, pressed && { opacity: 0.6 }]}>
+                  {seg ? (
+                    <View
+                      style={[
+                        styles.band,
+                        { backgroundColor: bandColor[seg.kind] },
+                        seg.start && styles.bandStart,
+                        seg.end && styles.bandEnd,
+                      ]}
+                    />
+                  ) : null}
+                  <View
+                    style={[
+                      styles.circle,
+                      ovulation && { backgroundColor: phaseTint.ovulation },
+                      predicted && styles.predicted,
+                      isToday && { backgroundColor: colors.red },
+                    ]}>
+                    <Txt variant="callout" color={number} style={isToday && styles.bold}>
+                      {d.date.getDate()}
+                    </Txt>
+                    {loggedDates.has(d.iso) ? (
+                      <View
+                        style={[
+                          styles.logDot,
+                          { backgroundColor: isToday ? colors.white : colors.tint },
+                        ]}
+                      />
+                    ) : null}
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        );
+      })}
     </Card>
   );
 }
 
+/** Legend as small wrapping chips. */
 export function Legend() {
   const { t } = useTranslation();
-  const items: { label: string; style: object }[] = [
-    { label: t('calendar.period'), style: { backgroundColor: colors.red } },
+  const items: { label: string; style: StyleProp<ViewStyle> }[] = [
+    { label: t('calendar.period'), style: { backgroundColor: phaseTint.menstrual } },
     { label: t('calendar.predictedPeriod'), style: styles.predicted },
-    { label: t('calendar.fertile'), style: { backgroundColor: phaseTint.ovulation } },
-    { label: t('calendar.ovulation'), style: { backgroundColor: colors.orange } },
+    { label: t('calendar.fertile'), style: { backgroundColor: colors.fill } },
+    { label: t('calendar.ovulation'), style: { backgroundColor: phaseTint.ovulation } },
     { label: t('calendar.pms'), style: { backgroundColor: phaseTint.luteal } },
-    {
-      label: t('calendar.logged'),
-      style: { backgroundColor: colors.tint, width: 6, height: 6, borderRadius: 3 },
-    },
+    { label: t('calendar.logged'), style: styles.legendLogDot },
   ];
   return (
-    <Card>
-      <View style={styles.legend}>
-        {items.map((it) => (
-          <View key={it.label} style={styles.legendItem}>
-            <View style={[styles.legendSwatch, it.style]} />
-            <Txt variant="footnote">{it.label}</Txt>
-          </View>
-        ))}
-      </View>
-    </Card>
+    <View style={styles.legend} accessibilityLabel={t('calendar.legend')}>
+      {items.map((it) => (
+        <View key={it.label} style={styles.legendChip}>
+          <View style={[styles.legendSwatch, it.style]} />
+          <Txt variant="footnote" color={colors.label}>
+            {it.label}
+          </Txt>
+        </View>
+      ))}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  heading: {
+    fontSize: 18,
+    fontWeight: '600',
+    fontFamily: fonts?.rounded,
     paddingHorizontal: spacing.xs,
   },
   weekRow: { flexDirection: 'row' },
   weekday: { flex: 1, textAlign: 'center' },
-  grid: { flexDirection: 'row', flexWrap: 'wrap' },
-  cell: { width: `${100 / 7}%`, alignItems: 'center', paddingVertical: 3 },
+  cell: { flex: 1, alignItems: 'center', paddingVertical: 3 },
+  band: {
+    position: 'absolute',
+    top: 3,
+    bottom: 3,
+    left: 0,
+    right: 0,
+  },
+  bandStart: { borderTopLeftRadius: CELL / 2, borderBottomLeftRadius: CELL / 2, left: 2 },
+  bandEnd: { borderTopRightRadius: CELL / 2, borderBottomRightRadius: CELL / 2, right: 2 },
   circle: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: CELL,
+    height: CELL,
+    borderRadius: CELL / 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
   predicted: { borderWidth: 1.5, borderColor: colors.red, borderStyle: 'dashed' },
-  today: { borderWidth: 2, borderColor: colors.tint },
-  ovulationDot: {
-    position: 'absolute',
-    bottom: 3,
-    width: 5,
-    height: 5,
-    borderRadius: 2.5,
-    backgroundColor: colors.orange,
-  },
-  logDot: { width: 5, height: 5, borderRadius: 2.5, backgroundColor: colors.tint, marginTop: 2 },
+  bold: { fontWeight: '700' },
+  logDot: { position: 'absolute', bottom: 4, width: 4, height: 4, borderRadius: 2 },
   legend: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 6, width: '46%' },
-  legendSwatch: { width: 16, height: 16, borderRadius: 8 },
+  legendChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.card,
+    borderRadius: radius.chip,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
+  legendSwatch: { width: 14, height: 14, borderRadius: 7 },
+  legendLogDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: colors.tint,
+    marginHorizontal: 4,
+  },
 });

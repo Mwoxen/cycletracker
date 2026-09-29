@@ -72,7 +72,7 @@ describe('fresh install', () => {
     await fireEvent.changeText(screen.getByPlaceholderText(da.onboarding.namePlaceholder), 'Anna');
     await fireEvent.press(screen.getByText(da.onboarding.finish));
     expect(await homeTabWhenReady()).toBeTruthy();
-    expect(homeTab().getByText(da.home.todaysCard)).toBeTruthy();
+    expect(homeTab().getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
     expect(useStore.getState().profile?.partnerName).toBe('Anna');
     expect(useStore.getState().profile?.role).toBe('tracker');
   });
@@ -83,8 +83,10 @@ describe('home', () => {
     onboard('tracker');
     await renderApp('/home');
     const home = homeTab();
-    expect(await home.findByText(/^Anna er i /)).toBeTruthy();
-    expect(home.getByText(da.home.todaysCard)).toBeTruthy();
+    // The phase card headline says what the partner needs today, e.g. "Anna har overskud i dag".
+    expect(await home.findByText(/^Anna (har|er) /)).toBeTruthy();
+    expect(home.getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
+    expect(home.getByText(/^Næste menstruation om \d+ dage$/)).toBeTruthy();
     expect(home.getByText(month1.daily[0].title)).toBeTruthy();
     expect(home.getByText(da.home.neverSynced)).toBeTruthy();
   });
@@ -93,7 +95,7 @@ describe('home', () => {
     onboard('user');
     await renderApp('/home');
     const home = homeTab();
-    expect(await home.findByText(/^Du er i /)).toBeTruthy();
+    expect(await home.findByText(/^Du (har overskud|har brug for|er på toppen)/)).toBeTruthy();
     expect(home.getByText(da.home.partnerLearnsToday)).toBeTruthy();
     expect(home.getByText(da.home.neverShared)).toBeTruthy();
   });
@@ -148,19 +150,31 @@ describe('tabs', () => {
     expect(await learn.findByText(da.learn.catchUp)).toBeTruthy();
     expect(learn.getByText(month1.daily[0].title)).toBeTruthy();
     expect(learn.getByText(upper(da.learn.phaseLibrary))).toBeTruthy();
+    expect(
+      learn.getByText(da.learn.subtitle.replace('{{day}}', '1').replace('{{month}}', '1')),
+    ).toBeTruthy();
+    expect(learn.getByText(da.learn.stats.read)).toBeTruthy();
+    expect(learn.getByText(da.learn.todaysCard)).toBeTruthy();
     // Today's card and this week's read are unread, so the catch-up list is never empty on day 1.
     expect(learn.getByText('2 ulæste')).toBeTruthy();
   });
 
-  it('renders calendar and moves between months', async () => {
+  it('renders calendar with stacked months and shows earlier ones on demand', async () => {
     onboard('tracker');
     await renderApp('/calendar');
     const calendar = calendarTab();
     expect(await calendar.findByText(da.calendar.period)).toBeTruthy();
     expect(calendar.getByText(da.calendar.predictedPeriod)).toBeTruthy();
+    // Cycle day 11 (last period started 10 days ago) and the predicted next start.
+    expect(calendar.getByText(/^Cyklusdag 11 · næste menstruation /)).toBeTruthy();
+    // The current month plus the next two are stacked; no earlier month yet.
     expect(calendar.getByText('maj 2026')).toBeTruthy();
-    await fireEvent.press(calendar.getByLabelText(da.calendar.nextMonth));
-    expect(await calendar.findByText('juni 2026')).toBeTruthy();
+    expect(calendar.getByText('juni 2026')).toBeTruthy();
+    expect(calendar.getByText('juli 2026')).toBeTruthy();
+    expect(calendar.queryByText('april 2026')).toBeNull();
+    await fireEvent.press(calendar.getByText(da.calendar.showEarlier));
+    expect(await calendar.findByText('februar 2026')).toBeTruthy();
+    expect(calendar.getByText('april 2026')).toBeTruthy();
   });
 
   it('renders settings and switches language', async () => {

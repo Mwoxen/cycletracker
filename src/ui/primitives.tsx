@@ -112,13 +112,17 @@ export function Icon({
   );
 }
 
-/** A tappable list row with optional leading symbol, trailing value and chevron. */
+/**
+ * A tappable list row with optional leading symbol or custom lead view (a badge), trailing
+ * value and chevron.
+ */
 export function Row({
   title,
   subtitle,
   value,
   symbol,
   symbolColor,
+  lead,
   onPress,
   chevron = !!onPress,
   trailing,
@@ -130,6 +134,8 @@ export function Row({
   value?: string;
   symbol?: SFSymbol;
   symbolColor?: ColorValue;
+  /** Rendered before the text, instead of `symbol` (e.g. a round badge). */
+  lead?: ReactNode;
   onPress?: () => void;
   chevron?: boolean;
   trailing?: ReactNode;
@@ -138,7 +144,9 @@ export function Row({
 }) {
   const content = (
     <View style={[styles.row, !last && styles.rowBorder]}>
-      {symbol ? (
+      {lead ? (
+        <View style={styles.rowLead}>{lead}</View>
+      ) : symbol ? (
         <View style={styles.rowSymbol}>
           <Icon name={symbol} color={symbolColor ?? colors.tint} />
         </View>
@@ -283,7 +291,12 @@ export function Gap({ size = spacing.md }: { size?: number }) {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
-  screenContent: { padding: spacing.md, gap: spacing.md, paddingBottom: spacing.xl },
+  screenContent: {
+    paddingTop: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.xl,
+    gap: spacing.md,
+  },
   largeTitle: { fontSize: 34, fontWeight: '700', letterSpacing: 0.2, fontFamily: fonts?.rounded },
   title: { fontSize: 22, fontWeight: '700', fontFamily: fonts?.rounded },
   headline: { fontSize: 17, fontWeight: '600' },
@@ -311,6 +324,7 @@ const styles = StyleSheet.create({
   },
   rowBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.separator },
   rowSymbol: { width: 28, alignItems: 'center' },
+  rowLead: { marginRight: spacing.xs, alignItems: 'center', justifyContent: 'center' },
   rowText: { flex: 1 },
   rowValue: { marginRight: spacing.xs },
   pressed: { opacity: 0.6 },

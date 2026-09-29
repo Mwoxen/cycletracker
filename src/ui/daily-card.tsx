@@ -9,15 +9,27 @@ import { colors, radius, spacing } from '@/ui/colors';
 import { Card, Icon, Txt } from '@/ui/primitives';
 
 /** Compact view of a daily card for the Home screen, with the action toggle. */
-export function DailyCardPreview({ card, isTracker }: { card: DailyCard; isTracker: boolean }) {
+export function DailyCardPreview({
+  card,
+  isTracker,
+  programDay,
+}: {
+  card: DailyCard;
+  isTracker: boolean;
+  /** 1-based day in the year program, shown in the kicker when known. */
+  programDay?: number;
+}) {
   const { t } = useTranslation();
   const progress = useStore((s) => s.progress[card.id]);
+  const kicker = !isTracker
+    ? t('home.partnerLearnsToday')
+    : programDay
+      ? t('home.todaysCardDay', { day: programDay })
+      : t('home.todaysCard');
   return (
     <Card>
       <View style={styles.headerRow}>
-        <Txt variant="footnote">
-          {isTracker ? t('home.todaysCard') : t('home.partnerLearnsToday')}
-        </Txt>
+        <Txt variant="footnote">{kicker}</Txt>
         {progress?.readAt ? (
           <Icon name="checkmark.circle.fill" size={16} color={colors.green} />
         ) : null}
@@ -42,6 +54,7 @@ export function ActionBox({ card }: { card: DailyCard }) {
   const { t } = useTranslation();
   const done = useStore((s) => !!s.progress[card.id]?.actionDoneAt);
   const toggle = useStore((s) => s.toggleActionDone);
+  const label = done ? t('home.actionDone') : t('home.markActionDone');
   return (
     <View style={styles.actionBox}>
       <Txt variant="footnote" color={colors.tint} style={{ fontWeight: '600' }}>
@@ -49,22 +62,28 @@ export function ActionBox({ card }: { card: DailyCard }) {
       </Txt>
       <Txt>{card.action}</Txt>
       <Pressable
-        accessibilityRole="checkbox"
-        accessibilityState={{ checked: done }}
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        accessibilityState={{ selected: done }}
         onPress={() => {
           void Haptics.impactAsync(
             done ? Haptics.ImpactFeedbackStyle.Light : Haptics.ImpactFeedbackStyle.Medium,
           );
           toggle(card.id);
         }}
-        style={({ pressed }) => [styles.actionButton, pressed && { opacity: 0.7 }]}>
+        style={({ pressed }) => [
+          styles.actionButton,
+          { backgroundColor: done ? colors.green : colors.tint },
+          pressed && { opacity: 0.7 },
+        ]}>
         <Icon
-          name={done ? 'checkmark.circle.fill' : 'circle'}
-          size={22}
-          color={done ? colors.green : colors.tint}
+          name={done ? 'checkmark.circle.fill' : 'checkmark'}
+          size={16}
+          color={colors.white}
+          weight="semibold"
         />
-        <Txt variant="headline" color={done ? colors.green : colors.tint}>
-          {done ? t('home.actionDone') : t('home.markActionDone')}
+        <Txt variant="headline" color={colors.white}>
+          {label}
         </Txt>
       </Pressable>
     </View>
@@ -83,8 +102,13 @@ const styles = StyleSheet.create({
   actionButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
     gap: spacing.sm,
-    paddingTop: spacing.xs,
-    minHeight: 36,
+    marginTop: spacing.xs,
+    paddingVertical: 10,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.chip,
+    minHeight: 40,
   },
 });

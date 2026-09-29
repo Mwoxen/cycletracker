@@ -4,9 +4,8 @@
 // into `undefined is not a function` on the first render and crashes the app at launch.
 // Jest does not run the compiler, so this is the only place the mistake is caught.
 import { transformSync } from '@babel/core';
-import { readFileSync } from 'node:fs';
+import { globSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { globSync } from 'node:fs';
 
 const require = createRequire(import.meta.url);
 const files = globSync('src/**/*.{ts,tsx}').filter((f) => !/\.test\.tsx?$/.test(f));

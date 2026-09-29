@@ -63,7 +63,11 @@ export default function HomeScreen() {
         </Card>
       ) : program.card ? (
         <Reveal index={1}>
-          <DailyCardPreview card={program.card} isTracker={isTracker} />
+          <DailyCardPreview
+            card={program.card}
+            isTracker={isTracker}
+            programDay={program.position.programDay}
+          />
         </Reveal>
       ) : (
         <Card>
@@ -121,9 +125,16 @@ export default function HomeScreen() {
       ) : null}
 
       {program.weekly && !program.position.notStarted ? (
-        <Card onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}>
-          <Txt variant="footnote">{t('home.conversation')}</Txt>
-          <Txt variant="headline">{program.weekly.conversationQuestion}</Txt>
+        <Card
+          onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}
+          style={{ paddingVertical: 12 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+            <View style={{ flex: 1, gap: 2 }}>
+              <Txt variant="footnote">{t('home.conversation')}</Txt>
+              <Txt variant="headline">{program.weekly.conversationQuestion}</Txt>
+            </View>
+            <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
+          </View>
         </Card>
       ) : null}
 

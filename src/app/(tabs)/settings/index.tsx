@@ -5,7 +5,7 @@ import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
+import { Alert, StyleSheet, Switch, TextInput } from 'react-native';
 
 import { LANGUAGES, type Language, type Role } from '@/domain/types';
 import { fromISODate, toISODate } from '@/engine/dates';
@@ -17,7 +17,8 @@ import { useToday } from '@/hooks/use-today';
 import { hasNotificationPermission, requestNotificationPermission } from '@/notifications';
 import { previewMerge, selectSnapshotData, useStore } from '@/store';
 import { colors, palette, spacing } from '@/ui/colors';
-import { Button, Card, Chip, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
+import { Button, Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
+import { Segmented } from '@/ui/segmented';
 import { Stepper } from '@/ui/stepper';
 
 export default function SettingsScreen() {
@@ -134,58 +135,58 @@ export default function SettingsScreen() {
     ]);
   };
 
+  const roleOptions = [
+    { value: 'tracker' as const, label: t('settings.roleShort.tracker') },
+    { value: 'user' as const, label: t('settings.roleShort.user') },
+  ];
+  const languageOptions = LANGUAGES.map((l) => ({
+    value: l,
+    label: t(`settings.languageNames.${l}`),
+  }));
+
   return (
     <Screen>
       <SectionTitle>{t('settings.profile')}</SectionTitle>
-      <Card>
-        <Txt variant="footnote">{t('settings.role')}</Txt>
-        <View style={styles.chips}>
-          <Chip
-            label={t('roles.tracker')}
-            selected={profile.role === 'tracker'}
-            onPress={() => setRole('tracker')}
-          />
-          <Chip
-            label={t('roles.user')}
-            selected={profile.role === 'user'}
-            onPress={() => setRole('user')}
-          />
-        </View>
-        <Txt variant="footnote" style={{ marginTop: spacing.sm }}>
-          {profile.role === 'tracker' ? t('onboarding.partnerName') : t('onboarding.yourName')}
-        </Txt>
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          onEndEditing={() => name.trim() && updateProfile({ partnerName: name.trim() })}
-          placeholder={t('onboarding.namePlaceholder')}
-          placeholderTextColor={colors.tertiaryLabel}
-          style={styles.input}
-          autoCapitalize="words"
-          returnKeyType="done"
+      <Card style={styles.rowsCard}>
+        <Row
+          title={t('settings.role')}
+          trailing={<Segmented options={roleOptions} value={profile.role} onChange={setRole} />}
         />
-        <Txt variant="footnote" style={{ marginTop: spacing.sm }}>
-          {t('settings.language')}
-        </Txt>
-        <View style={styles.chips}>
-          {LANGUAGES.map((l) => (
-            <Chip
-              key={l}
-              label={t(`settings.languageNames.${l}`)}
-              selected={profile.language === l}
-              onPress={() => setLang(l)}
+        <Row
+          title={profile.role === 'tracker' ? t('settings.partnerName') : t('settings.yourName')}
+          trailing={
+            <TextInput
+              value={name}
+              onChangeText={setName}
+              onEndEditing={() => name.trim() && updateProfile({ partnerName: name.trim() })}
+              placeholder={t('onboarding.namePlaceholder')}
+              placeholderTextColor={colors.tertiaryLabel}
+              style={styles.input}
+              autoCapitalize="words"
+              returnKeyType="done"
+              accessibilityLabel={
+                profile.role === 'tracker' ? t('settings.partnerName') : t('settings.yourName')
+              }
             />
-          ))}
-        </View>
-        <Pressable
-          accessibilityRole="button"
+          }
+        />
+        <Row
+          title={t('settings.language')}
+          trailing={
+            <Segmented options={languageOptions} value={profile.language} onChange={setLang} />
+          }
+        />
+        <Row
+          title={t('settings.programStart')}
           onPress={() => setOpenPicker(openPicker === 'start' ? null : 'start')}
-          style={[styles.row, { marginTop: spacing.sm }]}>
-          <Txt style={{ flex: 1 }}>{t('settings.programStart')}</Txt>
-          <Txt color={openPicker === 'start' ? colors.tint : colors.secondaryLabel}>
-            {fmt.long(profile.programStartDate)}
-          </Txt>
-        </Pressable>
+          chevron={false}
+          last
+          trailing={
+            <Txt color={openPicker === 'start' ? colors.tint : colors.secondaryLabel}>
+              {fmt.long(profile.programStartDate)}
+            </Txt>
+          }
+        />
         {openPicker === 'start' ? (
           <DateTimePicker
             value={fromISODate(profile.programStartDate)}
@@ -194,63 +195,78 @@ export default function SettingsScreen() {
             accentColor={palette.light.tint}
             onValueChange={(_, d) => updateProfile({ programStartDate: toISODate(d) })}
             locale={locale}
-            style={{ alignSelf: 'stretch' }}
+            style={styles.picker}
           />
         ) : null}
       </Card>
 
       <SectionTitle>{t('settings.cycle')}</SectionTitle>
-      <Card>
-        <View style={styles.row}>
-          <Txt style={{ flex: 1 }}>{t('settings.cycleLength')}</Txt>
-          <Stepper
-            value={settings.defaultCycleLength}
-            min={21}
-            max={45}
-            onChange={(v) => updateSettings({ defaultCycleLength: v })}
-            format={(v) => t('settings.daysValue', { n: v })}
-          />
-        </View>
-        <View style={styles.row}>
-          <Txt style={{ flex: 1 }}>{t('settings.periodLength')}</Txt>
-          <Stepper
-            value={settings.defaultPeriodLength}
-            min={2}
-            max={10}
-            onChange={(v) => updateSettings({ defaultPeriodLength: v })}
-            format={(v) => t('settings.daysValue', { n: v })}
-          />
-        </View>
-        <View style={styles.row}>
-          <Txt style={{ flex: 1 }}>{t('settings.lutealLength')}</Txt>
-          <Stepper
-            value={settings.lutealLength}
-            min={10}
-            max={16}
-            onChange={(v) => updateSettings({ lutealLength: v })}
-            format={(v) => t('settings.daysValue', { n: v })}
-          />
-        </View>
-        <Txt variant="footnote">{t('settings.cycleHelp')}</Txt>
+      <Card style={styles.rowsCard}>
+        <Row
+          title={t('settings.cycleLength')}
+          trailing={
+            <Stepper
+              value={settings.defaultCycleLength}
+              min={21}
+              max={45}
+              onChange={(v) => updateSettings({ defaultCycleLength: v })}
+              format={(v) => t('settings.daysValue', { n: v })}
+            />
+          }
+        />
+        <Row
+          title={t('settings.periodLength')}
+          trailing={
+            <Stepper
+              value={settings.defaultPeriodLength}
+              min={2}
+              max={10}
+              onChange={(v) => updateSettings({ defaultPeriodLength: v })}
+              format={(v) => t('settings.daysValue', { n: v })}
+            />
+          }
+        />
+        <Row
+          title={t('settings.lutealLength')}
+          last
+          trailing={
+            <Stepper
+              value={settings.lutealLength}
+              min={10}
+              max={16}
+              onChange={(v) => updateSettings({ lutealLength: v })}
+              format={(v) => t('settings.daysValue', { n: v })}
+            />
+          }
+        />
       </Card>
+      <Txt variant="footnote" style={styles.help}>
+        {t('settings.cycleHelp')}
+      </Txt>
 
       <SectionTitle>{t('settings.reminders')}</SectionTitle>
-      <Card>
-        <View style={styles.row}>
-          <Txt style={{ flex: 1 }}>{t('settings.dailyCard')}</Txt>
-          <Switch value={r.dailyCard} onValueChange={(v) => void toggleReminder('dailyCard', v)} />
-        </View>
+      <Card style={styles.rowsCard}>
+        <Row
+          title={t('settings.dailyCard')}
+          trailing={
+            <Switch
+              value={r.dailyCard}
+              onValueChange={(v) => void toggleReminder('dailyCard', v)}
+            />
+          }
+        />
         {r.dailyCard ? (
           <>
-            <Pressable
-              accessibilityRole="button"
+            <Row
+              title={t('settings.dailyCardTime')}
               onPress={() => setOpenPicker(openPicker === 'time' ? null : 'time')}
-              style={styles.row}>
-              <Txt style={{ flex: 1 }}>{t('settings.dailyCardTime')}</Txt>
-              <Txt color={openPicker === 'time' ? colors.tint : colors.secondaryLabel}>
-                {fmt.time(reminderTime)}
-              </Txt>
-            </Pressable>
+              chevron={false}
+              trailing={
+                <Txt color={openPicker === 'time' ? colors.tint : colors.secondaryLabel}>
+                  {fmt.time(reminderTime)}
+                </Txt>
+              }
+            />
             {openPicker === 'time' ? (
               <DateTimePicker
                 value={reminderTime}
@@ -260,22 +276,30 @@ export default function SettingsScreen() {
                   updateReminders({ dailyCardHour: d.getHours(), dailyCardMinute: d.getMinutes() })
                 }
                 locale={locale}
-                style={{ alignSelf: 'stretch' }}
+                style={styles.picker}
               />
             ) : null}
           </>
         ) : null}
-        <View style={styles.row}>
-          <Txt style={{ flex: 1 }}>{t('settings.periodSoon')}</Txt>
-          <Switch
-            value={r.periodSoon}
-            onValueChange={(v) => void toggleReminder('periodSoon', v)}
-          />
-        </View>
-        <View style={styles.row}>
-          <Txt style={{ flex: 1 }}>{t('settings.pmsWindow')}</Txt>
-          <Switch value={r.pmsWindow} onValueChange={(v) => void toggleReminder('pmsWindow', v)} />
-        </View>
+        <Row
+          title={t('settings.periodSoon')}
+          trailing={
+            <Switch
+              value={r.periodSoon}
+              onValueChange={(v) => void toggleReminder('periodSoon', v)}
+            />
+          }
+        />
+        <Row
+          title={t('settings.pmsWindow')}
+          last={notifGranted !== false}
+          trailing={
+            <Switch
+              value={r.pmsWindow}
+              onValueChange={(v) => void toggleReminder('pmsWindow', v)}
+            />
+          }
+        />
         {notifGranted === false ? (
           <Button
             title={t('settings.notificationsDenied')}
@@ -286,31 +310,28 @@ export default function SettingsScreen() {
       </Card>
 
       <SectionTitle>{t('settings.backup')}</SectionTitle>
-      <Card>
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <Txt>{t('settings.cloudBackup')}</Txt>
-            <Txt variant="footnote">
-              {!backupStatus.available
-                ? t('settings.cloudBackupUnavailable')
-                : backupStatus.lastError
-                  ? t('settings.cloudBackupError', { error: backupStatus.lastError })
-                  : backupStatus.lastBackupAt
-                    ? t('settings.cloudBackupLast', {
-                        when: relativeTime(backupStatus.lastBackupAt),
-                      })
-                    : t('settings.cloudBackupNever')}
-            </Txt>
-          </View>
-          <Switch
-            value={settings.cloudBackup}
-            disabled={!backupStatus.available}
-            onValueChange={(v) => updateSettings({ cloudBackup: v })}
-          />
-        </View>
-        <Txt variant="footnote">{t('settings.cloudBackupHelp')}</Txt>
-      </Card>
-      <Card style={{ padding: 0, paddingHorizontal: 16 }}>
+      <Card style={styles.rowsCard}>
+        <Row
+          title={t('settings.cloudBackup')}
+          subtitle={
+            !backupStatus.available
+              ? t('settings.cloudBackupUnavailable')
+              : backupStatus.lastError
+                ? t('settings.cloudBackupError', { error: backupStatus.lastError })
+                : backupStatus.lastBackupAt
+                  ? t('settings.cloudBackupLast', {
+                      when: relativeTime(backupStatus.lastBackupAt),
+                    })
+                  : t('settings.cloudBackupNever')
+          }
+          trailing={
+            <Switch
+              value={settings.cloudBackup}
+              disabled={!backupStatus.available}
+              onValueChange={(v) => updateSettings({ cloudBackup: v })}
+            />
+          }
+        />
         <Row
           title={t('settings.cloudRestore')}
           symbol="icloud.and.arrow.down"
@@ -352,6 +373,9 @@ export default function SettingsScreen() {
           last
         />
       </Card>
+      <Txt variant="footnote" style={styles.help}>
+        {t('settings.cloudBackupHelp')}
+      </Txt>
 
       <SectionTitle>{t('settings.about')}</SectionTitle>
       <Card>
@@ -368,7 +392,7 @@ export default function SettingsScreen() {
       </Card>
 
       <SectionTitle>{t('settings.danger')}</SectionTitle>
-      <Card style={{ padding: 0, paddingHorizontal: 16 }}>
+      <Card style={styles.rowsCard}>
         <Row
           title={t('settings.resetAll')}
           symbol="trash"
@@ -384,7 +408,14 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, minHeight: 36 },
-  input: { fontSize: 17, color: colors.label, paddingVertical: 4 },
+  rowsCard: { padding: 0, paddingHorizontal: spacing.md, gap: 0 },
+  input: {
+    flex: 1,
+    fontSize: 17,
+    color: colors.secondaryLabel,
+    textAlign: 'right',
+    paddingVertical: 4,
+  },
+  picker: { alignSelf: 'stretch', marginBottom: spacing.sm },
+  help: { marginHorizontal: spacing.md, marginTop: -spacing.sm },
 });
