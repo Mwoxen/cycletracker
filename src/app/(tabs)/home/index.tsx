@@ -11,7 +11,7 @@ import { TabSwipe } from '@/ui/tab-swipe';
 import { colors, spacing } from '@/ui/colors';
 import { DailyCardPreview } from '@/ui/daily-card';
 import { PhaseCard } from '@/ui/phase-card';
-import { Bullets, Button, Card, Screen, Icon, Txt } from '@/ui/primitives';
+import { Bullets, Button, Card, Row, Screen, Icon, Txt } from '@/ui/primitives';
 import { Reveal } from '@/ui/reveal';
 
 /** Tappable card with a footnote heading, a chevron and up to three bullets. */
@@ -35,20 +35,34 @@ function BulletsCard({
   );
 }
 
-/** Compact pointer to the current cycle week; the details live on the calendar tab. */
-function CycleWeekRow({ onPress }: { onPress: () => void }) {
+/**
+ * "This week": one grouped list with the cycle week (to the calendar) and the week's read (the
+ * partner sees today's card of the program instead).
+ */
+function ThisWeek({
+  rows,
+}: {
+  rows: { key: string; title: string; subtitle: string; onPress: () => void }[];
+}) {
   const { t } = useTranslation();
-  const cycleWeek = useCycleWeek();
-  if (!cycleWeek) return null;
+  if (rows.length === 0) return null;
   return (
-    <Card onPress={onPress} style={{ paddingVertical: 12 }}>
-      <View style={styles.weeklyRow}>
-        <Txt variant="headline" style={{ flex: 1 }}>
-          {t('weeks.homeRow', { n: cycleWeek.week, title: cycleWeek.focus.title })}
-        </Txt>
-        <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
-      </View>
-    </Card>
+    <View style={styles.group}>
+      <Txt variant="headline" style={styles.groupTitle}>
+        {t('home.thisWeek')}
+      </Txt>
+      <Card style={styles.rowsCard}>
+        {rows.map((row, i) => (
+          <Row
+            key={row.key}
+            title={row.title}
+            subtitle={row.subtitle}
+            onPress={row.onPress}
+            last={i === rows.length - 1}
+          />
+        ))}
+      </Card>
+    </View>
   );
 }
 
@@ -60,6 +74,7 @@ export default function HomeScreen() {
   const pairing = useStore((s) => s.pairing);
   const { today, snapshot } = useCycle();
   const program = useProgram();
+  const cycleWeek = useCycleWeek();
   const todayLog = useStore(selectLogForDate(today));
   const isTracker = profile?.role === 'tracker';
   const name = profile?.partnerName ?? '';
@@ -85,6 +100,34 @@ export default function HomeScreen() {
       <Txt>{t('home.contentMissing')}</Txt>
     </Card>
   );
+
+  const weekRows: { key: string; title: string; subtitle: string; onPress: () => void }[] = [];
+  if (cycleWeek) {
+    weekRows.push({
+      key: 'week',
+      title: t('weeks.weekN', { n: cycleWeek.week }),
+      subtitle: cycleWeek.focus.title,
+      onPress: openCalendar,
+    });
+  }
+  if (isTracker && program.weekly && !program.position.notStarted) {
+    const id = program.weekly.id;
+    weekRows.push({
+      key: 'weekly',
+      title: t('home.weeklyArticle'),
+      subtitle: program.weekly.title,
+      onPress: () => router.push(`/(tabs)/home/weekly/${id}`),
+    });
+  }
+  if (!isTracker && programStatus === null && program.card) {
+    const id = program.card.id;
+    weekRows.push({
+      key: 'partner',
+      title: t('home.partnerLearnsToday'),
+      subtitle: program.card.title,
+      onPress: () => router.push(`/(tabs)/home/daily/${id}`),
+    });
+  }
 
   const pairingRows = (
     <>
@@ -115,6 +158,22 @@ export default function HomeScreen() {
     </>
   );
 
+  const symptomTip = todayLog && todayLog.symptoms.length > 0 && (
+    <Card onPress={openLog}>
+      <Txt variant="footnote">
+        {isTracker ? t('home.sheLogged', { name }) : t('home.youLogged')}
+      </Txt>
+      <Txt variant="headline">
+        {todayLog.symptoms.map((s) => t(`log.symptomNames.${s}`)).join(' · ')}
+      </Txt>
+      <Txt color={isTracker ? colors.tint : colors.secondaryLabel}>
+        {isTracker
+          ? program.content.symptomTips[todayLog.symptoms[0]].doThis
+          : program.content.symptomTips[todayLog.symptoms[0]].what}
+      </Txt>
+    </Card>
+  );
+
   return (
     <TabSwipe tab="home">
       <Screen title={t('home.title')} subtitle={fmt.long(today)}>
@@ -137,55 +196,11 @@ export default function HomeScreen() {
             {programStatus}
             {programStatus === null && program.card ? (
               <Reveal index={1}>
-                <DailyCardPreview
-                  card={program.card}
-                  isTracker
-                  programDay={program.position.programDay}
-                />
+                <DailyCardPreview card={program.card} />
               </Reveal>
             ) : null}
-            <CycleWeekRow onPress={openCalendar} />
-
-            {todayLog && todayLog.symptoms.length > 0 ? (
-              <Card onPress={openLog}>
-                <Txt variant="footnote">{t('home.sheLogged', { name })}</Txt>
-                <Txt variant="headline">
-                  {todayLog.symptoms.map((s) => t(`log.symptomNames.${s}`)).join(' · ')}
-                </Txt>
-                <Txt variant="footnote">
-                  {program.content.symptomTips[todayLog.symptoms[0]].what}
-                </Txt>
-                <Txt color={colors.tint}>
-                  {program.content.symptomTips[todayLog.symptoms[0]].doThis}
-                </Txt>
-              </Card>
-            ) : null}
-
-            {phaseInfo ? (
-              <BulletsCard
-                heading={t('home.whatYouCanDo')}
-                items={phaseInfo.whatYouCanDo}
-                onPress={openPhase}
-              />
-            ) : null}
-
-            {program.weekly && !program.position.notStarted ? (
-              <Card
-                onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}
-                style={{ paddingVertical: 12 }}>
-                <View style={styles.weeklyRow}>
-                  <View style={{ flex: 1, gap: 2 }}>
-                    <Txt variant="footnote">{t('home.weeklyRead')}</Txt>
-                    <Txt variant="headline">{program.weekly.title}</Txt>
-                    <Txt color={colors.secondaryLabel} style={{ fontStyle: 'italic' }}>
-                      {program.weekly.conversationQuestion}
-                    </Txt>
-                  </View>
-                  <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
-                </View>
-              </Card>
-            ) : null}
-
+            {symptomTip}
+            <ThisWeek rows={weekRows} />
             {snapshot.hasData ? (
               <Button
                 title={t('home.logToday')}
@@ -200,23 +215,12 @@ export default function HomeScreen() {
             {phaseInfo ? (
               <Reveal index={1}>
                 <BulletsCard
-                  heading={t('home.howYouMayFeel')}
-                  items={phaseInfo.howSheMayFeel}
-                  onPress={openPhase}
-                />
-              </Reveal>
-            ) : null}
-            {phaseInfo ? (
-              <Reveal index={2}>
-                <BulletsCard
                   heading={t('home.selfCare')}
                   items={phaseInfo.selfCare}
                   onPress={openPhase}
                 />
               </Reveal>
             ) : null}
-            <CycleWeekRow onPress={openCalendar} />
-
             {snapshot.hasData ? (
               <Button
                 title={t('home.logToday')}
@@ -225,36 +229,9 @@ export default function HomeScreen() {
                 onPress={openLog}
               />
             ) : null}
-
-            {todayLog && todayLog.symptoms.length > 0 ? (
-              <Card onPress={openLog}>
-                <Txt variant="footnote">{t('home.youLogged')}</Txt>
-                <Txt variant="headline">
-                  {todayLog.symptoms.map((s) => t(`log.symptomNames.${s}`)).join(' · ')}
-                </Txt>
-                <Txt color={colors.secondaryLabel}>
-                  {program.content.symptomTips[todayLog.symptoms[0]].what}
-                </Txt>
-              </Card>
-            ) : null}
-
+            {symptomTip}
             {programStatus}
-            {programStatus === null && program.card ? (
-              <Card
-                onPress={() => router.push(`/(tabs)/home/daily/${program.card!.id}`)}
-                style={{ paddingVertical: 12 }}>
-                <View style={styles.weeklyRow}>
-                  <View style={{ flex: 1, gap: 2 }}>
-                    <Txt variant="footnote">{t('home.partnerLearnsToday')}</Txt>
-                    <Txt variant="headline">{program.card.title}</Txt>
-                    <Txt variant="caption" color={colors.tertiaryLabel}>
-                      {t('home.todaysCardDay', { day: program.position.programDay })}
-                    </Txt>
-                  </View>
-                  <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
-                </View>
-              </Card>
-            ) : null}
+            <ThisWeek rows={weekRows} />
           </>
         )}
 
@@ -266,5 +243,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  weeklyRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  group: { gap: spacing.sm },
+  groupTitle: { marginLeft: spacing.xs },
+  rowsCard: { padding: 0, paddingHorizontal: spacing.md, gap: 0 },
 });

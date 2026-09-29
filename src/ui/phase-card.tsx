@@ -96,8 +96,8 @@ export function PhaseCard({
           </View>
         </View>
         <View style={styles.text}>
-          <Txt variant="caption" color={phaseColor[phase]} style={styles.kicker}>
-            {`${phaseName} · ${t('home.cycleDayShort', { n: today.cycleDay })}`.toUpperCase()}
+          <Txt variant="footnote" color={phaseColor[phase]} style={styles.kicker}>
+            {`${phaseName}, ${t('home.cycleDayShort', { n: today.cycleDay }).toLowerCase()}`}
           </Txt>
           <Txt variant="title">{headline}</Txt>
           <Txt variant="footnote">{t(`phases.short.${phase}`)}</Txt>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: { flex: 1, gap: 2 },
-  kicker: { fontWeight: '700', letterSpacing: 0.6 },
+  kicker: { fontWeight: '600' },
   pills: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginTop: spacing.xs },
   pill: {
     backgroundColor: pillBackground,

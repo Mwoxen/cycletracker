@@ -5,110 +5,77 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { DailyCard } from '@/content';
 import { useStore } from '@/store/store';
-import { colors, radius, spacing } from '@/ui/colors';
+import { colors, spacing } from '@/ui/colors';
 import { Card, Icon, Txt } from '@/ui/primitives';
 
-/** Compact view of a daily card for the Home screen, with the action toggle. */
-export function DailyCardPreview({
-  card,
-  isTracker,
-  programDay,
-}: {
-  card: DailyCard;
-  isTracker: boolean;
-  /** 1-based day in the year program, shown in the kicker when known. */
-  programDay?: number;
-}) {
+/**
+ * Today's card on the Home screen: the label, the title (opens the card) and the action as a
+ * single tickable row. No preview text and no nested boxes.
+ */
+export function DailyCardPreview({ card }: { card: DailyCard }) {
   const { t } = useTranslation();
-  const progress = useStore((s) => s.progress[card.id]);
-  const kicker = !isTracker
-    ? t('home.partnerLearnsToday')
-    : programDay
-      ? t('home.todaysCardDay', { day: programDay })
-      : t('home.todaysCard');
+  const read = useStore((s) => !!s.progress[card.id]?.readAt);
   return (
     <Card>
-      <View style={styles.headerRow}>
-        <Txt variant="footnote">{kicker}</Txt>
-        {progress?.readAt ? (
-          <Icon name="checkmark.circle.fill" size={16} color={colors.green} />
-        ) : null}
-      </View>
       <Link href={`/(tabs)/home/daily/${card.id}`} asChild>
-        <Pressable>
-          <Txt variant="title">{card.title}</Txt>
-          <Txt numberOfLines={3} style={{ marginTop: spacing.xs }} color={colors.secondaryLabel}>
-            {card.insight}
-          </Txt>
-          <Txt variant="callout" color={colors.tint} style={{ marginTop: spacing.sm }}>
-            {t('home.readCard')} ›
-          </Txt>
+        <Pressable accessibilityRole="link" style={({ pressed }) => pressed && styles.pressed}>
+          <View style={styles.headerRow}>
+            <Txt variant="footnote">{t('home.todaysCard')}</Txt>
+            {read ? <Icon name="checkmark.circle.fill" size={16} color={colors.green} /> : null}
+          </View>
+          <View style={styles.titleRow}>
+            <Txt variant="title" style={{ flex: 1 }}>
+              {card.title}
+            </Txt>
+            <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
+          </View>
         </Pressable>
       </Link>
-      <ActionBox card={card} />
+      <ActionRow card={card} />
     </Card>
   );
 }
 
-export function ActionBox({ card }: { card: DailyCard }) {
+/** The card's action as a checkbox row: circle, then a green tick once it is done. */
+export function ActionRow({ card }: { card: DailyCard }) {
   const { t } = useTranslation();
   const done = useStore((s) => !!s.progress[card.id]?.actionDoneAt);
   const toggle = useStore((s) => s.toggleActionDone);
-  const label = done ? t('home.actionDone') : t('home.markActionDone');
   return (
-    <View style={styles.actionBox}>
-      <Txt variant="footnote" color={colors.tint} style={{ fontWeight: '600' }}>
-        {t('home.action').toUpperCase()}
+    <Pressable
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked: done }}
+      accessibilityLabel={card.action}
+      accessibilityHint={done ? t('home.actionDone') : t('home.markActionDone')}
+      onPress={() => {
+        void Haptics.impactAsync(
+          done ? Haptics.ImpactFeedbackStyle.Light : Haptics.ImpactFeedbackStyle.Medium,
+        );
+        toggle(card.id);
+      }}
+      style={({ pressed }) => [styles.action, pressed && styles.pressed]}>
+      <Icon
+        name={done ? 'checkmark.circle.fill' : 'circle'}
+        size={22}
+        color={done ? colors.green : colors.tertiaryLabel}
+      />
+      <Txt style={styles.actionText} color={done ? colors.secondaryLabel : colors.label}>
+        {card.action}
       </Txt>
-      <Txt>{card.action}</Txt>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={label}
-        accessibilityState={{ selected: done }}
-        onPress={() => {
-          void Haptics.impactAsync(
-            done ? Haptics.ImpactFeedbackStyle.Light : Haptics.ImpactFeedbackStyle.Medium,
-          );
-          toggle(card.id);
-        }}
-        style={({ pressed }) => [
-          styles.actionButton,
-          { backgroundColor: done ? colors.green : colors.tint },
-          pressed && { opacity: 0.7 },
-        ]}>
-        <Icon
-          name={done ? 'checkmark.circle.fill' : 'checkmark'}
-          size={16}
-          color={colors.white}
-          weight="semibold"
-        />
-        <Txt variant="headline" color={colors.white}>
-          {label}
-        </Txt>
-      </Pressable>
-    </View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  actionBox: {
-    backgroundColor: colors.cardSecondary,
-    borderRadius: radius.card,
-    padding: spacing.md,
-    gap: spacing.sm,
-    marginTop: spacing.xs,
-  },
-  actionButton: {
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: 2 },
+  action: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'flex-start',
+    alignItems: 'flex-start',
     gap: spacing.sm,
-    marginTop: spacing.xs,
-    paddingVertical: 10,
-    paddingHorizontal: spacing.md,
-    borderRadius: radius.chip,
-    minHeight: 40,
+    paddingVertical: 6,
+    minHeight: 36,
   },
+  actionText: { flex: 1, lineHeight: 22 },
+  pressed: { opacity: 0.6 },
 });

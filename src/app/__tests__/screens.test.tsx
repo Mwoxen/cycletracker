@@ -79,7 +79,7 @@ describe('fresh install', () => {
     await fireEvent.changeText(screen.getByPlaceholderText(da.onboarding.namePlaceholder), 'Anna');
     await fireEvent.press(screen.getByText(da.onboarding.finish));
     expect(await homeTabWhenReady()).toBeTruthy();
-    expect(homeTab().getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
+    expect(homeTab().getByText(da.home.todaysCard)).toBeTruthy();
     expect(useStore.getState().profile?.partnerName).toBe('Anna');
     expect(useStore.getState().profile?.role).toBe('tracker');
   });
@@ -92,9 +92,19 @@ describe('home', () => {
     const home = homeTab();
     // The phase card headline says what the partner needs today, e.g. "Anna har overskud i dag".
     expect(await home.findByText(/^Anna (har|er) /)).toBeTruthy();
-    expect(home.getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
+    expect(home.getByText(da.home.todaysCard)).toBeTruthy();
     expect(home.getByText(/^Næste menstruation om \d+ dage$/)).toBeTruthy();
     expect(home.getByText(month1.daily[0].title)).toBeTruthy();
+    // The card's action is a single checkbox row; no preview text, no "read" link.
+    expect(home.getByText(month1.daily[0].action)).toBeTruthy();
+    expect(home.queryByText(month1.daily[0].insight)).toBeNull();
+    // "This week" lists the cycle week and the week's read as rows.
+    expect(home.getByText(da.home.thisWeek)).toBeTruthy();
+    expect(home.getByText(da.home.weeklyArticle)).toBeTruthy();
+    expect(home.getByText(month1.weekly[0].title)).toBeTruthy();
+    expect(home.queryByText(month1.weekly[0].conversationQuestion)).toBeNull();
+    // The phase page's bullets are not repeated on Home.
+    expect(home.queryByText(da.home.whatYouCanDo)).toBeNull();
     expect(home.getByText(da.home.neverSynced)).toBeTruthy();
   });
 
@@ -103,16 +113,15 @@ describe('home', () => {
     await renderApp('/home');
     const home = homeTab();
     expect(await home.findByText(/^Du (har overskud|har brug for|er på toppen)/)).toBeTruthy();
-    // Her own cards: how she may feel and what she can do for herself in the current phase.
-    expect(home.getByText(da.home.howYouMayFeel)).toBeTruthy();
+    // Her own card: what she can do for herself in the current phase.
     expect(home.getByText(da.home.selfCare)).toBeTruthy();
     expect(home.getByText(content.phases.follicular.selfCare[0])).toBeTruthy();
-    // The partner's program is a compact read-only pointer, not the action card.
+    // The partner's program is a read-only row under "This week", not the action card.
     expect(home.getByText(da.home.partnerLearnsToday)).toBeTruthy();
     expect(home.getByText(month1.daily[0].title)).toBeTruthy();
-    expect(home.getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
-    expect(home.queryByText(da.home.markActionDone)).toBeNull();
-    expect(home.queryByText(da.home.weeklyRead)).toBeNull();
+    expect(home.queryByText(month1.daily[0].action)).toBeNull();
+    expect(home.queryByRole('checkbox')).toBeNull();
+    expect(home.queryByText(da.home.weeklyArticle)).toBeNull();
     expect(home.queryByText(da.home.whatYouCanDo)).toBeNull();
     expect(home.getByText(da.home.neverShared)).toBeTruthy();
   });
@@ -141,9 +150,10 @@ describe('home', () => {
     onboard('tracker');
     await renderApp('/home');
     const home = homeTab();
-    await fireEvent.press(await home.findByText(da.home.markActionDone));
+    const row = await home.findByRole('checkbox', { checked: false });
+    await fireEvent.press(row);
     expect(useStore.getState().progress[dailyId(1, 1)]?.actionDoneAt).toBeDefined();
-    expect(await home.findByText(da.home.actionDone)).toBeTruthy();
+    expect(await home.findByRole('checkbox', { checked: true })).toBeTruthy();
   });
 
   it('shows a logged symptom with the tip for the partner', async () => {
@@ -272,8 +282,10 @@ describe('cycle weeks', () => {
     onboard('tracker', todayISO(), startThreeDaysAgo());
     await renderApp('/calendar');
     const calendar = calendarTab();
-    // ISO week 19 of 2026, cycle week 1, days 1-7.
-    expect(await calendar.findByText('Uge 19 · Cyklusuge 1 · dag 1–7')).toBeTruthy();
+    // ISO week 19 of 2026, cycle week 1, days 1-7: the chip says so, the card says it is now.
+    expect(await calendar.findByText('Uge 19')).toBeTruthy();
+    expect(calendar.getByText('dag 1–7')).toBeTruthy();
+    expect(calendar.getByText(da.weeks.kickerCurrent.replace('{{n}}', '1'))).toBeTruthy();
     expect(calendar.getByText(weeks[0].title)).toBeTruthy();
     expect(calendar.getByText(weeks[0].why)).toBeTruthy();
     expect(calendar.getAllByRole('checkbox')).toHaveLength(3);
@@ -302,9 +314,12 @@ describe('cycle weeks', () => {
     await calendar.findByText(weeks[0].title);
     await fireEvent.press(calendar.getByLabelText(weekN(2)));
     expect(await calendar.findByText(weeks[1].title)).toBeTruthy();
-    expect(calendar.getByText('Uge 20 · Cyklusuge 2 · dag 8–14')).toBeTruthy();
-    // Week 2 starts on cycle day 8, four days from day 4: no checkboxes, only the timing.
-    expect(calendar.getByText(da.weeks.comingIn.replace('{{n}}', '4'))).toBeTruthy();
+    expect(calendar.getByText('Uge 20')).toBeTruthy();
+    expect(calendar.getByText('dag 8–14')).toBeTruthy();
+    // Week 2 starts on cycle day 8, four days from day 4: read-only action lines, no checkboxes.
+    expect(
+      calendar.getByText(da.weeks.kickerAhead.replace('{{n}}', '2').replace('{{days}}', '4')),
+    ).toBeTruthy();
     expect(calendar.queryAllByRole('checkbox')).toHaveLength(0);
     expect(calendar.getByText(weeks[1].actions[0])).toBeTruthy();
     await fireEvent.press(calendar.getByLabelText(weekN(1)));
@@ -318,7 +333,12 @@ describe('cycle weeks', () => {
     await calendar.findByText(weeks[1].title);
     await fireEvent.press(calendar.getByLabelText(weekN(1)));
     expect(
-      await calendar.findByText(da.weeks.wasDays.replace('{{from}}', '1').replace('{{to}}', '7')),
+      await calendar.findByText(
+        da.weeks.kickerPast
+          .replace('{{n}}', '1')
+          .replace('{{from}}', '1')
+          .replace('{{to}}', '7'),
+      ),
     ).toBeTruthy();
   });
 
@@ -349,8 +369,10 @@ describe('cycle weeks', () => {
     onboard(role); // cycle day 11: week 2
     const app = await renderApp('/home');
     const home = homeTab();
-    const row = da.weeks.homeRow.replace('{{n}}', '2').replace('{{title}}', weeks[1].title);
-    await fireEvent.press(await home.findByText(row));
+    // The "This week" row: cycle week as title, its focus as subtitle.
+    await home.findByText(weekN(2));
+    expect(home.getByText(weeks[1].title)).toBeTruthy();
+    await fireEvent.press(home.getByText(weekN(2)));
     expect(app.getPathname()).toBe('/calendar');
   });
 });
@@ -362,12 +384,12 @@ describe('learn sub-screens', () => {
     await renderApp(`/learn/daily/${id}`);
     const learn = learnTab();
     expect(await learn.findByText(month1.daily[0].insight)).toBeTruthy();
-    // Hero kicker: today's card with its phase tags; the card id caption is gone.
-    expect(
-      learn.getByText(new RegExp(`^${upper(da.home.todaysCardDay.replace('{{day}}', '1'))}`)),
-    ).toBeTruthy();
+    // Hero kicker: today's card and its day; the card id caption is gone.
+    expect(learn.getByText(upper(da.home.todaysCardDay.replace('{{day}}', '1')))).toBeTruthy();
     expect(learn.queryByText(id)).toBeNull();
-    expect(learn.getByText(upper(da.home.action))).toBeTruthy();
+    // The action is a heading in sentence case plus one checkbox row.
+    expect(learn.getByText(da.home.action)).toBeTruthy();
+    expect(learn.getByRole('checkbox')).toBeTruthy();
     // Day 2 is still locked on day 1, so there is no "tomorrow" row yet.
     expect(learn.queryByText(upper(da.reading.tomorrow))).toBeNull();
     expect(learn.queryByText(month1.daily[1].title)).toBeNull();
@@ -431,18 +453,22 @@ describe('learn sub-screens', () => {
     await renderApp(`/learn/phase/${phase}`);
     const learn = learnTab();
     expect(await learn.findByText(content.phases[phase].avoid[0])).toBeTruthy();
-    expect(learn.getByText(upper(da.learn.avoid))).toBeTruthy();
+    // Section titles are in sentence case; the "what you can do" list is numbered.
+    expect(learn.getByText(da.learn.avoid)).toBeTruthy();
+    expect(learn.getByText(da.learn.whatYouCanDo)).toBeTruthy();
+    expect(learn.getByText('1.')).toBeTruthy();
+    expect(learn.getByText(content.phases[phase].timing)).toBeTruthy();
   });
 
   it('renders the phase page for the user role with self-care and without avoid', async () => {
     onboard('user');
     await renderApp('/learn/phase/luteal');
     const learn = learnTab();
-    expect(await learn.findByText(upper(da.learn.selfCare))).toBeTruthy();
+    expect(await learn.findByText(da.learn.selfCare)).toBeTruthy();
     expect(learn.getByText(content.phases.luteal.selfCare[0])).toBeTruthy();
-    expect(learn.getByText(upper(da.learn.partnerCanDo))).toBeTruthy();
-    expect(learn.getByText(upper(da.learn.howYouMayFeel))).toBeTruthy();
-    expect(learn.queryByText(upper(da.learn.avoid))).toBeNull();
+    expect(learn.getByText(da.learn.partnerCanDo)).toBeTruthy();
+    expect(learn.getByText(da.learn.howYouMayFeel)).toBeTruthy();
+    expect(learn.queryByText(da.learn.avoid)).toBeNull();
     expect(learn.queryByText(content.phases.luteal.avoid[0])).toBeNull();
   });
 
