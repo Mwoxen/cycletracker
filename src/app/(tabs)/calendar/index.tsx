@@ -6,9 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { fromISODate } from '@/engine/dates';
 import { useCycle } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
-import { spacing } from '@/ui/colors';
 import { Legend, MonthGrid } from '@/ui/month-grid';
-import { Button, Screen, Txt } from '@/ui/primitives';
+import { Button, Screen } from '@/ui/primitives';
 
 const MONTHS_AHEAD = 2;
 const MONTHS_PER_PRESS = 3;
