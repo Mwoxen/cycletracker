@@ -171,12 +171,7 @@ export default function HomeScreen() {
 
             {program.weekly && !program.position.notStarted ? (
               <Card
-                onPress={() =>
-                  router.push({
-                    pathname: '/(tabs)/home/weekly/[id]',
-                    params: { id: program.weekly!.id, to: 'question' },
-                  })
-                }
+                onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}
                 style={{ paddingVertical: 12 }}>
                 <View style={styles.weeklyRow}>
                   <View style={{ flex: 1, gap: 2 }}>

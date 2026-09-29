@@ -307,8 +307,8 @@ const styles = StyleSheet.create({
     marginTop: -spacing.sm,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.md,
-    paddingBottom: spacing.lg,
-    gap: spacing.sm,
+    paddingBottom: spacing.sm,
+    gap: spacing.xs,
   },
   kicker: { fontWeight: '600', letterSpacing: 0.6 },
   title: {

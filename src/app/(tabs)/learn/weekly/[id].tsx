@@ -1,8 +1,7 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import type { ScrollView } from 'react-native-gesture-handler';
 
 import { findWeekly } from '@/content';
 import { useProgram } from '@/hooks/use-program';
@@ -22,9 +21,7 @@ import { Sources } from '@/ui/sources';
 
 export default function WeeklyReadScreen() {
   const { t } = useTranslation();
-  const { id, to } = useLocalSearchParams<{ id: string; to?: string }>();
-  const scrollRef = useRef<ScrollView>(null);
-  const jumped = useRef(false);
+  const { id } = useLocalSearchParams<{ id: string }>();
   const { content, position } = useProgram();
   const read = findWeekly(content, id);
   const markRead = useStore((s) => s.markRead);
@@ -61,17 +58,7 @@ export default function WeeklyReadScreen() {
     <>
       <Stack.Screen options={{ title: t('learn.week', { n: read.week }) }} />
       <View style={{ flex: 1 }}>
-        <Screen
-          scrollRef={scrollRef}
-          onScroll={onScroll}
-          scrollEventThrottle={32}
-          onContentSizeChange={() => {
-            // Opened from the Home conversation card: land on the question at the end.
-            if (to === 'question' && !jumped.current) {
-              jumped.current = true;
-              scrollRef.current?.scrollToEnd({ animated: false });
-            }
-          }}>
+        <Screen onScroll={onScroll} scrollEventThrottle={32}>
           <ReadingHero kicker={kicker} title={read.title} meta={meta} />
           <ReadingBody paragraphs={read.body} lede pullQuote={pullQuoteFor(read.body)} />
           <Card style={{ backgroundColor: colors.tint }}>
