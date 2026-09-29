@@ -1,6 +1,5 @@
-import { useFocusEffect } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { useCallback, useRef, type PropsWithChildren, type ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -8,15 +7,12 @@ import {
   Text,
   View,
   type ColorValue,
-  type NativeScrollEvent,
-  type NativeSyntheticEvent,
   type PressableProps,
   type ScrollViewProps,
   type StyleProp,
   type TextProps,
   type ViewStyle,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
 import { colors, fonts, radius, spacing } from './colors';
@@ -35,49 +31,19 @@ export function PageTitle({ title, subtitle }: { title: string; subtitle?: strin
   );
 }
 
-/**
- * Scrolling screen body. With `title` it draws its own page title. Coming back to the screen
- * (after a pushed screen or a tab switch) always starts from the top again.
- */
+/** Scrolling screen body. With `title` it draws its own page title and skips the native inset. */
 export function Screen({
   children,
   contentContainerStyle,
   title,
   subtitle,
-  onScroll,
   ...rest
 }: ScrollViewProps & { title?: string; subtitle?: string }) {
-  const insets = useSafeAreaInsets();
-  const scrollRef = useRef<ScrollView>(null);
-  // The resting offset is -insets.top: native tabs force the automatic content inset on.
-  const top = -insets.top;
-  const offsetY = useRef(top);
-  const focusedBefore = useRef(false);
-
-  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    offsetY.current = e.nativeEvent.contentOffset.y;
-    onScroll?.(e);
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      if (focusedBefore.current && offsetY.current > top + 1) {
-        scrollRef.current?.scrollTo({ y: top, animated: false });
-        offsetY.current = top;
-      }
-      focusedBefore.current = true;
-    }, [top]),
-  );
-
   return (
     <ScrollView
-      ref={scrollRef}
       style={styles.screen}
       contentInsetAdjustmentBehavior="automatic"
-      scrollToOverflowEnabled
       keyboardDismissMode="on-drag"
-      onScroll={handleScroll}
-      scrollEventThrottle={100}
       contentContainerStyle={[styles.screenContent, contentContainerStyle]}
       {...rest}>
       {title ? <PageTitle title={title} subtitle={subtitle} /> : null}
