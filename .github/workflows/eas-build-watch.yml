@@ -1,0 +1,49 @@
+# Waits for the most recent iOS build on EAS to finish and fails if it errored.
+# Lets build failures show up on GitHub (where they can be read) instead of only on expo.dev.
+# Runs on demand, and whenever this file changes.
+name: EAS Build watch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/eas-build-watch.yml
+  workflow_dispatch:
+
+jobs:
+  watch:
+    name: Wait for the latest iOS build
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - run: npm ci
+      - name: Poll EAS until the build finishes
+        run: |
+          for i in $(seq 1 110); do
+            eas build:list --platform ios --limit 1 --json --non-interactive > build.json
+            STATUS=$(node -e "const b=require('./build.json')[0];console.log(b?b.status:'NONE')")
+            echo "$(date -u +%H:%M:%S) build status: $STATUS"
+            case "$STATUS" in
+              FINISHED)
+                node -e "const b=require('./build.json')[0];console.log('Build', b.id, 'finished. Version', b.appVersion, 'build', b.appBuildVersion)"
+                exit 0;;
+              ERRORED|CANCELED|NONE)
+                echo "::error::Build ended with status $STATUS"
+                node -e "const b=require('./build.json')[0]||{};console.log(JSON.stringify({id:b.id,error:b.error,logFiles:b.logFiles,createdAt:b.createdAt},null,2))"
+                exit 1;;
+            esac
+            sleep 30
+          done
+          echo "::error::Timed out waiting for the build"
+          exit 1
