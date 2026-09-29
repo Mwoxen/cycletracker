@@ -276,22 +276,42 @@ export const useStore = create<AppState>()(
 
 /* Selectors */
 
-export const selectActivePeriods = (s: AppState): PeriodEvent[] =>
-  Object.values(s.periods).filter((p) => !p.deleted);
+/**
+ * Selectors that build a new array or object must return the same reference for the same state,
+ * or `useStore(selector)` re-renders forever ("Maximum update depth exceeded"): zustand compares
+ * the selected value by identity on every render. The state object is replaced on every change,
+ * so caching by state identity is both correct and cheap.
+ */
+function stable<T>(select: (s: AppState) => T): (s: AppState) => T {
+  const cache = new WeakMap<AppState, T>();
+  return (s) => {
+    const hit = cache.get(s);
+    if (hit !== undefined) return hit;
+    const value = select(s);
+    cache.set(s, value);
+    return value;
+  };
+}
 
-export const selectActiveLogs = (s: AppState): DayLog[] =>
-  Object.values(s.logs).filter((l) => !l.deleted);
+export const selectActivePeriods = stable((s): PeriodEvent[] =>
+  Object.values(s.periods).filter((p) => !p.deleted),
+);
 
+export const selectActiveLogs = stable((s): DayLog[] =>
+  Object.values(s.logs).filter((l) => !l.deleted),
+);
+
+// Returns an existing object (or undefined), so it is already reference-stable.
 export const selectLogForDate =
   (date: ISODate) =>
   (s: AppState): DayLog | undefined =>
     Object.values(s.logs).find((l) => l.date === date && !l.deleted);
 
-export const selectSnapshotData = (s: AppState): SnapshotData => ({
+export const selectSnapshotData = stable((s): SnapshotData => ({
   profile: s.profile,
   settings: s.settings,
   periods: s.periods,
   logs: s.logs,
   progress: s.progress,
   pairing: s.pairing,
-});
+}));

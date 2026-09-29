@@ -1,7 +1,13 @@
 import { DEFAULT_SETTINGS } from '@/domain/types';
 
 import { createSnapshot } from './snapshot';
-import { SCHEMA_VERSION, selectActivePeriods, selectSnapshotData, useStore } from './store';
+import {
+  SCHEMA_VERSION,
+  selectActiveLogs,
+  selectActivePeriods,
+  selectSnapshotData,
+  useStore,
+} from './store';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -24,6 +30,19 @@ beforeEach(() => {
 });
 
 describe('store', () => {
+  it('returns reference-stable results from derived selectors', () => {
+    // zustand re-renders forever if a selector returns a fresh array/object for unchanged state.
+    onboard();
+    const state = useStore.getState();
+    expect(selectActivePeriods(state)).toBe(selectActivePeriods(state));
+    expect(selectActiveLogs(state)).toBe(selectActiveLogs(state));
+    expect(selectSnapshotData(state)).toBe(selectSnapshotData(state));
+    useStore.getState().startPeriod('2026-03-20');
+    const next = useStore.getState();
+    expect(selectActivePeriods(next)).not.toBe(selectActivePeriods(state));
+    expect(selectActivePeriods(next)).toHaveLength(2);
+  });
+
   it('has the current schema version', () => {
     expect(useStore.getState().schemaVersion).toBe(SCHEMA_VERSION);
     expect(useStore.persist.getOptions().version).toBe(SCHEMA_VERSION);
