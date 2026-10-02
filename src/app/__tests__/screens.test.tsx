@@ -202,6 +202,38 @@ describe('tabs', () => {
     expect(learn.getByText('2 ulæste')).toBeTruthy();
   });
 
+  it('opens the cards read behind the first number on the Learn tab', async () => {
+    onboard('tracker');
+    useStore.getState().markRead(dailyId(1, 1));
+    const app = await renderApp('/learn');
+    const learn = learnTab();
+    await fireEvent.press(await learn.findByText(da.learn.stats.read));
+    expect(app.getPathname()).toBe('/learn/stats');
+    expect(await learn.findByText(da.learn.statsTitle.read)).toBeTruthy();
+    expect(
+      learn.getByText(da.learn.statsReadIntro.replace('{{n}}', '1').replace('{{total}}', '360')),
+    ).toBeTruthy();
+    expect(learn.getByText(month1.daily[0].title)).toBeTruthy();
+  });
+
+  it('lists the actions done and the streak days behind the other numbers', async () => {
+    onboard('tracker');
+    useStore.getState().markRead(dailyId(1, 1));
+    useStore.getState().toggleActionDone(dailyId(1, 1));
+    await renderApp('/learn/stats?kind=done');
+    expect(await learnTab().findByText(da.learn.statsTitle.done)).toBeTruthy();
+    expect(learnTab().getByText(month1.daily[0].action)).toBeTruthy();
+  });
+
+  it('lists the streak days with the cards read on each', async () => {
+    onboard('tracker');
+    useStore.getState().markRead(dailyId(1, 1));
+    await renderApp('/learn/stats?kind=streak');
+    expect(await learnTab().findByText(da.learn.statsTitle.streak)).toBeTruthy();
+    // One card read today: a one-day streak listing today with that card.
+    expect(learnTab().getByText(month1.daily[0].title)).toBeTruthy();
+  });
+
   it('renders learn for the user role without the partner stats and lists', async () => {
     onboard('user');
     await renderApp('/learn');

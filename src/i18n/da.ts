@@ -143,6 +143,18 @@ const da = {
     },
     todaysCard: 'Dagens kort',
     todaysCardRead: 'Dagens kort · læst',
+    statsTitle: {
+      read: 'Kort læst',
+      done: 'Handlinger gjort',
+      streak: 'Dage i træk',
+    },
+    statsReadIntro: '{{n}} af {{total}} daglige kort læst',
+    statsDoneIntro: '{{n}} handlinger markeret som gjort',
+    statsStreakIntro:
+      'Dage i træk, hvor du har læst mindst ét kort. Serien holder, hvis du læste i dag eller i går.',
+    statsEmpty: 'Ikke noget endnu',
+    readOn: 'Læst {{date}}',
+    doneOn: 'Gjort {{date}}',
     thisWeekMinutes: 'Ugens artikel · {{min}} min',
     weekBadge: 'U{{n}}',
     today: 'I dag',

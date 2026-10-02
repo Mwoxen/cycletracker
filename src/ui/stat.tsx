@@ -1,18 +1,45 @@
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { colors, fonts, radius, spacing } from '@/ui/colors';
 import { Txt } from '@/ui/primitives';
 
-/** A small card-like tile with a big number and a footnote label, for rows of stats. */
-export function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <View style={styles.tile} accessible accessibilityLabel={`${value} ${label}`}>
+/**
+ * A small card-like tile with a big number and a footnote label, for rows of stats. With
+ * `onPress` it opens what is behind the number.
+ */
+export function Stat({
+  value,
+  label,
+  onPress,
+}: {
+  value: string;
+  label: string;
+  onPress?: () => void;
+}) {
+  const inner = (
+    <>
       <Txt style={styles.value} color={colors.label}>
         {value}
       </Txt>
       <Txt variant="footnote" numberOfLines={1}>
         {label}
       </Txt>
+    </>
+  );
+  if (onPress) {
+    return (
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="button"
+        accessibilityLabel={`${value} ${label}`}
+        style={({ pressed }) => [styles.tile, pressed && styles.pressed]}>
+        {inner}
+      </Pressable>
+    );
+  }
+  return (
+    <View style={styles.tile} accessible accessibilityLabel={`${value} ${label}`}>
+      {inner}
     </View>
   );
 }
@@ -31,6 +58,7 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 4 },
   },
+  pressed: { opacity: 0.6 },
   value: {
     fontSize: 22,
     fontWeight: '700',

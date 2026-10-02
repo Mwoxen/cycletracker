@@ -147,11 +147,20 @@ export default function LearnScreen() {
         title={t('learn.title')}
         subtitle={t('learn.subtitle', { day: position.programDay, month: position.month })}>
         <View style={styles.stats}>
-          <Stat value={String(readCount)} label={t('learn.stats.read')} />
-          <Stat value={String(doneCount)} label={t('learn.stats.done')} />
+          <Stat
+            value={String(readCount)}
+            label={t('learn.stats.read')}
+            onPress={() => router.push('/(tabs)/learn/stats?kind=read')}
+          />
+          <Stat
+            value={String(doneCount)}
+            label={t('learn.stats.done')}
+            onPress={() => router.push('/(tabs)/learn/stats?kind=done')}
+          />
           <Stat
             value={`🔥 ${streak}`}
             label={streak === 1 ? t('learn.stats.streakOne') : t('learn.stats.streak')}
+            onPress={() => router.push('/(tabs)/learn/stats?kind=streak')}
           />
         </View>
 

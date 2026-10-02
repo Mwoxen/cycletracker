@@ -145,6 +145,18 @@ const en: Translation = {
     },
     todaysCard: "Today's card",
     todaysCardRead: "Today's card · read",
+    statsTitle: {
+      read: 'Cards read',
+      done: 'Actions done',
+      streak: 'Days in a row',
+    },
+    statsReadIntro: '{{n}} of {{total}} daily cards read',
+    statsDoneIntro: '{{n}} actions marked as done',
+    statsStreakIntro:
+      'Days in a row with at least one card read. The streak holds if you read today or yesterday.',
+    statsEmpty: 'Nothing yet',
+    readOn: 'Read {{date}}',
+    doneOn: 'Done {{date}}',
     thisWeekMinutes: "This week's read · {{min}} min",
     weekBadge: 'W{{n}}',
     today: 'Today',
