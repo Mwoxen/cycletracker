@@ -237,6 +237,7 @@ const da = {
     nextMonth: 'Næste måned',
     subtitle: 'Cyklusdag {{n}} · næste menstruation {{date}}',
     showEarlier: 'Vis tidligere måneder',
+    hideEarlier: 'Skjul tidligere måneder',
 
     period: 'Menstruation',
     predictedPeriod: 'Forventet menstruation',

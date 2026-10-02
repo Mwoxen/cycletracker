@@ -236,9 +236,14 @@ describe('tabs', () => {
     expect(calendar.getByText('juni 2026')).toBeTruthy();
     expect(calendar.getByText('juli 2026')).toBeTruthy();
     expect(calendar.queryByText('april 2026')).toBeNull();
+    expect(calendar.queryByText(da.calendar.hideEarlier)).toBeNull();
     await fireEvent.press(calendar.getByText(da.calendar.showEarlier));
     expect(await calendar.findByText('februar 2026')).toBeTruthy();
     expect(calendar.getByText('april 2026')).toBeTruthy();
+    // Once earlier months are shown, they can be hidden again in one press.
+    await fireEvent.press(calendar.getByText(da.calendar.hideEarlier));
+    expect(calendar.queryByText('april 2026')).toBeNull();
+    expect(calendar.queryByText(da.calendar.hideEarlier)).toBeNull();
   });
 
   it('renders settings and switches language', async () => {

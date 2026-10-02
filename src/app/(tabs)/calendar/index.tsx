@@ -2,6 +2,7 @@ import { addMonths, startOfMonth } from 'date-fns';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
 
 import { fromISODate } from '@/engine/dates';
 import { useCycle } from '@/hooks/use-cycle';
@@ -39,11 +40,20 @@ export default function CalendarScreen() {
     <TabSwipe tab="calendar">
       <Screen title={t('calendar.title')} subtitle={subtitle}>
         <Legend />
-        <Button
-          title={t('calendar.showEarlier')}
-          variant="plain"
-          onPress={() => setEarlier((n) => n + MONTHS_PER_PRESS)}
-        />
+        <View style={styles.earlierRow}>
+          <Button
+            title={t('calendar.showEarlier')}
+            variant="plain"
+            onPress={() => setEarlier((n) => n + MONTHS_PER_PRESS)}
+          />
+          {earlier > 0 ? (
+            <Button
+              title={t('calendar.hideEarlier')}
+              variant="plain"
+              onPress={() => setEarlier(0)}
+            />
+          ) : null}
+        </View>
         {months.map((m) => (
           <MonthGrid
             key={m.toISOString()}
@@ -56,3 +66,7 @@ export default function CalendarScreen() {
     </TabSwipe>
   );
 }
+
+const styles = StyleSheet.create({
+  earlierRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap' },
+});

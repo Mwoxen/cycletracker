@@ -239,6 +239,7 @@ const en: Translation = {
     nextMonth: 'Next month',
     subtitle: 'Cycle day {{n}} · next period {{date}}',
     showEarlier: 'Show earlier months',
+    hideEarlier: 'Hide earlier months',
 
     period: 'Period',
     predictedPeriod: 'Predicted period',
