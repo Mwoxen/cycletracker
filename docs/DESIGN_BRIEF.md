@@ -41,16 +41,6 @@ Cyklussens fire faser er appens grundsprog og går igen overalt:
 | Ægløsning     | Toppen af energi og lyst                         | "Hun er på toppen i dag"                 |
 | Lutealfasen   | Roligere, mere sårbar, PMS mod slutningen        | "Hun har brug for lidt ekstra tålmodighed" |
 
-Ud over faserne deler appen cyklussen op i fire **cyklusuger** med hver sit fokus for partneren:
-
-1. Aflastning derhjemme (menstruation, lav energi)
-2. Planlæg og oplev (overskud, lyst til nyt)
-3. Nærvær og fælles tid (ægløsning og tidlig lutealfase)
-4. Tålmodighed og ro (PMS-ugen)
-
-Hver uge har en kort begrundelse, tre konkrete handlinger, som partneren kan krydse af, og et
-"jeres eget fokus", som parret selv kan skrive.
-
 ## Læringsprogrammet
 
 Programmet varer et år og er delt i 12 måneder med hvert sit tema:
@@ -121,15 +111,13 @@ Datoen som undertitel. Indholdet i rækkefølge for **partneren**:
    forsinket". Tryk åbner faseopslaget.
 2. **Dagens kort**: dag X af 360, kortets overskrift, begyndelsen af teksten, "Læs dagens kort", og
    handlingen "Det kan du gøre i dag" med knappen "Markér som gjort" / "Gjort".
-3. **Cyklusugen**: "Cyklusuge 2 · dag 8–14", fokusoverskriften, én linje om hvorfor, "1 af 3
-   gjort" for ugens handlinger, og hvor i cyklussens fire uger man er. Tryk går til kalenderen.
-4. Hvis hun har registreret noget i dag: "Anna har registreret i dag", symptomerne, hvad det
+3. Hvis hun har registreret noget i dag: "Anna har registreret i dag", symptomerne, hvad det
    skyldes, og én ting at gøre.
-5. **Det kan du gøre**: fasen og cyklusdagen, tre punkter fra fasens opslag, som kan krydses af
+4. **Det kan du gøre**: fasen og cyklusdagen, tre punkter fra fasens opslag, som kan krydses af
    (nulstilles ved ny cyklus), og "Alle 5 i faseopslaget". Tryk åbner faseopslaget.
-6. **Ugens artikel**: overskrift og samtalespørgsmål. Tryk åbner artiklen.
-7. Knappen "Registrér i dag" (partneren kan registrere på hendes vegne).
-8. "Scan partnerens kode" og status: "Sidst synkroniseret for 2 timer siden" / "Ikke synkroniseret
+5. **Ugens artikel**: overskrift og samtalespørgsmål. Tryk åbner artiklen.
+6. Knappen "Registrér i dag" (partneren kan registrere på hendes vegne).
+7. "Scan partnerens kode" og status: "Sidst synkroniseret for 2 timer siden" / "Ikke synkroniseret
    endnu".
 
 For **hende** ser forsiden sådan ud:
@@ -137,12 +125,11 @@ For **hende** ser forsiden sådan ud:
 1. Fasen i dag med budskabet til hende selv ("Du har brug for ro i dag") og samme fakta.
 2. "Sådan kan du have det": tre punkter.
 3. "Det kan du gøre for dig selv": tre punkter.
-4. Cyklusugen ("Din partner har fokus på at aflaste dig derhjemme i denne uge").
-5. Knappen "Registrér i dag" (den vigtigste handling for hende).
-6. Hvis hun har registreret i dag: symptomerne og hvad de skyldes (ikke partnerens tip).
-7. "Det lærer din partner i dag": dagens korts overskrift. Tryk åbner kortet, mærket "Skrevet til
+4. Knappen "Registrér i dag" (den vigtigste handling for hende).
+5. Hvis hun har registreret i dag: symptomerne og hvad de skyldes (ikke partnerens tip).
+6. "Det lærer din partner i dag": dagens korts overskrift. Tryk åbner kortet, mærket "Skrevet til
    din partner".
-8. "Del med partner" og status: "Sidst delt i går" / "Ikke delt endnu".
+7. "Del med partner" og status: "Sidst delt i går" / "Ikke delt endnu".
 
 Uden cyklusdata viser forsiden i stedet "Ingen cyklusdata endnu" med forklaring og knappen
 "Registrér menstruationsstart". Før programstart: "Programmet starter 1. okt." Efter et år: "Du har
@@ -177,7 +164,8 @@ Underskærme:
 - **Måned**: alle måneds kort, artikler og opsamling i rækkefølge, læst/ulæst/låst.
 - **Arkiv**: søgefelt ("Søg i kort og artikler") og alt, der er låst op, mærket som dagligt kort,
   ugens artikel, opsamling eller fase.
-- **Faseopslag**: fasens navn, typiske dage, og sektionerne nævnt ovenfor.
+- **Faseopslag**: fasens navn, typiske dage, og sektionerne nævnt ovenfor, sat som en læseside
+  ligesom dagens kort.
 - **Sådan hjælper jeg bedst**: introduktionen "Oversigten bliver bedre for hver cyklus, der
   logges", og pr. fase: loggede dage, symptomer hun oftest registrerer, humør, energi, det
   partneren har gjort, og ét tip.
@@ -186,10 +174,6 @@ Underskærme:
 
 Undertitel: "Cyklusdag 11 · næste menstruation 27. okt."
 
-- **Cyklusugen**: ugens nummer i kalenderen og i cyklussen med dagsinterval ("Uge 41 · Cyklusuge 2
-  · dag 8–14"), fokusoverskrift, begrundelse, "Jeres fokus: …" hvis parret har skrevet ét, de tre
-  handlinger (partneren kan krydse af i den aktuelle uge), og for andre uger "Kommer om 7 dage" /
-  "Var dag 1–7". Man kan bladre mellem de fire uger. Hun ser i stedet "Din partner har fokus på …".
 - Forklaring til kalenderen: menstruation, forventet menstruation, follikelfasen, frugtbart
   vindue, ægløsning, lutealfasen, PMS, logget.
 - "Vis tidligere måneder".
@@ -220,9 +204,8 @@ Titel "Registrér for onsdag d. 8. oktober". Sektioner:
 - **Cyklus**: cykluslængde, blødningsdage, lutealfase, med noten "Bruges indtil der er logget nok
   cyklusser til at regne det ud."
 - **Udseende**: system, lys, mørk.
-- **Cyklusuger**: "Jeres eget fokus" for hver af de fire uger (fritekst).
 - **Påmindelser**: dagens kort (med tidspunkt), daglig påmindelse om at registrere, "Menstruation
-  om 2 dage", "PMS-vinduet starter", "Ny cyklusuge". Hvis notifikationer er slået fra i iOS, siges
+  om 2 dage", "PMS-vinduet starter". Hvis notifikationer er slået fra i iOS, siges
   det.
 - **Backup og deling**: iCloud-backup (til/fra, "Sidste backup i går"), "Gendan fra iCloud",
   "Eksportér data" (fil til Filer eller AirDrop), "Importér data", "Del med partner", "Scan
@@ -265,8 +248,7 @@ fejlrapport".
 - **Notifikationer**: "Dagens kort er klar: Ét minut om, hvad der sker i dag, og én ting du kan
   gøre." "Hvordan har du det i dag?" (til hende). "Menstruation forventes om 2 dage: Godt tidspunkt
   at have varme, ro og lidt ekstra overskud klar." "PMS-vinduet begynder: De næste dage kan være
-  mere sårbare. Sænk forventningerne, øg omsorgen." "Ny cyklusuge: Cyklusuge 3: Nærvær og fælles
-  tid."
+  mere sårbare. Sænk forventningerne, øg omsorgen."
 
 ## Det, et nyt design skal kunne
 

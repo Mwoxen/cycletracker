@@ -6,11 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { fromISODate } from '@/engine/dates';
 import { useCycle } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
-import { useStore } from '@/store/store';
 import { Legend, MonthGrid } from '@/ui/month-grid';
 import { Button, Screen } from '@/ui/primitives';
 import { TabSwipe } from '@/ui/tab-swipe';
-import { WeekFocus } from '@/ui/week-focus';
 
 const MONTHS_AHEAD = 2;
 const MONTHS_PER_PRESS = 3;
@@ -20,7 +18,6 @@ export default function CalendarScreen() {
   const router = useRouter();
   const fmt = useFormat();
   const { today, snapshot } = useCycle();
-  const isTracker = useStore((s) => s.profile?.role === 'tracker');
   const [earlier, setEarlier] = useState(0);
 
   const months = useMemo(() => {
@@ -41,7 +38,6 @@ export default function CalendarScreen() {
   return (
     <TabSwipe tab="calendar">
       <Screen title={t('calendar.title')} subtitle={subtitle}>
-        {snapshot.hasData ? <WeekFocus isTracker={isTracker} /> : null}
         <Legend />
         <Button
           title={t('calendar.showEarlier')}

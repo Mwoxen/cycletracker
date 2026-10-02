@@ -4,10 +4,11 @@
  * daily card, weekly read, monthly wrap and phase pages.
  */
 import { usePathname, useRouter } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
+  type ColorValue,
   Text,
   useColorScheme,
   View,
@@ -153,6 +154,26 @@ export function ReadingBody({
         }
         return block;
       })}
+    </View>
+  );
+}
+
+/**
+ * A titled section of a reading page, drawn straight on the background like the body text.
+ * `accent` adds a thin left rule in that colour for the section the page is really about.
+ */
+export function ReadingSection({
+  title,
+  accent,
+  children,
+}: PropsWithChildren<{ title: string; accent?: ColorValue }>) {
+  return (
+    <View
+      style={[styles.section, accent ? [styles.sectionAccent, { borderLeftColor: accent }] : null]}>
+      <Txt variant="title" style={styles.sectionTitle} accessibilityRole="header">
+        {title}
+      </Txt>
+      {children}
     </View>
   );
 }
@@ -346,6 +367,9 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: colors.label,
   },
+  section: { paddingHorizontal: spacing.sm, gap: spacing.sm },
+  sectionAccent: { borderLeftWidth: 3, paddingLeft: 14, marginLeft: spacing.sm - 3 },
+  sectionTitle: { fontFamily: fonts?.rounded },
   bullet: { flexDirection: 'row', gap: spacing.sm },
   bulletDot: { fontSize: 19, lineHeight: 29, color: colors.secondaryLabel },
   progressTrack: {

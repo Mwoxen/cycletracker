@@ -45,8 +45,6 @@ function onboard(
 
 const content = getContent('da');
 const month1 = content.months[0];
-const weeks = content.cycleWeeks;
-const weekN = (n: number) => da.weeks.weekN.replace('{{n}}', String(n));
 const upper = (s: string) => s.toUpperCase();
 const homeTab = () => withinTab(da.home.title);
 const learnTab = () => withinTab(da.learn.title);
@@ -243,24 +241,6 @@ describe('tabs', () => {
     expect(calendar.getByText('april 2026')).toBeTruthy();
   });
 
-  it("renders settings with the cycle weeks and stores the couple's own focus", async () => {
-    onboard('tracker');
-    await renderApp('/settings');
-    const settings = settingsTab();
-    expect(await settings.findByText(upper(da.weeks.section))).toBeTruthy();
-    expect(settings.getByText(weekN(3))).toBeTruthy();
-    expect(settings.getByText(weeks[2].title)).toBeTruthy();
-    const inputs = settings.getAllByPlaceholderText(da.weeks.ownFocusPlaceholder);
-    expect(inputs).toHaveLength(4);
-    await fireEvent.changeText(inputs[1], 'Mere tid sammen');
-    await fireEvent(inputs[1], 'endEditing');
-    expect(useStore.getState().weekFocus['2']).toMatchObject({ week: 2, text: 'Mere tid sammen' });
-    expect(settings.getByText(da.settings.cycleWeekReminder)).toBeTruthy();
-    const cycleWeekSwitch = settings.getAllByRole('switch')[3];
-    await fireEvent(cycleWeekSwitch, 'valueChange', false);
-    expect(useStore.getState().settings.reminders.cycleWeek).toBe(false);
-  });
-
   it('renders settings and switches language', async () => {
     onboard('tracker');
     await renderApp('/settings');
@@ -290,102 +270,6 @@ describe('tabs', () => {
     expect(useStore.getState().settings.appearance).toBe('dark');
     await fireEvent.press(settings.getByText(da.settings.appearanceNames.system));
     expect(useStore.getState().settings.appearance).toBe('system');
-  });
-});
-
-describe('cycle weeks', () => {
-  /** Cycle day 4: week 1 of the cycle that started three days ago. */
-  const startThreeDaysAgo = () => addDaysISO(TODAY, -3);
-
-  it('shows the current week on the calendar and ticks an action for the partner', async () => {
-    onboard('tracker', todayISO(), startThreeDaysAgo());
-    await renderApp('/calendar');
-    const calendar = calendarTab();
-    // ISO week 19 of 2026, cycle week 1, days 1-7.
-    expect(await calendar.findByText('Uge 19 · Cyklusuge 1 · dag 1–7')).toBeTruthy();
-    expect(calendar.getByText(weeks[0].title)).toBeTruthy();
-    expect(calendar.getByText(weeks[0].why)).toBeTruthy();
-    expect(calendar.getAllByRole('checkbox')).toHaveLength(3);
-    expect(calendar.queryByText(weeks[0].partnerFocus)).toBeNull();
-    await fireEvent.press(calendar.getByText(weeks[0].actions[1]));
-    expect(useStore.getState().weekActionsDone[startThreeDaysAgo()]).toEqual({ '1': [1] });
-    await fireEvent.press(calendar.getByText(weeks[0].actions[1]));
-    expect(useStore.getState().weekActionsDone[startThreeDaysAgo()]).toEqual({ '1': [] });
-    // The legend is still there, under the week focus.
-    expect(calendar.getByText(da.calendar.predictedPeriod)).toBeTruthy();
-  });
-
-  it("shows the couple's own focus on the card", async () => {
-    onboard('tracker', todayISO(), startThreeDaysAgo());
-    useStore.getState().setWeekFocus(1, 'Ro om aftenen');
-    await renderApp('/calendar');
-    expect(
-      await calendarTab().findByText(da.weeks.ownFocus.replace('{{text}}', 'Ro om aftenen')),
-    ).toBeTruthy();
-  });
-
-  it('switches the card to another week from the strip', async () => {
-    onboard('tracker', todayISO(), startThreeDaysAgo());
-    await renderApp('/calendar');
-    const calendar = calendarTab();
-    await calendar.findByText(weeks[0].title);
-    await fireEvent.press(calendar.getByLabelText(weekN(2)));
-    expect(await calendar.findByText(weeks[1].title)).toBeTruthy();
-    expect(calendar.getByText('Uge 20 · Cyklusuge 2 · dag 8–14')).toBeTruthy();
-    // Week 2 starts on cycle day 8, four days from day 4: no checkboxes, only the timing.
-    expect(calendar.getByText(da.weeks.comingIn.replace('{{n}}', '4'))).toBeTruthy();
-    expect(calendar.queryAllByRole('checkbox')).toHaveLength(0);
-    expect(calendar.getByText(weeks[1].actions[0])).toBeTruthy();
-    await fireEvent.press(calendar.getByLabelText(weekN(1)));
-    expect(await calendar.findAllByRole('checkbox')).toHaveLength(3);
-  });
-
-  it('shows a past week with its day range', async () => {
-    onboard('tracker'); // cycle day 11: week 2
-    await renderApp('/calendar');
-    const calendar = calendarTab();
-    await calendar.findByText(weeks[1].title);
-    await fireEvent.press(calendar.getByLabelText(weekN(1)));
-    expect(
-      await calendar.findByText(da.weeks.wasDays.replace('{{from}}', '1').replace('{{to}}', '7')),
-    ).toBeTruthy();
-  });
-
-  it('shows what the partner focuses on for the user role, without checkboxes', async () => {
-    onboard('user', todayISO(), startThreeDaysAgo());
-    await renderApp('/calendar');
-    const calendar = calendarTab();
-    expect(await calendar.findByText(weeks[0].partnerFocus)).toBeTruthy();
-    expect(calendar.getByText(weeks[0].title)).toBeTruthy();
-    expect(calendar.queryAllByRole('checkbox')).toHaveLength(0);
-    expect(calendar.queryByText(weeks[0].actions[0])).toBeNull();
-  });
-
-  it('hides the week focus without cycle data', async () => {
-    useStore.getState().completeOnboarding({
-      role: 'tracker',
-      language: 'da',
-      partnerName: 'Anna',
-      programStartDate: todayISO(),
-    });
-    await renderApp('/calendar');
-    const calendar = calendarTab();
-    expect(await calendar.findByText(da.calendar.predictedPeriod)).toBeTruthy();
-    expect(calendar.queryByText(weeks[0].title)).toBeNull();
-  });
-
-  it.each(['tracker', 'user'] as const)('links home to the calendar for the %s', async (role) => {
-    onboard(role); // cycle day 11: week 2
-    const app = await renderApp('/home');
-    const home = homeTab();
-    const kicker = da.weeks.homeKicker
-      .replace('{{n}}', '2')
-      .replace('{{from}}', '8')
-      .replace('{{to}}', '14');
-    await home.findByText(upper(kicker));
-    expect(home.getByText(weeks[1].title)).toBeTruthy();
-    await fireEvent.press(home.getByText(weeks[1].title));
-    expect(app.getPathname()).toBe('/calendar');
   });
 });
 
@@ -465,18 +349,21 @@ describe('learn sub-screens', () => {
     await renderApp(`/learn/phase/${phase}`);
     const learn = learnTab();
     expect(await learn.findByText(content.phases[phase].avoid[0])).toBeTruthy();
-    expect(learn.getByText(upper(da.learn.avoid))).toBeTruthy();
+    // Reading style: sentence-case section titles on the background, timing without a prefix.
+    expect(learn.getByText(da.learn.avoid)).toBeTruthy();
+    expect(learn.getByText(da.learn.whatYouCanDo)).toBeTruthy();
+    expect(learn.getByText(content.phases[phase].timing)).toBeTruthy();
   });
 
   it('renders the phase page for the user role with self-care and without avoid', async () => {
     onboard('user');
     await renderApp('/learn/phase/luteal');
     const learn = learnTab();
-    expect(await learn.findByText(upper(da.learn.selfCare))).toBeTruthy();
+    expect(await learn.findByText(da.learn.selfCare)).toBeTruthy();
     expect(learn.getByText(content.phases.luteal.selfCare[0])).toBeTruthy();
-    expect(learn.getByText(upper(da.learn.partnerCanDo))).toBeTruthy();
-    expect(learn.getByText(upper(da.learn.howYouMayFeel))).toBeTruthy();
-    expect(learn.queryByText(upper(da.learn.avoid))).toBeNull();
+    expect(learn.getByText(da.learn.partnerCanDo)).toBeTruthy();
+    expect(learn.getByText(da.learn.howYouMayFeel)).toBeTruthy();
+    expect(learn.queryByText(da.learn.avoid)).toBeNull();
     expect(learn.queryByText(content.phases.luteal.avoid[0])).toBeNull();
   });
 

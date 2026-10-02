@@ -1,64 +1,67 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import { PHASES, type Phase } from '@/domain/types';
 import { useContent } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
-import { spacing } from '@/ui/colors';
-import { Card, Screen, SectionTitle } from '@/ui/primitives';
-import { ReadingBullets, ReadingHero } from '@/ui/reading';
+import { phaseColor, spacing } from '@/ui/colors';
+import { Screen } from '@/ui/primitives';
+import {
+  ReadingBullets,
+  ReadingHero,
+  ReadingProgressBar,
+  ReadingSection,
+  useReadingProgress,
+} from '@/ui/reading';
 
-function Section({ title, items }: { title: string; items: string[] }) {
-  return (
-    <>
-      <SectionTitle style={styles.sectionTitle}>{title}</SectionTitle>
-      <Card style={styles.card}>
-        <ReadingBullets items={items} />
-      </Card>
-    </>
-  );
-}
-
+/** One reading page per phase, in the daily card's style: hero, then sections on the background. */
 export default function PhaseScreen() {
   const { t } = useTranslation();
   const { phase } = useLocalSearchParams<{ phase: string }>();
   const content = useContent();
   const isTracker = useStore((s) => s.profile?.role === 'tracker');
+  const { progress, onScroll } = useReadingProgress();
   const key = (PHASES as string[]).includes(phase) ? (phase as Phase) : 'menstrual';
   const info = content.phases[key];
+  const accent = phaseColor[key];
+
+  const sections: { title: string; items: string[]; accent?: typeof accent }[] = isTracker
+    ? [
+        { title: t('learn.whatYouCanDo'), items: info.whatYouCanDo, accent },
+        { title: t('learn.whatHappens'), items: info.whatHappens },
+        { title: t('learn.howSheMayFeel'), items: info.howSheMayFeel },
+        { title: t('learn.avoid'), items: info.avoid },
+      ]
+    : [
+        { title: t('learn.selfCare'), items: info.selfCare, accent },
+        { title: t('learn.whatHappensInBody'), items: info.whatHappens },
+        { title: t('learn.howYouMayFeel'), items: info.howSheMayFeel },
+        { title: t('learn.partnerCanDo'), items: info.whatYouCanDo },
+      ];
 
   return (
     <>
       <Stack.Screen options={{ title: info.name }} />
-      <Screen>
-        <ReadingHero
-          kicker={t('learn.phaseLibrary')}
-          title={info.name}
-          meta={`${t('learn.timing')}: ${info.timing}`}
-          phase={key}
-        />
-        {isTracker ? (
-          <>
-            <Section title={t('learn.whatYouCanDo')} items={info.whatYouCanDo} />
-            <Section title={t('learn.whatHappens')} items={info.whatHappens} />
-            <Section title={t('learn.howSheMayFeel')} items={info.howSheMayFeel} />
-            <Section title={t('learn.avoid')} items={info.avoid} />
-          </>
-        ) : (
-          <>
-            <Section title={t('learn.whatHappensInBody')} items={info.whatHappens} />
-            <Section title={t('learn.howYouMayFeel')} items={info.howSheMayFeel} />
-            <Section title={t('learn.selfCare')} items={info.selfCare} />
-            <Section title={t('learn.partnerCanDo')} items={info.whatYouCanDo} />
-          </>
-        )}
-      </Screen>
+      <View style={{ flex: 1 }}>
+        <Screen
+          onScroll={onScroll}
+          scrollEventThrottle={32}
+          contentContainerStyle={{ gap: spacing.lg }}>
+          <ReadingHero
+            kicker={t('learn.phaseLibrary')}
+            title={info.name}
+            meta={info.timing}
+            phase={key}
+          />
+          {sections.map((section) => (
+            <ReadingSection key={section.title} title={section.title} accent={section.accent}>
+              <ReadingBullets items={section.items} />
+            </ReadingSection>
+          ))}
+        </Screen>
+        <ReadingProgressBar progress={progress} />
+      </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionTitle: { marginLeft: spacing.lg },
-  card: { marginHorizontal: spacing.sm },
-});

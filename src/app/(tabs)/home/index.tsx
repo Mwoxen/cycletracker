@@ -14,7 +14,6 @@ import { PhaseActionsCard } from '@/ui/phase-actions';
 import { PhaseCard } from '@/ui/phase-card';
 import { Bullets, Button, Card, Screen, Icon, Txt } from '@/ui/primitives';
 import { Reveal } from '@/ui/reveal';
-import { CycleWeekCard } from '@/ui/week-focus';
 
 /** Tappable card with a footnote heading, a chevron and up to three bullets. */
 function BulletsCard({
@@ -53,7 +52,6 @@ export default function HomeScreen() {
   const openPhase = () =>
     phaseInfo ? router.push(`/(tabs)/home/phase/${phaseInfo.phase}`) : undefined;
   const openLog = () => router.push(`/log/${today}`);
-  const openCalendar = () => router.navigate('/(tabs)/calendar');
 
   const programStatus = program.position.notStarted ? (
     <Card>
@@ -129,8 +127,6 @@ export default function HomeScreen() {
                 />
               </Reveal>
             ) : null}
-            <CycleWeekCard onPress={openCalendar} isTracker />
-
             {todayLog && todayLog.symptoms.length > 0 ? (
               <Card onPress={openLog}>
                 <Txt variant="footnote">{t('home.sheLogged', { name })}</Txt>
@@ -202,8 +198,6 @@ export default function HomeScreen() {
                 />
               </Reveal>
             ) : null}
-            <CycleWeekCard onPress={openCalendar} isTracker={false} />
-
             {snapshot.hasData ? (
               <Button
                 title={t('home.logToday')}
