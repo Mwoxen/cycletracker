@@ -21,17 +21,13 @@ import {
 } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { selectActiveLogs, useStore } from '@/store/store';
-import { colors, fonts, phaseTint, radius, spacing } from '@/ui/colors';
+import { colors, fonts, phaseBand, phaseColor, radius, spacing } from '@/ui/colors';
 import { Card, Txt } from '@/ui/primitives';
 
 const WEEK_STARTS_ON = 1; // Monday
 const CELL = 36;
 
-const bandColor: Record<BandKind, ColorValue> = {
-  period: phaseTint.menstrual,
-  fertile: colors.fill,
-  pms: phaseTint.luteal,
-};
+const bandColor: Record<BandKind, ColorValue> = phaseBand;
 
 /** One month as a card: heading, weekday row and a grid with continuous phase bands. */
 export function MonthGrid({
@@ -109,7 +105,7 @@ export function MonthGrid({
                   <View
                     style={[
                       styles.circle,
-                      ovulation && { backgroundColor: phaseTint.ovulation },
+                      ovulation && styles.ovulation,
                       predicted && styles.predicted,
                       isToday && { backgroundColor: colors.red },
                     ]}>
@@ -139,11 +135,16 @@ export function MonthGrid({
 export function Legend() {
   const { t } = useTranslation();
   const items: { label: string; style: StyleProp<ViewStyle> }[] = [
-    { label: t('calendar.period'), style: { backgroundColor: phaseTint.menstrual } },
-    { label: t('calendar.predictedPeriod'), style: styles.predicted },
-    { label: t('calendar.fertile'), style: { backgroundColor: colors.fill } },
-    { label: t('calendar.ovulation'), style: { backgroundColor: phaseTint.ovulation } },
-    { label: t('calendar.pms'), style: { backgroundColor: phaseTint.luteal } },
+    { label: t('calendar.period'), style: { backgroundColor: phaseBand.period } },
+    {
+      label: t('calendar.predictedPeriod'),
+      style: [styles.predicted, { backgroundColor: phaseBand.predicted }],
+    },
+    { label: t('phases.follicular'), style: { backgroundColor: phaseBand.follicular } },
+    { label: t('calendar.fertile'), style: { backgroundColor: phaseBand.fertile } },
+    { label: t('calendar.ovulation'), style: styles.ovulation },
+    { label: t('phases.luteal'), style: { backgroundColor: phaseBand.luteal } },
+    { label: t('calendar.pms'), style: { backgroundColor: phaseBand.pms } },
     { label: t('calendar.logged'), style: styles.legendLogDot },
   ];
   return (
@@ -187,6 +188,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   predicted: { borderWidth: 1.5, borderColor: colors.red, borderStyle: 'dashed' },
+  ovulation: { borderWidth: 2.5, borderColor: phaseColor.ovulation },
   bold: { fontWeight: '700' },
   logDot: { position: 'absolute', bottom: 4, width: 4, height: 4, borderRadius: 2 },
   legend: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },

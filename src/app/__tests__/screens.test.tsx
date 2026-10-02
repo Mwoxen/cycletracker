@@ -147,6 +147,24 @@ describe('home', () => {
     expect(await home.findByText(da.home.actionDone)).toBeTruthy();
   });
 
+  it('ticks a phase action on Home, kept per cycle', async () => {
+    onboard('tracker'); // cycle day 11: follicular
+    await renderApp('/home');
+    const home = homeTab();
+    const item = content.phases.follicular.whatYouCanDo[1];
+    await fireEvent.press(await home.findByText(item));
+    const cycleStart = selectActivePeriods(useStore.getState())[0].startDate;
+    expect(useStore.getState().phaseActionsDone[cycleStart]).toEqual({ follicular: [1] });
+    expect(home.getByText(da.home.whatYouCanDo)).toBeTruthy();
+    expect(
+      home.getByText(
+        `${da.home.allInPhase.replace('{{n}}', String(content.phases.follicular.whatYouCanDo.length))} ›`,
+      ),
+    ).toBeTruthy();
+    await fireEvent.press(home.getByText(item));
+    expect(useStore.getState().phaseActionsDone[cycleStart]).toEqual({ follicular: [] });
+  });
+
   it('shows a logged symptom with the tip for the partner', async () => {
     onboard('tracker');
     useStore.getState().upsertLog(todayISO(), { symptoms: ['cramps'] });
@@ -360,8 +378,13 @@ describe('cycle weeks', () => {
     onboard(role); // cycle day 11: week 2
     const app = await renderApp('/home');
     const home = homeTab();
-    const row = da.weeks.homeRow.replace('{{n}}', '2').replace('{{title}}', weeks[1].title);
-    await fireEvent.press(await home.findByText(row));
+    const kicker = da.weeks.homeKicker
+      .replace('{{n}}', '2')
+      .replace('{{from}}', '8')
+      .replace('{{to}}', '14');
+    await home.findByText(upper(kicker));
+    expect(home.getByText(weeks[1].title)).toBeTruthy();
+    await fireEvent.press(home.getByText(weeks[1].title));
     expect(app.getPathname()).toBe('/calendar');
   });
 });

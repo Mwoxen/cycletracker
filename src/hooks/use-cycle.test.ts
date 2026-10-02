@@ -21,21 +21,23 @@ describe('bandKind', () => {
   it('bands a logged period', () => {
     expect(bandKind(status({ isLoggedPeriod: true, phase: 'menstrual' }))).toBe('period');
   });
-  it('leaves predicted period days without a band', () => {
-    expect(bandKind(status({ isPredictedPeriod: true, phase: 'menstrual' }))).toBeUndefined();
-    expect(
-      bandKind(status({ isLoggedPeriod: true, projected: true, phase: 'menstrual' })),
-    ).toBeUndefined();
+  it('gives predicted period days and the rest of the menstrual phase the light band', () => {
+    expect(bandKind(status({ isPredictedPeriod: true, phase: 'menstrual' }))).toBe('predicted');
+    expect(bandKind(status({ isLoggedPeriod: true, projected: true, phase: 'menstrual' }))).toBe(
+      'predicted',
+    );
+    expect(bandKind(status({ phase: 'menstrual' }))).toBe('predicted');
     expect(isPredictedDay(status({ isLoggedPeriod: true, projected: true }))).toBe(true);
     expect(isPredictedDay(status({ isLoggedPeriod: true }))).toBe(false);
   });
-  it('bands the fertile window including ovulation, then PMS', () => {
+  it('bands the fertile window including ovulation, PMS, and otherwise the phase', () => {
     expect(bandKind(status({ isFertile: true }))).toBe('fertile');
     expect(bandKind(status({ isFertile: true, isOvulation: true, phase: 'ovulation' }))).toBe(
       'fertile',
     );
     expect(bandKind(status({ isPms: true, phase: 'luteal' }))).toBe('pms');
-    expect(bandKind(status({ phase: 'luteal' }))).toBeUndefined();
+    expect(bandKind(status({ phase: 'luteal' }))).toBe('luteal');
+    expect(bandKind(status({ phase: 'follicular' }))).toBe('follicular');
     expect(bandKind(undefined)).toBeUndefined();
   });
 });

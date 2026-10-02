@@ -121,10 +121,12 @@ Datoen som undertitel. Indholdet i rækkefølge for **partneren**:
    forsinket". Tryk åbner faseopslaget.
 2. **Dagens kort**: dag X af 360, kortets overskrift, begyndelsen af teksten, "Læs dagens kort", og
    handlingen "Det kan du gøre i dag" med knappen "Markér som gjort" / "Gjort".
-3. **Cyklusugen**: "Cyklusuge 2 · Planlæg og oplev". Tryk går til kalenderen.
+3. **Cyklusugen**: "Cyklusuge 2 · dag 8–14", fokusoverskriften, én linje om hvorfor, "1 af 3
+   gjort" for ugens handlinger, og hvor i cyklussens fire uger man er. Tryk går til kalenderen.
 4. Hvis hun har registreret noget i dag: "Anna har registreret i dag", symptomerne, hvad det
    skyldes, og én ting at gøre.
-5. **Det kan du gøre**: tre punkter fra fasens opslag. Tryk åbner faseopslaget.
+5. **Det kan du gøre**: fasen og cyklusdagen, tre punkter fra fasens opslag, som kan krydses af
+   (nulstilles ved ny cyklus), og "Alle 5 i faseopslaget". Tryk åbner faseopslaget.
 6. **Ugens artikel**: overskrift og samtalespørgsmål. Tryk åbner artiklen.
 7. Knappen "Registrér i dag" (partneren kan registrere på hendes vegne).
 8. "Scan partnerens kode" og status: "Sidst synkroniseret for 2 timer siden" / "Ikke synkroniseret
@@ -188,12 +190,12 @@ Undertitel: "Cyklusdag 11 · næste menstruation 27. okt."
   · dag 8–14"), fokusoverskrift, begrundelse, "Jeres fokus: …" hvis parret har skrevet ét, de tre
   handlinger (partneren kan krydse af i den aktuelle uge), og for andre uger "Kommer om 7 dage" /
   "Var dag 1–7". Man kan bladre mellem de fire uger. Hun ser i stedet "Din partner har fokus på …".
-- Forklaring til kalenderen: menstruation, forventet menstruation, frugtbart vindue, ægløsning,
-  PMS-vindue, logget.
+- Forklaring til kalenderen: menstruation, forventet menstruation, follikelfasen, frugtbart
+  vindue, ægløsning, lutealfasen, PMS, logget.
 - "Vis tidligere måneder".
-- Måneder som datogitter, den aktuelle og to frem, hvor hver dag kan være markeret med
-  menstruation, forventet menstruation, frugtbart vindue, ægløsning, PMS og "logget". Tryk på en
-  dag åbner registrering for den dag.
+- Måneder som datogitter, den aktuelle og to frem. Hver dag hører til en fase (menstruation,
+  follikelfasen, frugtbart vindue, lutealfasen, PMS), og derudover markeres forventet
+  menstruation, ægløsningsdagen og "logget". Tryk på en dag åbner registrering for den dag.
 
 Uden data: "Registrér en menstruationsstart for at se faser i kalenderen."
 

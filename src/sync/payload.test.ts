@@ -37,6 +37,7 @@ function yearOfData(): SnapshotData {
     pairing: {},
     weekFocus: {},
     weekActionsDone: {},
+    phaseActionsDone: {},
   };
 }
 

@@ -19,6 +19,8 @@ import {
   type Settings,
   type Symptom,
   type Syncable,
+  PHASES,
+  type PhaseActionsDone,
   type WeekActionsDone,
   type WeekFocus,
 } from '@/domain/types';
@@ -44,6 +46,8 @@ export interface Snapshot {
   weekFocus: WeekFocus[];
   /** Ticked week actions; personal like lesson progress, so only restored from a backup. */
   weekActionsDone: WeekActionsDone;
+  /** Ticked phase actions on Home; personal, so only restored from a backup. */
+  phaseActionsDone: PhaseActionsDone;
 }
 
 export interface SnapshotData {
@@ -56,6 +60,7 @@ export interface SnapshotData {
   /** Keyed by `String(week)`. */
   weekFocus: Record<string, WeekFocus>;
   weekActionsDone: WeekActionsDone;
+  phaseActionsDone: PhaseActionsDone;
 }
 
 export interface MergeOptions {
@@ -78,6 +83,7 @@ export function createSnapshot(data: SnapshotData, deviceId: string, now = Date.
     pairing: data.pairing,
     weekFocus: Object.values(data.weekFocus),
     weekActionsDone: data.weekActionsDone,
+    phaseActionsDone: data.phaseActionsDone,
   };
 }
 
@@ -99,6 +105,7 @@ export function createSyncSnapshot(
     progress: [],
     weekFocus: Object.values(data.weekFocus).filter((f) => f.updatedAt > since),
     weekActionsDone: {},
+    phaseActionsDone: {},
   };
 }
 
@@ -159,20 +166,20 @@ function mergeWeekFocus(
   return result;
 }
 
-/** Union of ticked actions per cycle and week; a tick on either device stays ticked. */
-function mergeWeekActionsDone(
-  current: WeekActionsDone,
-  incoming: WeekActionsDone,
-): WeekActionsDone {
-  const result: WeekActionsDone = { ...current };
-  for (const [cycleStart, weeks] of Object.entries(incoming)) {
+/** Union of ticked actions per cycle and key (week or phase); a tick on either device stays. */
+function mergeActionsDone<T extends Record<string, Record<string, number[]>>>(
+  current: T,
+  incoming: T,
+): T {
+  const result: Record<string, Record<string, number[]>> = { ...current };
+  for (const [cycleStart, byKey] of Object.entries(incoming)) {
     const merged = { ...result[cycleStart] };
-    for (const [week, indexes] of Object.entries(weeks)) {
-      merged[week] = [...new Set([...(merged[week] ?? []), ...indexes])].sort((a, b) => a - b);
+    for (const [key, indexes] of Object.entries(byKey)) {
+      merged[key] = [...new Set([...(merged[key] ?? []), ...indexes])].sort((a, b) => a - b);
     }
     result[cycleStart] = merged;
   }
-  return result;
+  return result as T;
 }
 
 export interface MergeResult {
@@ -203,8 +210,11 @@ export function mergeSnapshot(
     pairing: options.includeProfile && snapshot.pairing ? snapshot.pairing : current.pairing,
     weekFocus: mergeWeekFocus(current.weekFocus, snapshot.weekFocus),
     weekActionsDone: options.includeProgress
-      ? mergeWeekActionsDone(current.weekActionsDone, snapshot.weekActionsDone)
+      ? mergeActionsDone(current.weekActionsDone, snapshot.weekActionsDone)
       : current.weekActionsDone,
+    phaseActionsDone: options.includeProgress
+      ? mergeActionsDone(current.phaseActionsDone, snapshot.phaseActionsDone ?? {})
+      : current.phaseActionsDone,
   };
   return { data, periodsChanged: periods.changed, logsChanged: logs.changed };
 }
@@ -247,7 +257,16 @@ export function parseSnapshot(text: string): Snapshot {
     ) as LessonProgress[],
     pairing: sanitizePairing(obj.pairing),
     weekFocus: arr(obj.weekFocus).flatMap((f) => sanitizeWeekFocus(f)),
-    weekActionsDone: sanitizeWeekActionsDone(obj.weekActionsDone),
+    weekActionsDone: sanitizeActionsDone(
+      obj.weekActionsDone,
+      (k) => isCycleWeek(Number(k)),
+      CYCLE_WEEK_ACTIONS,
+    ),
+    phaseActionsDone: sanitizeActionsDone(
+      obj.phaseActionsDone,
+      (k) => (PHASES as string[]).includes(k),
+      PHASE_ACTIONS_MAX,
+    ),
   };
 }
 
@@ -284,20 +303,26 @@ function sanitizeWeekFocus(v: unknown): WeekFocus[] {
   return [{ week: f.week, text: f.text.slice(0, WEEK_FOCUS_MAX_LENGTH), updatedAt: f.updatedAt }];
 }
 
-/** Keeps only valid cycle start dates, weeks 1-4 and integer action indexes 0-2. */
-function sanitizeWeekActionsDone(v: unknown): WeekActionsDone {
-  const out: WeekActionsDone = {};
+/** Upper bound on "what you can do" items per phase that a tick index may point at. */
+const PHASE_ACTIONS_MAX = 12;
+
+/** Keeps only valid cycle start dates, accepted keys and integer action indexes below `max`. */
+function sanitizeActionsDone(
+  v: unknown,
+  isKey: (key: string) => boolean,
+  max: number,
+): Record<ISODate, Record<string, number[]>> {
+  const out: Record<ISODate, Record<string, number[]>> = {};
   if (!v || typeof v !== 'object') return out;
-  for (const [cycleStart, weeks] of Object.entries(v as Record<string, unknown>)) {
-    if (!isDate(cycleStart) || !weeks || typeof weeks !== 'object') continue;
+  for (const [cycleStart, byKey] of Object.entries(v as Record<string, unknown>)) {
+    if (!isDate(cycleStart) || !byKey || typeof byKey !== 'object') continue;
     const cleaned: Record<string, number[]> = {};
-    for (const [week, indexes] of Object.entries(weeks as Record<string, unknown>)) {
-      if (!isCycleWeek(Number(week)) || !Array.isArray(indexes)) continue;
+    for (const [key, indexes] of Object.entries(byKey as Record<string, unknown>)) {
+      if (!isKey(key) || !Array.isArray(indexes)) continue;
       const valid = indexes.filter(
-        (i): i is number =>
-          typeof i === 'number' && Number.isInteger(i) && i >= 0 && i < CYCLE_WEEK_ACTIONS,
+        (i): i is number => typeof i === 'number' && Number.isInteger(i) && i >= 0 && i < max,
       );
-      cleaned[week] = [...new Set(valid)].sort((a, b) => a - b);
+      cleaned[key] = [...new Set(valid)].sort((a, b) => a - b);
     }
     out[cycleStart] = cleaned;
   }

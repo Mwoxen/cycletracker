@@ -30,6 +30,7 @@ function data(overrides: Partial<SnapshotData> = {}): SnapshotData {
     pairing: {},
     weekFocus: {},
     weekActionsDone: {},
+    phaseActionsDone: {},
     ...overrides,
   };
 }
@@ -127,6 +128,7 @@ describe('snapshot round trip', () => {
       pairing: {},
       weekFocus: {},
       weekActionsDone: {},
+      phaseActionsDone: {},
     };
     expect(createSyncSnapshot(base, 'd1').senderName).toBe('Anna');
     const tracker = { ...base, profile: { ...base.profile!, role: 'tracker' as const } };
@@ -269,6 +271,36 @@ describe('mergeSnapshot', () => {
       '2026-03-01': { '1': [0, 2], '2': [1] },
       '2026-03-29': { '1': [0] },
     });
+  });
+
+  it('unions ticked phase actions on restore, drops bad keys and leaves them out of sync', () => {
+    const current = data({ phaseActionsDone: { '2026-03-01': { menstrual: [0] } } });
+    const incoming = createSnapshot(
+      data({ phaseActionsDone: { '2026-03-01': { menstrual: [2], luteal: [1] } } }),
+      'dev2',
+    );
+    expect(createSyncSnapshot(current, 'dev').phaseActionsDone).toEqual({});
+    const restore = mergeSnapshot(current, incoming, {
+      includeProfile: true,
+      includeProgress: true,
+    });
+    expect(restore.data.phaseActionsDone).toEqual({
+      '2026-03-01': { menstrual: [0, 2], luteal: [1] },
+    });
+    const parsed = parseSnapshot(
+      JSON.stringify({
+        ...incoming,
+        phaseActionsDone: { '2026-03-01': { menstrual: [1, 99, 'x'], bogus: [0] }, nope: {} },
+      }),
+    );
+    expect(parsed.phaseActionsDone).toEqual({ '2026-03-01': { menstrual: [1] } });
+    // Older snapshots without the field merge as empty.
+    const old = mergeSnapshot(
+      current,
+      { ...incoming, phaseActionsDone: undefined as unknown as typeof incoming.phaseActionsDone },
+      { includeProfile: true, includeProgress: true },
+    );
+    expect(old.data.phaseActionsDone).toEqual(current.phaseActionsDone);
   });
 
   it('is idempotent', () => {

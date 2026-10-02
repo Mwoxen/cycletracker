@@ -82,6 +82,19 @@ export const phaseTint: Record<Phase, ColorValue> = {
   luteal: dyn('rgba(140,122,166,0.20)', 'rgba(168,150,194,0.26)'),
 };
 
+/**
+ * Calendar bands: every day gets its phase, strong enough to read as a sequence. PMS has its own
+ * hue (slate blue) so it does not blend into the luteal lilac around it.
+ */
+export const phaseBand = {
+  period: dyn('rgba(217,108,108,0.50)', 'rgba(229,135,135,0.45)'),
+  predicted: dyn('rgba(217,108,108,0.18)', 'rgba(229,135,135,0.18)'),
+  follicular: dyn('rgba(127,163,122,0.40)', 'rgba(151,189,146,0.36)'),
+  fertile: dyn('rgba(224,164,88,0.50)', 'rgba(234,184,120,0.42)'),
+  luteal: dyn('rgba(140,122,166,0.35)', 'rgba(168,150,194,0.34)'),
+  pms: dyn('rgba(111,132,176,0.50)', 'rgba(140,160,205,0.42)'),
+} as const;
+
 /** CSS gradient strings for the phase card, light and dark. */
 export const phaseGradient: Record<Phase, { light: string; dark: string }> = {
   menstrual: {

@@ -104,6 +104,8 @@ export const WEEK_FOCUS_MAX_LENGTH = 120;
 
 /** Ticked week actions: cycle start date -> week -> indexes of the done actions. */
 export type WeekActionsDone = Record<ISODate, Record<string, number[]>>;
+/** Ticked "what you can do" items on Home, per cycle start and phase; reset with each new cycle. */
+export type PhaseActionsDone = Record<ISODate, Record<string, number[]>>;
 
 export interface Reminders {
   dailyCard: boolean;

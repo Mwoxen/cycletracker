@@ -90,8 +90,8 @@ export function useCycleWeek(): CycleWeekState | undefined {
 
 export type CalendarDayStatus = DayStatus & { projected: boolean };
 
-/** Continuous calendar bands, in priority order when windows overlap. */
-export type BandKind = 'period' | 'fertile' | 'pms';
+/** Continuous calendar bands: every day has one, in priority order when windows overlap. */
+export type BandKind = 'period' | 'predicted' | 'follicular' | 'fertile' | 'luteal' | 'pms';
 
 export interface BandSegment {
   kind: BandKind;
@@ -108,14 +108,18 @@ export function isPredictedDay(s: CalendarDayStatus | undefined): boolean {
   return !logged && (s.isPredictedPeriod || (s.isLoggedPeriod && s.projected));
 }
 
-/** Which band a day belongs to, if any. Predicted period days get no band. */
+/**
+ * Which band a day belongs to. A logged period is solid red; expected period days (and the rest
+ * of the menstrual phase) a light red under the dashed circle; then the fertile window, PMS, and
+ * the phase colour for everything else.
+ */
 export function bandKind(s: CalendarDayStatus | undefined): BandKind | undefined {
   if (!s) return undefined;
   if (s.isLoggedPeriod && !s.projected) return 'period';
-  if (isPredictedDay(s)) return undefined;
+  if (isPredictedDay(s) || s.phase === 'menstrual') return 'predicted';
   if (s.isFertile || s.isOvulation) return 'fertile';
   if (s.isPms) return 'pms';
-  return undefined;
+  return s.phase === 'follicular' ? 'follicular' : 'luteal';
 }
 
 /**
