@@ -164,6 +164,7 @@ export function Legend() {
 const styles = StyleSheet.create({
   heading: {
     fontSize: 18,
+    lineHeight: 22,
     fontWeight: '600',
     fontFamily: fonts?.rounded,
     paddingHorizontal: spacing.xs,

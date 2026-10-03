@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.6 },
   value: {
     fontSize: 22,
+    lineHeight: 28,
     fontWeight: '700',
     fontFamily: fonts?.rounded,
     fontVariant: ['tabular-nums'],

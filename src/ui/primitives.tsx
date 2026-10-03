@@ -326,13 +326,21 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xl,
     gap: spacing.md,
   },
-  largeTitle: { fontSize: 34, fontWeight: '700', letterSpacing: 0.2, fontFamily: fonts?.rounded },
-  title: { fontSize: 22, fontWeight: '700', fontFamily: fonts?.rounded },
-  headline: { fontSize: 17, fontWeight: '600' },
-  body: { fontSize: 17 },
-  callout: { fontSize: 16 },
-  footnote: { fontSize: 13 },
-  caption: { fontSize: 12 },
+  // Whole-number line heights: a text frame whose measured height is a whole number survives
+  // pixel-grid rounding, so iOS does not drop its last line (facebook/react-native#53450).
+  largeTitle: {
+    fontSize: 34,
+    lineHeight: 41,
+    fontWeight: '700',
+    letterSpacing: 0.2,
+    fontFamily: fonts?.rounded,
+  },
+  title: { fontSize: 22, lineHeight: 28, fontWeight: '700', fontFamily: fonts?.rounded },
+  headline: { fontSize: 17, lineHeight: 22, fontWeight: '600' },
+  body: { fontSize: 17, lineHeight: 22 },
+  callout: { fontSize: 16, lineHeight: 21 },
+  footnote: { fontSize: 13, lineHeight: 18 },
+  caption: { fontSize: 12, lineHeight: 16 },
   card: {
     backgroundColor: colors.card,
     borderRadius: radius.card,
