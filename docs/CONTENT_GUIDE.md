@@ -33,12 +33,62 @@ oversæt derefter til naturligt engelsk (ikke ord-for-ord; samme budskab og hand
 
 ## Tone og indhold
 
+Appen skal både lære partneren noget og få ham til at grine. Humoren er det, der adskiller den fra
+andre cyklusapps, men den er aldrig vigtigere end det, han skal lære. Hver tekst har stadig den
+samme viden og den samme handling som før; humoren ligger i, hvordan det siges.
+
+### Humorens regler
+
+1. **Grin ad ham, aldrig ad hende.** Han er den, der står med varmepuden og ser forvirret ud,
+   som siger "skal jeg lave mad?" i stedet for at lave mad, som tror en cyklus er 28 dage, fordi
+   nogen sagde det i 7. klasse. Hun er aldrig pointen i vittigheden. Hun læser med fra sin side
+   ("Det lærer din partner i dag"), så alt skal kunne læses højt for hende uden at nogen krymper sig.
+2. **Tør og direkte, ikke fjollet.** Korte sætninger, konkrete billeder, en punchline i
+   slutningen af et afsnit. Ingen emojis, ingen udråbstegn i bunker, ingen ordspil for ordspillets
+   skyld. Tænk en ven, der har været der før, og som siger tingene ligeud.
+3. **Må gerne være lidt grov om ham.** "Hold mund og lav kaffe", "din bedste ven i dag er en
+   stikkontakt", "gå ud og sig det til en væg". Ikke bandeord i hver sætning, og aldrig om hendes
+   krop, humør, vægt, lyst eller intelligens.
+4. **Alvor, hvor det er alvor.** Smerte, PMDD, endometriose, PCOS, fertilitet, graviditetstab og
+   "når noget afviger" (måned 7, 8, 10, 11 især): her er tonen varm og rolig. Humoren må kun sidde
+   i rammen (hans forvirring, hans kejtethed), aldrig i det, hun går igennem.
+5. **Humoren må ikke æde indholdet.** Insight-teksten skal stadig forklare det samme (hormoner,
+   tal, hvad der sker), og handlingen skal stadig være den samme konkrete ting. En joke, der
+   erstatter en forklaring, er en dårlig joke.
+6. **Ingen klichéer.** Ikke "hormonelle kvinder", ikke "hun er på sin", ikke "farlig uge",
+   ikke chokolade-jokes. Vittigheden skal komme af situationen, ikke af en fordom.
+
+### Eksempler på tonen
+
+Forsiden, fasekortets overskrift:
+"Anna har brug for ro. Du har brug for at holde mund og lave kaffe."
+
+Dag 1, "Dag 1 er første blødningsdag":
+"Dag 1 er den første dag med rigtig blødning. Ikke dagen hun nævnte det, ikke dagen du lagde mærke
+til det, og ikke dagen det stoppede. Alt andet i appen regnes ud fra den dato, så hvis du gætter,
+gætter appen også. 28 dage er gennemsnittet, men 21 til 35 er normalt, og de færreste rammer det
+samme tal to gange. Din opgave i dag er ikke at forstå kvindekroppen. Det er at få én dato rigtig."
+Handling: "Spørg hende, hvornår den sidste menstruation startede. Ja, bare spørg. Og skriv det ind."
+
+Faseopslag, menstruation, "Det kan du gøre":
+"Tag det praktiske uden at spørge. 'Skal jeg lave mad?' er ikke hjælp, det er en opgave mere til
+hende: at svare dig."
+"Varmepude, te, tæppe. Varme virker på kramper, og det kræver nul samtale. Din bedste ven i dag
+er en stikkontakt."
+
+Lutealfasen, "Undgå":
+"Kommentér ikke på hendes humør. Hvis du får lyst til at sige 'er du i dårligt humør?', så gå ud
+af rummet og sig det til en væg. Væggen svarer det samme, som hun ville, bare uden konsekvenser."
+
+Notifikation: "Dagens kort er klar. Ét minut. Du kan godt."
+
+### Det faste
+
 - Skriv til partneren i "du", om hende i "hun/hende". Varm, konkret, uden at moralisere.
 - Evidensbaseret på niveau med NHS, ACOG, Sundhed.dk, NICE. Ingen diagnoser, ingen "kur".
   Når noget kan være tegn på sygdom: sig "det fortjener en læge", ikke hvad det er.
 - Forudsigelser er skøn. Skriv aldrig, at appen kan bruges som prævention.
-- Ingen kropskommentarer, ingen kliché om "hormonelle kvinder". PMS forstærker følelser, den
-  opfinder dem ikke.
+- Ingen kropskommentarer. PMS forstærker følelser, den opfinder dem ikke.
 - Handlingen ("Det kan du gøre") skal kunne gøres samme dag, uden penge eller planlægning:
   sig en sætning, gør en praktisk ting, læg mærke til noget, spørg om noget, flyt en aftale.
 - Fordel kortene, så måneden dækker alle fire faser med `phaseTags`, og så ca. en tredjedel af
@@ -46,6 +96,8 @@ oversæt derefter til naturligt engelsk (ikke ord-for-ord; samme budskab og hand
 - Kilder: `{ label: 'NHS: Periods', url: 'https://www.nhs.uk/conditions/periods/' }`. Brug kun
   URL'er, du er sikker på findes (NHS conditions-sider, ACOG FAQ, Sundhed.dk patienthåndbogen,
   NICE CKS). Udelad hellere URL end at gætte.
+- Hendes egne tekster (`selfCare`, symptomtippenes `what`, hendes UI) er ikke humoristiske. De
+  er varme og saglige som før.
 
 ## Månedstemaer
 
