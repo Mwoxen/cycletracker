@@ -50,3 +50,6 @@ Run `npm run check` before every commit. CI runs the same on every push.
 - Native builds (`.github/workflows/eas-build.yml`) run only when native-affecting files change or
   on demand. `ios/` and `android/` are generated; never commit them.
 - `.eas-project-id` is written by the first EAS Update run. Do not invent a project id.
+- `patches/` holds `patch-package` fixes for native dependencies (applied by `postinstall`). The
+  directory is part of the fingerprint, so adding or changing a patch needs a new native build
+  before OTA updates reach devices again.

@@ -1,0 +1,24 @@
+diff --git a/node_modules/react-native/ReactCommon/react/renderer/textlayoutmanager/platform/ios/react/renderer/textlayoutmanager/RCTTextLayoutManager.mm b/node_modules/react-native/ReactCommon/react/renderer/textlayoutmanager/platform/ios/react/renderer/textlayoutmanager/RCTTextLayoutManager.mm
+--- a/node_modules/react-native/ReactCommon/react/renderer/textlayoutmanager/platform/ios/react/renderer/textlayoutmanager/RCTTextLayoutManager.mm
++++ b/node_modules/react-native/ReactCommon/react/renderer/textlayoutmanager/platform/ios/react/renderer/textlayoutmanager/RCTTextLayoutManager.mm
+@@ -71,10 +71,19 @@
+                        frame:(CGRect)frame
+            drawHighlightPath:(void (^_Nullable)(UIBezierPath *highlightPath))block
+ {
++  // Text with no line limit is measured with an unbounded height, but the frame it is drawn in
++  // comes out of pixel-grid rounding and can be a fraction shorter than the measured height.
++  // TextKit then fits one line fewer and, with NSLineBreakByClipping, draws the rest of the
++  // paragraph on the last line, clipped. Draw with an unbounded height as well so the line
++  // breaks match the measurement (facebook/react-native#53450).
++  CGSize drawSize = frame.size;
++  if (paragraphAttributes.maximumNumberOfLines == 0 && !paragraphAttributes.adjustsFontSizeToFit) {
++    drawSize.height = CGFLOAT_MAX;
++  }
+   NSTextStorage *textStorage = [self
+       _textStorageAndLayoutManagerWithAttributesString:[self _nsAttributedStringFromAttributedString:attributedString]
+                                    paragraphAttributes:paragraphAttributes
+-                                                  size:frame.size];
++                                                  size:drawSize];
+   NSLayoutManager *layoutManager = textStorage.layoutManagers.firstObject;
+   NSTextContainer *textContainer = layoutManager.textContainers.firstObject;
+ 
