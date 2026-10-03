@@ -240,7 +240,7 @@ export function NextRow({
 }) {
   return (
     <Card onPress={onPress} style={styles.nextRow}>
-      <View style={{ flex: 1, gap: 2 }}>
+      <View style={{ flex: 1, flexShrink: 1, gap: 2, marginRight: spacing.sm }}>
         <Txt variant="footnote" color={colors.tint} style={{ fontWeight: '600' }}>
           {label.toUpperCase()}
         </Txt>
@@ -389,5 +389,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.fill,
   },
   progressFill: { height: 3, backgroundColor: colors.tint, borderRadius: radius.chip },
-  nextRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  nextRow: { flexDirection: 'row', alignItems: 'center' },
 });

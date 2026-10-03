@@ -56,7 +56,9 @@ export default function OverviewScreen() {
                 <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
                   <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
                 </View>
-                <Txt variant="title">{info.name}</Txt>
+                <Txt variant="title" style={{ flex: 1, flexShrink: 1 }}>
+                  {info.name}
+                </Txt>
               </View>
               <Card>
                 {r.days === 0 ? (
@@ -115,6 +117,13 @@ export default function OverviewScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: spacing.sm },
-  icon: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  header: { flexDirection: 'row', alignItems: 'center', marginTop: spacing.sm },
+  icon: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: spacing.sm,
+  },
 });

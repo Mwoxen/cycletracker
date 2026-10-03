@@ -108,7 +108,7 @@ export default function ImportSheet() {
           {snapshot.profile ? (
             <Card>
               <View style={styles.switchRow}>
-                <Txt style={{ flex: 1 }}>{t('sync.importAsBackup')}</Txt>
+                <Txt style={styles.switchLabel}>{t('sync.importAsBackup')}</Txt>
                 <Switch value={asBackup} onValueChange={setAsBackup} />
               </View>
               <Txt variant="footnote">{t('sync.importAsBackupHelp')}</Txt>
@@ -130,5 +130,6 @@ const styles = StyleSheet.create({
   sheet: { flex: 1, backgroundColor: colors.background },
   content: { padding: spacing.md, gap: spacing.md, paddingTop: spacing.lg, paddingBottom: 60 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  switchRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, minHeight: 36 },
+  switchRow: { flexDirection: 'row', alignItems: 'center', minHeight: 36 },
+  switchLabel: { flex: 1, flexShrink: 1, marginRight: spacing.sm },
 });

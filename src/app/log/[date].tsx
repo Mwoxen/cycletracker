@@ -101,7 +101,9 @@ export default function LogSheet() {
       contentContainerStyle={styles.content}
       keyboardDismissMode="on-drag">
       <View style={styles.header}>
-        <Txt variant="title">{t('log.forDate', { date: fmt.long(date) })}</Txt>
+        <Txt variant="title" style={styles.headerTitle}>
+          {t('log.forDate', { date: fmt.long(date) })}
+        </Txt>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
           <Txt variant="headline" color={colors.tint}>
             {t('common.done')}
@@ -112,7 +114,7 @@ export default function LogSheet() {
       <SectionTitle>{t('log.period')}</SectionTitle>
       <Card>
         <View style={styles.switchRow}>
-          <Txt style={{ flex: 1 }}>{t('log.periodStartsToday')}</Txt>
+          <Txt style={styles.switchLabel}>{t('log.periodStartsToday')}</Txt>
           <Switch value={!!startingHere} onValueChange={togglePeriodStart} />
         </View>
         {ongoing ? (
@@ -121,7 +123,7 @@ export default function LogSheet() {
               {t('log.periodOngoing', { date: fmt.short(ongoing.startDate) })}
             </Txt>
             <View style={styles.switchRow}>
-              <Txt style={{ flex: 1 }}>{t('log.periodEndsToday')}</Txt>
+              <Txt style={styles.switchLabel}>{t('log.periodEndsToday')}</Txt>
               <Switch value={endsHere} onValueChange={togglePeriodEnd} />
             </View>
           </>
@@ -212,13 +214,10 @@ export default function LogSheet() {
 const styles = StyleSheet.create({
   sheet: { flex: 1, backgroundColor: colors.background },
   content: { padding: spacing.md, gap: spacing.md, paddingTop: spacing.lg, paddingBottom: 60 },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-  },
-  switchRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, minHeight: 36 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  headerTitle: { flex: 1, flexShrink: 1, marginRight: spacing.md },
+  switchRow: { flexDirection: 'row', alignItems: 'center', minHeight: 36 },
+  switchLabel: { flex: 1, flexShrink: 1, marginRight: spacing.sm },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   input: { fontSize: 17, color: colors.label, minHeight: 80, textAlignVertical: 'top' },
 });

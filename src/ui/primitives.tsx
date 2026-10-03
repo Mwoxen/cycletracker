@@ -344,18 +344,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
   },
   sectionTitle: { marginLeft: spacing.md, marginBottom: -spacing.sm },
+  // Rows that hold wrapping text use margins, not `gap`: Yoga measures the text without the gap
+  // and clips a line that fills the width to the last few points.
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 11,
-    gap: spacing.sm,
     minHeight: 44,
   },
   rowBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.separator },
-  rowSymbol: { width: 28, alignItems: 'center' },
-  rowLead: { marginRight: spacing.xs, alignItems: 'center', justifyContent: 'center' },
-  rowText: { flex: 1 },
-  rowValue: { marginRight: spacing.xs },
+  rowSymbol: { width: 28, alignItems: 'center', marginRight: spacing.sm },
+  rowLead: { marginRight: spacing.sm + spacing.xs, alignItems: 'center', justifyContent: 'center' },
+  rowText: { flex: 1, flexShrink: 1, marginRight: spacing.sm },
+  rowValue: { marginRight: spacing.sm + spacing.xs },
   pressed: { opacity: 0.6 },
   button: {
     flexDirection: 'row',

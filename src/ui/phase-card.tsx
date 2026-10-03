@@ -116,7 +116,7 @@ export function PhaseCard({
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  header: { flexDirection: 'row', alignItems: 'center' },
   ringWrap: {
     width: RING_SIZE,
     height: RING_SIZE,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text: { flex: 1, gap: 2 },
+  text: { flex: 1, flexShrink: 1, gap: 2, marginHorizontal: spacing.md },
   kicker: { fontWeight: '700', letterSpacing: 0.6 },
   pills: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginTop: spacing.xs },
   pill: {

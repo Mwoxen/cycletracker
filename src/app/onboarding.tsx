@@ -172,7 +172,7 @@ export default function Onboarding() {
             <SectionTitle>{t('onboarding.lastPeriod')}</SectionTitle>
             <Card>
               <View style={styles.switchRow}>
-                <Txt style={{ flex: 1 }}>{t('onboarding.lastPeriodUnknown')}</Txt>
+                <Txt style={styles.switchLabel}>{t('onboarding.lastPeriodUnknown')}</Txt>
                 <Switch value={!knowsLastPeriod} onValueChange={(v) => setKnowsLastPeriod(!v)} />
               </View>
               {knowsLastPeriod ? (
@@ -193,7 +193,7 @@ export default function Onboarding() {
             <SectionTitle>{t('onboarding.cycleLength')}</SectionTitle>
             <Card>
               <View style={styles.switchRow}>
-                <Txt style={{ flex: 1 }}>{t('settings.cycleLength')}</Txt>
+                <Txt style={styles.switchLabel}>{t('settings.cycleLength')}</Txt>
                 <Stepper
                   value={cycleLength}
                   min={21}
@@ -203,7 +203,7 @@ export default function Onboarding() {
                 />
               </View>
               <View style={styles.switchRow}>
-                <Txt style={{ flex: 1 }}>{t('settings.periodLength')}</Txt>
+                <Txt style={styles.switchLabel}>{t('settings.periodLength')}</Txt>
                 <Stepper
                   value={periodLength}
                   min={2}
@@ -262,7 +262,7 @@ function RoleCard({
         pressed && { opacity: 0.8 },
       ]}>
       <Icon name={symbol} size={28} color={selected ? colors.tint : colors.secondaryLabel} />
-      <View style={{ flex: 1, gap: 2 }}>
+      <View style={{ flex: 1, flexShrink: 1, gap: 2, marginHorizontal: spacing.md }}>
         <Txt variant="headline">{title}</Txt>
         <Txt variant="footnote">{description}</Txt>
       </View>
@@ -273,11 +273,11 @@ function RoleCard({
 
 const styles = StyleSheet.create({
   input: { fontSize: 17, color: colors.label, paddingVertical: 4 },
-  switchRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, minHeight: 36 },
+  switchRow: { flexDirection: 'row', alignItems: 'center', minHeight: 36 },
+  switchLabel: { flex: 1, flexShrink: 1, marginRight: spacing.sm },
   roleCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
     backgroundColor: colors.card,
     borderRadius: radius.card,
     padding: spacing.md,

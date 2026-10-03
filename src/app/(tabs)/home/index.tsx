@@ -157,7 +157,7 @@ export default function HomeScreen() {
                 onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}
                 style={{ paddingVertical: 12 }}>
                 <View style={styles.weeklyRow}>
-                  <View style={{ flex: 1, gap: 2 }}>
+                  <View style={{ flex: 1, flexShrink: 1, gap: 2, marginRight: spacing.sm }}>
                     <Txt variant="footnote">{t('home.weeklyRead')}</Txt>
                     <Txt variant="headline">{program.weekly.title}</Txt>
                     <Txt color={colors.secondaryLabel} style={{ fontStyle: 'italic' }}>
@@ -247,5 +247,5 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  weeklyRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  weeklyRow: { flexDirection: 'row', alignItems: 'center' },
 });

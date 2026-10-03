@@ -99,7 +99,7 @@ export function Quiz({
                 { backgroundColor: bg },
                 pressed && { opacity: 0.7 },
               ]}>
-              <Txt color={fg} style={{ flex: 1 }}>
+              <Txt color={fg} style={{ flex: 1, flexShrink: 1, marginRight: spacing.sm }}>
                 {option}
               </Txt>
               {answered && isCorrect ? (
@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
   option: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
     padding: spacing.md,
     borderRadius: radius.card,
     minHeight: 48,
