@@ -35,17 +35,18 @@ const M = 6;
 export const month06: MonthContent = {
   month: M,
   theme: 'Lutealfasen',
-  focus: 'Progesteron, søvn og appetit: sænk forventningerne, og skru op for omsorgen.',
+  focus:
+    'Progesteron, søvn og appetit: sænk forventningerne, skru op for omsorgen, og hold op med at liste rundt i to uger.',
   daily: [
     {
       id: dailyId(M, 1),
       month: M,
       day: 1,
-      title: 'Det gule legeme: en midlertidig kirtel',
+      title: 'Det gule legeme: en kirtel med udløbsdato',
       insight:
-        'Når ægget er frigivet, står den tomme follikel tilbage i æggestokken. Den kollapser ikke bare, den bliver til noget nyt: det gule legeme, corpus luteum. Det er en lille, midlertidig hormonkirtel, der lever i 12-14 dage og producerer progesteron og en smule østrogen. Det gule legeme har én opgave: at gøre livmoderen klar til et befrugtet æg og holde den klar, indtil kroppen ved, om der er en graviditet. Er der ikke det, visner det, og hormonerne falder. Hele lutealfasen, både den rolige begyndelse og den hårde slutning, er altså styret af én lille struktur, der vokser og dør hver eneste måned.',
+        'Når ægget er sendt af sted, står der en tom follikel tilbage i æggestokken. Du ville nok tro, den bare pakker sammen. Det gør den ikke. Den bliver til noget nyt: det gule legeme, corpus luteum, en lille, midlertidig hormonkirtel, der lever i 12-14 dage og producerer progesteron og en smule østrogen. Den har én opgave: at gøre livmoderen klar til et befrugtet æg og holde den klar, indtil kroppen ved, om der er en graviditet. Er der ikke det, visner den, og hormonerne falder. Hele lutealfasen, den rolige start og den hårde slutning, styres altså af én lille struktur, der vokser og dør hver eneste måned. Du har haft kolleger med mindre ansvar og længere ansættelse.',
       action:
-        'Åbn appen, find hvornår ægløsningen er skønnet i denne cyklus, og tæl 12-14 dage frem. Det er lutealfasen, og det er den, denne måned handler om.',
+        'Åbn appen, find hvornår ægløsningen er skønnet i denne cyklus, og tæl 12-14 dage frem. Brug fingrene, hvis du skal. Det er lutealfasen, og det er den, denne måned handler om.',
       phaseTags: [],
       sources: [SUNDHED_DK],
     },
@@ -53,11 +54,11 @@ export const month06: MonthContent = {
       id: dailyId(M, 2),
       month: M,
       day: 2,
-      title: 'Progesteron: hormonet der holder igen',
+      title: 'Progesteron: hormonet der skruer ned for lyden',
       insight:
-        'Progesteron er lutealfasens hormon, og det virker næsten modsat af østrogen. Hvor østrogen skærper, åbner og giver fart, dæmper progesteron. Det virker på de samme receptorer i hjernen som beroligende medicin, og et af dets nedbrydningsprodukter, allopregnanolon, er direkte sedativt. Derfor beskriver mange lutealfasen som at få skruet lidt ned for lyden: mindre trang til at være ude, mere lyst til at være hjemme, tidligere træt om aftenen. Det er ikke dovenskab eller nedtrykthed. Det er kemi, der beder kroppen om at samle sig. Når du ved det, kan du holde op med at tolke ro som afvisning.',
+        'Progesteron er lutealfasens hormon, og det gør stort set det modsatte af østrogen. Østrogen skærper, åbner og giver fart. Progesteron dæmper. Det virker på de samme receptorer i hjernen som beroligende medicin, og et af dets nedbrydningsprodukter, allopregnanolon, er direkte sedativt. Derfor beskriver mange lutealfasen som at få skruet lidt ned for lyden: mindre trang til at være ude, mere lyst til at være hjemme, tidligere træt om aftenen. Det er ikke dovenskab, og det er ikke nedtrykthed. Det er kemi, der beder kroppen om at samle sig. Du har det med at tolke stilhed som en besked til dig. Det er den ikke. Nogen har sat lydstyrken på fire, og det var ikke dig, der rørte knappen.',
       action:
-        'Hvis hun virker stille i aften, så lad være med at spørge "er der noget galt?". Sæt dig ved siden af hende, og vær stille med.',
+        'Hvis hun virker stille i aften, så lad være med at spørge "er der noget galt?". Sæt dig ved siden af hende, og vær stille med. Det er sværere, end det lyder, og det er hele øvelsen.',
       phaseTags: ['luteal'],
       sources: [SUNDHED_DK],
     },
@@ -65,11 +66,11 @@ export const month06: MonthContent = {
       id: dailyId(M, 3),
       month: M,
       day: 3,
-      title: 'Temperaturen stiger',
+      title: 'Hun er bogstaveligt talt varmere end dig',
       insight:
-        'Progesteron hæver hvilekropstemperaturen med 0,3-0,5 grader, og den bliver oppe, så længe det gule legeme lever. Det er så pålideligt, at kvinder, der måler temperatur hver morgen, kan se ægløsningen bagudrettet: den dag, kurven hopper op, er dagen efter. For hende betyder det, at hun kan føle sig varm, sove mere uroligt og have det svært under en tyk dyne. Nogle mærker det tydeligt, andre slet ikke. Temperaturen falder igen lige før menstruationen, og det fald er en af grundene til, at kroppen føles anderledes de sidste dage. Et køligere soveværelse er den enkleste hjælp, du kan give.',
+        'Progesteron hæver hvilekropstemperaturen med 0,3-0,5 grader, og den bliver oppe, så længe det gule legeme lever. Det er så pålideligt, at kvinder, der måler temperatur hver morgen, kan se ægløsningen bagudrettet: den dag, kurven hopper op, er dagen efter. For hende betyder det, at hun kan føle sig varm, sove mere uroligt og have det svært under en tyk dyne. Nogle mærker det tydeligt, andre slet ikke. Temperaturen falder igen lige før menstruationen, og det fald er en af grundene til, at kroppen føles anderledes de sidste dage. Så når dynen ryger af midt om natten, og du ligger og fryser, er det ikke en krigserklæring. Det er en halv grad. Et køligere soveværelse er den enkleste hjælp, du kan give, og den kræver kun, at du kan åbne et vindue.',
       action:
-        'Spørg, om hun har lagt mærke til, at hun er varmere i anden halvdel af cyklussen. Læg en lettere dyne eller et tæppe frem, så der er valg i nat.',
+        'Spørg, om hun har lagt mærke til, at hun er varmere i anden halvdel af cyklussen. Læg en lettere dyne eller et tæppe frem, så der er valg i nat. Du må gerne beholde din egen tykke.',
       phaseTags: ['luteal', 'ovulation'],
       sources: [SUNDHED_DK],
     },
@@ -77,9 +78,9 @@ export const month06: MonthContent = {
       id: dailyId(M, 4),
       month: M,
       day: 4,
-      title: 'To uger, to forskellige stemninger',
+      title: 'To uger, to stemninger, én forvirret mand',
       insight:
-        'Lutealfasen er ikke én ting. Den første uge efter ægløsning er progesteron stigende, østrogen er stadig rimeligt højt, og resultatet er typisk ro, tilfredshed og en stille form for energi. Den sidste uge, når det gule legeme begynder at visne, falder begge hormoner, og det er der, træthed, sult, ømhed og irritabilitet melder sig. Mange partnere klumper hele fasen sammen som "tiden før menstruation" og går forsigtigt rundt i to uger. Det er unødvendigt. Den første uge er ofte en god uge for nærhed og hverdag. Det er den sidste, der kræver ekstra af dig.',
+        'Lutealfasen er ikke én ting. Den første uge efter ægløsning stiger progesteron, østrogen er stadig rimeligt højt, og resultatet er typisk ro, tilfredshed og en stille form for energi. Den sidste uge, når det gule legeme begynder at visne, falder begge hormoner, og det er der, træthed, sult, ømhed og irritabilitet melder sig. Mange partnere klumper hele fasen sammen som "tiden før menstruation" og lister rundt i to uger som en mand, der er kommet for sent hjem fra byen. Det er unødvendigt, og det ser underligt ud. Den første uge er ofte en god uge for nærhed og hverdag. Det er den sidste, der kræver ekstra af dig. Lær at kende forskel, så slipper du for at liste.',
       action:
         'Find ud af, hvilken af de to uger hun er i nu. Er det den første, så nyd den. Er det den sidste, så ryd noget ud af kalenderen.',
       phaseTags: [],
@@ -88,22 +89,22 @@ export const month06: MonthContent = {
       id: dailyId(M, 5),
       month: M,
       day: 5,
-      title: 'Den rolige uge',
+      title: 'Den gode uge, du aldrig lægger mærke til',
       insight:
-        'Dagene lige efter ægløsning er cyklussens mest oversete gode tid. Ægløsningens intensitet er overstået, PMS er langt væk, og progesteron giver en jævn, hjemlig ro. Mange kvinder beskriver ugen som "tilfreds", "grounded" eller "nem at være i". Det er en fase, hvor hverdagen fungerer: madlavning, film, en gåtur, snak uden dagsorden. Nærhed føles ofte trygt og uden pres. Fordi ugen er så udramatisk, bliver den sjældent bemærket, hverken af hende eller dig. Det er synd, for det er en af de bedste uger til at bygge det op, I skal tære på i den hårde uge.',
+        'Dagene lige efter ægløsning er cyklussens mest oversete gode tid. Ægløsningens intensitet er overstået, PMS er langt væk, og progesteron giver en jævn, hjemlig ro. Mange kvinder beskriver ugen som "tilfreds", "grounded" eller "nem at være i". Hverdagen fungerer: madlavning, film, en gåtur, snak uden dagsorden. Nærhed føles ofte trygt og uden pres. Fordi ugen er så udramatisk, bliver den sjældent bemærket, hverken af hende eller dig. Du husker til gengæld tydeligt den uge, hvor opvaskemaskinen gik i stykker. Det er synd, for det er en af de bedste uger til at bygge det op, I skal tære på i den hårde uge. Tænk på den som at lade en telefon. Ingen tager billeder af det, men det afgør, hvor længe den holder.',
       action:
-        'Lav noget helt almindeligt sammen i aften, som I begge kan lide, uden skærm og uden formål. Læg mærke til, hvor let det er.',
+        'Lav noget helt almindeligt sammen i aften, som I begge kan lide, uden skærm og uden formål. Læg mærke til, hvor let det er. Det er pointen.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 6),
       month: M,
       day: 6,
-      title: 'Væske, der ikke vil ud',
+      title: 'Væske, der har besluttet sig for at blive',
       insight:
-        'Progesteron og det faldende østrogen påvirker, hvordan nyrerne håndterer salt og væske, og resultatet er, at kroppen holder på vand i den sidste uge. Det kan give 1-2 kilo på vægten, en mave, der spænder, hævede fingre og ankler og tøj, der strammer, uden at hun har spist anderledes. Det forsvinder af sig selv, når menstruationen starter. Det, der hjælper lidt, er mindre salt, mere vand (paradoksalt, men kroppen slipper væske lettere, når den ikke er tørstig), bevægelse og kalium fra frugt og grønt. Det, der ikke hjælper, er at tale om det.',
+        'Progesteron og det faldende østrogen påvirker, hvordan nyrerne håndterer salt og væske, og resultatet er, at kroppen holder på vand i den sidste uge. Det kan give 1-2 kilo på vægten, en mave, der spænder, hævede fingre og ankler og tøj, der strammer, uden at hun har spist anderledes. Det forsvinder af sig selv, når menstruationen starter. Det, der hjælper lidt, er mindre salt, mere vand (paradoksalt, men kroppen slipper væske lettere, når den ikke er tørstig), bevægelse og kalium fra frugt og grønt. Det, der ikke hjælper, er at tale om det. Hvis du mærker en sætning om emnet forme sig i munden, så drik et glas vand i stedet. Så er der i det mindste én i huset, der gør noget nyttigt med væske.',
       action:
-        'Lav aftensmad med lidt salt og meget grønt i dag, og stil en kande vand på bordet. Sig intet om, hvorfor.',
+        'Lav aftensmad med lidt salt og meget grønt i dag, og stil en kande vand på bordet. Sig intet om, hvorfor. Hvis hun spørger, havde du bare lyst til grønt. Det er din historie nu.',
       phaseTags: ['luteal'],
       sources: [NHS_PMS],
     },
@@ -111,11 +112,11 @@ export const month06: MonthContent = {
       id: dailyId(M, 7),
       month: M,
       day: 7,
-      title: 'Ømme bryster',
+      title: 'Ømme bryster og dit klodsede kram',
       insight:
-        'Under progesteronens indflydelse vokser mælkekirtlerne en smule, og brystvævet holder på væske. Det gør brysterne tungere, tættere og ømme, nogle gange så meget, at et kram eller en seng på maven gør ondt. Ømheden, kaldet cyklisk brystsmerte, er helt normal og kommer typisk i den sidste uge før menstruationen. En god, støttende bh hjælper, det samme gør varme og almindelig smertestillende. Det vigtige for dig er berøringen: det, der var dejligt i sidste uge, kan være ubehageligt nu. Spørg, frem for at antage, og tag et "ikke i dag" uden at det bliver til noget om jer.',
+        'Under progesteronens indflydelse vokser mælkekirtlerne en smule, og brystvævet holder på væske. Det gør brysterne tungere, tættere og ømme, nogle gange så meget, at et kram eller at ligge på maven gør ondt. Ømheden, kaldet cyklisk brystsmerte, er helt normal og kommer typisk i den sidste uge før menstruationen. En god, støttende bh hjælper, det samme gør varme og almindelig smertestillende. Det vigtige for dig er berøringen: det, der var dejligt i sidste uge, kan være ubehageligt nu. Dit kram har ikke ændret sig. Det lander bare på noget, der gør ondt. Spørg, frem for at antage, og tag et "ikke i dag" uden at det bliver til noget om jer. Det er ikke dig, der er afvist. Det er din albue.',
       action:
-        'Sig i dag: "Sig til, hvis noget gør ondt, når jeg krammer dig, så justerer jeg." Og gør det så uden at kommentere.',
+        'Sig i dag: "Sig til, hvis noget gør ondt, når jeg krammer dig, så justerer jeg." Og gør det så uden at kommentere. Ingen "nå, er det den tid igen?". Bare justér.',
       phaseTags: ['luteal'],
       sources: [NHS_BREAST_PAIN],
     },
@@ -123,11 +124,11 @@ export const month06: MonthContent = {
       id: dailyId(M, 8),
       month: M,
       day: 8,
-      title: 'Maven går langsommere',
+      title: 'Maven har sat farten ned',
       insight:
-        'Progesteron afslapper glat muskulatur, og det gælder også tarmen. I lutealfasen bevæger maden sig langsommere gennem systemet, og mange oplever forstoppelse, tung mave og mere luft i ugen før menstruationen. Når blødningen starter, og prostaglandinerne tager over, slår det ofte om til det modsatte. Det er en af de mindst omtalte cyklusgener, og en af dem, der bidrager mest til følelsen af at være oppustet. Fibre, væske og bevægelse er det, der virker. En gåtur efter aftensmaden gør mere, end det lyder, og den er lettere at tage, når man er to.',
+        'Progesteron afslapper glat muskulatur, og det gælder også tarmen. I lutealfasen bevæger maden sig langsommere gennem systemet, og mange oplever forstoppelse, tung mave og mere luft i ugen før menstruationen. Når blødningen starter, og prostaglandinerne tager over, slår det ofte om til det modsatte. Det er en af de mindst omtalte cyklusgener, af forståelige grunde, og en af dem, der bidrager mest til følelsen af at være oppustet. Fibre, væske og bevægelse er det, der virker. En gåtur efter aftensmaden gør mere, end det lyder, og den er lettere at tage, når man er to. Du behøver ikke vide noget om tarme for at gå en tur. Du skal bare have sko på og holde mund om, hvorfor I går.',
       action:
-        'Foreslå en gåtur på 20 minutter efter aftensmaden i dag. Ikke motion, bare luft og bevægelse.',
+        'Foreslå en gåtur på 20 minutter efter aftensmaden i dag. Ikke motion, bare luft og bevægelse. Sælg den som "jeg trænger til luft", ikke som en behandling.',
       phaseTags: ['luteal'],
       sources: [NHS_CONSTIPATION],
     },
@@ -135,11 +136,11 @@ export const month06: MonthContent = {
       id: dailyId(M, 9),
       month: M,
       day: 9,
-      title: 'Hun har faktisk brug for mere mad',
+      title: 'Hun har brug for mere mad, og det er ikke en undskyldning',
       insight:
-        'Kroppens hvileforbrug stiger i lutealfasen. Den højere temperatur, det gule legemes arbejde og opbygningen af livmoderslimhinden koster energi, og målinger viser et merforbrug på omkring 100-300 kalorier om dagen. Samtidig øger progesteron appetitten direkte. Det betyder, at sulten i anden halvdel af cyklussen er et reelt behov, ikke manglende disciplin. Kvinder, der prøver at spise det samme i alle faser, ender ofte med at være sultne, irritable og trætte i den sidste uge, og med at give sig selv skylden. Ekstra mad i lutealfasen er ikke at give efter. Det er at dække et behov.',
+        'Kroppens hvileforbrug stiger i lutealfasen. Den højere temperatur, det gule legemes arbejde og opbygningen af livmoderslimhinden koster energi, og målinger viser et merforbrug på omkring 100-300 kalorier om dagen. Samtidig øger progesteron appetitten direkte. Sulten i anden halvdel af cyklussen er altså et reelt behov, ikke manglende disciplin. Kvinder, der prøver at spise det samme i alle faser, ender ofte med at være sultne, irritable og trætte i den sidste uge, og med at give sig selv skylden. Ekstra mad i lutealfasen er ikke at give efter. Det er at dække et behov. Hendes krop bygger noget om i denne uge. Din laver det samme som i sidste uge. Hvis nogen skal have den sidste portion, er det ikke dig.',
       action:
-        'Læg en ekstra portion i madpakken eller på tallerkenen i dag, og sig "du må gerne være mere sulten i den her uge, det er normalt".',
+        'Læg en ekstra portion i madpakken eller på tallerkenen i dag, og sig "du må gerne være mere sulten i den her uge, det er normalt". Sig det én gang. Ikke som et foredrag.',
       phaseTags: ['luteal'],
       sources: [NHS_PMS],
     },
@@ -147,11 +148,11 @@ export const month06: MonthContent = {
       id: dailyId(M, 10),
       month: M,
       day: 10,
-      title: 'Trang, blodsukker og serotonin',
+      title: 'Trang er ikke svag vilje, det er serotonin der ringer',
       insight:
-        'Trangen til sødt og hurtige kulhydrater i den sidste uge har en forklaring. Når østrogen falder, falder serotonin med, og kulhydrater er hjernens genvej til at hæve serotonin igen. Samtidig gør progesteron kroppen lidt mindre følsom for insulin, så blodsukkeret svinger mere: det stiger hurtigt og falder hurtigt, og faldet mærkes som pludselig sult, uro og kort lunte. Løsningen er ikke forbud, det gør trangen værre. Løsningen er stabilitet: regelmæssige måltider med protein og fibre, så faldene bliver mindre, og gerne en portion af det, hun har lyst til, uden dårlig samvittighed.',
+        'Trangen til sødt og hurtige kulhydrater i den sidste uge har en forklaring. Når østrogen falder, falder serotonin med, og kulhydrater er hjernens genvej til at hæve serotonin igen. Samtidig gør progesteron kroppen lidt mindre følsom for insulin, så blodsukkeret svinger mere: det stiger hurtigt og falder hurtigt, og faldet mærkes som pludselig sult, uro og kort lunte. Løsningen er ikke forbud, det gør trangen værre. Og nej, det er heller ikke dig, der skal stå i køkkenet og sige "er du sikker?". Løsningen er stabilitet: regelmæssige måltider med protein og fibre, så faldene bliver mindre, og gerne en portion af det, hun har lyst til, uden dårlig samvittighed. Din rolle er at have maden klar, før faldet kommer. Bagefter er du bare en mand med en pose nødder og dårlig timing.',
       action:
-        'Sørg for, at hun ikke når til at være sulten i dag: tilbyd noget at spise mellem måltiderne, før hun selv beder om det.',
+        'Sørg for, at hun ikke når til at være sulten i dag: tilbyd noget at spise mellem måltiderne, før hun selv beder om det. Siger hun nej tak, så spis det selv, og prøv igen om to timer.',
       phaseTags: ['luteal'],
       sources: [ACOG_PMS],
     },
@@ -159,11 +160,11 @@ export const month06: MonthContent = {
       id: dailyId(M, 11),
       month: M,
       day: 11,
-      title: 'Søvnen bliver lettere og kortere',
+      title: 'Søvnen bliver tynd, og det er ikke madrassen',
       insight:
-        'Den første uge efter ægløsning sover mange faktisk godt, fordi progesteron er sløvende. Problemet kommer i den sidste uge: kropstemperaturen er stadig høj, mens hormonerne falder, og begge dele forstyrrer den dybe søvn. Hun vågner oftere, ligger vågen midt på natten og vågner mindre udhvilet, selv om timerne er de samme. Dårlig søvn er den enkeltfaktor, der forstærker PMS mest, fordi alt andet, sult, irritation, sårbarhed, bliver værre af træthed. Et køligt, mørkt soveværelse, ingen skærm den sidste time og en fast sengetid gør en målbar forskel i netop den uge.',
+        'Den første uge efter ægløsning sover mange faktisk godt, fordi progesteron er sløvende. Problemet kommer i den sidste uge: kropstemperaturen er stadig høj, mens hormonerne falder, og begge dele forstyrrer den dybe søvn. Hun vågner oftere, ligger vågen midt på natten og vågner mindre udhvilet, selv om timerne er de samme. Dårlig søvn er den enkeltfaktor, der forstærker PMS mest, fordi alt andet, sult, irritation, sårbarhed, bliver værre af træthed. Et køligt, mørkt soveværelse, ingen skærm den sidste time og en fast sengetid gør en målbar forskel i netop den uge. Og her skal du kigge på dig selv: du ligger med telefonen på fuld lysstyrke klokken 23.40 og undrer dig over, at hun sover dårligt. Telefonen er ikke uskyldig. Det er du heller ikke.',
       action:
-        'Gør soveværelset klar til god søvn i aften: luft ud, sluk lys, læg telefonen i et andet rum, og gå i seng samtidig med hende.',
+        'Gør soveværelset klar til god søvn i aften: luft ud, sluk lys, læg telefonen i et andet rum, og gå i seng samtidig med hende. Også selv om der er en kamp, du gerne ville se færdig.',
       phaseTags: ['luteal'],
       sources: [NHS_INSOMNIA],
     },
@@ -171,44 +172,44 @@ export const month06: MonthContent = {
       id: dailyId(M, 12),
       month: M,
       day: 12,
-      title: 'Træningen føles tungere',
+      title: 'Træningen føles tungere, og hun er ikke i dårligere form',
       insight:
-        'I lutealfasen ligger hjertefrekvensen lidt højere i hvile, kropstemperaturen er oppe, og kroppen sveder senere og holder dårligere på væsken. Det betyder, at den samme løbetur eller det samme træningspas objektivt føles hårdere, og at toppræstationer er sværere at hente. Det er ikke, fordi hun er i dårligere form. Det er, fordi motoren kører ved en anden temperatur. Mange kvinder skruer op for indsatsen, når det føles tungt, og ender med at være skuffede over sig selv. Bedre: at forvente mindre af de hårde pas, og at bruge fasen til roligere bevægelse, teknik og udholdenhed i lavt tempo.',
+        'I lutealfasen ligger hjertefrekvensen lidt højere i hvile, kropstemperaturen er oppe, og kroppen sveder senere og holder dårligere på væsken. Det betyder, at den samme løbetur eller det samme træningspas objektivt føles hårdere, og at toppræstationer er sværere at hente. Det er ikke, fordi hun er i dårligere form. Det er, fordi motoren kører ved en anden temperatur. Mange kvinder skruer op for indsatsen, når det føles tungt, og ender med at være skuffede over sig selv. Bedre: at forvente mindre af de hårde pas, og at bruge fasen til roligere bevægelse, teknik og udholdenhed i lavt tempo. Og dig? Du er ikke hendes træner. Du er ham, der ikke siger "du plejer da at kunne løbe længere". Det er en vigtig rolle. Den kræver primært, at du lader være med at tale.',
       action:
-        'Hvis hun træner i dag: sig "det er normalt, at det føles tungere i den her uge". Hvis hun har aflyst træning: sig ingenting om det.',
+        'Hvis hun træner i dag: sig "det er normalt, at det føles tungere i den her uge". Hvis hun har aflyst træning: sig ingenting om det. Heller ikke med øjenbrynene.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 13),
       month: M,
       day: 13,
-      title: 'Restitution tager længere tid',
+      title: 'Restitution tager længere tid, og du kan stjæle den',
       insight:
-        'Det er ikke kun præstationen, der ændrer sig, det er også, hvor hurtigt kroppen kommer sig. I lutealfasen er den hormonelle støtte til muskelopbygning lavere, og søvnen er dårligere, så ømhed hænger ved, og træthed efter et hårdt pas varer længere. Kombineret med et større proteinbehov, som mange ikke dækker, betyder det, at hun kan gå ind i den sidste uge allerede slidt. Restitution er ikke passivitet. Det er søvn, mad med protein, væske og hviledage. Som partner kan du ikke træne for hende, men du kan fjerne det, der stjæler restitutionen: sene aftener, sprunget aftensmad, ting hun skal huske.',
+        'Det er ikke kun præstationen, der ændrer sig, det er også, hvor hurtigt kroppen kommer sig. I lutealfasen er den hormonelle støtte til muskelopbygning lavere, og søvnen er dårligere, så ømhed hænger ved, og træthed efter et hårdt pas varer længere. Kombineret med et større proteinbehov, som mange ikke dækker, betyder det, at hun kan gå ind i den sidste uge allerede slidt. Restitution er ikke passivitet. Det er søvn, mad med protein, væske og hviledage. Som partner kan du ikke træne for hende, og det ville heller ikke se godt ud. Men du kan fjerne det, der stjæler restitutionen: sene aftener, sprunget aftensmad, ting hun skal huske. Hver gang du siger "husker du lige at ringe til...", har du taget en bid af hendes hviledag. Tag opkaldet selv.',
       action:
-        'Lav et måltid med ordentligt protein i dag, fx æg, fisk, kylling, bønner eller skyr, og servér det uden at gøre det til et projekt.',
+        'Lav et måltid med ordentligt protein i dag, fx æg, fisk, kylling, bønner eller skyr, og servér det uden at gøre det til et projekt. Ingen præsentation af retten. Bare mad.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 14),
       month: M,
       day: 14,
-      title: 'Lysten til at være hjemme',
+      title: 'Hun trækker sig fra verden, ikke fra dig',
       insight:
-        'Et af de tydeligste skift i lutealfasen er socialt. Hvor follikelfasen giver lyst til mennesker, nyt og ud, giver progesteron lyst til det kendte: sofaen, de nære, ro. Mange kvinder aflyser ting i den sidste uge, som de sagde ja til med begejstring to uger før, og føler sig skyldige over det. Det er ikke en karakterbrist, det er et hormonelt skift i, hvad der føles rart. For dig betyder det, at "skal vi ikke bare blive hjemme?" er et helt legitimt svar, og at det ikke er dig, hun trækker sig fra. Det er verden, hun trækker sig lidt fra, og du er en del af hjemmet.',
+        'Et af de tydeligste skift i lutealfasen er socialt. Hvor follikelfasen giver lyst til mennesker, nyt og ud, giver progesteron lyst til det kendte: sofaen, de nære, ro. Mange kvinder aflyser ting i den sidste uge, som de sagde ja til med begejstring to uger før, og føler sig skyldige over det. Det er ikke en karakterbrist, det er et hormonelt skift i, hvad der føles rart. For dig betyder det, at "skal vi ikke bare blive hjemme?" er et helt legitimt svar, og at det ikke er dig, hun trækker sig fra. Det er verden, hun trækker sig lidt fra, og du er en del af hjemmet. Tillykke. Du er blevet et møbel. Det er en forfremmelse, og du skal ikke ødelægge den ved at foreslå en bytur.',
       action:
-        'Foreslå selv en aften hjemme i denne uge, så det ikke bliver hende, der skal aflyse. Sig: "Jeg har mest lyst til at blive hjemme med dig."',
+        'Foreslå selv en aften hjemme i denne uge, så det ikke bliver hende, der skal aflyse. Sig: "Jeg har mest lyst til at blive hjemme med dig." Og mén det, for hun kan høre forskel.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 15),
       month: M,
       day: 15,
-      title: 'Kritik lander hårdere',
+      title: 'Din henkastede bemærkning er ikke henkastet længere',
       insight:
-        'Når serotonin falder i den sidste uge, ændrer hjernens filter sig. Neutrale bemærkninger bliver lettere tolket negativt, og en lille kritik føles som en stor. Det er dokumenteret i studier, hvor kvinder i den præmenstruelle fase reagerer stærkere på negative ansigtsudtryk og ord. Det er ikke, fordi hun er nærtagende. Det er, fordi følsomheden midlertidigt er skruet op. Så det, du i sidste uge kunne sige henkastet, "har du ikke ordnet det endnu?", rammer nu som en dom. Timing er igen gratis: gem den slags til follikelfasen, og sig i denne uge de ting, du sætter pris på, som du normalt glemmer at sige.',
+        'Når serotonin falder i den sidste uge, ændrer hjernens filter sig. Neutrale bemærkninger bliver lettere tolket negativt, og en lille kritik føles som en stor. Det er dokumenteret i studier, hvor kvinder i den præmenstruelle fase reagerer stærkere på negative ansigtsudtryk og ord. Det er ikke, fordi hun er nærtagende. Det er, fordi følsomheden midlertidigt er skruet op. Så det, du i sidste uge kunne sige henkastet, "har du ikke ordnet det endnu?", rammer nu som en dom. Det er samme sætning. Den lander bare i et andet modtageanlæg. Timing er igen gratis: gem den slags til follikelfasen, og brug denne uge på at sige de ting, du sætter pris på, som du normalt glemmer at sige. Du har en liste. Den er bare aldrig blevet læst højt.',
       action:
-        'Læg mærke til én ting i dag, du normalt ville rette eller kommentere, og lad være. Sig i stedet én konkret ting, hun gjorde godt.',
+        'Læg mærke til én ting i dag, du normalt ville rette eller kommentere, og lad være. Sig i stedet én konkret ting, hun gjorde godt. Konkret. "Du er sød" tæller ikke.',
       phaseTags: ['luteal'],
       sources: [NHS_PMS],
     },
@@ -216,22 +217,22 @@ export const month06: MonthContent = {
       id: dailyId(M, 16),
       month: M,
       day: 16,
-      title: 'Planer lagt i follikelfasen',
+      title: "Ja'et fra dag 10 skal leveres på dag 25",
       insight:
-        'Her er et mønster, mange par kender uden at kunne forklare det. På dag 10 siger hun ja til middag hos venner, en weekendtur og at male køkkenet. På dag 25 føles det hele tungt, og hun forstår ikke selv, hvad hun tænkte på. Forklaringen er, at hun sagde ja med østrogen-hjernen, som er optimistisk og udadvendt, og skal levere med progesteron-hjernen, som vil have ro og det kendte. Ingen af de to er "den rigtige hende". Det praktiske svar er at lægge de krævende ting i første halvdel af cyklussen, og at være rundhåndet med aflysninger i den sidste uge uden at holde det op mod hende.',
+        'Her er et mønster, mange par kender uden at kunne forklare det. På dag 10 siger hun ja til middag hos venner, en weekendtur og at male køkkenet. På dag 25 føles det hele tungt, og hun forstår ikke selv, hvad hun tænkte på. Forklaringen er, at hun sagde ja med østrogen-hjernen, som er optimistisk og udadvendt, og skal levere med progesteron-hjernen, som vil have ro og det kendte. Ingen af de to er "den rigtige hende". Det er to indstillinger på samme menneske, og du har selv begge dele, bare uden kalender. Det praktiske svar er at lægge de krævende ting i første halvdel af cyklussen, og at være rundhåndet med aflysninger i den sidste uge uden at holde det op mod hende. "Men du sagde selv ja" er en sætning, der aldrig har vundet noget som helst.',
       action:
-        'Kig i kalenderen for den kommende uge. Er der noget krævende, der ligger i de sidste dage før menstruationen, så tilbyd at flytte det.',
+        'Kig i kalenderen for den kommende uge. Er der noget krævende, der ligger i de sidste dage før menstruationen, så tilbyd at flytte det. Du ringer. Ikke hende.',
       phaseTags: ['luteal', 'follicular'],
     },
     {
       id: dailyId(M, 17),
       month: M,
       day: 17,
-      title: 'Hvor lang er lutealfasen?',
+      title: 'Lutealfasen er den del af cyklussen, der kan tælle',
       insight:
-        'Lutealfasen er den mest stabile del af cyklussen. Det gule legeme lever en ret fast tid, typisk 12-14 dage, og alt mellem 10 og 16 dage regnes som normalt. Derfor er det follikelfasen, der forklarer, hvorfor en cyklus er 25 dage den ene måned og 32 den næste, mens afstanden fra ægløsning til menstruation stort set er den samme. Det er også derfor, appen regner ægløsning baglæns fra den forventede menstruation. Kender I hendes lutealfaselængde fra temperatur eller ægløsningstest, bliver skønnet meget bedre. Og kender I den ikke, er 14 dage et fornuftigt gæt.',
+        'Lutealfasen er den mest stabile del af cyklussen. Det gule legeme lever en ret fast tid, typisk 12-14 dage, og alt mellem 10 og 16 dage regnes som normalt. Derfor er det follikelfasen, der forklarer, hvorfor en cyklus er 25 dage den ene måned og 32 den næste, mens afstanden fra ægløsning til menstruation stort set er den samme. Det er også derfor, appen regner ægløsning baglæns fra den forventede menstruation. Så hvis du har troet, at "uregelmæssig" betyder, at det hele er kaos: nej. Den ene halvdel er et schweizisk ur. Det er den anden, der improviserer. Kender I hendes lutealfaselængde fra temperatur eller ægløsningstest, bliver skønnet meget bedre. Og kender I den ikke, er 14 dage et fornuftigt gæt. Det er det eneste sted i appen, hvor dit gæt er velkomment.',
       action:
-        'Spørg, om hun nogensinde har målt, hvor mange dage der går fra ægløsning til menstruation. Hvis ja, så tjek, at appens tal passer.',
+        'Spørg, om hun nogensinde har målt, hvor mange dage der går fra ægløsning til menstruation. Hvis ja, så tjek, at appens tal passer. Hvis nej, så var det et spørgsmål, ikke en opgave, du lige har givet hende.',
       phaseTags: [],
       sources: [NHS_PERIODS, SUNDHED_DK],
     },
@@ -241,9 +242,9 @@ export const month06: MonthContent = {
       day: 18,
       title: 'En kort lutealfase',
       insight:
-        'Er der under 10 dage fra ægløsning til menstruation, kalder man det en kort lutealfase. Det gule legeme dør tidligere end normalt, eller producerer for lidt progesteron, og livmoderslimhinden får ikke tid nok til at blive klar. For de fleste betyder det ingenting i hverdagen. For par, der forsøger at blive gravide, kan det have betydning, fordi et befrugtet æg får kortere tid til at sætte sig fast, og det er værd at nævne for lægen. Stress, hård træning, lavt energiindtag, amning og stofskiftet kan alle forkorte fasen. Én kort cyklus siger intet. Et fast mønster over flere måneder er noget, en læge bør se på.',
+        'Er der under 10 dage fra ægløsning til menstruation, kalder man det en kort lutealfase. Det gule legeme dør tidligere end normalt, eller producerer for lidt progesteron, og livmoderslimhinden får ikke tid nok til at blive klar. For de fleste betyder det ingenting i hverdagen. For par, der forsøger at blive gravide, kan det have betydning, fordi et befrugtet æg får kortere tid til at sætte sig fast, og det er værd at nævne for lægen. Stress, hård træning, lavt energiindtag, amning og stofskiftet kan alle forkorte fasen. Én kort cyklus siger intet. Et fast mønster over flere måneder er noget, en læge bør se på. Det er ikke dig, der skal stille diagnosen. Du har en app og en søgemaskine, lægen har en uddannelse. Din opgave er at have lagt mærke til mønstret, og at sige det roligt.',
       action:
-        'Hvis I følger ægløsning og menstruationen ofte kommer under 10 dage efter, så sig: "Det her ville jeg nævne for lægen." Ellers: læs kortet igen og læg det væk.',
+        'Hvis I følger ægløsning og menstruationen ofte kommer under 10 dage efter, så sig: "Det her ville jeg nævne for lægen." Ellers: læs kortet igen, og læg det væk uden at bekymre dig.',
       phaseTags: [],
       sources: [NHS_PERIODS],
     },
@@ -251,44 +252,44 @@ export const month06: MonthContent = {
       id: dailyId(M, 19),
       month: M,
       day: 19,
-      title: 'Ingen kommentarer om kroppen',
+      title: 'Kroppen er ikke et samtaleemne. Heller ikke de pæne ting.',
       insight:
-        'I den sidste uge ser hun anderledes ud for sig selv: maven er spændt, brysterne er større, huden kan blusse op, og vægten er oppe af væske. Hun ved det bedre end dig, og hun har sandsynligvis allerede tænkt over det flere gange i dag. Enhver kommentar, også "du ser dejlig ud", der handler om udseendet, lander i et minefelt. "Har du taget på?" er selvsagt udelukket, men også "du ser træt ud" og "har du sovet dårligt?" fortæller hende, at det kan ses. Reglen er enkel: i lutealfasen er kroppen ikke et samtaleemne, medmindre hun selv bringer det op. Så lytter du.',
+        'I den sidste uge ser hun anderledes ud for sig selv: maven er spændt, brysterne er større, huden kan blusse op, og vægten er oppe af væske. Hun ved det bedre end dig, og hun har sandsynligvis allerede tænkt over det flere gange i dag. Enhver kommentar, også "du ser dejlig ud", der handler om udseendet, lander i et minefelt. "Har du taget på?" er selvsagt udelukket, og hvis du overvejede det, så luk appen og tænk over dit liv. Men også "du ser træt ud" og "har du sovet dårligt?" fortæller hende, at det kan ses. Reglen er enkel: i lutealfasen er kroppen ikke et samtaleemne, medmindre hun selv bringer det op. Så lytter du. Du siger ikke noget klogt. Du lytter. Det er den sværeste disciplin i hele appen, og den koster nul kroner.',
       action:
-        'Beslut dig for, at du i denne uge ikke siger noget som helst om hendes krop, vægt, hud eller udseende. Heller ikke positivt.',
+        'Beslut dig for, at du i denne uge ikke siger noget som helst om hendes krop, vægt, hud eller udseende. Heller ikke positivt. Hvis det kribler, så sig noget pænt om aftensmaden.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 20),
       month: M,
       day: 20,
-      title: 'Blid berøring, uden dagsorden',
+      title: 'Berøring uden bagtanke, og hun kan mærke forskel',
       insight:
-        'Berøring gør noget godt i lutealfasen, hvis den er den rigtige slags. Rolig, blid, uden forventning om, at den skal føre til noget. En hånd på ryggen, en fodmassage, at ligge tæt under et tæppe. Det sænker stresshormonet kortisol og øger oxytocin, og det virker, uanset hvor i cyklussen hun er. Men i den sidste uge er brysterne ømme, maven spændt, og lysten ofte lav, så berøring, der leder efter sex, kan føles som pres. Forskellen er tydelig for hende, også når den ikke er det for dig. Berøring, der bare er berøring, er en af de mest effektive former for omsorg, du har.',
+        'Berøring gør noget godt i lutealfasen, hvis den er den rigtige slags. Rolig, blid, uden forventning om, at den skal føre til noget. En hånd på ryggen, en fodmassage, at ligge tæt under et tæppe. Det sænker stresshormonet kortisol og øger oxytocin, og det virker, uanset hvor i cyklussen hun er. Men i den sidste uge er brysterne ømme, maven spændt, og lysten ofte lav, så berøring, der leder efter sex, kan føles som pres. Du tror, din hånd på ryggen er neutral. Det er den ikke, hvis den er på vej et andet sted hen, og hun ved det cirka tre sekunder før dig. Berøring, der bare er berøring, er en af de mest effektive former for omsorg, du har. Den virker kun, hvis den er ægte.',
       action:
-        'Tilbyd en fodmassage eller en rygmassage på ti minutter i aften, og gør det klart, at det er det hele. Så holder det.',
+        'Tilbyd en fodmassage eller en rygmassage på ti minutter i aften, og gør det klart, at det er det hele. Så holder det. Ti minutter betyder ti minutter, ikke ni og et spørgsmål.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 21),
       month: M,
       day: 21,
-      title: 'Tag opgaver, ikke ansvar for humøret',
+      title: '"Hvad kan jeg gøre?" er endnu en opgave til hende',
       insight:
-        'Den mest effektive hjælp i den sidste uge er kedelig: at tage det praktiske fra hende. Ikke ved at spørge "hvad kan jeg gøre?", for det er endnu en opgave at svare på. Ved at se, hvad der ligger, og gøre det: opvasken, indkøb, madpakker, tøjvasken, en aftale, der skal flyttes, en telefon, der skal ringes. Hendes overskud er lavere, og alt, der fjernes fra hendes liste, kommer tilbage som ro. Det, du ikke skal tage, er ansvaret for hendes humør. Du kan ikke gøre hende glad, og det er ikke din opgave. Du kan gøre dagen lettere, og så er humøret hendes eget.',
+        'Den mest effektive hjælp i den sidste uge er kedelig: at tage det praktiske fra hende. Ikke ved at spørge "hvad kan jeg gøre?", for det er endnu en opgave at svare på. Du har lige bedt hende om at være projektleder på sin egen aflastning. Ved at se, hvad der ligger, og gøre det: opvasken, indkøb, madpakker, tøjvasken, en aftale, der skal flyttes, en telefon, der skal ringes. Hendes overskud er lavere, og alt, der fjernes fra hendes liste, kommer tilbage som ro. Det, du ikke skal tage, er ansvaret for hendes humør. Du kan ikke gøre hende glad, og det er ikke din opgave. Du kan gøre dagen lettere, og så er humøret hendes eget. Opvasken er din. Humøret er hendes. Det er en meget fair fordeling.',
       action:
-        'Find tre ting på den fælles liste, der ville falde til hende i denne uge, og gør dem i dag uden at annoncere det.',
+        'Find tre ting på den fælles liste, der ville falde til hende i denne uge, og gør dem i dag uden at annoncere det. Ingen "så har jeg altså ordnet...". Bare gjort.',
       phaseTags: [],
     },
     {
       id: dailyId(M, 22),
       month: M,
       day: 22,
-      title: 'Mad som omsorg',
+      title: 'Aftensmaden er din. Hele den. Også beslutningen.',
       insight:
-        'I lutealfasen bliver mad til mere end brændstof. Sult forstærker irritation, ustabilt blodsukker forstærker humørsvingninger, og det at skulle beslutte, hvad der skal spises, er en byrde i sig selv, når overskuddet er lavt. Det, der hjælper, er forudsigelighed: mad til tiden, uden at hun skal planlægge den, med protein og fibre, så den holder. Og det, hun har lyst til, uden en kommentar. Chokolade, når der er trang til chokolade, er ikke et nederlag; det er en forståelse af, hvad serotonin beder om. At lave mad til hende i denne uge, uden spørgsmål, er en af de klareste måder at sige "jeg ser dig" på.',
+        'I lutealfasen bliver mad til mere end brændstof. Sult forstærker irritation, ustabilt blodsukker forstærker humørsvingninger, og det at skulle beslutte, hvad der skal spises, er en byrde i sig selv, når overskuddet er lavt. "Hvad skal vi have at spise?" lyder som et spørgsmål. Det er en opgave, og du har lige afleveret den. Det, der hjælper, er forudsigelighed: mad til tiden, uden at hun skal planlægge den, med protein og fibre, så den holder. Og det, hun har lyst til, uden en kommentar. Chokolade, når der er trang til chokolade, er ikke et nederlag; det er en forståelse af, hvad serotonin beder om. At lave mad til hende i denne uge, uden spørgsmål, er en af de klareste måder at sige "jeg ser dig" på. Det behøver ikke være godt. Det skal bare være der.',
       action:
-        'Tag ansvar for aftensmaden i dag: beslut, køb ind, lav den. Spørg højst "er der noget, du har særlig lyst til?"',
+        'Tag ansvar for aftensmaden i dag: beslut, køb ind, lav den. Spørg højst "er der noget, du har særlig lyst til?" Er svaret "det ved jeg ikke", er det stadig dig, der beslutter.',
       phaseTags: ['luteal'],
       sources: [NHS_PMS],
     },
@@ -296,22 +297,22 @@ export const month06: MonthContent = {
       id: dailyId(M, 23),
       month: M,
       day: 23,
-      title: 'Stille aftener',
+      title: 'En stille aften er en præstation, ikke en fiasko',
       insight:
-        'I follikelfasen kan en aften godt bestå af tre ting og et sted at være. I den sidste uge af lutealfasen har nervesystemet brug for mindre input: mindre lyd, færre mennesker, færre beslutninger. Det er der en fysiologisk grund til, fordi det faldende progesteron fjerner den beroligende effekt, hjernen har haft i to uger, og alt bliver lidt mere larmende. En stille aften er ikke en kedelig aften. Det er en aften, hvor hun ikke skal præstere: sofaen, et tæppe, en serie, I begge kender, eller slet ingenting. At du kan være i det uden at blive rastløs, er en gave, og en I begge har brug for.',
+        'I follikelfasen kan en aften godt bestå af tre ting og et sted at være. I den sidste uge af lutealfasen har nervesystemet brug for mindre input: mindre lyd, færre mennesker, færre beslutninger. Det er der en fysiologisk grund til, fordi det faldende progesteron fjerner den beroligende effekt, hjernen har haft i to uger, og alt bliver lidt mere larmende. Det inkluderer dig, der står i køkkenet med podcast på højttaler. En stille aften er ikke en kedelig aften. Det er en aften, hvor hun ikke skal præstere: sofaen, et tæppe, en serie, I begge kender, eller slet ingenting. At du kan være i det uden at blive rastløs og foreslå ting, er en gave. Hvis du mærker trangen til at sige "skal vi ikke...", så er svaret nej. Bliv siddende.',
       action:
-        'Tilbyd en aften helt uden planer i dag: ingen gæster, ingen ærinder, ingen "vi skal lige". Sluk det, der larmer, og bliv.',
+        'Tilbyd en aften helt uden planer i dag: ingen gæster, ingen ærinder, ingen "vi skal lige". Sluk det, der larmer, og bliv. Også telefonen. Især telefonen.',
       phaseTags: ['luteal'],
     },
     {
       id: dailyId(M, 24),
       month: M,
       day: 24,
-      title: 'Koffein og alkohol rammer hårdere',
+      title: 'Kaffen og vinen slår hårdere i denne uge',
       insight:
-        'To hverdagsting forstærker lutealfasens gener mere, end de fleste er klar over. Koffein er stimulerende og vanddrivende: det forstyrrer en søvn, der i forvejen er skrøbelig, og kan forværre brystømhed og uro. Alkohol sænker søvnkvaliteten markant, hæver kropstemperaturen om natten og forværrer det blodsukkerfald, der giver sult og kort lunte næste dag. Ingen af delene er forbudte, men effekten er større i den sidste uge end i resten af cyklussen. Det er ikke din opgave at kontrollere, hvad hun drikker. Det er din opgave at gøre det gode valg til det lette valg, uden at kommentere.',
+        'To hverdagsting forstærker lutealfasens gener mere, end de fleste er klar over. Koffein er stimulerende og vanddrivende: det forstyrrer en søvn, der i forvejen er skrøbelig, og kan forværre brystømhed og uro. Alkohol sænker søvnkvaliteten markant, hæver kropstemperaturen om natten og forværrer det blodsukkerfald, der giver sult og kort lunte næste dag. Ingen af delene er forbudte, men effekten er større i den sidste uge end i resten af cyklussen. Det er ikke din opgave at kontrollere, hvad hun drikker. Hvis du står og tager koppen ud af hånden på hende, er du ikke en hjælp, du er et problem med skæg. Det er din opgave at gøre det gode valg til det lette valg, uden at kommentere. Stil det frem. Sig ikke noget. Det er hele teknikken.',
       action:
-        'Køb eller lav noget uden koffein og alkohol, hun kan lide, til i aften: te, en alkoholfri variant, saft med brus. Stil det frem uden at sige noget.',
+        'Køb eller lav noget uden koffein og alkohol, hun kan lide, til i aften: te, en alkoholfri variant, saft med brus. Stil det frem uden at sige noget. Ikke "jeg har købt noget sundt til dig". Bare frem.',
       phaseTags: [],
       sources: [NHS_PMS, NHS_INSOMNIA],
     },
@@ -319,11 +320,11 @@ export const month06: MonthContent = {
       id: dailyId(M, 25),
       month: M,
       day: 25,
-      title: 'Når menstruationen kommer, letter det',
+      title: 'Når menstruationen kommer, letter det, og du siger tak',
       insight:
-        'For mange er den første menstruationsdag, trods kramper og træthed, en lettelse. Progesteron er væk, temperaturen er faldet, væsken forlader kroppen, og hovedet klarer op. Brysterne holder op med at gøre ondt, maven falder til ro, og den følsomhed, der prægede de sidste dage, går af. Det er værd at vide, fordi det viser, at lutealfasens gener ikke er hendes "grundtilstand". De er en tilstand med en udløbsdato. Og det er en god dag at kvittere for, at I begge kom igennem den sidste uge, uden at gøre det til en sammenligning eller en gennemgang af, hvad der gik galt.',
+        'For mange er den første menstruationsdag, trods kramper og træthed, en lettelse. Progesteron er væk, temperaturen er faldet, væsken forlader kroppen, og hovedet klarer op. Brysterne holder op med at gøre ondt, maven falder til ro, og den følsomhed, der prægede de sidste dage, går af. Det er værd at vide, fordi det viser, at lutealfasens gener ikke er hendes "grundtilstand". De er en tilstand med en udløbsdato. Og det er en god dag at kvittere for, at I begge kom igennem den sidste uge, uden at gøre det til en sammenligning eller en gennemgang af, hvad der gik galt. Ingen har brug for din evaluering. Der er brug for, at du siger tak og tager opvasken. Det er to ting, og du kan begge.',
       action:
-        'Når blødningen starter, så sig: "Det var en hård uge, tak fordi du holdt ud." Og tag det praktiske de næste to dage.',
+        'Når blødningen starter, så sig: "Det var en hård uge, tak fordi du holdt ud." Og tag det praktiske de næste to dage. Uden at nævne, at du gør det.',
       phaseTags: ['menstrual'],
       sources: [NHS_PERIODS],
     },
@@ -331,22 +332,22 @@ export const month06: MonthContent = {
       id: dailyId(M, 26),
       month: M,
       day: 26,
-      title: 'Forbered lutealfasen i follikelfasen',
+      title: 'Pak til den hårde uge, mens du kan finde kufferten',
       insight:
-        'Den bedste hjælp til lutealfasen gives to uger før. I follikelfasen er der overskud til at planlægge, og den sidste uge er der ikke. Så det er nu, kalenderen skal ryddes for de sidste 5-6 dage før menstruationen, at der skal fyldes op med gode snacks og nem mad, at den svære samtale skal tages, og at hun kan sige, hvad hun ønsker sig af den hårde uge, mens hun stadig har lyst til at tale om det. Tænk på det som at pakke til en rejse: det, der er pakket, behøver man ikke tænke på undervejs. Det tager ti minutter i den gode uge og sparer mange timer i den svære.',
+        'Den bedste hjælp til lutealfasen gives to uger før. I follikelfasen er der overskud til at planlægge, og den sidste uge er der ikke. Så det er nu, kalenderen skal ryddes for de sidste 5-6 dage før menstruationen, at der skal fyldes op med gode snacks og nem mad, at den svære samtale skal tages, og at hun kan sige, hvad hun ønsker sig af den hårde uge, mens hun stadig har lyst til at tale om det. Tænk på det som at pakke til en rejse: det, der er pakket, behøver man ikke tænke på undervejs. Du kender den anden model: at stå i lufthavnen og opdage, at passet ligger hjemme. Den har du prøvet nok gange. Det tager ti minutter i den gode uge og sparer mange timer i den svære.',
       action:
-        'Sæt en påmindelse i appen eller kalenderen 6 dage før forventet menstruation med teksten "sænk tempoet, fyld køleskabet". Så sker det automatisk.',
+        'Sæt en påmindelse i appen eller kalenderen 6 dage før forventet menstruation med teksten "sænk tempoet, fyld køleskabet". Så sker det automatisk, og du behøver ikke huske det. Hvilket du heller ikke ville have gjort.',
       phaseTags: ['follicular'],
     },
     {
       id: dailyId(M, 27),
       month: M,
       day: 27,
-      title: 'Ægløsning er startskuddet',
+      title: 'Ingen ægløsning, ingen lutealfase, og appen aner det ikke',
       insight:
-        'Lutealfasen kan kun begynde, hvis der har været en ægløsning. Uden ægløsning dannes der ikke noget gult legeme, ingen progesteron, ingen temperaturstigning, og den blødning, der eventuelt kommer, er ikke en rigtig menstruation, men et østrogen-styret gennembrud. Det sker i enkelte cyklusser for de fleste, oftere under stress, efter p-piller, ved PCOS og i årene før overgangsalderen. Det er derfor, temperaturkurven og ægløsningstesten er så nyttige: de viser, om der faktisk var en lutealfase. For dig betyder det, at "hun er i lutealfasen" i appen er et skøn, og at hendes egne tegn slår tabellen.',
+        'Lutealfasen kan kun begynde, hvis der har været en ægløsning. Uden ægløsning dannes der ikke noget gult legeme, ingen progesteron, ingen temperaturstigning, og den blødning, der eventuelt kommer, er ikke en rigtig menstruation, men et østrogen-styret gennembrud. Det sker i enkelte cyklusser for de fleste, oftere under stress, efter p-piller, ved PCOS og i årene før overgangsalderen. Det er derfor, temperaturkurven og ægløsningstesten er så nyttige: de viser, om der faktisk var en lutealfase. For dig betyder det, at "hun er i lutealfasen" i appen er et skøn. Appen har ikke været der. Den har en kalender og en formel. Hendes egne tegn slår tabellen hver gang, og det eneste, du skal, er at tro mere på hende end på din telefon.',
       action:
-        'Spørg, om hun mærkede tegn på ægløsning i denne cyklus. Hvis hun ikke gjorde, så ret dine forventninger til, hvad appen siger om de næste uger.',
+        'Spørg, om hun mærkede tegn på ægløsning i denne cyklus. Hvis hun ikke gjorde, så ret dine forventninger til, hvad appen siger om de næste uger. Appen bliver ikke fornærmet.',
       phaseTags: ['ovulation'],
       sources: [NHS_PERIODS],
     },
@@ -354,33 +355,33 @@ export const month06: MonthContent = {
       id: dailyId(M, 28),
       month: M,
       day: 28,
-      title: 'Log det, der plejer at drille',
+      title: 'Du kan ikke huske sidste måned. Loggen kan.',
       insight:
-        'Lutealfasens gener er individuelle. Nogle får oppustethed men ingen ømme bryster, nogle sover elendigt, nogle bliver mest sultne, nogle mest følsomme. Det er umuligt at hjælpe præcist uden at vide, hvad hendes mønster er, og hukommelsen om sidste måned er upålidelig. Det er der, loggen hjælper: søvn, appetit, oppustethed, humør, ømhed, træningslyst. Efter to-tre cyklusser kan I se, om brystømheden altid starter dag 22, om søvnen svigter dag 24-27, om hun altid er sulten dag 25. Så kan du handle på datoen, ikke på symptomet, og det er forskellen på at reagere og at være forberedt.',
+        'Lutealfasens gener er individuelle. Nogle får oppustethed men ingen ømme bryster, nogle sover elendigt, nogle bliver mest sultne, nogle mest følsomme. Det er umuligt at hjælpe præcist uden at vide, hvad hendes mønster er, og hukommelsen om sidste måned er upålidelig. Din hukommelse er især upålidelig. Du kan ikke huske, hvad I fik at spise i tirsdags. Det er der, loggen hjælper: søvn, appetit, oppustethed, humør, ømhed, træningslyst. Efter to-tre cyklusser kan I se, om brystømheden altid starter dag 22, om søvnen svigter dag 24-27, om hun altid er sulten dag 25. Så kan du handle på datoen, ikke på symptomet, og det er forskellen på at reagere og at være forberedt. Det er også forskellen på en mand med en plan og en mand med en varmepude, der ikke ved, hvor den skal hen.',
       action:
-        'Spørg, hvilke tre lutealgener der plejer at ramme hende hårdest, og sørg for, at netop de tre bliver logget i denne cyklus.',
+        'Spørg, hvilke tre lutealgener der plejer at ramme hende hårdest, og sørg for, at netop de tre bliver logget i denne cyklus. Det er hendes log. Det er dit ansvar at huske, at den findes.',
       phaseTags: [],
     },
     {
       id: dailyId(M, 29),
       month: M,
       day: 29,
-      title: 'Sænk forventningerne, ikke omsorgen',
+      title: 'Sænk forventningerne, ikke omsorgen. Du har byttet om.',
       insight:
-        'Månedens overskrift kan koges ned til én sætning: sænk forventningerne, og skru op for omsorgen. Forventningerne til socialt overskud, til træning, til sex, til projekter, til at hun "er som hun plejer". Omsorgen i form af mad, søvn, ro, praktisk hjælp, blid berøring og ingen kommentarer. Fejlen, mange partnere begår, er det modsatte: at holde forventningerne oppe og trække omsorgen tilbage, når hun bliver stille eller skarp, fordi det føles som afvisning. Det er præcis der, det vender. Den, der bliver, når det er svært, uden at kræve noget, er den, hun husker, når det bliver let igen.',
+        'Månedens overskrift kan koges ned til én sætning: sænk forventningerne, og skru op for omsorgen. Forventningerne til socialt overskud, til træning, til sex, til projekter, til at hun "er som hun plejer". Omsorgen i form af mad, søvn, ro, praktisk hjælp, blid berøring og ingen kommentarer. Fejlen, mange partnere begår, er det modsatte: at holde forventningerne oppe og trække omsorgen tilbage, når hun bliver stille eller skarp, fordi det føles som afvisning. Du bliver altså fornærmet over, at hun er stille, og svarer igen ved at blive stille selv. Nu er der to stille mennesker i en lejlighed, og kun den ene har en hormonel grund. Det er præcis der, det vender. Den, der bliver, når det er svært, uden at kræve noget, er den, hun husker, når det bliver let igen.',
       action:
-        'Vælg én forventning, du vil sænke i den kommende lutealfase, og én omsorgshandling, du vil gøre fast. Fortæl hende begge dele.',
+        'Vælg én forventning, du vil sænke i den kommende lutealfase, og én omsorgshandling, du vil gøre fast. Fortæl hende begge dele. Højt. Med ord.',
       phaseTags: [],
     },
     {
       id: dailyId(M, 30),
       month: M,
       day: 30,
-      title: 'Måned 6: det har du lært',
+      title: 'Måned 6: det har du lært, og det kan du nu',
       insight:
-        'Du ved nu, at det gule legeme producerer progesteron i 12-14 dage, at progesteron beroliger, hæver temperaturen og sænker tempoet, og at lutealfasen har en rolig første uge og en hårdere sidste. Du ved, at væske, ømme bryster, langsom mave, sult og dårlig søvn har fysiske årsager, og at hun faktisk har brug for mere mad og mere hvile. Du ved, at kritik lander hårdere, at planer fra follikelfasen føles tunge, og at kroppen ikke er et samtaleemne. Og du ved, at hjælpen er konkret: mad, ro, opgaver, berøring uden dagsorden. Næste måned handler om PMS og PMDD, hvor det bliver sværest.',
+        'Du ved nu, at det gule legeme producerer progesteron i 12-14 dage, at progesteron beroliger, hæver temperaturen og sænker tempoet, og at lutealfasen har en rolig første uge og en hårdere sidste. Du ved, at væske, ømme bryster, langsom mave, sult og dårlig søvn har fysiske årsager, og at hun faktisk har brug for mere mad og mere hvile. Du ved, at kritik lander hårdere, at planer fra follikelfasen føles tunge, og at kroppen ikke er et samtaleemne. Og du ved, at hjælpen er konkret: mad, ro, opgaver, berøring uden dagsorden. For en måned siden troede du, lutealfasen var et sted i Norditalien. Nu kan du forklare corpus luteum til en kollega. Lad være med det. Næste måned handler om PMS og PMDD, hvor det bliver sværest. Tag quizzen, mens du stadig er klog.',
       action:
-        'Fortæl hende de tre ting, du vil gøre anderledes i den næste lutealfase. Tag så månedens quiz.',
+        'Fortæl hende de tre ting, du vil gøre anderledes i den næste lutealfase. Tag så månedens quiz. Uden at bladre tilbage i kortene. Vi ved godt, du overvejede det.',
       phaseTags: [],
     },
   ],
@@ -389,15 +390,15 @@ export const month06: MonthContent = {
       id: weeklyId(M, 1),
       month: M,
       week: 1,
-      title: 'Det gule legeme og de to uger',
+      title: 'Det gule legeme og de to uger, du troede var én',
       body: [
-        'Lutealfasen er den halvdel af cyklussen, partnere ved mindst om, og den, hvor viden gør størst forskel. Måned 1 gav dig modellen: progesteron op giver ro, begge hormoner ned giver PMS. I denne måned går vi et lag dybere, for lutealfasen er mere end en optakt til menstruationen. Den er to uger med sin egen biologi, sin egen rytme og sine egne behov.',
-        'Det hele starter med ægløsningen. Når folliklen brister og frigiver ægget, står der en tom hinde tilbage i æggestokken. I løbet af et par dage omdannes den til det gule legeme, corpus luteum, en midlertidig hormonkirtel, der lever i typisk 12-14 dage. Det gule legeme producerer progesteron, og en mindre mængde østrogen, og dets opgave er at gøre livmoderslimhinden tyk, blodrig og klar til at modtage et befrugtet æg. Sker der en graviditet, sender det tidlige foster et signal, der holder det gule legeme i live. Sker der ikke, visner det, hormonerne falder, og slimhinden afstødes som menstruation.',
-        'Progesteron er et hormon, der holder igen. Det virker på de samme receptorer i hjernen som beroligende og søvndyssende midler, og et af dets nedbrydningsprodukter er direkte sedativt. Det hæver hvilekropstemperaturen 0,3-0,5 grader, så længe det gule legeme lever. Det afslapper glat muskulatur i tarm og blodkar. Det øger appetitten og påvirker, hvordan kroppen håndterer salt, væske og blodsukker. Kort sagt: progesteron beder kroppen om at sætte farten ned og samle sig. Det er ikke dårligt. Det er bare et andet gear end østrogenets.',
-        'Det vigtigste at forstå er, at lutealfasen har to forskellige ansigter. Den første uge efter ægløsning stiger progesteron, mens østrogen stadig er pænt højt. Resultatet er for mange en rolig, tilfreds, hjemlig stemning: mindre trang til at være ude, mere lyst til det nære, en jævn form for energi og ofte god søvn. Det er en af cyklussens bedste uger til hverdag og nærhed, og en af de mest oversete, fordi den er så udramatisk.',
-        'Den sidste uge er anderledes. Når det gule legeme begynder at visne, falder progesteron og østrogen sammen, og det er her, kroppen og hovedet reagerer: væske hober sig op, brysterne bliver ømme, maven går langsommere, sulten stiger, søvnen bliver lettere, og følsomheden over for kritik og støj skrues op. Temperaturen er stadig høj, mens hormonerne, der holdt den oppe, forsvinder, og den kombination er noget af det, der gør de sidste nætter så urolige.',
-        'Mange partnere behandler hele lutealfasen som "tiden før menstruation" og går forsigtigt rundt i to uger. Det er unødvendigt, og det er spild af en god uge. Andre lægger ikke mærke til noget, før det bliver svært, og bliver så overraskede. Det bedste er at kende de to uger hver for sig: nyd den første, og forbered dig på den sidste. Appen viser, hvor hun er, men hendes egne tegn er mere præcise: temperatur, søvn, appetit, lyst til at være hjemme.',
-        'I denne uge er din opgave at få øje på, hvilken uge hun er i, og at behandle dem forskelligt. I den rolige uge: hverdag, nærhed, det almindelige. I den hårde uge: færre planer, mere mad, mere ro, og ingen kommentarer om noget af det. Det er hele månedens program i én sætning.',
+        'Lutealfasen er den halvdel af cyklussen, partnere ved mindst om, og den, hvor viden gør størst forskel. Spørger man en tilfældig mand, hvad der sker efter ægløsningen, får man typisk et svar, der begynder med "øh" og ender med "menstruation?". Måned 1 gav dig modellen: progesteron op giver ro, begge hormoner ned giver PMS. I denne måned går vi et lag dybere, for lutealfasen er mere end en optakt til menstruationen. Den er to uger med sin egen biologi, sin egen rytme og sine egne behov.',
+        'Det hele starter med ægløsningen. Når folliklen brister og frigiver ægget, står der en tom hinde tilbage i æggestokken. I løbet af et par dage omdannes den til det gule legeme, corpus luteum, en midlertidig hormonkirtel, der lever i typisk 12-14 dage. Det gule legeme producerer progesteron, og en mindre mængde østrogen, og dets opgave er at gøre livmoderslimhinden tyk, blodrig og klar til at modtage et befrugtet æg. Sker der en graviditet, sender det tidlige foster et signal, der holder det gule legeme i live. Sker der ikke, visner det, hormonerne falder, og slimhinden afstødes som menstruation. En hel kirtel, der bygges op og rives ned hver måned. Du bliver utilpas af at skulle samle en reol.',
+        'Progesteron er et hormon, der holder igen. Det virker på de samme receptorer i hjernen som beroligende og søvndyssende midler, og et af dets nedbrydningsprodukter er direkte sedativt. Det hæver hvilekropstemperaturen 0,3-0,5 grader, så længe det gule legeme lever. Det afslapper glat muskulatur i tarm og blodkar. Det øger appetitten og påvirker, hvordan kroppen håndterer salt, væske og blodsukker. Kort sagt: progesteron beder kroppen om at sætte farten ned og samle sig. Det er ikke dårligt. Det er bare et andet gear end østrogenets, og du skal lære at køre i det uden at kigge nervøst på omdrejningstælleren.',
+        'Det vigtigste at forstå er, at lutealfasen har to forskellige ansigter. Den første uge efter ægløsning stiger progesteron, mens østrogen stadig er pænt højt. Resultatet er for mange en rolig, tilfreds, hjemlig stemning: mindre trang til at være ude, mere lyst til det nære, en jævn form for energi og ofte god søvn. Det er en af cyklussens bedste uger til hverdag og nærhed, og en af de mest oversete, fordi den er så udramatisk. Ingen husker en uge, hvor alt bare gik. Det burde du begynde på.',
+        'Den sidste uge er anderledes. Når det gule legeme begynder at visne, falder progesteron og østrogen sammen, og det er her, kroppen og hovedet reagerer: væske hober sig op, brysterne bliver ømme, maven går langsommere, sulten stiger, søvnen bliver lettere, og følsomheden over for kritik og støj skrues op. Temperaturen er stadig høj, mens hormonerne, der holdt den oppe, forsvinder, og den kombination er noget af det, der gør de sidste nætter så urolige. Det er ikke noget, hun gør. Det er noget, der sker med hende, og den forskel skal du have på plads, før du åbner munden.',
+        'Mange partnere behandler hele lutealfasen som "tiden før menstruation" og lister rundt i to uger, som om gulvet var mineret. Det er unødvendigt, det er spild af en god uge, og det ser mærkeligt ud udefra. Andre lægger ikke mærke til noget, før det bliver svært, og bliver så overraskede, hver måned, som var det første gang. Det bedste er at kende de to uger hver for sig: nyd den første, og forbered dig på den sidste. Appen viser, hvor hun er, men hendes egne tegn er mere præcise: temperatur, søvn, appetit, lyst til at være hjemme.',
+        'I denne uge er din opgave at få øje på, hvilken uge hun er i, og at behandle dem forskelligt. I den rolige uge: hverdag, nærhed, det almindelige. I den hårde uge: færre planer, mere mad, mere ro, og ingen kommentarer om noget af det. Det er hele månedens program i én sætning. Du kan godt huske én sætning. Du kan stadig teksten til sange fra 2004.',
       ],
       conversationQuestion:
         'Kan du selv mærke forskel på den første og den sidste uge efter ægløsning? Hvad er det bedste ved den rolige uge, og hvad er det sværeste ved den sidste?',
@@ -407,15 +408,15 @@ export const month06: MonthContent = {
       id: weeklyId(M, 2),
       month: M,
       week: 2,
-      title: 'Kroppen i den sidste uge: væske, bryster, mave og søvn',
+      title: 'Kroppen i den sidste uge: væske, bryster, mave, søvn og din lukkede mund',
       body: [
-        'De fysiske gener i lutealfasens sidste uge er ikke indbildte, og de er ikke små. De forklarer en stor del af, hvorfor hun kan virke ubekvem, træt og kort for hovedet, uden at der er noget galt mellem jer. Her er, hvad der sker i kroppen, og hvad der faktisk hjælper.',
-        'Væske først. Progesteron og det faldende østrogen ændrer, hvordan nyrerne håndterer salt, og kroppen begynder at holde på vand. Det kan give 1-2 kilo på vægten, en mave, der spænder og føles oppustet, hævede fingre og ankler og tøj, der strammer, uden at hun har spist anderledes. Det forsvinder inden for de første menstruationsdage. Mindre salt, mere vand, bevægelse og kalium fra frugt og grønt hjælper lidt. Kommentarer hjælper ikke. Hun ved, hvordan hun ser ud, og hun har allerede tænkt over det.',
-        'Brysterne er næste. Under progesteronens indflydelse vokser mælkekirtlerne en smule, og vævet holder på væske. Brysterne bliver tungere, tættere og ømme, nogle gange så meget, at et almindeligt kram gør ondt. Det kaldes cyklisk brystsmerte, det er helt normalt, og det forsvinder, når blødningen starter. En støttende bh, varme og almindelig smertestillende hjælper. Det vigtige for dig er berøringen: det, der var rart i sidste uge, kan være ubehageligt nu. Spørg, og tag et nej uden at gøre det til noget.',
-        'Maven går langsommere. Progesteron afslapper glat muskulatur, også i tarmen, så maden bevæger sig langsommere gennem systemet. Resultatet er forstoppelse, tung mave og mere luft i dagene før menstruationen, og ofte det modsatte, når blødningen starter, og prostaglandinerne tager over. Fibre, væske og bevægelse er det, der virker, og en gåtur efter aftensmaden gør mere, end det lyder. Det er en af de mindst omtalte cyklusgener, og en af dem, der bidrager mest til følelsen af at være oppustet og utilpas.',
-        'Så søvnen. Den første uge efter ægløsning sover mange godt, fordi progesteron er sløvende. Den sidste uge er kropstemperaturen stadig oppe, mens hormonerne falder, og begge dele forstyrrer den dybe søvn. Hun vågner oftere, ligger vågen midt på natten og vågner mindre udhvilet. Det er den enkeltfaktor, der forstærker resten mest: sult, irritation og sårbarhed bliver alle værre af træthed. Et køligt, mørkt soveværelse, ingen skærm den sidste time, en fast sengetid og mindre koffein og alkohol gør en målbar forskel netop i den uge.',
-        'Koffein og alkohol fortjener et ord for sig. Koffein er stimulerende og vanddrivende og kan forværre både brystømhed, uro og søvn. Alkohol sænker søvnkvaliteten, hæver kropstemperaturen om natten og forværrer det blodsukkerfald, der giver sult og kort lunte næste dag. Ingen af delene er forbudte, men de rammer hårdere i den sidste uge. Din opgave er ikke at kontrollere, hvad hun drikker. Din opgave er at gøre det gode valg til det lette valg: en god te, en alkoholfri variant, uden at sige noget om hvorfor.',
-        'Hvad kan du helt konkret gøre i denne uge? Lav mad med lidt salt og meget grønt. Stil vand frem. Foreslå gåturen. Gør soveværelset køligt, og gå i seng samtidig. Spørg, før du krammer hårdt, og accepter svaret. Og hold alle kommentarer om krop, vægt og træthed for dig selv, også de venligt mente. Det lyder som lidt. For hende er det forskellen på en uge, hun kæmper sig igennem alene, og en uge, hvor der er én, der har forstået det.',
+        'De fysiske gener i lutealfasens sidste uge er ikke indbildte, og de er ikke små. De forklarer en stor del af, hvorfor hun kan virke ubekvem, træt og kort for hovedet, uden at der er noget galt mellem jer. Det er værd at få på plads, for din første teori er typisk, at det er noget, du har gjort. Det er det som regel ikke. Her er, hvad der sker i kroppen, og hvad der faktisk hjælper.',
+        'Væske først. Progesteron og det faldende østrogen ændrer, hvordan nyrerne håndterer salt, og kroppen begynder at holde på vand. Det kan give 1-2 kilo på vægten, en mave, der spænder og føles oppustet, hævede fingre og ankler og tøj, der strammer, uden at hun har spist anderledes. Det forsvinder inden for de første menstruationsdage. Mindre salt, mere vand, bevægelse og kalium fra frugt og grønt hjælper lidt. Kommentarer hjælper ikke. Hun ved, hvordan hun ser ud, og hun har allerede tænkt over det. Du har intet at tilføje, og det er en god nyhed, for så kan du bruge munden på at spise grøntsager.',
+        'Brysterne er næste. Under progesteronens indflydelse vokser mælkekirtlerne en smule, og vævet holder på væske. Brysterne bliver tungere, tættere og ømme, nogle gange så meget, at et almindeligt kram gør ondt. Det kaldes cyklisk brystsmerte, det er helt normalt, og det forsvinder, når blødningen starter. En støttende bh, varme og almindelig smertestillende hjælper. Det vigtige for dig er berøringen: det, der var rart i sidste uge, kan være ubehageligt nu. Dit kram er det samme kram. Det lander bare et andet sted i måneden. Spørg, og tag et nej uden at gøre det til noget.',
+        'Maven går langsommere. Progesteron afslapper glat muskulatur, også i tarmen, så maden bevæger sig langsommere gennem systemet. Resultatet er forstoppelse, tung mave og mere luft i dagene før menstruationen, og ofte det modsatte, når blødningen starter, og prostaglandinerne tager over. Fibre, væske og bevægelse er det, der virker, og en gåtur efter aftensmaden gør mere, end det lyder. Det er en af de mindst omtalte cyklusgener, og en af dem, der bidrager mest til følelsen af at være oppustet og utilpas. Du behøver ikke forstå tarmen. Du skal bare kunne finde dine sko.',
+        'Så søvnen. Den første uge efter ægløsning sover mange godt, fordi progesteron er sløvende. Den sidste uge er kropstemperaturen stadig oppe, mens hormonerne falder, og begge dele forstyrrer den dybe søvn. Hun vågner oftere, ligger vågen midt på natten og vågner mindre udhvilet. Det er den enkeltfaktor, der forstærker resten mest: sult, irritation og sårbarhed bliver alle værre af træthed. Et køligt, mørkt soveværelse, ingen skærm den sidste time, en fast sengetid og mindre koffein og alkohol gør en målbar forskel netop i den uge. Det gør det til gengæld ikke, at du ligger ved siden af og scroller med lyden på. Du er en del af soveværelset. Opfør dig som en del, der virker.',
+        'Koffein og alkohol fortjener et ord for sig. Koffein er stimulerende og vanddrivende og kan forværre både brystømhed, uro og søvn. Alkohol sænker søvnkvaliteten, hæver kropstemperaturen om natten og forværrer det blodsukkerfald, der giver sult og kort lunte næste dag. Ingen af delene er forbudte, men de rammer hårdere i den sidste uge. Din opgave er ikke at kontrollere, hvad hun drikker. Ingen har nogensinde sagt "tak, fordi du tog mit glas". Din opgave er at gøre det gode valg til det lette valg: en god te, en alkoholfri variant, stillet frem uden en forklaring.',
+        'Hvad kan du helt konkret gøre i denne uge? Lav mad med lidt salt og meget grønt. Stil vand frem. Foreslå gåturen. Gør soveværelset køligt, og gå i seng samtidig. Spørg, før du krammer hårdt, og accepter svaret. Og hold alle kommentarer om krop, vægt og træthed for dig selv, også de venligt mente. Det lyder som lidt, og det er det også. Det er ikke heltegerninger. For hende er det forskellen på en uge, hun kæmper sig igennem alene, og en uge, hvor der er én i huset, der har forstået det og stadig holder mund.',
       ],
       conversationQuestion:
         'Hvilken af de fysiske gener, oppustethed, ømme bryster, mave eller søvn, generer dig mest i ugen før menstruation? Og er der noget, jeg gør, som gør den værre uden at vide det?',
@@ -425,15 +426,15 @@ export const month06: MonthContent = {
       id: weeklyId(M, 3),
       month: M,
       week: 3,
-      title: 'Mad, træning og energi i lutealfasen',
+      title: 'Mad, træning og energi: hun har brug for mere, og du har brug for at tie',
       body: [
-        'Der er en udbredt idé om, at kroppen bør fungere ens hele måneden, og at afvigelser er et spørgsmål om vilje. For en kvinde i lutealfasen er den idé direkte skadelig. Kroppen har andre behov i anden halvdel af cyklussen, og det gælder især mad, træning og hvile.',
-        'Start med energiforbruget. I lutealfasen ligger kropstemperaturen højere, det gule legeme arbejder, og livmoderslimhinden bygges op. Det koster energi, og målinger viser et merforbrug på omkring 100-300 kalorier om dagen. Samtidig øger progesteron appetitten direkte. Sulten i den sidste uge er altså et reelt, fysiologisk behov. Kvinder, der prøver at spise det samme i alle faser, ender ofte sultne, trætte og irritable i den sidste uge, og med at bebrejde sig selv for det. Ekstra mad i lutealfasen er ikke at give efter. Det er at dække et behov, kroppen faktisk har.',
-        'Så trangen. Når østrogen falder i den sidste uge, falder serotonin med, og kulhydrater er hjernens hurtigste vej til at hæve det igen. Samtidig gør progesteron kroppen lidt mindre følsom for insulin, så blodsukkeret svinger mere: det stiger hurtigt efter noget sødt og falder hurtigt igen, og faldet mærkes som pludselig sult, uro og kort lunte. Trangen til chokolade, brød og salt snacks er derfor biologi, ikke svag karakter. Forbud gør den værre. Det, der virker, er stabilitet: regelmæssige måltider med protein, fibre og langsomme kulhydrater, så udsvingene bliver mindre, plus en portion af det, hun har lyst til, uden dårlig samvittighed.',
-        'Træningen føles tungere, og det er ikke indbildning. I lutealfasen er hvilepulsen lidt højere, kropstemperaturen oppe, og kroppen sveder senere og holder dårligere på væsken. Det samme løb, det samme sæt, føles objektivt hårdere, og toppræstationer er sværere at hente. Det betyder ikke, at hun er i dårligere form. Motoren kører bare ved en anden temperatur. Mange skruer op for indsatsen, når det føles tungt, bliver skuffede og presser sig selv endnu mere. Det kloge er det modsatte: at forvente mindre af de hårde pas i den sidste uge og bruge fasen til roligere bevægelse, teknik, gåture og udholdenhed i lavt tempo.',
-        'Restitution tager også længere tid. Den hormonelle støtte til muskelopbygning er lavere, søvnen er dårligere, og proteinbehovet er større, end mange dækker. Ømhed hænger ved, og træthed efter et hårdt pas varer længere, så hun kan gå ind i den sidste uge allerede slidt. Restitution er ikke passivitet. Det er søvn, mad med protein, væske og hviledage, og det er alt sammen ting, der bliver sværere, når hverdagen er presset.',
-        'Her kommer du ind. Du kan ikke spise eller træne for hende, men du kan fjerne det, der stjæler energi og restitution. Lav mad til tiden, med protein og noget, der holder. Sørg for, at der er snacks i huset, som er nemme at gribe: nødder, frugt, yoghurt, mørk chokolade. Tag ansvaret for aftensmaden i den sidste uge, så hun ikke skal beslutte noget. Sig "det er normalt, at det føles tungere nu", hvis hun kommer skuffet hjem fra træning, og sig ingenting, hvis hun har aflyst. Og lad være med at kommentere, hvad hun spiser, hverken mængden eller typen. Det gælder også "godt at se, du spiser ordentligt".',
-        'Det samlede budskab er enkelt: hun har brug for mere mad, mindre pres og mere hvile i anden halvdel af cyklussen. Ikke fordi hun er svag, men fordi hendes krop laver noget, din ikke laver. Den partner, der forstår det, gør den sidste uge mærkbart lettere. Den, der ikke gør, bliver en ekstra ting at kæmpe med.',
+        'Der er en udbredt idé om, at kroppen bør fungere ens hele måneden, og at afvigelser er et spørgsmål om vilje. Det er en idé, der typisk kommer fra folk, hvis krop faktisk fungerer ens hele måneden. Altså dig. For en kvinde i lutealfasen er den idé direkte skadelig. Kroppen har andre behov i anden halvdel af cyklussen, og det gælder især mad, træning og hvile.',
+        'Start med energiforbruget. I lutealfasen ligger kropstemperaturen højere, det gule legeme arbejder, og livmoderslimhinden bygges op. Det koster energi, og målinger viser et merforbrug på omkring 100-300 kalorier om dagen. Samtidig øger progesteron appetitten direkte. Sulten i den sidste uge er altså et reelt, fysiologisk behov. Kvinder, der prøver at spise det samme i alle faser, ender ofte sultne, trætte og irritable i den sidste uge, og med at bebrejde sig selv for det. Ekstra mad i lutealfasen er ikke at give efter. Det er at dække et behov, kroppen faktisk har. Hendes krop bygger et helt lag om i livmoderen. Din har mest ligget på sofaen.',
+        'Så trangen. Når østrogen falder i den sidste uge, falder serotonin med, og kulhydrater er hjernens hurtigste vej til at hæve det igen. Samtidig gør progesteron kroppen lidt mindre følsom for insulin, så blodsukkeret svinger mere: det stiger hurtigt efter noget sødt og falder hurtigt igen, og faldet mærkes som pludselig sult, uro og kort lunte. Trangen til chokolade, brød og salt snacks er derfor biologi, ikke svag karakter. Forbud gør den værre, og det samme gør en partner, der kigger på posen. Det, der virker, er stabilitet: regelmæssige måltider med protein, fibre og langsomme kulhydrater, så udsvingene bliver mindre, plus en portion af det, hun har lyst til, uden dårlig samvittighed og uden publikum.',
+        'Træningen føles tungere, og det er ikke indbildning. I lutealfasen er hvilepulsen lidt højere, kropstemperaturen oppe, og kroppen sveder senere og holder dårligere på væsken. Det samme løb, det samme sæt, føles objektivt hårdere, og toppræstationer er sværere at hente. Det betyder ikke, at hun er i dårligere form. Motoren kører bare ved en anden temperatur. Mange skruer op for indsatsen, når det føles tungt, bliver skuffede og presser sig selv endnu mere. Det kloge er det modsatte: at forvente mindre af de hårde pas i den sidste uge og bruge fasen til roligere bevægelse, teknik, gåture og udholdenhed i lavt tempo. Du skal ikke være træneren her. Du skal være ham, der ikke siger noget om tider.',
+        'Restitution tager også længere tid. Den hormonelle støtte til muskelopbygning er lavere, søvnen er dårligere, og proteinbehovet er større, end mange dækker. Ømhed hænger ved, og træthed efter et hårdt pas varer længere, så hun kan gå ind i den sidste uge allerede slidt. Restitution er ikke passivitet. Det er søvn, mad med protein, væske og hviledage, og det er alt sammen ting, der bliver sværere, når hverdagen er presset, og når der er en i huset, der foreslår sene ting.',
+        'Her kommer du ind. Du kan ikke spise eller træne for hende, men du kan fjerne det, der stjæler energi og restitution. Lav mad til tiden, med protein og noget, der holder. Sørg for, at der er snacks i huset, som er nemme at gribe: nødder, frugt, yoghurt, mørk chokolade. Tag ansvaret for aftensmaden i den sidste uge, så hun ikke skal beslutte noget. Sig "det er normalt, at det føles tungere nu", hvis hun kommer skuffet hjem fra træning, og sig ingenting, hvis hun har aflyst. Og lad være med at kommentere, hvad hun spiser, hverken mængden eller typen. Det gælder også "godt at se, du spiser ordentligt". Den sætning har du måske tænkt var sød. Den er det ikke. Den er en vurdering med smil på.',
+        'Det samlede budskab er enkelt: hun har brug for mere mad, mindre pres og mere hvile i anden halvdel af cyklussen. Ikke fordi hun er svag, men fordi hendes krop laver noget, din ikke laver. Den partner, der forstår det, gør den sidste uge mærkbart lettere. Den, der ikke gør, bliver en ekstra ting at kæmpe med, og du vil helst ikke stå på listen lige under "forstoppelse".',
       ],
       conversationQuestion:
         'Hvornår i cyklussen er du mest sulten, og hvornår føles træningen tungest? Er der noget, jeg kan gøre, så du slipper for at tænke på mad i den uge?',
@@ -443,15 +444,15 @@ export const month06: MonthContent = {
       id: weeklyId(M, 4),
       month: M,
       week: 4,
-      title: 'Sindet i lutealfasen: hjemlighed, følsomhed og tunge planer',
+      title: 'Sindet i lutealfasen: hjemlighed, følsomhed og planer lagt med en anden hjerne',
       body: [
-        'Kroppen er den ene halvdel af lutealfasen. Sindet er den anden, og det er ofte her, misforståelserne mellem partnere opstår. Ikke fordi hun bliver en anden, men fordi det, der føles rart, meningsfuldt og overkommeligt, skifter. Forstår du skiftet, kan du følge med i stedet for at stå tilbage og undre dig.',
-        'Det første skift er socialt. Østrogen giver lyst til mennesker, nyt og ud. Progesteron giver lyst til det kendte: sofaen, de nære, ro. Mange kvinder aflyser i den sidste uge ting, de sagde ja til med begejstring to uger før, og føler sig skyldige over det. Det er ikke en karakterbrist. Det er et hormonelt skift i, hvad der føles godt. For dig betyder det, at "skal vi ikke bare blive hjemme?" er et legitimt svar, og at det ikke er dig, hun trækker sig fra. Det er verden, hun trækker sig lidt fra, og du er en del af hjemmet.',
-        'Det andet skift er følsomhed. Når serotonin falder i den sidste uge, ændrer hjernens filter sig. Neutrale bemærkninger tolkes lettere negativt, og en lille kritik føles som en stor. Studier viser, at kvinder i den præmenstruelle fase reagerer stærkere på negative ansigtsudtryk og ord. Det er ikke, fordi hun er nærtagende. Følsomheden er midlertidigt skruet op. Så det henkastede "har du ikke ordnet det endnu?", som gik fint på dag 10, rammer nu som en dom. Gem den slags til follikelfasen, og brug den sidste uge til at sige de ting, du sætter pris på, som du normalt glemmer.',
-        'Det tredje skift handler om planer. Her er et mønster, mange par kender: på dag 10 siger hun ja til middag hos venner, weekendtur og at male køkkenet. På dag 25 føles det hele tungt, og hun forstår ikke selv, hvad hun tænkte på. Forklaringen er, at hun sagde ja med østrogen-hjernen, optimistisk og udadvendt, og skal levere med progesteron-hjernen, der vil have ro. Ingen af dem er "den rigtige hende". Det praktiske svar er at lægge det krævende i første halvdel af cyklussen, at være rundhåndet med aflysninger i den sidste uge, og aldrig at holde et gammelt ja op mod hende.',
-        'Et ord om længden. Lutealfasen er cyklussens mest stabile del: typisk 12-14 dage, og 10-16 regnes som normalt. Det er follikelfasen, der forklarer, hvorfor cyklussen varierer, ikke lutealfasen. Er der fast under 10 dage fra ægløsning til menstruation, kaldes det en kort lutealfase. For de fleste betyder det ingenting i hverdagen, men for par, der forsøger at blive gravide, er det værd at nævne for lægen, fordi et befrugtet æg får kortere tid til at sætte sig fast. Stress, hård træning, lavt energiindtag og stofskiftet kan alle forkorte fasen. En enkelt kort cyklus siger intet; et mønster over flere måneder fortjener en læge.',
-        'Hvad gør du så? Månedens overskrift: sænk forventningerne, og skru op for omsorgen. Forventningerne til socialt overskud, træning, sex, projekter og til, at hun "er som hun plejer". Omsorgen i form af mad til tiden, stille aftener, opgaver du bare tager, blid berøring uden dagsorden og ingen kommentarer om krop eller udseende. Fejlen, mange begår, er det modsatte: at holde forventningerne oppe og trække omsorgen tilbage, når hun bliver stille eller skarp, fordi det føles som afvisning.',
-        'Det bedste tidspunkt at forberede lutealfasen er i follikelfasen. Ryd kalenderen for de sidste 5-6 dage, fyld op med nem mad, tag den svære samtale, og spørg hende, hvad hun ønsker sig af den hårde uge, mens hun stadig har lyst til at tale om det. Det tager ti minutter i den gode uge og sparer timer i den svære. Og når menstruationen så kommer, og det hele letter, så kvitter for, at I kom igennem, uden gennemgang af, hvad der gik galt. Den, der bliver, når det er svært, uden at kræve noget, er den, hun husker, når det bliver let igen.',
+        'Kroppen er den ene halvdel af lutealfasen. Sindet er den anden, og det er ofte her, misforståelserne mellem partnere opstår. Ikke fordi hun bliver en anden, men fordi det, der føles rart, meningsfuldt og overkommeligt, skifter. Forstår du skiftet, kan du følge med. Forstår du det ikke, står du i døren med jakken på og spørger "hvad skete der lige?". Det gør du nok alligevel et par gange. Men færre.',
+        'Det første skift er socialt. Østrogen giver lyst til mennesker, nyt og ud. Progesteron giver lyst til det kendte: sofaen, de nære, ro. Mange kvinder aflyser i den sidste uge ting, de sagde ja til med begejstring to uger før, og føler sig skyldige over det. Det er ikke en karakterbrist. Det er et hormonelt skift i, hvad der føles godt. For dig betyder det, at "skal vi ikke bare blive hjemme?" er et legitimt svar, og at det ikke er dig, hun trækker sig fra. Det er verden, hun trækker sig lidt fra, og du er en del af hjemmet. Det er ikke en degradering. Det er den bedste plads i huset.',
+        'Det andet skift er følsomhed. Når serotonin falder i den sidste uge, ændrer hjernens filter sig. Neutrale bemærkninger tolkes lettere negativt, og en lille kritik føles som en stor. Studier viser, at kvinder i den præmenstruelle fase reagerer stærkere på negative ansigtsudtryk og ord. Det er ikke, fordi hun er nærtagende. Følsomheden er midlertidigt skruet op, og PMS forstærker følelser, den opfinder dem ikke. Så det henkastede "har du ikke ordnet det endnu?", som gik fint på dag 10, rammer nu som en dom. Samme sætning, samme dig, anden uge. Gem den slags til follikelfasen, og brug den sidste uge til at sige de ting, du sætter pris på, som du normalt glemmer.',
+        'Det tredje skift handler om planer. Her er et mønster, mange par kender: på dag 10 siger hun ja til middag hos venner, weekendtur og at male køkkenet. På dag 25 føles det hele tungt, og hun forstår ikke selv, hvad hun tænkte på. Forklaringen er, at hun sagde ja med østrogen-hjernen, optimistisk og udadvendt, og skal levere med progesteron-hjernen, der vil have ro. Ingen af dem er "den rigtige hende". Det praktiske svar er at lægge det krævende i første halvdel af cyklussen, at være rundhåndet med aflysninger i den sidste uge, og aldrig at holde et gammelt ja op mod hende. Det er dig, der ringer og flytter middagen. Du har en telefon. Du har bare mest brugt den til at kigge på.',
+        'Et ord om længden, og her lægger vi humoren fra os et øjeblik. Lutealfasen er cyklussens mest stabile del: typisk 12-14 dage, og 10-16 regnes som normalt. Det er follikelfasen, der forklarer, hvorfor cyklussen varierer, ikke lutealfasen. Er der fast under 10 dage fra ægløsning til menstruation, kaldes det en kort lutealfase. For de fleste betyder det ingenting i hverdagen, men for par, der forsøger at blive gravide, er det værd at nævne for lægen, fordi et befrugtet æg får kortere tid til at sætte sig fast. Stress, hård træning, lavt energiindtag og stofskiftet kan alle forkorte fasen. En enkelt kort cyklus siger intet; et mønster over flere måneder fortjener en læge, og det er noget, I nævner roligt sammen.',
+        'Hvad gør du så? Månedens overskrift: sænk forventningerne, og skru op for omsorgen. Forventningerne til socialt overskud, træning, sex, projekter og til, at hun "er som hun plejer". Omsorgen i form af mad til tiden, stille aftener, opgaver du bare tager, blid berøring uden dagsorden og ingen kommentarer om krop eller udseende. Fejlen, mange begår, er det modsatte: at holde forventningerne oppe og trække omsorgen tilbage, når hun bliver stille eller skarp, fordi det føles som afvisning. Så står der to mennesker og venter på, at den anden tager første skridt, og kun den ene af dem har en biologisk undskyldning.',
+        'Det bedste tidspunkt at forberede lutealfasen er i follikelfasen. Ryd kalenderen for de sidste 5-6 dage, fyld op med nem mad, tag den svære samtale, og spørg hende, hvad hun ønsker sig af den hårde uge, mens hun stadig har lyst til at tale om det. Det tager ti minutter i den gode uge og sparer timer i den svære. Og når menstruationen så kommer, og det hele letter, så kvitter for, at I kom igennem, uden gennemgang af, hvad der gik galt. Ingen vil have din rapport. Den, der bliver, når det er svært, uden at kræve noget, er den, hun husker, når det bliver let igen.',
       ],
       conversationQuestion:
         'Når du er i den sidste uge før menstruation, hvad vil du helst have, jeg gør, når du aflyser noget eller trækker dig: lader dig være, bliver hos dig eller tager over? Og hvordan ved jeg, hvad det er den dag?',
@@ -461,46 +462,46 @@ export const month06: MonthContent = {
   wrap: {
     id: wrapId(M),
     month: M,
-    title: 'Måned 6: Lutealfasen',
+    title: 'Måned 6: Lutealfasen, to uger du nu kan kende fra hinanden',
     summary: [
-      'Denne måned handlede om cyklussens anden halvdel. Efter ægløsningen bliver den tomme follikel til det gule legeme, som producerer progesteron i 12-14 dage. Progesteron beroliger, hæver kropstemperaturen, afslapper tarmen, øger appetitten og får kroppen til at holde på væske. Den første uge efter ægløsning er ofte rolig og hjemlig; den sidste uge, når hormonerne falder, kommer oppustethed, ømme bryster, langsom mave, sult, dårlig søvn og en skruet-op følsomhed.',
-      'Du har lært, at hun faktisk har brug for mere mad og mere hvile i lutealfasen, at trangen til sødt er blodsukker og serotonin, ikke svag vilje, at træning føles tungere og restitution tager længere, at kritik lander hårdere, og at planer lagt i follikelfasen føles tunge, når de skal leveres. Du har lært, at lutealfasen er stabil på 10-16 dage, og at en fast kort lutealfase er noget, en læge bør se på, hvis I forsøger at blive gravide.',
-      'Vigtigst har du lært, hvad der hjælper: mad til tiden, stille aftener, opgaver du tager uden at spørge, blid berøring uden dagsorden, et køligt soveværelse og ingen kommentarer om krop eller udseende. Sænk forventningerne, og skru op for omsorgen. Næste måned går vi ind i PMS og PMDD, hvor det bliver sværest, og hvor det, du har lært nu, bliver afgørende.',
+      'Denne måned handlede om cyklussens anden halvdel, den du før kaldte "tiden før". Efter ægløsningen bliver den tomme follikel til det gule legeme, som producerer progesteron i 12-14 dage. Progesteron beroliger, hæver kropstemperaturen, afslapper tarmen, øger appetitten og får kroppen til at holde på væske. Den første uge efter ægløsning er ofte rolig og hjemlig; den sidste uge, når hormonerne falder, kommer oppustethed, ømme bryster, langsom mave, sult, dårlig søvn og en skruet-op følsomhed. To uger, to forskellige opgaver for dig, og ingen af dem hedder "list rundt".',
+      'Du har lært, at hun faktisk har brug for mere mad og mere hvile i lutealfasen, at trangen til sødt er blodsukker og serotonin, ikke svag vilje, at træning føles tungere og restitution tager længere, at kritik lander hårdere, og at planer lagt i follikelfasen føles tunge, når de skal leveres. Du har lært, at lutealfasen er stabil på 10-16 dage, og at en fast kort lutealfase er noget, en læge bør se på, hvis I forsøger at blive gravide. Du har med andre ord lært mere om corpus luteum, end du nogensinde havde planlagt.',
+      'Vigtigst har du lært, hvad der hjælper: mad til tiden, stille aftener, opgaver du tager uden at spørge, blid berøring uden dagsorden, et køligt soveværelse og ingen kommentarer om krop eller udseende. Sænk forventningerne, og skru op for omsorgen. Næste måned går vi ind i PMS og PMDD, hvor det bliver sværest, og hvor det, du har lært nu, bliver afgørende. Så hold fast i det. Det er ikke pensum. Det er din hverdag.',
     ],
     keepDoing: [
-      'Kend forskel på den rolige første uge og den hårde sidste uge, og behandl dem forskelligt.',
-      'Tag ansvar for aftensmaden i den sidste uge, og sørg for snacks med protein i huset.',
-      'Gør soveværelset køligt, og gå i seng samtidig med hende i de sidste dage før menstruation.',
-      'Sig intet om krop, vægt, hud eller træthed i lutealfasen, heller ikke positivt.',
+      'Kend forskel på den rolige første uge og den hårde sidste uge, og behandl dem forskelligt. Lad være med at liste i begge.',
+      'Tag ansvar for aftensmaden i den sidste uge, og sørg for snacks med protein i huset, før nogen er sulten.',
+      'Gør soveværelset køligt, og gå i seng samtidig med hende i de sidste dage før menstruation. Telefonen sover et andet sted.',
+      'Sig intet om krop, vægt, hud eller træthed i lutealfasen, heller ikke positivt. Ros aftensmaden i stedet.',
       'Tilbyd rolige aftener og blid berøring uden dagsorden, og accepter et nej uden at gøre det til noget.',
-      'Ryd kalenderen for de sidste 5-6 dage før menstruation, mens I stadig er i follikelfasen.',
+      'Ryd kalenderen for de sidste 5-6 dage før menstruation, mens I stadig er i follikelfasen. Du ringer selv.',
     ],
     quiz: [
       {
         question:
-          'Det er dag 17, tre dage efter ægløsning, og hun virker rolig og tilfreds. Hvad passer bedst?',
+          'Det er dag 17, tre dage efter ægløsning, og hun virker rolig og tilfreds. Hvad gør du?',
         options: [
-          'Gå forsigtigt rundt, PMS kan starte når som helst',
-          'Nyde en almindelig, hyggelig aften sammen; den første lutealuge er ofte en god uge',
-          'Spørge om hun er okay, fordi hun er så stille',
-          'Foreslå en stor fest i weekenden, mens hun har det godt',
+          'Lister forsigtigt rundt, PMS kan jo starte når som helst',
+          'Nyder en almindelig, hyggelig aften sammen; den første lutealuge er ofte en god uge',
+          'Spørger, om hun er okay, fordi hun er så stille',
+          'Foreslår en stor fest i weekenden, mens hun har det godt',
         ],
         correctIndex: 1,
         explanation:
-          'Lutealfasen har to ansigter. Den første uge med stigende progesteron er typisk rolig og hjemlig, og ro er ikke det samme som at noget er galt. Det er den sidste uge, der kræver ekstra.',
+          'Lutealfasen har to ansigter. Den første uge med stigende progesteron er typisk rolig og hjemlig, og ro er ikke det samme som, at noget er galt. Det er den sidste uge, der kræver ekstra. Listen kan du spare til der, og helst slet ikke bruge.',
       },
       {
         question:
           'Dag 25: hun siger, hun er sulten igen, en time efter aftensmaden, og virker flov over det. Hvad hjælper mest?',
         options: [
-          'Foreslå et glas vand, sult er ofte tørst',
+          'Foreslå et glas vand, sult er jo ofte tørst',
           'Sige at det er normalt at have brug for mere mad nu, og finde noget med protein til hende',
           'Minde hende om, at hun spiste en stor portion',
           'Sige ingenting og lade hende selv finde ud af det',
         ],
         correctIndex: 1,
         explanation:
-          'Kroppen bruger 100-300 kalorier mere om dagen i lutealfasen, og progesteron øger appetitten. Sult er et reelt behov; at dække det uden kommentar stabiliserer både blodsukker og humør.',
+          'Kroppen bruger 100-300 kalorier mere om dagen i lutealfasen, og progesteron øger appetitten. Sult er et reelt behov; at dække det uden kommentar stabiliserer både blodsukker og humør. Glasset vand kan du selv drikke.',
       },
       {
         question:
@@ -513,7 +514,7 @@ export const month06: MonthContent = {
         ],
         correctIndex: 1,
         explanation:
-          'Progesteron holder kropstemperaturen oppe, og de faldende hormoner gør søvnen let. Et køligt, mørkt rum uden skærm er det, der virker. Alkohol forværrer søvnkvaliteten og blodsukkeret næste dag.',
+          'Progesteron holder kropstemperaturen oppe, og de faldende hormoner gør søvnen let. Et køligt, mørkt rum uden skærm er det, der virker. Alkohol forværrer søvnkvaliteten og blodsukkeret næste dag, og "det er nok hormonerne" er en diagnose, ingen har bedt dig om.',
       },
       {
         question:
@@ -526,7 +527,7 @@ export const month06: MonthContent = {
         ],
         correctIndex: 1,
         explanation:
-          "Ja'et blev sagt med østrogen-hjernen, og leveringen falder i den sidste lutealuge. Læg det krævende i første halvdel af cyklussen, og vær rundhåndet med aflysninger i den sidste uge.",
+          "Ja'et blev sagt med østrogen-hjernen, og leveringen falder i den sidste lutealuge. Læg det krævende i første halvdel af cyklussen, og vær rundhåndet med aflysninger i den sidste uge. Det er dig, der ringer. Du har jo telefonen i hånden alligevel.",
       },
       {
         question:
@@ -539,7 +540,7 @@ export const month06: MonthContent = {
         ],
         correctIndex: 2,
         explanation:
-          'I lutealfasen er kroppen ikke et samtaleemne, medmindre hun selv bringer det op. Selv velmente kommentarer fortæller hende, at det kan ses. Anerkend noget andet, ægte og konkret.',
+          'I lutealfasen er kroppen ikke et samtaleemne, medmindre hun selv bringer det op. Selv velmente kommentarer fortæller hende, at det kan ses. Og "det er bare væske" er korrekt biologi sagt på det forkerte tidspunkt, hvilket er din specialitet. Anerkend noget andet, ægte og konkret.',
       },
       {
         question:
@@ -552,7 +553,7 @@ export const month06: MonthContent = {
         ],
         correctIndex: 2,
         explanation:
-          'Under 10 dage fra ægløsning til menstruation kaldes en kort lutealfase. Én kort cyklus siger intet, men et fast mønster kan gøre det sværere for et befrugtet æg at sætte sig fast, og det fortjener en læge.',
+          'Under 10 dage fra ægløsning til menstruation kaldes en kort lutealfase. Én kort cyklus siger intet, men et fast mønster kan gøre det sværere for et befrugtet æg at sætte sig fast, og det fortjener en læge. Ikke en søgemaskine, og ikke et råd om at slappe af.',
       },
     ],
   },
