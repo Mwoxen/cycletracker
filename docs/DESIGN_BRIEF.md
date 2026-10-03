@@ -24,7 +24,10 @@ frivillig backup til brugerens egen iCloud.
 
 ## Tone og faste budskaber
 
-- Varm, konkret og uden løftede pegefingre. Aldrig klinisk, aldrig fnisende.
+- Partnerens tekster er tørre og sjove på hans bekostning: han er den, der står med varmepuden og
+  ser forvirret ud. Humoren ligger oven på det lærende, aldrig i stedet for, og den gør aldrig
+  grin med hende. I de alvorlige emner (smerte, PMDD, fertilitet, når noget afviger) er tonen
+  rolig og varm. Hendes egne tekster er varme og saglige uden vittigheder.
 - Alt er skrevet til partneren som "du" og om den anden som "hun" eller ved fornavn, som indtastes
   ved opsætningen ("Anna har brug for ro i dag").
 - Hvert stykke indhold slutter i noget, man kan gøre. Viden uden handling findes ikke i appen.
