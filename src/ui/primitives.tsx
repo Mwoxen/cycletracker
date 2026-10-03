@@ -292,8 +292,10 @@ export function Bullets({ items }: { items: string[] }) {
     <View style={{ gap: spacing.sm }}>
       {items.map((item, i) => (
         <View key={i} style={styles.bullet}>
-          <Txt color={colors.secondaryLabel}>•</Txt>
-          <Txt style={{ flex: 1 }}>{item}</Txt>
+          <Txt color={colors.secondaryLabel} style={{ marginRight: spacing.sm }}>
+            •
+          </Txt>
+          <Txt style={{ flex: 1, flexShrink: 1 }}>{item}</Txt>
         </View>
       ))}
     </View>
@@ -373,5 +375,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   badge: { paddingVertical: 3, paddingHorizontal: 8, borderRadius: 6 },
-  bullet: { flexDirection: 'row', gap: spacing.sm },
+  bullet: { flexDirection: 'row' },
 });

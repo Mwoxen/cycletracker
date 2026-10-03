@@ -85,10 +85,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: spacing.sm,
     paddingVertical: 6,
     minHeight: 36,
   },
-  rowText: { flex: 1, lineHeight: 22 },
+  rowText: { flex: 1, flexShrink: 1, lineHeight: 22, marginLeft: spacing.sm },
   pressed: { opacity: 0.6 },
 });

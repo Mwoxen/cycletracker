@@ -190,7 +190,7 @@ export function ReadingBullets({ items }: { items: string[] }) {
           <Text
             allowFontScaling
             maxFontSizeMultiplier={BODY_MAX_SCALE}
-            style={[styles.paragraph, { flex: 1 }]}>
+            style={[styles.paragraph, styles.bulletText]}>
             {item}
           </Text>
         </View>
@@ -354,6 +354,7 @@ const styles = StyleSheet.create({
     lineHeight: 31,
     color: colors.readingLede,
   },
+  bulletText: { flex: 1, flexShrink: 1 },
   pullQuote: {
     borderLeftWidth: 3,
     borderLeftColor: colors.tint,
@@ -370,8 +371,15 @@ const styles = StyleSheet.create({
   section: { paddingHorizontal: spacing.sm, gap: spacing.sm },
   sectionAccent: { borderLeftWidth: 3, paddingLeft: 14, marginLeft: spacing.sm - 3 },
   sectionTitle: { fontFamily: fonts?.rounded },
-  bullet: { flexDirection: 'row', gap: spacing.sm },
-  bulletDot: { fontSize: 19, lineHeight: 29, color: colors.secondaryLabel },
+  // No `gap` on rows that hold wrapping text: Yoga measures the text without it and clips a
+  // line that fills the width to the last few points. The dot carries the spacing instead.
+  bullet: { flexDirection: 'row' },
+  bulletDot: {
+    fontSize: 19,
+    lineHeight: 29,
+    color: colors.secondaryLabel,
+    marginRight: spacing.sm,
+  },
   progressTrack: {
     position: 'absolute',
     top: 0,
