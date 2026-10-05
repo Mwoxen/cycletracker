@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
@@ -15,6 +15,7 @@ import Svg, { Circle, Path } from 'react-native-svg';
 
 import type { DayStatus } from '@/engine/cycle';
 import { phaseForCycleDay } from '@/engine/cycle';
+import { setRingAnchor } from '@/ui/ring-anchor';
 import { fontFor, phaseHex } from '@/ui/colors';
 import { usePhaseTheme, useSurfaceHex } from '@/ui/theme';
 import { Txt } from '@/ui/primitives';
@@ -97,6 +98,7 @@ export function CycleRing({
   loggedDays = [],
   label,
   phaseName,
+  reportAnchor,
 }: {
   today: DayStatus;
   periodLength: number;
@@ -111,7 +113,10 @@ export function CycleRing({
   label?: string;
   /** The phase name under it, in the accent. */
   phaseName?: string;
+  /** Report where the ring sits on screen, so the splash can fade into it (the Home ring only). */
+  reportAnchor?: boolean;
 }) {
+  const box = useRef<View>(null);
   const theme = usePhaseTheme();
   const surface = useSurfaceHex();
   const reduced = useReducedMotion();
@@ -184,6 +189,11 @@ export function CycleRing({
   const inset = size * 0.14;
   return (
     <View
+      ref={box}
+      onLayout={() => {
+        if (!reportAnchor) return;
+        box.current?.measureInWindow((x, y, w) => setRingAnchor({ x, y, size: w }));
+      }}
       style={{ width: size, height: size }}
       accessible
       accessibilityLabel={[label, phaseName].filter(Boolean).join(', ')}

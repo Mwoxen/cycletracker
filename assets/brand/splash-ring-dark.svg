@@ -30,8 +30,4 @@
     <path d="M -127.56 -271.53 A 300 300 0 0 1 -69.56 -291.82" stroke="#AA95E8"/>
     <path d="M -63.95 -293.11 A 300 300 0 0 1 -2.88 -299.99" stroke="#AA95E8"/>
   </g>
-  <g transform="translate(512 381) scale(0.88)">
-    <path d="M 0 118 C -30 92 -128 32 -128 -46 C -128 -100 -86 -132 -46 -132 C -20 -132 -6 -118 0 -106 C 6 -118 20 -132 46 -132 C 86 -132 128 -100 128 -46 C 128 32 30 92 0 118 Z" fill="#EC8A92"/>
-  </g>
-  <text x="512" y="850" text-anchor="middle" font-family="Manrope" font-weight="300" font-size="40" letter-spacing="-0.4" fill="#F2EAEE">Cycle Tracker</text>
 </svg>

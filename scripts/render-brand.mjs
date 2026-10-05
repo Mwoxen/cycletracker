@@ -28,11 +28,11 @@ const manrope = resolve(
   'node_modules/@expo-google-fonts/manrope/300Light/Manrope_300Light.ttf',
 );
 
-function render({ svg, size, out, background = 'transparent', scale = 1 }) {
+function render({ svg, size, height = size, out, background = 'transparent', scale = 1 }) {
   const html = `<!doctype html><html><head><style>
     @font-face{font-family:Manrope;font-weight:300;src:url(file://${manrope}) format('truetype')}
-    html,body{margin:0;padding:0;background:${background};width:${size}px;height:${size}px;overflow:hidden}
-    svg{display:block;width:${size}px;height:${size}px;transform:scale(${scale});transform-origin:center}
+    html,body{margin:0;padding:0;background:${background};width:${size}px;height:${height}px;overflow:hidden}
+    svg{display:block;width:${size}px;height:${height}px;transform:scale(${scale});transform-origin:center}
   </style></head><body>${readFileSync(svg, 'utf8')}</body></html>`;
   const page = join(work, `${out.split('/').pop()}.html`);
   writeFileSync(page, html);
@@ -46,7 +46,7 @@ function render({ svg, size, out, background = 'transparent', scale = 1 }) {
       '--hide-scrollbars',
       '--virtual-time-budget=3000',
       '--default-background-color=00000000',
-      `--window-size=${size},${size}`,
+      `--window-size=${size},${height}`,
       `--screenshot=${shot}`,
       `file://${page}`,
     ],
@@ -69,12 +69,26 @@ render({
   out: 'assets/images/icon-dark.png',
   background: '#0D0A0E',
 });
-render({ svg: 'assets/brand/splash.svg', size: 512, out: 'assets/images/splash-icon.png' });
+const SPLASH = { size: 1024, height: 1400 };
+render({ svg: 'assets/brand/splash.svg', ...SPLASH, out: 'assets/images/splash-icon.png' });
 render({
   svg: 'assets/brand/splash-dark.svg',
-  size: 512,
+  ...SPLASH,
   out: 'assets/images/splash-icon-dark.png',
 });
+// Layers for the in-app splash handover (src/ui/curtain.tsx), in the splash image's frame.
+for (const layer of ['ring', 'heart', 'text']) {
+  render({
+    svg: `assets/brand/splash-${layer}.svg`,
+    ...SPLASH,
+    out: `assets/images/splash-${layer}.png`,
+  });
+  render({
+    svg: `assets/brand/splash-${layer}-dark.svg`,
+    ...SPLASH,
+    out: `assets/images/splash-${layer}-dark.png`,
+  });
+}
 render({
   svg: 'assets/brand/icon.svg',
   size: 64,
