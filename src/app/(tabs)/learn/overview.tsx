@@ -10,6 +10,7 @@ import { useCycle } from '@/hooks/use-cycle';
 import { useProgram } from '@/hooks/use-program';
 import { selectActiveLogs, useStore } from '@/store/store';
 import { colors, phaseColor, phaseSymbol, spacing } from '@/ui/colors';
+import { PlusGate } from '@/ui/plus-gate';
 import { Bullets, Card, Row, Screen, SectionTitle, Icon, Txt } from '@/ui/primitives';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
@@ -33,6 +34,7 @@ export default function OverviewScreen() {
   return (
     <>
       <Stack.Screen options={{ title: t('learn.overview') }} />
+      <PlusGate feature="personalOverview">
       <Screen>
         <Txt color={colors.secondaryLabel}>{t('learn.overviewIntro')}</Txt>
 
@@ -112,6 +114,7 @@ export default function OverviewScreen() {
           );
         })}
       </Screen>
+      </PlusGate>
     </>
   );
 }

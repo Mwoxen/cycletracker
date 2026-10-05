@@ -1,6 +1,7 @@
 import { DateTimePicker } from '@expo/ui/community/datetime-picker';
 import Constants from 'expo-constants';
 import * as Updates from 'expo-updates';
+import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
@@ -27,6 +28,8 @@ import { colors, palette, spacing } from '@/ui/colors';
 import { Button, Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Segmented } from '@/ui/segmented';
 import { Stepper } from '@/ui/stepper';
+import { usePlan } from '@/entitlements';
+import { openManageSubscriptions, purchasesAvailable, redeemOfferCode, restore } from '@/purchases';
 
 /** "1.0.0 (7)" from the native build. */
 function appVersionLabel(): string {
@@ -66,6 +69,8 @@ export default function SettingsScreen() {
   const [name, setName] = useState(profile?.partnerName ?? '');
   const [openPicker, setOpenPicker] = useState<'start' | 'time' | null>(null);
   const [updateState, setUpdateState] = useState<'idle' | 'checking' | 'downloading'>('idle');
+  const entitlement = useStore((s) => s.entitlement);
+  const plan = usePlan();
 
   useEffect(() => {
     void hasNotificationPermission().then(setNotifGranted);
@@ -175,6 +180,35 @@ export default function SettingsScreen() {
       setUpdateState('idle');
     }
   };
+
+  const restorePurchases = async () => {
+    try {
+      const ok = await restore();
+      Alert.alert(t('plus.name'), ok ? t('plus.restored') : t('plus.nothingToRestore'));
+    } catch {
+      Alert.alert(t('plus.name'), t('plus.purchaseFailed'));
+    }
+  };
+
+  const planLabel =
+    plan === 'plus'
+      ? entitlement.source === 'granted'
+        ? t('plus.granted')
+        : entitlement.periodType === 'trial'
+          ? t('plus.activeTrial')
+          : t('plus.active')
+      : t('plus.free');
+  const planHint =
+    plan === 'plus' && entitlement.expiresAt
+      ? t(
+          entitlement.periodType === 'trial'
+            ? 'plus.trialEnds'
+            : entitlement.willRenew
+              ? 'plus.renews'
+              : 'plus.expires',
+          { date: fmt.short(toISODate(new Date(entitlement.expiresAt))) },
+        )
+      : undefined;
 
   const confirmReset = () => {
     Alert.alert(t('settings.resetConfirmTitle'), t('settings.resetConfirmBody'), [
@@ -456,6 +490,46 @@ export default function SettingsScreen() {
           {t('settings.cloudBackupHelp')}
         </Txt>
 
+        {isTracker ? (
+          <>
+            <SectionTitle>{t('plus.name')}</SectionTitle>
+            <Card style={styles.rowsCard}>
+              <Row title={t('plus.status')} subtitle={planHint} value={planLabel} />
+              {entitlement.source === 'store' ? (
+                <Row
+                  title={t('plus.manage')}
+                  symbol="creditcard"
+                  onPress={() => void openManageSubscriptions(entitlement.managementUrl)}
+                />
+              ) : plan === 'free' ? (
+                <Row
+                  title={t('plus.upgrade')}
+                  symbol="sparkles"
+                  onPress={() => router.push('/paywall')}
+                />
+              ) : null}
+              <Row
+                title={t('plus.restore')}
+                symbol="arrow.clockwise"
+                onPress={() => void restorePurchases()}
+                chevron={false}
+              />
+              <Row
+                title={t('plus.redeem')}
+                symbol="gift"
+                onPress={() => void redeemOfferCode()}
+                chevron={false}
+                last
+              />
+            </Card>
+            {!purchasesAvailable ? (
+              <Txt variant="footnote" style={styles.help}>
+                {t('plus.unavailable')}
+              </Txt>
+            ) : null}
+          </>
+        ) : null}
+
         <SectionTitle>{t('settings.about')}</SectionTitle>
         <Card>
           <Txt variant="headline">{t('settings.privacy')}</Txt>
@@ -466,6 +540,19 @@ export default function SettingsScreen() {
           <Txt variant="footnote">{t('settings.disclaimerBody')}</Txt>
         </Card>
         <Card style={styles.rowsCard}>
+          {entitlement.appUserId ? (
+            <Row
+              title={t('plus.supportId')}
+              subtitle={t('plus.supportIdHint')}
+              value={entitlement.appUserId.replace(/^\$RCAnonymousID:/, '').slice(0, 12)}
+              onPress={() => {
+                void Clipboard.setStringAsync(entitlement.appUserId ?? '');
+                void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                Alert.alert(t('plus.supportId'), t('plus.copied'));
+              }}
+              chevron={false}
+            />
+          ) : null}
           <Row title={t('settings.version')} value={appVersionLabel()} />
           <Row
             title={t('settings.update')}

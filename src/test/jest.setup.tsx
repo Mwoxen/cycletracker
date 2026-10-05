@@ -115,6 +115,36 @@ jest.mock('expo-updates', () => ({
   reloadAsync: jest.fn(async () => undefined),
 }));
 
+jest.mock('react-native-purchases', () => {
+  class Purchases {
+    static PURCHASES_ERROR_CODE = { PURCHASE_CANCELLED_ERROR: '1' };
+    static configure = jest.fn();
+    static setLogLevel = jest.fn(async () => undefined);
+    static addCustomerInfoUpdateListener = jest.fn();
+    static getCustomerInfo = jest.fn(async () => ({
+      entitlements: { active: {} },
+      originalAppUserId: '$RCAnonymousID:test',
+      managementURL: null,
+    }));
+    static getOfferings = jest.fn(async () => ({ current: null }));
+    static purchasePackage = jest.fn();
+    static restorePurchases = jest.fn(async () => ({
+      entitlements: { active: {} },
+      originalAppUserId: '$RCAnonymousID:test',
+      managementURL: null,
+    }));
+    static presentCodeRedemptionSheet = jest.fn(async () => undefined);
+  }
+  return {
+    __esModule: true,
+    default: Purchases,
+    LOG_LEVEL: { DEBUG: 'DEBUG', ERROR: 'ERROR' },
+    PACKAGE_TYPE: { ANNUAL: 'ANNUAL', MONTHLY: 'MONTHLY' },
+  };
+});
+
+jest.mock('expo-clipboard', () => ({ setStringAsync: jest.fn(async () => true) }));
+
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'da', languageTag: 'da-DK', regionCode: 'DK' }],
 }));

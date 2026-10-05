@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { DAYS_PER_MONTH, findDaily, getMonth } from '@/content';
+import { useMonthAccess } from '@/entitlements';
 import { useProgram } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
 import { ActionBox } from '@/ui/daily-card';
+import { PlusGate } from '@/ui/plus-gate';
 import { Screen, Txt } from '@/ui/primitives';
 import {
   NextDailyRow,
@@ -26,10 +28,11 @@ export default function DailyCardScreen() {
   const markRead = useStore((s) => s.markRead);
   const isTracker = useStore((s) => s.profile?.role === 'tracker');
   const { progress, onScroll } = useReadingProgress();
+  const unlocked = useMonthAccess(card?.month ?? 1);
 
   useEffect(() => {
-    if (card && isTracker) markRead(card.id);
-  }, [card, isTracker, markRead]);
+    if (card && isTracker && unlocked) markRead(card.id);
+  }, [card, isTracker, unlocked, markRead]);
 
   if (!card) {
     return (
@@ -62,6 +65,7 @@ export default function DailyCardScreen() {
           title: t('learn.month', { n: card.month }) + ' · ' + t('common.dayN', { n: card.day }),
         }}
       />
+      <PlusGate month={card.month}>
       <View style={{ flex: 1 }}>
         <Screen onScroll={onScroll} scrollEventThrottle={32}>
           <ReadingHero kicker={kicker} title={card.title} meta={meta} phase={card.phaseTags[0]} />
@@ -72,6 +76,7 @@ export default function DailyCardScreen() {
         </Screen>
         <ReadingProgressBar progress={progress} />
       </View>
+      </PlusGate>
     </>
   );
 }

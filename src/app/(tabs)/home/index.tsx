@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
+import { useMonthAccess } from '@/entitlements';
 import { useCycle } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { useProgram } from '@/hooks/use-program';
@@ -11,6 +12,7 @@ import { TabSwipe } from '@/ui/tab-swipe';
 import { colors, spacing } from '@/ui/colors';
 import { DailyCardPreview } from '@/ui/daily-card';
 import { PhaseActionsCard } from '@/ui/phase-actions';
+import { PlusTeaserCard } from '@/ui/plus-teaser';
 import { PhaseCard } from '@/ui/phase-card';
 import { Bullets, Button, Card, Screen, Icon, Txt } from '@/ui/primitives';
 import { Reveal } from '@/ui/reveal';
@@ -45,6 +47,7 @@ export default function HomeScreen() {
   const { today, snapshot } = useCycle();
   const program = useProgram();
   const todayLog = useStore(selectLogForDate(today));
+  const cardUnlocked = useMonthAccess(program.card?.month ?? 1);
   const isTracker = profile?.role === 'tracker';
   const name = profile?.partnerName ?? '';
   const phase = snapshot.today?.phase;
@@ -120,11 +123,15 @@ export default function HomeScreen() {
             {programStatus}
             {programStatus === null && program.card ? (
               <Reveal index={1}>
-                <DailyCardPreview
-                  card={program.card}
-                  isTracker
-                  programDay={program.position.programDay}
-                />
+                {cardUnlocked ? (
+                  <DailyCardPreview
+                    card={program.card}
+                    isTracker
+                    programDay={program.position.programDay}
+                  />
+                ) : (
+                  <PlusTeaserCard card={program.card} programDay={program.position.programDay} />
+                )}
               </Reveal>
             ) : null}
             {todayLog && todayLog.symptoms.length > 0 ? (

@@ -4,10 +4,12 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import {
   DEFAULT_SETTINGS,
+  FREE_ENTITLEMENT,
   WEEK_FOCUS_MAX_LENGTH,
   type BackupStatus,
   type CycleWeek,
   type DayLog,
+  type Entitlement,
   type ISODate,
   type Language,
   type LessonProgress,
@@ -40,9 +42,12 @@ export interface AppState extends SnapshotData {
   deviceId: string;
   hydrated: boolean;
   backupStatus: BackupStatus;
+  /** Cached Plus status so the UI is right at launch; refreshed from the store on start. */
+  entitlement: Entitlement;
 
   setHydrated: (value: boolean) => void;
   setBackupStatus: (patch: Partial<BackupStatus>) => void;
+  setEntitlement: (entitlement: Entitlement) => void;
   completeOnboarding: (input: OnboardingInput) => void;
   updateProfile: (patch: Partial<Omit<Profile, 'id'>>) => void;
   updateSettings: (patch: Partial<Settings>) => void;
@@ -90,10 +95,12 @@ export const useStore = create<AppState>()(
       schemaVersion: SCHEMA_VERSION,
       hydrated: false,
       backupStatus: { available: false },
+      entitlement: FREE_ENTITLEMENT,
       ...initialData(),
 
       setHydrated: (value) => set({ hydrated: value }),
       setBackupStatus: (patch) => set({ backupStatus: { ...get().backupStatus, ...patch } }),
+      setEntitlement: (entitlement) => set({ entitlement }),
 
       completeOnboarding: (input) => {
         const now = Date.now();
@@ -315,6 +322,7 @@ export const useStore = create<AppState>()(
         weekFocus: state.weekFocus,
         weekActionsDone: state.weekActionsDone,
         phaseActionsDone: state.phaseActionsDone,
+        entitlement: state.entitlement,
       }),
       migrate: (persisted, version) => {
         // Future schema migrations go here, keyed on `version`.
@@ -330,6 +338,7 @@ export const useStore = create<AppState>()(
           weekFocus: p.weekFocus ?? {},
           weekActionsDone: p.weekActionsDone ?? {},
           phaseActionsDone: p.phaseActionsDone ?? {},
+          entitlement: p.entitlement ?? FREE_ENTITLEMENT,
           settings: {
             ...DEFAULT_SETTINGS,
             ...p.settings,

@@ -153,6 +153,24 @@ export interface PairingInfo {
   lastSharedAt?: number;
 }
 
+/** What the app knows about Cycle Tracker Plus; the store is the source of truth. */
+export interface Entitlement {
+  plan: 'free' | 'plus';
+  /** Where the plan comes from: the App Store, access granted by hand, or nothing yet. */
+  source: 'none' | 'store' | 'granted';
+  /** Unix ms when the current period ends; undefined for lifetime or granted access. */
+  expiresAt?: number;
+  willRenew?: boolean;
+  /** 'trial' during a free trial, otherwise 'normal'. */
+  periodType?: string;
+  productId?: string;
+  managementUrl?: string;
+  /** The purchase account id shown under Settings so free access can be granted by hand. */
+  appUserId?: string;
+}
+
+export const FREE_ENTITLEMENT: Entitlement = { plan: 'free', source: 'none' };
+
 export interface BackupStatus {
   available: boolean;
   lastBackupAt?: number;

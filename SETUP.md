@@ -94,7 +94,46 @@ Gå til https://github.com/Mwoxen/cycletracker/settings/pages og sæt **Source**
 Det er alt. Herefter publicerer workflowet **Pages** siderne i `docs/site/` automatisk:
 https://mwoxen.github.io/cycletracker/privacy.html og `/terms.html`, `/support.html`.
 
-## 6. App Store
+## 6. Cycle Tracker Plus (abonnement)
+
+Appen er bygget til RevenueCat oven på Apples StoreKit. Uden nøglen kører appen gratis, og
+betalingsskærmen siger, at køb ikke er tilgængelige. Trinnene tager ca. en halv time.
+
+1. **Paid Apps-aftalen.** App Store Connect → Business (Aftaler) → underskriv "Paid Apps" og udfyld
+   bank- og skatteoplysninger. Uden den kan produkterne ikke sælges.
+2. **Abonnementsgruppe og produkter.** App Store Connect → Cycle Tracker → Abonnementer → ny
+   gruppe "Cycle Tracker Plus". Opret to auto-renewable abonnementer i gruppen:
+   - Produkt-id `plus_monthly`, 1 måned, pris 29 kr. (vælg prisniveau tættest på).
+   - Produkt-id `plus_yearly`, 1 år, pris 199 kr., med et introduktionstilbud: gratis, 1 uge.
+   Udfyld visningsnavn og beskrivelse på dansk og engelsk, og læg et skærmbillede på hvert produkt
+   (det kræver Apple til review; et screenshot af betalingsskærmen er nok).
+3. **RevenueCat.** Opret en gratis konto på https://app.revenuecat.com, et projekt "Cycle Tracker"
+   og en iOS-app med bundle id `com.mwoxen.cycletracker`. Under appens indstillinger: læg
+   App Store Connect API-nøglen ind (samme `.p8` som i del 2, RevenueCat vejleder) og "App-Specific
+   Shared Secret" fra App Store Connect → appen → App-oplysninger.
+4. **Produkter, entitlement og offering i RevenueCat.** Products: importér `plus_monthly` og
+   `plus_yearly`. Entitlements: opret én med id `plus` og knyt begge produkter til den.
+   Offerings: i "default" tilføjes to packages, `$rc_annual` → `plus_yearly` og
+   `$rc_monthly` → `plus_monthly`. Appen viser årsabonnementet først.
+5. **Nøglen i GitHub.** RevenueCat → projektet → API keys → kopiér den **offentlige iOS SDK-nøgle**
+   (begynder med `appl_`). Læg den som repository secret `REVENUECAT_IOS_KEY` (samme sted som de
+   andre: Settings → Secrets and variables → Actions). Nøglen er ikke hemmelig i sig selv, men
+   holdes uden for repoet. Næste native build og alle OTA-opdateringer tager den med.
+6. **Test i sandbox.** I TestFlight bruges Apples sandbox automatisk: køb koster ikke noget, og
+   et "årligt" abonnement fornyes hvert 5. minut, så du kan se fornyelse og udløb. Under
+   Indstillinger → Cycle Tracker Plus kan du se status, gendanne og indløse koder.
+
+### Gratis adgang til andre
+
+- **Tildelt adgang (familie, venner, testere).** Bed personen sende sit "Support-id" fra
+  Indstillinger → Om. I RevenueCat: Customers → find id'et → "Grant entitlement" → `plus`,
+  lifetime (eller en periode). Appen opdaterer sig selv næste gang den åbnes.
+- **Tilbudskoder (mange personer, kampagner).** App Store Connect → abonnementet → Offer Codes →
+  opret fx "gratis i 1 år" og generér engangskoder. Folk indløser dem via "Indløs kode" i appen
+  eller i App Store. Efter perioden fornyes abonnementet til fuld pris, medmindre de opsiger.
+- **Hendes rolle** ("Jeg har cyklussen") er altid gratis uden koder.
+
+## 7. App Store
 
 Når appen virker i TestFlight, følg `store/CHECKLIST.md`. Alle tekster ligger klar i
 `store/metadata/`. Det eneste, der kræver en iPhone, er skærmbillederne.

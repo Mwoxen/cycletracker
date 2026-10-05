@@ -54,8 +54,9 @@ link-deling mellem partnernes telefoner) og Fase 3 (hele årsprogrammet: 12 mån
 kort, 48 ugentlige artikler og 12 quizzer på dansk og engelsk, plus arkiv, søgning, streak og en
 personlig årsoversigt), Fase 4 (ikon, splash, privatlivspolitik, App Store-metadata og tjekliste,
 macOS-fallback-build) og Fase 5 (varmt design, cyklusring, animationer, tilgængelighed og en
-hjemmeskærms-widget) er bygget. Tilbage: App Store-indsendelse (dit klik) og den valgfrie
-abonnementsfase.
+hjemmeskærms-widget) og Fase 6 (Cycle Tracker Plus: måned 1 gratis, resten af året som
+abonnement via RevenueCat, tilbudskoder og tildelt adgang) er bygget. Tilbage: App Store-indsendelse
+(dit klik).
 
 ## Ansvarsfraskrivelse
 

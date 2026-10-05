@@ -15,6 +15,7 @@ import { useCloudBackup } from '@/hooks/use-cloud-backup';
 import { useWidgetSync } from '@/hooks/use-widget-sync';
 import { setLanguage } from '@/i18n';
 import { installNotificationHandler, syncNotifications } from '@/notifications';
+import { configurePurchases } from '@/purchases';
 import { selectActivePeriods, useStore } from '@/store/store';
 import { CatchBoundary, captureConsoleErrors, errorDetails } from '@/ui/catch-boundary';
 import { AppErrorBoundary } from '@/ui/error-boundary';
@@ -57,6 +58,10 @@ export default function RootLayout() {
     if (hydrated) void SplashScreen.hideAsync();
   }, [hydrated]);
 
+  useEffect(() => {
+    if (hydrated) void configurePurchases();
+  }, [hydrated]);
+
   // Never leave the user on a blank screen if storage fails to rehydrate. Only the in-memory
   // flag is flipped, so a slow rehydration can still land without the default state having been
   // persisted over the real one.
@@ -87,6 +92,7 @@ export default function RootLayout() {
               <Stack.Screen name="share" options={sheet} />
               <Stack.Screen name="scan" options={sheet} />
               <Stack.Screen name="import" options={sheet} />
+              <Stack.Screen name="paywall" options={sheet} />
             </Stack.Protected>
             <Stack.Protected guard={!profile}>
               <Stack.Screen name="onboarding" options={{ headerShown: false }} />

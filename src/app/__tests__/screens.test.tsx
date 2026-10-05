@@ -3,13 +3,13 @@
  * src/app. They exist to catch runtime errors before a build: render loops, undefined imports,
  * hook misuse, bad props and i18n crashes. Native-only modules are mocked in src/test/jest.setup.
  */
-import { render } from '@testing-library/react-native';
+import { act, render } from '@testing-library/react-native';
 import { fireEvent, screen, waitFor } from 'expo-router/testing-library';
 import * as Updates from 'expo-updates';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { getContent, dailyId, weeklyId, wrapId } from '@/content';
-import { PHASES, type Role } from '@/domain/types';
+import { FREE_ENTITLEMENT, PHASES, type Role } from '@/domain/types';
 import { addDaysISO, todayISO } from '@/engine/dates';
 import { setLanguage } from '@/i18n';
 import da from '@/i18n/da';
@@ -43,6 +43,9 @@ function onboard(
   });
 }
 
+const grantPlus = () =>
+  useStore.getState().setEntitlement({ plan: 'plus', source: 'store', expiresAt: 4e12 });
+
 const content = getContent('da');
 const month1 = content.months[0];
 const upper = (s: string) => s.toUpperCase();
@@ -57,6 +60,7 @@ beforeEach(() => {
   freezeToday();
   setLanguage('da');
   useStore.getState().resetAll();
+  useStore.getState().setEntitlement(FREE_ENTITLEMENT);
   useStore.getState().setHydrated(true);
 });
 
@@ -331,6 +335,7 @@ describe('learn sub-screens', () => {
 
   it('links to the next card once it is unlocked', async () => {
     onboard('tracker', addDaysISO(TODAY, -200));
+    grantPlus();
     // Day 201 is month 7, day 21: day 20 is an earlier card whose successor is unlocked.
     const month7 = content.months[6];
     const app = await renderApp(`/learn/daily/${dailyId(7, 20)}`);
@@ -442,13 +447,23 @@ describe('learn sub-screens', () => {
     expect(phaseRows).toHaveLength(PHASES.length);
   });
 
-  it('renders the overview', async () => {
+  it('renders the overview with Plus', async () => {
     onboard('tracker');
+    grantPlus();
     useStore.getState().upsertLog(todayISO(), { symptoms: ['cramps'], mood: 'low' });
     await renderApp('/learn/overview');
     const learn = learnTab();
     expect(await learn.findByText(upper(da.learn.yearSummary))).toBeTruthy();
     expect(learn.getByText(content.symptomTips.cramps.doThis)).toBeTruthy();
+  });
+
+  it('locks the overview on the free plan', async () => {
+    onboard('tracker');
+    await renderApp('/learn/overview');
+    const learn = learnTab();
+    expect(await learn.findByText(da.plus.lockedTitle)).toBeTruthy();
+    expect(learn.getByText(da.plus.lockedOverview)).toBeTruthy();
+    expect(learn.queryByText(upper(da.learn.yearSummary))).toBeNull();
   });
 });
 
@@ -506,12 +521,58 @@ describe('sheets', () => {
 });
 
 describe('later in the program', () => {
-  it('renders month 2 content 40 days after the start', async () => {
+  it('renders month 2 content 40 days after the start with Plus', async () => {
     onboard('tracker', addDaysISO(TODAY, -40));
+    grantPlus();
     await renderApp('/home');
     // Day 41 is month 2, day 11.
     const card = content.months[1].daily.find((c) => c.day === 11)!;
     expect(await homeTab().findByText(card.title)).toBeTruthy();
+    expect(homeTab().getByText(card.action)).toBeTruthy();
+  });
+
+  it('shows the Plus teaser instead of month 2 content on the free plan', async () => {
+    onboard('tracker', addDaysISO(TODAY, -40));
+    const app = await renderApp('/home');
+    const home = homeTab();
+    const card = content.months[1].daily.find((c) => c.day === 11)!;
+    expect(await home.findByText(card.title)).toBeTruthy();
+    expect(home.queryByText(card.action)).toBeNull();
+    expect(home.getByText(da.plus.teaser.replace('{{day}}', '41'))).toBeTruthy();
+    await fireEvent.press(home.getByText(da.plus.seePlus));
+    expect(app.getPathname()).toBe('/paywall');
+    expect(await screen.findByText(da.plus.title)).toBeTruthy();
+    // No store key in tests: the paywall says purchases are unavailable here.
+    expect(screen.getByText(da.plus.unavailable)).toBeTruthy();
+  });
+
+  it('locks a month 2 card on the free plan and does not mark it read', async () => {
+    onboard('tracker', addDaysISO(TODAY, -40));
+    const id = dailyId(2, 5);
+    await renderApp(`/learn/daily/${id}`);
+    const learn = learnTab();
+    expect(await learn.findByText(da.plus.lockedTitle)).toBeTruthy();
+    expect(learn.getByText(da.plus.lockedMonth.replace('{{n}}', '2'))).toBeTruthy();
+    expect(learn.queryByText(content.months[1].daily[4].insight)).toBeNull();
+    expect(useStore.getState().progress[id]?.readAt).toBeUndefined();
+  });
+
+  it('never locks anything for the user role', async () => {
+    onboard('user', addDaysISO(TODAY, -40));
+    await renderApp(`/learn/daily/${dailyId(2, 5)}`);
+    expect(await learnTab().findByText(content.months[1].daily[4].insight)).toBeTruthy();
+  });
+
+  it('shows the plan in Settings with a way to upgrade', async () => {
+    onboard('tracker');
+    await renderApp('/settings');
+    const settings = settingsTab();
+    expect(await settings.findByText(upper(da.plus.name))).toBeTruthy();
+    expect(settings.getByText(da.plus.free)).toBeTruthy();
+    expect(settings.getByText(da.plus.upgrade)).toBeTruthy();
+    await act(async () => grantPlus());
+    expect(await settings.findByText(da.plus.active)).toBeTruthy();
+    expect(settings.queryByText(da.plus.upgrade)).toBeNull();
   });
 
   it('renders month 7 and the catch-up list 200 days after the start', async () => {

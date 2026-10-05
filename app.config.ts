@@ -108,7 +108,12 @@ const config: ExpoConfig = {
     typedRoutes: true,
     reactCompiler: true,
   },
-  extra: projectId ? { eas: { projectId } } : undefined,
+  extra: {
+    ...(projectId ? { eas: { projectId } } : {}),
+    // RevenueCat's public iOS SDK key (not a secret, but kept out of the repo). Without it the
+    // app runs free with purchases disabled.
+    revenueCatIosKey: process.env.REVENUECAT_IOS_KEY || undefined,
+  },
 };
 
 export default config;
