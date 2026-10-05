@@ -11,19 +11,33 @@ export function PlusTeaserCard({ card, programDay }: { card: DailyCard; programD
   const { t } = useTranslation();
   const router = useRouter();
   return (
-    <Card>
-      <View style={styles.headerRow}>
-        <Txt variant="footnote">{t('home.todaysCardDay', { day: programDay })}</Txt>
-        <Icon name="lock.fill" size={14} color={colors.tertiaryLabel} />
+    <View>
+      <View style={styles.labelRow}>
+        <Txt variant="label">{t('home.todaysCardDay', { day: programDay }).toUpperCase()}</Txt>
+        <Icon name="lock.fill" size={12} color={colors.tertiaryLabel} />
       </View>
-      <Txt variant="title">{card.title}</Txt>
-      <Txt color={colors.secondaryLabel}>{t('plus.teaser', { day: programDay })}</Txt>
-      <Button title={t('plus.seePlus')} symbol="sparkles" onPress={() => router.push('/paywall')} />
-    </Card>
+      <Card>
+        <Txt variant="cardTitle">{card.title}</Txt>
+        <Txt variant="callout" color={colors.secondaryLabel}>
+          {t('plus.teaser', { day: programDay })}
+        </Txt>
+        <Button
+          title={t('plus.seePlus')}
+          symbol="sparkles"
+          onPress={() => router.push('/paywall')}
+          style={{ marginTop: spacing.xs }}
+        />
+      </Card>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  spacer: { height: spacing.xs },
+  labelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginLeft: spacing.xs,
+    marginBottom: spacing.label,
+  },
 });

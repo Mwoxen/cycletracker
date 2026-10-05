@@ -82,7 +82,7 @@ describe('fresh install', () => {
     await fireEvent.changeText(screen.getByPlaceholderText(da.onboarding.namePlaceholder), 'Anna');
     await fireEvent.press(screen.getByText(da.onboarding.finish));
     expect(await homeTabWhenReady()).toBeTruthy();
-    expect(homeTab().getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
+    expect(homeTab().getByText(upper(da.home.todaysCardDay.replace('{{day}}', '1')))).toBeTruthy();
     expect(useStore.getState().profile?.partnerName).toBe('Anna');
     expect(useStore.getState().profile?.role).toBe('tracker');
   });
@@ -95,7 +95,12 @@ describe('home', () => {
     const home = homeTab();
     // The phase card headline says what the partner needs today, e.g. "Anna har overskud i dag".
     expect(await home.findByText(/^Anna (har|er) /)).toBeTruthy();
-    expect(home.getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
+    expect(home.getByText(upper(da.home.todaysCardDay.replace('{{day}}', '1')))).toBeTruthy();
+    // Facts carry a tag so predictions are never mistaken for logged data.
+    expect(home.getAllByText(`≈ ${upper(da.home.tagEstimate)}`).length).toBeGreaterThan(0);
+    expect(home.getByText(da.home.estimateNote)).toBeTruthy();
+    expect(home.getByText(da.home.localOnly)).toBeTruthy();
+    expect(home.getByText(upper(da.home.talkTogether))).toBeTruthy();
     expect(home.getByText(/^Næste menstruation om \d+ dage$/)).toBeTruthy();
     expect(home.getByText(month1.daily[0].title)).toBeTruthy();
     expect(home.getByText(da.home.neverSynced)).toBeTruthy();
@@ -111,7 +116,7 @@ describe('home', () => {
     expect(home.getByText(da.home.selfCare)).toBeTruthy();
     expect(home.getByText(content.phases.follicular.selfCare[0])).toBeTruthy();
     // The partner's program is a compact read-only pointer, not the action card.
-    expect(home.getByText(da.home.partnerLearnsToday)).toBeTruthy();
+    expect(home.getByText(upper(da.home.partnerLearnsToday))).toBeTruthy();
     expect(home.getByText(month1.daily[0].title)).toBeTruthy();
     expect(home.getByText(da.home.todaysCardDay.replace('{{day}}', '1'))).toBeTruthy();
     expect(home.queryByText(da.home.markActionDone)).toBeNull();
@@ -146,7 +151,7 @@ describe('home', () => {
     const home = homeTab();
     await fireEvent.press(await home.findByText(da.home.markActionDone));
     expect(useStore.getState().progress[dailyId(1, 1)]?.actionDoneAt).toBeDefined();
-    expect(await home.findByText(da.home.actionDone)).toBeTruthy();
+    expect(await home.findByText(`✓ ${da.home.actionDone}`)).toBeTruthy();
   });
 
   it('ticks a phase action on Home, kept per cycle', async () => {
@@ -171,7 +176,9 @@ describe('home', () => {
     onboard('tracker');
     useStore.getState().upsertLog(todayISO(), { symptoms: ['cramps'] });
     await renderApp('/home');
-    expect(await homeTab().findByText(content.symptomTips.cramps.doThis)).toBeTruthy();
+    const home = homeTab();
+    expect(await home.findByText(content.symptomTips.cramps.doThis, { exact: false })).toBeTruthy();
+    expect(home.getByText(da.log.symptomNames.cramps)).toBeTruthy();
   });
 
   it('shows pairing rows once a partner is synced', async () => {

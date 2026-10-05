@@ -1,14 +1,21 @@
 import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { DailyCard } from '@/content';
 import { useStore } from '@/store/store';
-import { colors, radius, spacing } from '@/ui/colors';
+import { colors, fontFor, radius, spacing } from '@/ui/colors';
+import { Confetti } from '@/ui/confetti';
+import { Pressed } from '@/ui/pressed';
 import { Card, Icon, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
-/** Compact view of a daily card for the Home screen, with the action toggle. */
+/**
+ * Today's card on Home (docs/design/README.md §1.4): title, excerpt and the way into the reading
+ * on top; a divider; then the one action for today with its "done" button.
+ */
 export function DailyCardPreview({
   card,
   isTracker,
@@ -20,6 +27,7 @@ export function DailyCardPreview({
   programDay?: number;
 }) {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const progress = useStore((s) => s.progress[card.id]);
   const kicker = !isTracker
     ? t('home.partnerLearnsToday')
@@ -27,88 +35,96 @@ export function DailyCardPreview({
       ? t('home.todaysCardDay', { day: programDay })
       : t('home.todaysCard');
   return (
-    <Card>
-      <View style={styles.headerRow}>
-        <Txt variant="footnote">{kicker}</Txt>
-        {progress?.readAt ? (
-          <Icon name="checkmark.circle.fill" size={16} color={colors.green} />
-        ) : null}
+    <View>
+      <View style={styles.labelRow}>
+        <Txt variant="label">{kicker.toUpperCase()}</Txt>
+        {progress?.readAt ? <Icon name="checkmark" size={12} color={theme.accent} /> : null}
       </View>
-      <Link href={`/(tabs)/home/daily/${card.id}`} asChild>
-        <Pressable>
-          <Txt variant="title">{card.title}</Txt>
-          <Txt numberOfLines={3} style={{ marginTop: spacing.xs }} color={colors.secondaryLabel}>
-            {card.insight}
-          </Txt>
-          <Txt variant="callout" color={colors.tint} style={{ marginTop: spacing.sm }}>
-            {t('home.readCard')} ›
-          </Txt>
-        </Pressable>
-      </Link>
-      <ActionBox card={card} />
-    </Card>
+      <Card>
+        <Link href={`/(tabs)/home/daily/${card.id}`} asChild>
+          <Pressable accessibilityRole="button" style={styles.top}>
+            <Txt variant="cardTitle">{card.title}</Txt>
+            <Txt variant="callout" numberOfLines={3} color={colors.secondaryLabel}>
+              {card.insight}
+            </Txt>
+            <Txt variant="callout" color={theme.accent} style={styles.readLink}>
+              {t('home.readCard')} →
+            </Txt>
+          </Pressable>
+        </Link>
+        <View style={styles.divider} />
+        <ActionBox card={card} />
+      </Card>
+    </View>
   );
 }
 
-export function ActionBox({ card }: { card: DailyCard }) {
+/** The action with its button: outlined "Mark as done" ↔ "✓ Done" filled in `soft`. */
+export function ActionBox({ card, size = 48 }: { card: DailyCard; size?: number }) {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const done = useStore((s) => !!s.progress[card.id]?.actionDoneAt);
   const toggle = useStore((s) => s.toggleActionDone);
-  const label = done ? t('home.actionDone') : t('home.markActionDone');
+  const [burst, setBurst] = useState(0);
+  const label = done ? `✓ ${t('home.actionDone')}` : t('home.markActionDone');
   return (
     <View style={styles.actionBox}>
-      <Txt variant="footnote" color={colors.tint} style={{ fontWeight: '600' }}>
+      <Txt variant="boxLabel" color={theme.accent}>
         {t('home.action').toUpperCase()}
       </Txt>
-      <Txt>{card.action}</Txt>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={label}
-        accessibilityState={{ selected: done }}
-        onPress={() => {
-          void Haptics.impactAsync(
-            done ? Haptics.ImpactFeedbackStyle.Light : Haptics.ImpactFeedbackStyle.Medium,
-          );
-          toggle(card.id);
-        }}
-        style={({ pressed }) => [
-          styles.actionButton,
-          { backgroundColor: done ? colors.green : colors.tint },
-          pressed && { opacity: 0.7 },
-        ]}>
-        <Icon
-          name={done ? 'checkmark.circle.fill' : 'checkmark'}
-          size={16}
-          color={colors.white}
-          weight="semibold"
-        />
-        <Txt variant="headline" color={colors.white}>
-          {label}
-        </Txt>
-      </Pressable>
+      <Txt style={styles.actionText}>{card.action}</Txt>
+      <View>
+        <Pressed
+          accessibilityRole="button"
+          accessibilityLabel={label}
+          accessibilityState={{ selected: done }}
+          scale={0.97}
+          onPress={() => {
+            if (!done) {
+              void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              setBurst((b) => b + 1);
+            } else {
+              void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }
+            toggle(card.id);
+          }}
+          style={[
+            styles.actionButton,
+            { minHeight: size },
+            done
+              ? { backgroundColor: theme.soft, borderColor: theme.soft }
+              : { backgroundColor: 'transparent', borderColor: theme.accent },
+          ]}>
+          <Txt variant="headline" color={theme.accent}>
+            {label}
+          </Txt>
+        </Pressed>
+        <Confetti burst={burst} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  actionBox: {
-    backgroundColor: colors.cardSecondary,
-    borderRadius: radius.card,
-    padding: spacing.md,
-    gap: spacing.sm,
-    marginTop: spacing.xs,
-  },
-  actionButton: {
+  labelRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'flex-start',
     gap: spacing.sm,
+    marginLeft: spacing.xs,
+    marginBottom: spacing.label,
+  },
+  top: { gap: 6 },
+  readLink: { fontFamily: fontFor(700), marginTop: 2 },
+  divider: { height: 1, backgroundColor: colors.separator, marginVertical: 6 },
+  actionBox: { gap: spacing.sm },
+  actionText: { lineHeight: 23 },
+  actionButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: spacing.xs,
     paddingVertical: 10,
     paddingHorizontal: spacing.md,
     borderRadius: radius.chip,
-    minHeight: 40,
+    borderWidth: 1.5,
   },
 });

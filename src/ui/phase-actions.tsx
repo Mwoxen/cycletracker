@@ -4,16 +4,17 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { ISODate, Phase } from '@/domain/types';
 import { useStore } from '@/store/store';
-import { colors, phaseColor, spacing } from '@/ui/colors';
+import { colors, fontFor, spacing } from '@/ui/colors';
 import { Card, Icon, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 /** How many of the phase's "what you can do" items Home shows; the rest live on the phase page. */
 const SHOWN = 3;
 
 /**
- * "What you can do" for today's phase on Home, built like the daily card: phase kicker, title,
- * the first three items as tickable rows, and a link to the full list on the phase page. Ticks
- * are kept per cycle, so they start fresh with each new cycle.
+ * "What you can do" for today's phase on Home: three numbered rows (docs/design/README.md
+ * §1.7) that can be ticked; the badge turns into a check in the accent. Ticks are kept per
+ * cycle, so they start fresh with each new cycle.
  */
 export function PhaseActionsCard({
   phase,
@@ -29,6 +30,7 @@ export function PhaseActionsCard({
   onOpen: () => void;
 }) {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const done = useStore((s) => s.phaseActionsDone[cycleStart]?.[phase]);
   const toggle = useStore((s) => s.togglePhaseAction);
   const shown = items.slice(0, SHOWN);
@@ -37,12 +39,10 @@ export function PhaseActionsCard({
   return (
     <Card onPress={onOpen}>
       <View style={styles.head}>
-        <Txt variant="caption" color={phaseColor[phase]} style={styles.kicker}>
-          {kicker.toUpperCase()}
-        </Txt>
+        <Txt variant="cardTitle">{t('home.whatYouCanDo')}</Txt>
         <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
       </View>
-      <Txt variant="title">{t('home.whatYouCanDo')}</Txt>
+      <Txt variant="footnote">{kicker}</Txt>
       <View style={styles.rows}>
         {shown.map((text, i) => {
           const checked = !!done?.includes(i);
@@ -57,11 +57,16 @@ export function PhaseActionsCard({
               accessibilityState={{ checked }}
               accessibilityLabel={text}
               style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
-              <Icon
-                name={checked ? 'checkmark.circle.fill' : 'circle'}
-                size={22}
-                color={checked ? colors.green : colors.tertiaryLabel}
-              />
+              <View
+                style={[styles.badge, { backgroundColor: checked ? theme.accent : theme.soft }]}>
+                {checked ? (
+                  <Icon name="checkmark" size={12} color={colors.onAccent} weight="bold" />
+                ) : (
+                  <Txt style={styles.badgeText} color={theme.accent}>
+                    {i + 1}
+                  </Txt>
+                )}
+              </View>
               <Txt style={styles.rowText} color={checked ? colors.secondaryLabel : colors.label}>
                 {text}
               </Txt>
@@ -70,7 +75,7 @@ export function PhaseActionsCard({
         })}
       </View>
       {items.length > shown.length ? (
-        <Txt variant="footnote" color={colors.tint}>
+        <Txt variant="callout" color={theme.accent} style={styles.more}>
           {t('home.allInPhase', { n: items.length })} ›
         </Txt>
       ) : null}
@@ -80,14 +85,23 @@ export function PhaseActionsCard({
 
 const styles = StyleSheet.create({
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  kicker: { fontWeight: '700', letterSpacing: 0.6 },
-  rows: { gap: spacing.xs },
+  rows: { marginTop: spacing.xs },
   row: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingVertical: 6,
-    minHeight: 36,
+    paddingVertical: 8,
+    minHeight: 40,
   },
-  rowText: { flex: 1, flexShrink: 1, lineHeight: 22, marginLeft: spacing.sm },
+  badge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+  },
+  badgeText: { fontFamily: fontFor(700), fontSize: 12, lineHeight: 16 },
+  rowText: { flex: 1, flexShrink: 1, lineHeight: 23, marginLeft: spacing.sm + spacing.xs },
   pressed: { opacity: 0.6 },
+  more: { fontFamily: fontFor(600) },
 });
