@@ -37,48 +37,95 @@ Appen skal både lære partneren noget og få ham til at grine. Humoren er det, 
 andre cyklusapps, men den er aldrig vigtigere end det, han skal lære. Hver tekst har stadig den
 samme viden og den samme handling som før; humoren ligger i, hvordan det siges.
 
-### Humorens regler
+### Stemmen: køkkenstemmen
 
-1. **Grin ad ham, aldrig ad hende.** Han er den, der står med varmepuden og ser forvirret ud,
-   som siger "skal jeg lave mad?" i stedet for at lave mad, som tror en cyklus er 28 dage, fordi
-   nogen sagde det i 7. klasse. Hun er aldrig pointen i vittigheden. Hun læser med fra sin side
-   ("Det lærer din partner i dag"), så alt skal kunne læses højt for hende uden at nogen krymper sig.
-2. **Tør og direkte, ikke fjollet.** Korte sætninger, konkrete billeder, en punchline i
-   slutningen af et afsnit. Ingen emojis, ingen udråbstegn i bunker, ingen ordspil for ordspillets
-   skyld. Tænk en ven, der har været der før, og som siger tingene ligeud.
-3. **Må gerne være lidt grov om ham.** "Hold mund og lav kaffe", "din bedste ven i dag er en
-   stikkontakt", "gå ud og sig det til en væg". Ikke bandeord i hver sætning, og aldrig om hendes
-   krop, humør, vægt, lyst eller intelligens.
-4. **Alvor, hvor det er alvor.** Smerte, PMDD, endometriose, PCOS, fertilitet, graviditetstab og
-   "når noget afviger" (måned 7, 8, 10, 11 især): her er tonen varm og rolig. Humoren må kun sidde
-   i rammen (hans forvirring, hans kejtethed), aldrig i det, hun går igennem.
-5. **Humoren må ikke æde indholdet.** Insight-teksten skal stadig forklare det samme (hormoner,
+Partnerens tekster er skrevet i én stemme: en ven, der står ved komfuret og snakker, mens han
+laver mad. Varm, snakkesalig, bramfri, aldrig kold. Han har været der før, han siger tingene
+ligeud, og han ender altid et konkret sted. Det er en stemme, ikke en person: nævn aldrig
+rigtige mennesker, kokke eller tv-programmer, hverken i teksterne eller i kode og docs.
+
+Grebene, der gør stemmen genkendelig:
+
+1. **Tiltale og tempo.** "Nu skal du høre", "ved du hvad", "hør her", "min ven". Korte sætninger
+   blandet med en lang, der snakker sig frem til pointen. Afsnittet ender i en punchline eller i
+   det, han skal gøre. Aldrig mere end ét "nu skal du høre" pr. kort.
+2. **Køkkenet som billedbank.** Kroppen forklares med mad og madlavning: en muskel, der knokler
+   som en langtidsstegt bov, der ikke vil slippe benet; progesteron, der skruer ned for blusset;
+   ægløsning som jordbær i juni; "det er ikke en gryderet, der er ikke noget at vinde ved at
+   vente". Ét eller to billeder pr. kort, ikke en hel menu. Billedet skal forklare, ikke pynte.
+3. **Hyggebandeord, doseret.** "Sgu", "for søren", "for pokker" må gerne være der, "for fanden"
+   og "pisse-" højst én gang pr. kort og aldrig i overskrifter, handlinger til hende eller i de
+   alvorlige måneder. Aldrig "fuck", "kraftedeme" eller kønsord. Bandeordene er varme, ikke hårde.
+4. **Grin ad ham, aldrig ad hende.** Han er den, der lagde sig på sofaen med en splint i fingeren,
+   der købte en pizzaovn, der står og kigger ind ad vinduet, når køkkenet er lukket. Hun er
+   aldrig pointen i vittigheden, og hendes krop, humør, vægt, lyst eller intelligens er aldrig
+   materialet. Hun læser med fra sin side ("Det lærer din partner i dag"), så alt skal kunne
+   læses højt for hende, uden at nogen krymper sig.
+5. **Sex og krop må nævnes ligeud.** "Lyst til sex", "brysterne er ømme", "køkkenet er lukket".
+   Direkte, aldrig klamt, aldrig som noget han har krav på. Vitsen er altid hans utålmodighed,
+   aldrig hendes nej.
+6. **Alvor, hvor det er alvor.** Smerte, PMDD, endometriose, PCOS, fertilitet, graviditetstab og
+   "når noget afviger" (måned 7, 8, 10, 11 især): stemmen bliver stille og nærværende, som når
+   man sætter sig ned ved bordet. Ingen bandeord, ingen madbilleder om det, hun går igennem.
+   Humoren må kun sidde i rammen (hans kejtethed), aldrig i det, hun oplever.
+7. **Humoren må ikke æde indholdet.** Insight-teksten skal stadig forklare det samme (hormoner,
    tal, hvad der sker), og handlingen skal stadig være den samme konkrete ting. En joke, der
-   erstatter en forklaring, er en dårlig joke.
-6. **Ingen klichéer.** Ikke "hormonelle kvinder", ikke "hun er på sin", ikke "farlig uge",
-   ikke chokolade-jokes. Vittigheden skal komme af situationen, ikke af en fordom.
+   erstatter en forklaring, er en dårlig joke. Fakta og kilder røres ikke.
+8. **Ingen klichéer.** Ikke "hormonelle kvinder", ikke "hun er på sin", ikke "farlig uge", ikke
+   chokolade-jokes, ingen emojis, ingen udråbstegn i bunker. Vittigheden kommer af situationen.
+9. **Handlingen ender i køkkenet, hvis den kan.** Mange af hans bedste handlinger er praktiske:
+   lav mad, læg varmepuden klar som en kold øl til dig selv, kør ned og køb den nu. Men kun hvor
+   det passer; en samtale er stadig en samtale.
+10. **Engelsk har samme stemme, egne udtryk.** Samme greb, samme vitser, samme varme. Danske
+    udtryk, der ikke kan oversættes, erstattes af et engelsk, der gør det samme ("for søren" →
+    "for crying out loud", "sgu" → "honestly" eller slet ingenting). Aldrig oversat ord for ord.
 
-### Eksempler på tonen
+### Eksempler på stemmen
 
-Forsiden, fasekortets overskrift:
+Forsiden, heroens overskrift:
 "Anna har brug for ro. Du har brug for at holde mund og lave kaffe."
 
 Dag 1, "Dag 1 er første blødningsdag":
-"Dag 1 er den første dag med rigtig blødning. Ikke dagen hun nævnte det, ikke dagen du lagde mærke
-til det, og ikke dagen det stoppede. Alt andet i appen regnes ud fra den dato, så hvis du gætter,
-gætter appen også. 28 dage er gennemsnittet, men 21 til 35 er normalt, og de færreste rammer det
-samme tal to gange. Din opgave i dag er ikke at forstå kvindekroppen. Det er at få én dato rigtig."
-Handling: "Spørg hende, hvornår den sidste menstruation startede. Ja, bare spørg. Og skriv det ind."
+"Dag 1 er første dag med rigtig blødning. Ikke dagen hun nævnte det, og ikke dagen du opdagede,
+at tonen i huset havde ændret sig. Alt i appen regnes fra den dato. Skriver du forkert, bliver
+appen lige så sikker i sin sag, som du var, da du sagde, I sagtens kunne nå færgen. 28 dage er
+gennemsnit, 21 til 35 er normalt, og de færreste rammer det samme tal to gange i træk. Du behøver
+ikke forstå kvindekroppen i dag. Du skal få én dato rigtig. Du kan din Netflix-kode udenad, så
+det her kan du godt."
+Handling: "Spørg, hvornår den sidste menstruation startede. Bare spørg. Du har stillet dummere
+spørgsmål til en kassemedarbejder. Og skriv datoen ind."
 
-Faseopslag, menstruation, "Det kan du gøre":
-"Tag det praktiske uden at spørge. 'Skal jeg lave mad?' er ikke hjælp, det er en opgave mere til
-hende: at svare dig."
-"Varmepude, te, tæppe. Varme virker på kramper, og det kræver nul samtale. Din bedste ven i dag
-er en stikkontakt."
+"Kramper: varme virker":
+"Nu skal du høre. Inde i hende sidder der en muskel på størrelse med en lille pære, og den står
+og knokler i tre dage for at skubbe noget ud, der ikke vil samarbejde. Det er prostaglandiner,
+der sætter den i gang, og jo mere af det, jo mere ligner det en langtidsstegt bov, der ikke vil
+slippe benet. Du lagde dig ned med en splint i fingeren i sidste uge. Det, der virker, er sgu
+varme. Ikke en samtale, ikke en teori, ikke 'har du prøvet at trække vejret dybt'. Varme på
+maven eller lænden, så musklen slapper af, ligesom et stykke smør på noget, der har haft det
+hårdt. Ibuprofen skal ind ved de første tegn, ikke når hun ligger og bider i puden. Der er ikke
+noget at vinde ved at vente, det er ikke en gryderet."
+Handling: "Find varmepuden, før hun spørger, og læg den klar, som du ville lægge en kold øl klar
+til dig selv. Har I ingen, så kør ned og køb en nu. Det er årets bedste investering, og du har
+købt en pizzaovn."
+
+"Lyst gennem cyklussen":
+"Omkring ægløsning er der østrogen og lidt testosteron i gryden, og mange har simpelthen mere
+lyst til sex. Det er jordbær i juni. I lutealfasen kommer progesteron og skruer ned for blusset,
+og i PMS-dagene og de første blødningsdage er køkkenet lukket. Du kan stå og kigge ind ad
+vinduet, så længe du vil, der kommer ikke mad. Nogle har det stik modsat, og det er også fint,
+folk er forskellige, ligesom med koriander. Men sæt ikke en alarm på ægløsningen. Hun kan høre
+dig åbne appen. Et nej på dag 26 handler ikke om dig. Det er progesteron, og progesteron har
+aldrig smagt noget, du har lavet."
 
 Lutealfasen, "Undgå":
-"Kommentér ikke på hendes humør. Hvis du får lyst til at sige 'er du i dårligt humør?', så gå ud
-af rummet og sig det til en væg. Væggen svarer det samme, som hun ville, bare uden konsekvenser."
+"Hvis sætningen starter med 'du ser', så stopper du. Du ser træt ud, du ser sur ud. Det er den
+samme sætning, og slutningen på den findes ikke."
+
+Alvorlig måned (PMDD), samme stemme, nede i tempo:
+"Det her er ikke PMS med volumen skruet op. PMDD er en tilstand, hvor de sidste dage før
+menstruationen kan være rigtig svære at komme igennem, og den fortjener en læge, ikke et godt
+råd. Det, du kan, er at være den, der husker datoerne, så hun ikke skal forklare det forfra hver
+gang."
 
 Notifikation: "Dagens kort er klar. Ét minut. Du kan godt."
 
@@ -96,8 +143,8 @@ Notifikation: "Dagens kort er klar. Ét minut. Du kan godt."
 - Kilder: `{ label: 'NHS: Periods', url: 'https://www.nhs.uk/conditions/periods/' }`. Brug kun
   URL'er, du er sikker på findes (NHS conditions-sider, ACOG FAQ, Sundhed.dk patienthåndbogen,
   NICE CKS). Udelad hellere URL end at gætte.
-- Hendes egne tekster (`selfCare`, symptomtippenes `what`, hendes UI) er ikke humoristiske. De
-  er varme og saglige som før.
+- Hendes egne tekster (`selfCare`, symptomtippenes `what`, hendes UI, samtalespørgsmålene i
+  ugens artikel) er ikke humoristiske. De er varme og saglige som før.
 
 ## Månedstemaer
 
