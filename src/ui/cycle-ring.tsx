@@ -22,7 +22,7 @@ import { Txt } from '@/ui/primitives';
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-const STROKE = 4;
+const STROKE = 6;
 const GAP_DEG = 1.1;
 const FUTURE_OPACITY = 0.22;
 const ENTER = Easing.bezier(0.2, 0.8, 0.2, 1);
@@ -116,9 +116,11 @@ export function CycleRing({
   const reduced = useReducedMotion();
   const mode = theme.dark ? 'dark' : 'light';
   const c = size / 2;
+  // Radius leaves room for the knob (8) outside the stroke; markings sit one stroke's width
+  // clear of the ring on either side.
   const r = c - 2 - 10;
-  const innerR = r - 7;
-  const outerR = r + 8;
+  const innerR = r - 8;
+  const outerR = r + 9;
   const total = Math.max(today.cycleLength, today.cycleDay);
   const span = 360 / total;
 
