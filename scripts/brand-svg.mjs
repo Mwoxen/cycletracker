@@ -8,8 +8,22 @@ import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const COLOURS = {
-  light: { men: '#B04D59', fol: '#218373', ovu: '#AA732B', lut: '#725CA9', bg: '#EEE8EB' },
-  dark: { men: '#EC8A92', fol: '#6BC4B3', ovu: '#E7B369', lut: '#AA95E8', bg: '#0D0A0E' },
+  light: {
+    men: '#B04D59',
+    fol: '#218373',
+    ovu: '#AA732B',
+    lut: '#725CA9',
+    bg: '#EEE8EB',
+    text: '#1D161B',
+  },
+  dark: {
+    men: '#EC8A92',
+    fol: '#6BC4B3',
+    ovu: '#E7B369',
+    lut: '#AA95E8',
+    bg: '#0D0A0E',
+    text: '#F2EAEE',
+  },
 };
 const GLYPH = { r: 300, width: 64, gap: 3.6, heartScale: 0.88 };
 const ICON = { r: 330, width: 70, gap: 3.8, heartScale: 1.0 };
@@ -47,6 +61,16 @@ const heart = (c, scale, y) =>
   `  <g transform="translate(512 ${y}) scale(${scale})">\n    <path d="${HEART}" fill="${c.men}"/>\n  </g>\n`;
 
 const glyph = (c) => head + ring(c, GLYPH) + heart(c, GLYPH.heartScale, 528) + '</svg>\n';
+
+/** The splash: the glyph raised, with the app name in Manrope Light under it (font loaded by render-brand.mjs). */
+const splash = (c) =>
+  head +
+  `  <g transform="translate(0 -92)">\n` +
+  ring(c, GLYPH) +
+  heart(c, GLYPH.heartScale, 528) +
+  `  </g>\n` +
+  `  <text x="512" y="905" text-anchor="middle" font-family="Manrope" font-weight="300" font-size="108" letter-spacing="-1" fill="${c.text}">Cycle Tracker</text>\n` +
+  '</svg>\n';
 const icon = (c) =>
   head +
   `  <rect width="1024" height="1024" fill="${c.bg}"/>\n` +
@@ -57,6 +81,8 @@ const icon = (c) =>
 const out = (name, svg) => writeFileSync(resolve(root, 'assets/brand', name), svg);
 out('glyph.svg', glyph(COLOURS.light));
 out('glyph-dark.svg', glyph(COLOURS.dark));
+out('splash.svg', splash(COLOURS.light));
+out('splash-dark.svg', splash(COLOURS.dark));
 out('icon.svg', icon(COLOURS.light));
 out('icon-dark.svg', icon(COLOURS.dark));
 console.log('wrote assets/brand/*.svg');

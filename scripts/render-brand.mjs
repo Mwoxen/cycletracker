@@ -23,8 +23,14 @@ if (!chrome) throw new Error('No Chromium found; set CHROME=/path/to/chrome');
 
 const work = mkdtempSync(join(tmpdir(), 'brand-'));
 
+const manrope = resolve(
+  root,
+  'node_modules/@expo-google-fonts/manrope/300Light/Manrope_300Light.ttf',
+);
+
 function render({ svg, size, out, background = 'transparent', scale = 1 }) {
   const html = `<!doctype html><html><head><style>
+    @font-face{font-family:Manrope;font-weight:300;src:url(file://${manrope}) format('truetype')}
     html,body{margin:0;padding:0;background:${background};width:${size}px;height:${size}px;overflow:hidden}
     svg{display:block;width:${size}px;height:${size}px;transform:scale(${scale});transform-origin:center}
   </style></head><body>${readFileSync(svg, 'utf8')}</body></html>`;
@@ -38,6 +44,7 @@ function render({ svg, size, out, background = 'transparent', scale = 1 }) {
       '--no-sandbox',
       '--disable-gpu',
       '--hide-scrollbars',
+      '--virtual-time-budget=3000',
       '--default-background-color=00000000',
       `--window-size=${size},${size}`,
       `--screenshot=${shot}`,
@@ -50,8 +57,27 @@ function render({ svg, size, out, background = 'transparent', scale = 1 }) {
 }
 
 // Backgrounds match the app's screen background in src/ui/colors.ts (light #EEE8EB, dark #0D0A0E).
-render({ svg: 'assets/brand/icon.svg', size: 1024, out: 'assets/images/icon.png', background: '#EEE8EB' });
-render({ svg: 'assets/brand/icon-dark.svg', size: 1024, out: 'assets/images/icon-dark.png', background: '#0D0A0E' });
-render({ svg: 'assets/brand/glyph.svg', size: 512, out: 'assets/images/splash-icon.png' });
-render({ svg: 'assets/brand/glyph-dark.svg', size: 512, out: 'assets/images/splash-icon-dark.png' });
-render({ svg: 'assets/brand/icon.svg', size: 64, out: 'assets/images/favicon.png', background: '#EEE8EB' });
+render({
+  svg: 'assets/brand/icon.svg',
+  size: 1024,
+  out: 'assets/images/icon.png',
+  background: '#EEE8EB',
+});
+render({
+  svg: 'assets/brand/icon-dark.svg',
+  size: 1024,
+  out: 'assets/images/icon-dark.png',
+  background: '#0D0A0E',
+});
+render({ svg: 'assets/brand/splash.svg', size: 512, out: 'assets/images/splash-icon.png' });
+render({
+  svg: 'assets/brand/splash-dark.svg',
+  size: 512,
+  out: 'assets/images/splash-icon-dark.png',
+});
+render({
+  svg: 'assets/brand/icon.svg',
+  size: 64,
+  out: 'assets/images/favicon.png',
+  background: '#EEE8EB',
+});
