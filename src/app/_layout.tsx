@@ -103,7 +103,8 @@ export default function RootLayout() {
   }, [hydrated, profile, settings, periods]);
 
   // The curtain copies the native splash, so the native one can go as soon as it is on screen.
-  // It parts once the app is ready and the first screen has had a moment to draw.
+  // It fades once the app is ready and the first screen has had a moment to draw. The start
+  // route reaches the tabs without a slide, so the first screen is simply there behind it.
   if (!ready) return <Curtain ready={false} />;
 
   return (
@@ -117,7 +118,7 @@ export default function RootLayout() {
                 contentStyle: { backgroundColor: colors.background },
               }}>
               <Stack.Protected guard={!!profile}>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false, animation: 'none' }} />
                 <Stack.Screen name="log/[date]" options={sheet} />
                 <Stack.Screen name="share" options={sheet} />
                 <Stack.Screen name="scan" options={sheet} />
@@ -125,7 +126,10 @@ export default function RootLayout() {
                 <Stack.Screen name="paywall" options={sheet} />
               </Stack.Protected>
               <Stack.Protected guard={!profile}>
-                <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="onboarding"
+                  options={{ headerShown: false, animation: 'none' }}
+                />
               </Stack.Protected>
             </Stack>
           </CatchBoundary>

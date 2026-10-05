@@ -16,7 +16,7 @@ const SPLASH = {
   dark: { background: '#0D0A0E', icon: require('../../assets/images/splash-icon-dark.png') },
 };
 const ICON_WIDTH = 160;
-const HOLD_MS = 350;
+const HOLD_MS = 550;
 const FADE_MS = 550;
 
 /**
