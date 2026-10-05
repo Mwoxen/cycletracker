@@ -1,18 +1,21 @@
 /**
- * Article-style reading: a phase-tinted hero, serif body text drawn straight on the screen
- * background, lede, pull quote, a scroll progress bar and a "next" row. Shared by the
- * daily card, weekly read, monthly wrap and phase pages.
+ * Reading screens (docs/design/README.md §2–3): accent kicker, light title, body at 18/1.62 on
+ * the screen background, boxes in `soft`, a "tomorrow" row between hair lines, sources and a
+ * scroll progress bar. Shared by the daily card, weekly read, monthly wrap and phase pages.
  */
 import { usePathname, useRouter } from 'expo-router';
 import { useCallback, useState, type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Pressable,
   StyleSheet,
-  type ColorValue,
   Text,
   View,
+  type ColorValue,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
+  type StyleProp,
+  type ViewStyle,
 } from 'react-native';
 
 import {
@@ -28,7 +31,8 @@ import {
 } from '@/content';
 import type { Phase } from '@/domain/types';
 import { colors, fontFor, phaseColor, radius, spacing } from '@/ui/colors';
-import { Card, Icon, Txt } from '@/ui/primitives';
+import { Icon, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 const WORDS_PER_MINUTE = 200;
 const BODY_MAX_SCALE = 1.6;
@@ -50,92 +54,57 @@ export function ReadingHero({
   meta?: string;
   phase?: Phase;
 }) {
+  const theme = usePhaseTheme();
   return (
     <View style={styles.hero} accessibilityRole="header">
-      <Txt variant="caption" color={phase ? phaseColor[phase] : colors.tint} style={styles.kicker}>
+      <Txt variant="boxLabel" color={phase ? phaseColor[phase] : theme.accent}>
         {kicker.toUpperCase()}
       </Txt>
-      <Txt style={styles.title}>{title}</Txt>
-      {meta ? <Txt variant="footnote">{meta}</Txt> : null}
+      <Txt variant="readTitle">{title}</Txt>
+      {meta ? (
+        <Txt variant="footnote" style={styles.meta}>
+          {meta}
+        </Txt>
+      ) : null}
     </View>
   );
 }
 
-/** Whether the paragraph can open with a drop cap: a letter, not a quote or a digit. */
-/**
- * The pull quote for a body: the first sentence of the middle paragraph when it is 60-160
- * characters, else the nearest paragraph whose first sentence is. Undefined for short bodies.
- */
-export function pullQuoteFor(paragraphs: string[]): string | undefined {
-  if (paragraphs.length < 3) return undefined;
-  const middle = Math.floor(paragraphs.length / 2);
-  const order = [middle];
-  for (let step = 1; step < paragraphs.length; step++) {
-    if (middle + step < paragraphs.length) order.push(middle + step);
-    if (middle - step >= 0) order.push(middle - step);
-  }
-  for (const index of order) {
-    const sentence = paragraphs[index].split('. ')[0].trim();
-    if (sentence.length >= 60 && sentence.length <= 160) {
-      return /[.!?"”]$/.test(sentence) ? sentence : `${sentence}.`;
-    }
-  }
-  return undefined;
-}
-
 function Paragraph({ text }: { text: string }) {
   return (
-    <Text style={styles.paragraph} allowFontScaling maxFontSizeMultiplier={1.6}>
+    <Text style={styles.paragraph} allowFontScaling maxFontSizeMultiplier={BODY_MAX_SCALE}>
       {text}
     </Text>
   );
 }
 
-export function PullQuote({ text }: { text: string }) {
+/** Body paragraphs on the screen background, 18 pt at 1.62 with 18 pt between. */
+export function ReadingBody({ paragraphs }: { paragraphs: string[] }) {
   return (
-    <View style={styles.pullQuote} testID="pull-quote">
-      <Text allowFontScaling maxFontSizeMultiplier={BODY_MAX_SCALE} style={styles.pullQuoteText}>
-        {text}
-      </Text>
+    <View style={styles.body}>
+      {paragraphs.map((p, i) => (
+        <Paragraph key={i} text={p} />
+      ))}
     </View>
   );
 }
 
 /**
- * Body paragraphs on the screen background. `lede` styles the first paragraph as an opening
- * when there is more to follow (a single paragraph is just the body), `pullQuote` is drawn
- * after the second paragraph without removing it from its paragraph.
+ * A box in `soft` with an accent label: the action on the daily card, the conversation
+ * question on the weekly read.
  */
-export function ReadingBody({
-  paragraphs,
-  lede,
-  pullQuote,
-}: {
-  paragraphs: string[];
-  lede?: boolean;
-  pullQuote?: string;
-}) {
-  const withLede = lede && paragraphs.length > 1;
+export function ReadingBox({
+  label,
+  children,
+  style,
+}: PropsWithChildren<{ label: string; style?: StyleProp<ViewStyle> }>) {
+  const theme = usePhaseTheme();
   return (
-    <View style={styles.body}>
-      {paragraphs.map((p, i) => {
-        const block =
-          withLede && i === 0 ? (
-            <Text
-              key={i}
-              allowFontScaling
-              maxFontSizeMultiplier={BODY_MAX_SCALE}
-              style={styles.lede}>
-              {p}
-            </Text>
-          ) : (
-            <Paragraph key={i} text={p} />
-          );
-        if (pullQuote && i === 1) {
-          return [block, <PullQuote key="quote" text={pullQuote} />];
-        }
-        return block;
-      })}
+    <View style={[styles.box, { backgroundColor: theme.soft }, style]}>
+      <Txt variant="boxLabel" color={theme.accent}>
+        {label.toUpperCase()}
+      </Txt>
+      {children}
     </View>
   );
 }
@@ -152,7 +121,7 @@ export function ReadingSection({
   return (
     <View
       style={[styles.section, accent ? [styles.sectionAccent, { borderLeftColor: accent }] : null]}>
-      <Txt variant="title" style={styles.sectionTitle} accessibilityRole="header">
+      <Txt variant="cardTitle" accessibilityRole="header">
         {title}
       </Txt>
       {children}
@@ -198,9 +167,15 @@ export function useReadingProgress() {
 
 /** Thin bar over the top of the screen showing how far the reader has come. */
 export function ReadingProgressBar({ progress }: { progress: number }) {
+  const theme = usePhaseTheme();
   return (
     <View style={styles.progressTrack} pointerEvents="none" accessible={false}>
-      <View style={[styles.progressFill, { width: `${Math.round(progress * 100)}%` }]} />
+      <View
+        style={[
+          styles.progressFill,
+          { width: `${Math.round(progress * 100)}%`, backgroundColor: theme.accent },
+        ]}
+      />
     </View>
   );
 }
@@ -211,38 +186,64 @@ export function useReadingStack() {
   return pathname.startsWith('/home') ? '/(tabs)/home' : '/(tabs)/learn';
 }
 
+/**
+ * "Tomorrow: title" between two hair lines. Without `onPress` the row is the locked state and
+ * says so instead of a chevron.
+ */
 export function NextRow({
   label,
   title,
   onPress,
+  lockedText,
 }: {
   label: string;
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
+  lockedText?: string;
 }) {
-  return (
-    <Card onPress={onPress} style={styles.nextRow}>
-      <View style={{ flex: 1, flexShrink: 1, gap: 2, marginRight: spacing.sm }}>
-        <Txt variant="footnote" color={colors.tint} style={{ fontWeight: '600' }}>
-          {label.toUpperCase()}
+  const theme = usePhaseTheme();
+  const content = (
+    <View style={styles.nextRow}>
+      <View style={{ flex: 1, flexShrink: 1, marginRight: spacing.sm }}>
+        <Txt variant="callout" color={colors.secondaryLabel}>
+          <Txt variant="callout" color={theme.accent} style={styles.nextLabel}>
+            {label}:
+          </Txt>{' '}
+          <Txt variant="callout" color={colors.label}>
+            {title}
+          </Txt>
         </Txt>
-        <Txt variant="headline">{title}</Txt>
       </View>
-      <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
-    </Card>
+      {onPress ? (
+        <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
+      ) : lockedText ? (
+        <Txt variant="footnote" color={colors.tertiaryLabel}>
+          {lockedText}
+        </Txt>
+      ) : null}
+    </View>
+  );
+  if (!onPress) return content;
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      style={({ pressed }) => pressed && styles.pressed}>
+      {content}
+    </Pressable>
   );
 }
 
-/** The next daily card when it exists and is unlocked, else undefined. */
+/** The next daily card when it exists, with whether it is unlocked yet. */
 export function nextDailyCard(
   content: LanguageContent,
   position: ProgramPosition,
   card: DailyCard,
-): DailyCard | undefined {
+): { card: DailyCard; unlocked: boolean } | undefined {
   const sameMonth = getDailyCard(content, card.month, card.day + 1);
   const next = sameMonth ?? getDailyCard(content, card.month + 1, 1);
-  if (!next || !isDailyUnlocked(position, next.month, next.day)) return undefined;
-  return next;
+  if (!next) return undefined;
+  return { card: next, unlocked: isDailyUnlocked(position, next.month, next.day) };
 }
 
 /** The next weekly read when it exists and is unlocked, else undefined. */
@@ -276,8 +277,9 @@ export function NextDailyRow({
   return (
     <NextRow
       label={t('reading.tomorrow')}
-      title={next.title}
-      onPress={() => router.push(`${stack}/daily/${next.id}`)}
+      title={next.card.title}
+      onPress={next.unlocked ? () => router.push(`${stack}/daily/${next.card.id}`) : undefined}
+      lockedText={next.unlocked ? undefined : t('reading.unlocksTomorrow')}
     />
   );
 }
@@ -310,54 +312,33 @@ const styles = StyleSheet.create({
     marginHorizontal: -spacing.md,
     marginTop: -spacing.sm,
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.md,
+    paddingTop: 6,
     paddingBottom: 0,
-    gap: spacing.xs,
+    gap: spacing.sm,
   },
-  kicker: { fontWeight: '600', letterSpacing: 0.6 },
-  title: {
-    fontSize: 31,
-    lineHeight: 38,
-    fontWeight: '400',
-    fontFamily: fontFor(400),
-    color: colors.label,
-  },
-  // Pulls the first line up under the hero's meta line: the screen's own gap is for cards.
-  body: { paddingHorizontal: spacing.sm, gap: spacing.md, marginTop: -spacing.sm },
+  meta: { fontSize: 14, lineHeight: 19 },
+  body: { paddingHorizontal: spacing.sm, gap: 18 },
+  // 18 at 1.62 is 29.16; whole-number line heights keep iOS from dropping the last line.
   paragraph: {
     fontFamily: fontFor(400),
-    fontSize: 19,
+    fontSize: 18,
     lineHeight: 29,
     color: colors.label,
-  },
-  lede: {
-    fontFamily: fontFor(400),
-    fontSize: 21,
-    lineHeight: 31,
-    color: colors.secondaryLabel,
   },
   bulletText: { flex: 1, flexShrink: 1 },
-  pullQuote: {
-    borderLeftWidth: 3,
-    borderLeftColor: colors.tint,
-    paddingLeft: 14,
-    marginVertical: spacing.sm,
-  },
-  pullQuoteText: {
-    fontFamily: fontFor(400),
-    fontSize: 19,
-    lineHeight: 29,
-    fontStyle: 'italic',
-    color: colors.label,
+  box: {
+    borderRadius: radius.card,
+    padding: spacing.card,
+    gap: spacing.sm + spacing.xs,
+    marginHorizontal: spacing.sm,
   },
   section: { paddingHorizontal: spacing.sm, gap: spacing.sm },
   sectionAccent: { borderLeftWidth: 3, paddingLeft: 14, marginLeft: spacing.sm - 3 },
-  sectionTitle: { fontFamily: fontFor(600) },
   // No `gap` on rows that hold wrapping text: Yoga measures the text without it and clips a
   // line that fills the width to the last few points. The dot carries the spacing instead.
   bullet: { flexDirection: 'row' },
   bulletDot: {
-    fontSize: 19,
+    fontSize: 18,
     lineHeight: 29,
     color: colors.secondaryLabel,
     marginRight: spacing.sm,
@@ -370,6 +351,16 @@ const styles = StyleSheet.create({
     height: 3,
     backgroundColor: colors.fill,
   },
-  progressFill: { height: 3, backgroundColor: colors.tint, borderRadius: radius.chip },
-  nextRow: { flexDirection: 'row', alignItems: 'center' },
+  progressFill: { height: 3, borderRadius: radius.chip },
+  nextRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.sm,
+    paddingVertical: 14,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.separator,
+  },
+  nextLabel: { fontFamily: fontFor(700) },
+  pressed: { opacity: 0.6 },
 });

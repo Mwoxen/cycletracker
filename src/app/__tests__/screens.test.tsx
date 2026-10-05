@@ -17,7 +17,6 @@ import { createSyncSnapshot, selectActivePeriods, selectSnapshotData, useStore }
 import { encodePayload } from '@/sync/payload';
 import { renderApp, withinTab } from '@/test/render-app';
 import { AppErrorBoundary } from '@/ui/error-boundary';
-import { pullQuoteFor } from '@/ui/reading';
 
 /** Fixed clock so the program position and the cycle phase are the same on every run. */
 const TODAY = '2026-05-10';
@@ -334,9 +333,9 @@ describe('learn sub-screens', () => {
     ).toBeTruthy();
     expect(learn.queryByText(id)).toBeNull();
     expect(learn.getByText(upper(da.home.action))).toBeTruthy();
-    // Day 2 is still locked on day 1, so there is no "tomorrow" row yet.
-    expect(learn.queryByText(upper(da.reading.tomorrow))).toBeNull();
-    expect(learn.queryByText(month1.daily[1].title)).toBeNull();
+    // Day 2 is still locked on day 1: the tomorrow row names it but says it unlocks tomorrow.
+    expect(learn.getByText(month1.daily[1].title)).toBeTruthy();
+    expect(learn.getByText(da.reading.unlocksTomorrow)).toBeTruthy();
     expect(useStore.getState().progress[id]?.readAt).toBeDefined();
   });
 
@@ -347,7 +346,8 @@ describe('learn sub-screens', () => {
     const month7 = content.months[6];
     const app = await renderApp(`/learn/daily/${dailyId(7, 20)}`);
     const learn = learnTab();
-    expect(await learn.findByText(upper(da.reading.tomorrow))).toBeTruthy();
+    expect(await learn.findByText(`${da.reading.tomorrow}:`)).toBeTruthy();
+    expect(learn.queryByText(da.reading.unlocksTomorrow)).toBeNull();
     const next = month7.daily.find((c) => c.day === 21)!;
     await fireEvent.press(learn.getByText(next.title));
     expect(app.getPathname()).toBe(`/learn/daily/${next.id}`);
@@ -370,15 +370,11 @@ describe('learn sub-screens', () => {
     const learn = learnTab();
     const read = month1.weekly[0];
     expect(await learn.findByText(read.body[0])).toBeTruthy();
-    // The conversation card and, for a long read, one pull quote lifted from the body.
+    // The conversation box.
     expect(learn.getByText(upper(da.learn.conversationQuestion))).toBeTruthy();
     expect(learn.getByText(read.conversationQuestion)).toBeTruthy();
-    const quote = pullQuoteFor(read.body);
-    expect(quote).toBeDefined();
-    expect(learn.getByText(quote!)).toBeTruthy();
-    expect(learn.getByTestId('pull-quote')).toBeTruthy();
     // Week 2 is locked on day 1.
-    expect(learn.queryByText(upper(da.reading.nextWeek))).toBeNull();
+    expect(learn.queryByText(`${da.reading.nextWeek}:`)).toBeNull();
   });
 
   it('renders a monthly wrap and plays the quiz', async () => {

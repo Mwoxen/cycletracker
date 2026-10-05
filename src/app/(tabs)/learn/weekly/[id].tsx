@@ -7,13 +7,12 @@ import { findWeekly } from '@/content';
 import { useMonthAccess } from '@/entitlements';
 import { useProgram } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
-import { colors } from '@/ui/colors';
 import { PlusGate } from '@/ui/plus-gate';
-import { Card, Screen, Txt } from '@/ui/primitives';
+import { Screen, Txt } from '@/ui/primitives';
 import {
   NextWeeklyRow,
-  pullQuoteFor,
   ReadingBody,
+  ReadingBox,
   ReadingHero,
   ReadingProgressBar,
   readingMinutes,
@@ -64,18 +63,10 @@ export default function WeeklyReadScreen() {
         <View style={{ flex: 1 }}>
           <Screen onScroll={onScroll} scrollEventThrottle={32}>
             <ReadingHero kicker={kicker} title={read.title} meta={meta} />
-            <ReadingBody paragraphs={read.body} lede pullQuote={pullQuoteFor(read.body)} />
-            <Card style={{ backgroundColor: colors.tint }}>
-              <Txt
-                variant="footnote"
-                color={colors.white}
-                style={{ fontWeight: '600', opacity: 0.85 }}>
-                {t('learn.conversationQuestion').toUpperCase()}
-              </Txt>
-              <Txt variant="title" color={colors.white}>
-                {read.conversationQuestion}
-              </Txt>
-            </Card>
+            <ReadingBody paragraphs={read.body} />
+            <ReadingBox label={t('learn.conversationQuestion')}>
+              <Txt variant="question">{read.conversationQuestion}</Txt>
+            </ReadingBox>
             <NextWeeklyRow content={content} position={position} read={read} />
             {read.sources?.length ? <Sources sources={read.sources} /> : null}
           </Screen>

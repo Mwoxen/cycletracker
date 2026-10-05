@@ -1,6 +1,7 @@
 import type { NativeStackNavigationOptions } from 'expo-router';
 
 import { colors } from './colors';
+import { usePhaseTheme } from './theme';
 
 /**
  * Large-title header shared by the four tab stacks.
@@ -24,3 +25,9 @@ export const readingScreenOptions: NativeStackNavigationOptions = {
   headerLargeTitleEnabled: false,
   headerBackButtonDisplayMode: 'minimal',
 };
+
+/** The tab stack's options with the back button and header buttons in today's accent. */
+export function useStackScreenOptions(): NativeStackNavigationOptions {
+  const theme = usePhaseTheme();
+  return { ...largeTitleScreenOptions, headerTintColor: theme.accentHex };
+}

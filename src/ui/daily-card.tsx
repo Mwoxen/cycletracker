@@ -59,20 +59,32 @@ export function DailyCardPreview({
   );
 }
 
-/** The action with its button: outlined "Mark as done" ↔ "✓ Done" filled in `soft`. */
-export function ActionBox({ card, size = 48 }: { card: DailyCard; size?: number }) {
+/**
+ * The action with its button: outlined "Mark as done" ↔ "✓ Done" filled in `soft`. `boxed`
+ * draws it as the reading screen's box in `soft` (then "done" fills with the surface).
+ */
+export function ActionBox({
+  card,
+  size = 48,
+  boxed,
+}: {
+  card: DailyCard;
+  size?: number;
+  boxed?: boolean;
+}) {
   const { t } = useTranslation();
   const theme = usePhaseTheme();
   const done = useStore((s) => !!s.progress[card.id]?.actionDoneAt);
   const toggle = useStore((s) => s.toggleActionDone);
   const [burst, setBurst] = useState(0);
   const label = done ? `✓ ${t('home.actionDone')}` : t('home.markActionDone');
+  const doneFill = boxed ? colors.card : theme.soft;
   return (
-    <View style={styles.actionBox}>
+    <View style={[styles.actionBox, boxed && [styles.boxed, { backgroundColor: theme.soft }]]}>
       <Txt variant="boxLabel" color={theme.accent}>
         {t('home.action').toUpperCase()}
       </Txt>
-      <Txt style={styles.actionText}>{card.action}</Txt>
+      <Txt style={boxed ? styles.actionTextBoxed : styles.actionText}>{card.action}</Txt>
       <View>
         <Pressed
           accessibilityRole="button"
@@ -92,7 +104,7 @@ export function ActionBox({ card, size = 48 }: { card: DailyCard; size?: number 
             styles.actionButton,
             { minHeight: size },
             done
-              ? { backgroundColor: theme.soft, borderColor: theme.soft }
+              ? { backgroundColor: doneFill, borderColor: doneFill }
               : { backgroundColor: 'transparent', borderColor: theme.accent },
           ]}>
           <Txt variant="headline" color={theme.accent}>
@@ -117,7 +129,14 @@ const styles = StyleSheet.create({
   readLink: { fontFamily: fontFor(700), marginTop: 2 },
   divider: { height: 1, backgroundColor: colors.separator, marginVertical: 6 },
   actionBox: { gap: spacing.sm },
+  boxed: {
+    borderRadius: radius.card,
+    padding: spacing.card,
+    gap: spacing.sm + spacing.xs,
+    marginHorizontal: spacing.sm,
+  },
   actionText: { lineHeight: 23 },
+  actionTextBoxed: { fontFamily: fontFor(600), fontSize: 18, lineHeight: 26 },
   actionButton: {
     alignItems: 'center',
     justifyContent: 'center',

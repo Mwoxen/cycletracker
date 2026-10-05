@@ -252,6 +252,8 @@ const en: Translation = {
     questions: '{{n}} questions',
     source: 'Source',
     cardDay: 'Card · day {{day}} of 360',
+    sources: 'Sources',
+    unlocksTomorrow: 'Unlocks tomorrow',
   },
   calendar: {
     title: 'Calendar',

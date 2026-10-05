@@ -250,6 +250,8 @@ const da = {
     questions: '{{n}} spørgsmål',
     source: 'Kilde',
     cardDay: 'Kort · dag {{day}} af 360',
+    sources: 'Kilder',
+    unlocksTomorrow: 'Låses op i morgen',
   },
   calendar: {
     title: 'Kalender',

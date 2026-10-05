@@ -1,12 +1,13 @@
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { largeTitleScreenOptions, readingScreenOptions } from '@/ui/navigation';
+import { readingScreenOptions, useStackScreenOptions } from '@/ui/navigation';
 
 export default function HomeLayout() {
   const { t } = useTranslation();
+  const screenOptions = useStackScreenOptions();
   return (
-    <Stack screenOptions={largeTitleScreenOptions}>
+    <Stack screenOptions={screenOptions}>
       <Stack.Screen name="index" options={{ title: t('home.title'), headerShown: false }} />
       <Stack.Screen name="daily/[id]" options={readingScreenOptions} />
       <Stack.Screen name="weekly/[id]" options={readingScreenOptions} />

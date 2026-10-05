@@ -69,8 +69,8 @@ export default function DailyCardScreen() {
         <View style={{ flex: 1 }}>
           <Screen onScroll={onScroll} scrollEventThrottle={32}>
             <ReadingHero kicker={kicker} title={card.title} meta={meta} phase={card.phaseTags[0]} />
-            <ReadingBody paragraphs={card.insight.split(/\n\s*\n/)} lede />
-            {isTracker ? <ActionBox card={card} /> : null}
+            <ReadingBody paragraphs={card.insight.split(/\n\s*\n/)} />
+            {isTracker ? <ActionBox card={card} size={50} boxed /> : null}
             <NextDailyRow content={content} position={position} card={card} />
             {card.sources?.length ? <Sources sources={card.sources} /> : null}
           </Screen>

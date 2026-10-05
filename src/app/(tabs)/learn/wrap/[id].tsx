@@ -9,13 +9,14 @@ import { useContent } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
 import { spacing } from '@/ui/colors';
 import { PlusGate } from '@/ui/plus-gate';
-import { Card, Screen, SectionTitle, Txt } from '@/ui/primitives';
+import { Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Quiz } from '@/ui/quiz';
 import {
   ReadingBody,
   ReadingBullets,
   ReadingHero,
   ReadingProgressBar,
+  ReadingSection,
   useReadingProgress,
 } from '@/ui/reading';
 
@@ -58,14 +59,13 @@ export default function WrapScreen() {
         <View style={{ flex: 1 }}>
           <Screen onScroll={reading.onScroll} scrollEventThrottle={32}>
             <ReadingHero kicker={t('learn.thisMonth')} title={wrap.title} meta={meta} />
-            <ReadingBody paragraphs={wrap.summary} lede />
-            <SectionTitle style={{ marginLeft: spacing.lg }}>{t('learn.keepDoing')}</SectionTitle>
-            <Card style={{ marginHorizontal: spacing.sm }}>
+            <ReadingBody paragraphs={wrap.summary} />
+            <ReadingSection title={t('learn.keepDoing')}>
               <ReadingBullets items={wrap.keepDoing} />
-            </Card>
+            </ReadingSection>
             {isTracker ? (
               <>
-                <SectionTitle>{t('learn.quiz')}</SectionTitle>
+                <SectionTitle style={{ marginLeft: spacing.sm }}>{t('learn.quiz')}</SectionTitle>
                 <Quiz
                   questions={wrap.quiz}
                   bestScore={
