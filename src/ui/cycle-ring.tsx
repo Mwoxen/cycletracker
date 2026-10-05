@@ -24,7 +24,8 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const STROKE = 6;
 const GAP_DEG = 1.1;
-const FUTURE_OPACITY = 0.22;
+/** Future days: the design's 22 % read as grey on a device, so a little more in each mode. */
+const FUTURE_OPACITY = { light: 0.4, dark: 0.45 };
 const ENTER = Easing.bezier(0.2, 0.8, 0.2, 1);
 
 function polar(cx: number, cy: number, r: number, angle: number) {
@@ -209,7 +210,7 @@ export function CycleRing({
             testID={`ring-segment-${s.day}`}
             d={s.d}
             color={s.color}
-            opacity={s.future ? FUTURE_OPACITY : 1}
+            opacity={s.future ? FUTURE_OPACITY[mode] : 1}
             delay={i * 20}
             reduced={reduced}
           />

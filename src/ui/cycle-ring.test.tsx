@@ -22,7 +22,7 @@ describe('CycleRing', () => {
     const segments = screen.getAllByTestId(/^ring-segment-/);
     expect(segments).toHaveLength(28);
     expect(screen.getByTestId('ring-segment-12').props.opacity).toBe(1);
-    expect(screen.getByTestId('ring-segment-13').props.opacity).toBeLessThan(0.3);
+    expect(screen.getByTestId('ring-segment-13').props.opacity).toBeLessThan(0.5);
   });
 
   it('grows past the expected length when the cycle runs late', async () => {
