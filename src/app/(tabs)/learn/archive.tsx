@@ -9,6 +9,7 @@ import type { Phase } from '@/domain/types';
 import { colors, phaseColor, phaseSymbol } from '@/ui/colors';
 import { Empty } from '@/ui/empty';
 import { Card, Icon, Row, Screen } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -26,7 +27,7 @@ function PhaseLead({ phase }: { phase: Phase }) {
       <Icon
         name={phaseSymbol[phase] as SFSymbol}
         size={15}
-        color={colors.white}
+        color={colors.onAccent}
         weight="semibold"
       />
     </View>
@@ -35,6 +36,7 @@ function PhaseLead({ phase }: { phase: Phase }) {
 
 export default function ArchiveScreen() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const router = useRouter();
   const { content, position, progress } = useProgram();
   const [query, setQuery] = useState('');
@@ -87,7 +89,7 @@ export default function ArchiveScreen() {
                   ) : item.read ? (
                     <Icon name="checkmark.circle.fill" color={colors.green} />
                   ) : (
-                    <Icon name={kindSymbol[item.kind]} color={colors.tint} />
+                    <Icon name={kindSymbol[item.kind]} color={theme.accent} />
                   )
                 }
                 onPress={() => open(item)}

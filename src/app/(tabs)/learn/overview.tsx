@@ -58,7 +58,7 @@ export default function OverviewScreen() {
               <View key={phase} style={{ gap: spacing.sm }}>
                 <View style={styles.header}>
                   <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
-                    <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
+                    <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.onAccent} />
                   </View>
                   <Txt variant="title" style={{ flex: 1, flexShrink: 1 }}>
                     {info.name}

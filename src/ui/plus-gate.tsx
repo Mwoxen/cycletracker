@@ -7,10 +7,12 @@ import { useHasAccess, useMonthAccess, type Feature } from '@/entitlements';
 import { purchasesAvailable, restore } from '@/purchases';
 import { colors, spacing } from '@/ui/colors';
 import { Button, Card, Icon, Screen, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 /** The locked card: what this is, why it is Plus, and the two ways in. */
 export function PlusLocked({ body }: { body: string }) {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
 
@@ -28,10 +30,10 @@ export function PlusLocked({ body }: { body: string }) {
 
   return (
     <Card style={styles.card}>
-      <View style={styles.badge}>
-        <Icon name="lock.fill" size={22} color={colors.white} />
+      <View style={[styles.badge, { backgroundColor: theme.accent }]}>
+        <Icon name="lock.fill" size={22} color={colors.onAccent} />
       </View>
-      <Txt variant="title" style={styles.center}>
+      <Txt variant="cardTitle" style={styles.center}>
         {t('plus.lockedTitle')}
       </Txt>
       <Txt color={colors.secondaryLabel} style={styles.center}>
@@ -80,7 +82,6 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: colors.tint,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: spacing.xs,

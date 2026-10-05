@@ -270,7 +270,7 @@ export default function SettingsScreen() {
             chevron={false}
             last
             trailing={
-              <Txt color={openPicker === 'start' ? colors.tint : colors.secondaryLabel}>
+              <Txt color={openPicker === 'start' ? theme.accent : colors.secondaryLabel}>
                 {fmt.long(profile.programStartDate)}
               </Txt>
             }
@@ -366,7 +366,7 @@ export default function SettingsScreen() {
                 onPress={() => setOpenPicker(openPicker === 'time' ? null : 'time')}
                 chevron={false}
                 trailing={
-                  <Txt color={openPicker === 'time' ? colors.tint : colors.secondaryLabel}>
+                  <Txt color={openPicker === 'time' ? theme.accent : colors.secondaryLabel}>
                     {fmt.time(reminderTime)}
                   </Txt>
                 }

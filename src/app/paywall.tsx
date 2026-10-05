@@ -8,8 +8,9 @@ import { PACKAGE_TYPE, type PurchasesPackage } from 'react-native-purchases';
 
 import { usePlan } from '@/entitlements';
 import { loadPackages, purchase, purchasesAvailable, redeemOfferCode, restore } from '@/purchases';
-import { colors, radius, spacing } from '@/ui/colors';
+import { colors, fontFor, radius, spacing } from '@/ui/colors';
 import { Bullets, Button, Card, Icon, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 const SITE = 'https://mwoxen.github.io/cycletracker';
 
@@ -37,6 +38,7 @@ function trialDays(pkg: PurchasesPackage): number | undefined {
 
 export default function PaywallScreen() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const router = useRouter();
   const plan = usePlan();
   const [packages, setPackages] = useState<PurchasesPackage[] | undefined>();
@@ -98,16 +100,16 @@ export default function PaywallScreen() {
   return (
     <ScrollView style={styles.sheet} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <View style={styles.badge}>
-          <Icon name="sparkles" size={24} color={colors.white} />
+        <View style={[styles.badge, { backgroundColor: theme.accent }]}>
+          <Icon name="sparkles" size={24} color={colors.onAccent} />
         </View>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
-          <Txt variant="headline" color={colors.tint}>
+          <Txt variant="headline" color={theme.accent}>
             {t('common.close')}
           </Txt>
         </Pressable>
       </View>
-      <Txt variant="caption" color={colors.tint} style={styles.kicker}>
+      <Txt variant="boxLabel" color={theme.accent} style={styles.kicker}>
         {t('plus.name').toUpperCase()}
       </Txt>
       <Txt variant="largeTitle">{t('plus.title')}</Txt>
@@ -144,7 +146,7 @@ export default function PaywallScreen() {
                   }}
                   accessibilityRole="radio"
                   accessibilityState={{ selected: isSelected }}
-                  style={[styles.option, isSelected && styles.optionSelected]}>
+                  style={[styles.option, isSelected && { borderColor: theme.accent }]}>
                   <View style={{ flex: 1, flexShrink: 1, marginRight: spacing.sm }}>
                     <Txt variant="headline">{packageLabel(pkg, t)}</Txt>
                     <Txt variant="footnote">
@@ -154,7 +156,7 @@ export default function PaywallScreen() {
                   </View>
                   {pkg.packageType === PACKAGE_TYPE.ANNUAL ? (
                     <View style={styles.best}>
-                      <Txt variant="caption" color={colors.white} style={{ fontWeight: '700' }}>
+                      <Txt variant="caption" color={colors.onAccent} style={styles.bestText}>
                         {t('plus.bestValue')}
                       </Txt>
                     </View>
@@ -162,7 +164,7 @@ export default function PaywallScreen() {
                   <Icon
                     name={isSelected ? 'checkmark.circle.fill' : 'circle'}
                     size={22}
-                    color={isSelected ? colors.tint : colors.tertiaryLabel}
+                    color={isSelected ? theme.accent : colors.tertiaryLabel}
                   />
                 </Pressable>
               );
@@ -216,11 +218,10 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: colors.tint,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  kicker: { fontWeight: '700', letterSpacing: 0.6, marginBottom: -spacing.sm },
+  kicker: { marginBottom: -spacing.sm },
   options: { gap: spacing.sm },
   option: {
     flexDirection: 'row',
@@ -229,9 +230,9 @@ const styles = StyleSheet.create({
     borderRadius: radius.card,
     padding: spacing.md,
     borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: colors.separator,
   },
-  optionSelected: { borderColor: colors.tint },
+  bestText: { fontFamily: fontFor(700) },
   best: {
     backgroundColor: colors.green,
     borderRadius: radius.chip,

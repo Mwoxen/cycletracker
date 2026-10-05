@@ -87,7 +87,7 @@ export function Quiz({
           const isChosen = i === chosen;
           const bg =
             answered && isCorrect ? colors.green : answered && isChosen ? colors.red : colors.fill;
-          const fg = answered && (isCorrect || isChosen) ? colors.white : colors.label;
+          const fg = answered && (isCorrect || isChosen) ? colors.onAccent : colors.label;
           return (
             <Pressable
               key={i}
@@ -103,10 +103,10 @@ export function Quiz({
                 {option}
               </Txt>
               {answered && isCorrect ? (
-                <Icon name="checkmark" size={16} color={colors.white} weight="bold" />
+                <Icon name="checkmark" size={16} color={colors.onAccent} weight="bold" />
               ) : null}
               {answered && isChosen && !isCorrect ? (
-                <Icon name="xmark" size={16} color={colors.white} weight="bold" />
+                <Icon name="xmark" size={16} color={colors.onAccent} weight="bold" />
               ) : null}
             </Pressable>
           );

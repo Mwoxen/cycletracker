@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 26,
     lineHeight: 32,
-    fontWeight: '300',
     fontFamily: fontFor(300),
     fontVariant: ['tabular-nums'],
   },

@@ -10,9 +10,11 @@ import { previewMerge, selectSnapshotData, useStore, type Snapshot } from '@/sto
 import { decodePayload } from '@/sync/payload';
 import { colors, spacing } from '@/ui/colors';
 import { Button, Card, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 export default function ImportSheet() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const router = useRouter();
   const fmt = useFormat();
   const { d } = useLocalSearchParams<{ d?: string }>();
@@ -62,7 +64,7 @@ export default function ImportSheet() {
       <View style={styles.header}>
         <Txt variant="title">{t('sync.importTitle')}</Txt>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
-          <Txt variant="headline" color={colors.tint}>
+          <Txt variant="headline" color={theme.accent}>
             {done ? t('common.done') : t('common.cancel')}
           </Txt>
         </Pressable>

@@ -67,12 +67,12 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     backgroundColor: colors.fill,
-    borderRadius: 8,
+    borderRadius: radius.cell,
     overflow: 'hidden',
   },
   button: { width: 40, height: 32, alignItems: 'center', justifyContent: 'center' },
-  left: { borderTopLeftRadius: radius.card, borderBottomLeftRadius: radius.card },
-  right: { borderTopRightRadius: radius.card, borderBottomRightRadius: radius.card },
+  left: { borderTopLeftRadius: radius.cell, borderBottomLeftRadius: radius.cell },
+  right: { borderTopRightRadius: radius.cell, borderBottomRightRadius: radius.cell },
   divider: {
     width: StyleSheet.hairlineWidth,
     backgroundColor: colors.separator,

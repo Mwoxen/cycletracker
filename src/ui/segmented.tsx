@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { colors, radius } from './colors';
+import { colors, fontFor, radius } from './colors';
 import { Txt } from './primitives';
 
 /** Compact pill segmented control for the trailing side of a settings row. */
@@ -67,5 +67,5 @@ const styles = StyleSheet.create({
     borderColor: colors.separator,
   },
   pressed: { opacity: 0.6 },
-  label: { fontWeight: '600' },
+  label: { fontFamily: fontFor(600) },
 });

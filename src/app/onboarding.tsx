@@ -25,9 +25,11 @@ import { useStore } from '@/store/store';
 import { colors, radius, spacing } from '@/ui/colors';
 import { Button, Card, Screen, SectionTitle, Icon, Txt } from '@/ui/primitives';
 import { Stepper } from '@/ui/stepper';
+import { usePhaseTheme } from '@/ui/theme';
 
 export default function Onboarding() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const insets = useSafeAreaInsets();
   const completeOnboarding = useStore((s) => s.completeOnboarding);
   const applySnapshot = useStore((s) => s.applySnapshot);
@@ -103,7 +105,7 @@ export default function Onboarding() {
         </View>
 
         {backup ? (
-          <Card style={{ borderWidth: 2, borderColor: colors.tint }}>
+          <Card style={{ borderWidth: 2, borderColor: theme.accent }}>
             <Txt variant="headline">{t('onboarding.restoreTitle')}</Txt>
             <Txt variant="footnote">
               {t('onboarding.restoreBody', {
@@ -248,6 +250,7 @@ function RoleCard({
   selected: boolean;
   onPress: () => void;
 }) {
+  const theme = usePhaseTheme();
   return (
     <Pressable
       onPress={() => {
@@ -258,15 +261,15 @@ function RoleCard({
       accessibilityState={{ selected }}
       style={({ pressed }) => [
         styles.roleCard,
-        selected && styles.roleCardSelected,
+        selected && { borderColor: theme.accent },
         pressed && { opacity: 0.8 },
       ]}>
-      <Icon name={symbol} size={28} color={selected ? colors.tint : colors.secondaryLabel} />
+      <Icon name={symbol} size={28} color={selected ? theme.accent : colors.secondaryLabel} />
       <View style={{ flex: 1, flexShrink: 1, gap: 2, marginHorizontal: spacing.md }}>
         <Txt variant="headline">{title}</Txt>
         <Txt variant="footnote">{description}</Txt>
       </View>
-      {selected ? <Icon name="checkmark.circle.fill" size={22} color={colors.tint} /> : null}
+      {selected ? <Icon name="checkmark.circle.fill" size={22} color={theme.accent} /> : null}
     </Pressable>
   );
 }
@@ -282,7 +285,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.card,
     padding: spacing.md,
     borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: colors.separator,
   },
-  roleCardSelected: { borderColor: colors.tint },
 });

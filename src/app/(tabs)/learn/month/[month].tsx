@@ -5,9 +5,11 @@ import { getMonth, isDailyUnlocked, isMonthWrapUnlocked, isWeeklyUnlocked } from
 import { useProgram } from '@/hooks/use-program';
 import { colors } from '@/ui/colors';
 import { Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 export default function MonthScreen() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const router = useRouter();
   const { month: monthParam } = useLocalSearchParams<{ month: string }>();
   const m = Number(monthParam) || 1;
@@ -51,7 +53,7 @@ export default function MonthScreen() {
                     : t('learn.locked', { n: (m - 1) * 30 + (w.week - 1) * 7 + 1 })
                 }
                 symbol={read ? 'checkmark.circle.fill' : unlocked ? 'doc.text' : 'lock.fill'}
-                symbolColor={read ? colors.green : unlocked ? colors.tint : colors.tertiaryLabel}
+                symbolColor={read ? colors.green : unlocked ? theme.accent : colors.tertiaryLabel}
                 onPress={unlocked ? () => router.push(`/(tabs)/learn/weekly/${w.id}`) : undefined}
                 last={i === month.weekly.length - 1}
               />
@@ -106,7 +108,7 @@ export default function MonthScreen() {
                         ? 'circle'
                         : 'lock.fill'
                 }
-                symbolColor={done ? colors.green : read ? colors.tint : colors.tertiaryLabel}
+                symbolColor={done ? colors.green : read ? theme.accent : colors.tertiaryLabel}
                 onPress={unlocked ? () => router.push(`/(tabs)/learn/daily/${c.id}`) : undefined}
                 last={i === month.daily.length - 1}
               />

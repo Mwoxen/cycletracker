@@ -9,9 +9,11 @@ import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native
 import { extractPayload } from '@/sync/payload';
 import { colors, radius, spacing } from '@/ui/colors';
 import { Button, Card, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 export default function ScanSheet() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
   const [pasted, setPasted] = useState('');
@@ -40,7 +42,7 @@ export default function ScanSheet() {
       <View style={styles.header}>
         <Txt variant="title">{t('sync.scanTitle')}</Txt>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
-          <Txt variant="headline" color={colors.tint}>
+          <Txt variant="headline" color={theme.accent}>
             {t('common.cancel')}
           </Txt>
         </Pressable>

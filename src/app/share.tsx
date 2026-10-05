@@ -10,9 +10,11 @@ import { createSyncSnapshot, selectSnapshotData, useStore } from '@/store';
 import { buildImportLink, encodePayload, fitsInQr } from '@/sync/payload';
 import { colors, spacing } from '@/ui/colors';
 import { Button, Card, Chip, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 export default function ShareSheet() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const router = useRouter();
   const data = useStore(selectSnapshotData);
   const deviceId = useStore((s) => s.deviceId);
@@ -46,7 +48,7 @@ export default function ShareSheet() {
       <View style={styles.header}>
         <Txt variant="title">{t('sync.shareTitle')}</Txt>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
-          <Txt variant="headline" color={colors.tint}>
+          <Txt variant="headline" color={theme.accent}>
             {t('common.done')}
           </Txt>
         </Pressable>

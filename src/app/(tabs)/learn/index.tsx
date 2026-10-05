@@ -9,9 +9,10 @@ import { useProgram } from '@/hooks/use-program';
 import { useToday } from '@/hooks/use-today';
 import { useStore } from '@/store/store';
 import { TabSwipe } from '@/ui/tab-swipe';
-import { colors, phaseColor, spacing } from '@/ui/colors';
+import { colors, fontFor, phaseColor, spacing } from '@/ui/colors';
 import { Card, Icon, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Stat } from '@/ui/stat';
+import { usePhaseTheme } from '@/ui/theme';
 
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -25,7 +26,7 @@ function Lead({ color, children }: PropsWithChildren<{ color: ColorValue }>) {
 function LeadText({ color, label, text }: { color: ColorValue; label: string; text?: ColorValue }) {
   return (
     <Lead color={color}>
-      <Txt variant="caption" color={text ?? colors.white} style={styles.leadText}>
+      <Txt variant="caption" color={text ?? colors.onAccent} style={styles.leadText}>
         {label}
       </Txt>
     </Lead>
@@ -50,6 +51,7 @@ function LeadIcon({
 
 export default function LearnScreen() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const router = useRouter();
   const { content, position, card, weekly, wrap, progress } = useProgram();
   const today = useToday();
@@ -83,7 +85,7 @@ export default function LearnScreen() {
             key={phase}
             title={content.phases[phase].name}
             subtitle={content.phases[phase].timing}
-            lead={<Lead color={phaseColor[phase]} />}
+            lead={<View style={[styles.phaseDot, { backgroundColor: phaseColor[phase] }]} />}
             onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}
             last={i === PHASE_ORDER.length - 1}
           />
@@ -106,7 +108,7 @@ export default function LearnScreen() {
           }
           subtitle={!available ? t('learn.contentMissing') : month?.focus}
           symbol={done ? 'checkmark.seal.fill' : unlocked ? 'book.closed.fill' : 'lock.fill'}
-          symbolColor={done ? colors.green : unlocked ? colors.tint : colors.tertiaryLabel}
+          symbolColor={done ? colors.green : unlocked ? theme.accent : colors.tertiaryLabel}
           onPress={() => router.push(`/(tabs)/learn/month/${m}`)}
           last={m === MONTHS_IN_PROGRAM}
         />
@@ -127,7 +129,7 @@ export default function LearnScreen() {
                 subtitle={t('home.todaysCardDay', { day: position.programDay })}
                 lead={
                   <LeadText
-                    color={cardPhase ? phaseColor[cardPhase] : colors.tint}
+                    color={cardPhase ? phaseColor[cardPhase] : theme.accent}
                     label={String(position.dayInMonth)}
                   />
                 }
@@ -172,7 +174,7 @@ export default function LearnScreen() {
               subtitle={cardRead ? t('learn.todaysCardRead') : t('learn.todaysCard')}
               lead={
                 <LeadText
-                  color={cardPhase ? phaseColor[cardPhase] : colors.tint}
+                  color={cardPhase ? phaseColor[cardPhase] : theme.accent}
                   label={String(position.dayInMonth)}
                 />
               }
@@ -200,7 +202,7 @@ export default function LearnScreen() {
             subtitle={wrap ? t('learn.wrap') : t('learn.locked', { n: position.month * 30 })}
             lead={
               wrap ? (
-                <LeadIcon color={colors.green} symbol="checkmark" tint={colors.white} />
+                <LeadIcon color={colors.green} symbol="checkmark" tint={colors.onAccent} />
               ) : (
                 <LeadIcon color={colors.fill} symbol="lock.fill" tint={colors.tertiaryLabel} />
               )
@@ -215,7 +217,9 @@ export default function LearnScreen() {
             <Row
               title={t('learn.catchUp')}
               subtitle={t('learn.catchUpCount', { n: catchUp.length })}
-              lead={<LeadIcon color={colors.orange} symbol="tray.full.fill" tint={colors.white} />}
+              lead={
+                <LeadIcon color={colors.orange} symbol="tray.full.fill" tint={colors.onAccent} />
+              }
               onPress={() => {
                 const next = catchUp[0];
                 router.push(`/(tabs)/learn/${next.kind}/${next.id}`);
@@ -226,7 +230,7 @@ export default function LearnScreen() {
             title={t('learn.archive')}
             subtitle={t('learn.archiveHint')}
             lead={
-              <LeadIcon color={colors.cardSecondary} symbol="magnifyingglass" tint={colors.tint} />
+              <LeadIcon color={colors.cardSecondary} symbol="magnifyingglass" tint={theme.accent} />
             }
             onPress={() => router.push('/(tabs)/learn/archive')}
           />
@@ -237,7 +241,7 @@ export default function LearnScreen() {
               <LeadIcon
                 color={colors.cardSecondary}
                 symbol="heart.text.square.fill"
-                tint={colors.tint}
+                tint={theme.accent}
               />
             }
             onPress={() => router.push('/(tabs)/learn/overview')}
@@ -264,5 +268,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  leadText: { fontWeight: '700', fontVariant: ['tabular-nums'] },
+  leadText: { fontFamily: fontFor(700), fontVariant: ['tabular-nums'] },
+  phaseDot: { width: 10, height: 10, borderRadius: 5, marginHorizontal: 10 },
 });
