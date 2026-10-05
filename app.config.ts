@@ -88,8 +88,7 @@ const config: ExpoConfig = {
       {
         backgroundColor: '#EEE8EB',
         image: './assets/images/splash-icon.png',
-        // 437 pt makes the splash ring the same size as the ring on Home (see scripts/brand-svg.mjs).
-        imageWidth: 437,
+        imageWidth: 160,
         dark: { backgroundColor: '#0D0A0E', image: './assets/images/splash-icon-dark.png' },
       },
     ],
