@@ -49,17 +49,9 @@ function render({ svg, size, out, background = 'transparent', scale = 1 }) {
   console.log('wrote', out);
 }
 
-render({
-  svg: 'assets/brand/icon.svg',
-  size: 1024,
-  out: 'assets/images/icon.png',
-  background: '#F9E6DC',
-});
+// Backgrounds match the app's screen background in src/ui/colors.ts (light #EEE8EB, dark #0D0A0E).
+render({ svg: 'assets/brand/icon.svg', size: 1024, out: 'assets/images/icon.png', background: '#EEE8EB' });
+render({ svg: 'assets/brand/icon-dark.svg', size: 1024, out: 'assets/images/icon-dark.png', background: '#0D0A0E' });
 render({ svg: 'assets/brand/glyph.svg', size: 512, out: 'assets/images/splash-icon.png' });
-render({ svg: 'assets/brand/glyph.svg', size: 512, out: 'assets/images/splash-icon-dark.png' });
-render({
-  svg: 'assets/brand/icon.svg',
-  size: 64,
-  out: 'assets/images/favicon.png',
-  background: '#F9E6DC',
-});
+render({ svg: 'assets/brand/glyph-dark.svg', size: 512, out: 'assets/images/splash-icon-dark.png' });
+render({ svg: 'assets/brand/icon.svg', size: 64, out: 'assets/images/favicon.png', background: '#EEE8EB' });

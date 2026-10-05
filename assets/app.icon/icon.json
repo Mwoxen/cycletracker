@@ -1,8 +1,8 @@
 {
   "fill": {
     "linear-gradient": [
-      "extended-srgb:0.97647,0.90196,0.86275,1.00000",
-      "extended-srgb:0.91373,0.65882,0.60000,1.00000"
+      "extended-srgb:0.93333,0.90980,0.92157,1.00000",
+      "extended-srgb:0.93333,0.90980,0.92157,1.00000"
     ]
   },
   "groups": [
@@ -13,13 +13,16 @@
           "name": "glyph",
           "position": {
             "scale": 0.78,
-            "translation-in-points": [0, 0]
+            "translation-in-points": [
+              0,
+              0
+            ]
           }
         }
       ],
       "shadow": {
         "kind": "neutral",
-        "opacity": 0.4
+        "opacity": 0.2
       },
       "translucency": {
         "enabled": true,
@@ -28,7 +31,9 @@
     }
   ],
   "supported-platforms": {
-    "circles": ["watchOS"],
+    "circles": [
+      "watchOS"
+    ],
     "squares": "shared"
   }
 }

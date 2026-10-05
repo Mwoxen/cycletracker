@@ -12,8 +12,8 @@ import Animated, {
 
 /** Same colours and icon as the native splash (app.config.ts), so the handover is seamless. */
 const SPLASH = {
-  light: { background: '#FBF7F2', icon: require('../../assets/images/splash-icon.png') },
-  dark: { background: '#161311', icon: require('../../assets/images/splash-icon-dark.png') },
+  light: { background: '#EEE8EB', icon: require('../../assets/images/splash-icon.png') },
+  dark: { background: '#0D0A0E', icon: require('../../assets/images/splash-icon-dark.png') },
 };
 const ICON_WIDTH = 160;
 const HOLD_MS = 350;

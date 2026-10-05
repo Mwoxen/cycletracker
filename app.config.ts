@@ -86,10 +86,10 @@ const config: ExpoConfig = {
     [
       'expo-splash-screen',
       {
-        backgroundColor: '#FBF7F2',
+        backgroundColor: '#EEE8EB',
         image: './assets/images/splash-icon.png',
         imageWidth: 160,
-        dark: { backgroundColor: '#161311', image: './assets/images/splash-icon-dark.png' },
+        dark: { backgroundColor: '#0D0A0E', image: './assets/images/splash-icon-dark.png' },
       },
     ],
     ['expo-notifications', { defaultChannel: 'default' }],
