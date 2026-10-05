@@ -112,6 +112,7 @@ export function Hero({
           loggedDays={loggedDays}
           label={t('home.cycleDay', { n: today.cycleDay })}
           phaseName={phaseName}
+          reportAnchor
         />
       </Pressable>
       <Txt variant="hero" style={styles.headline}>

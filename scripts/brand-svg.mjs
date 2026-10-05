@@ -78,11 +78,31 @@ const icon = (c) =>
   heart(c, ICON.heartScale, 530) +
   '</svg>\n';
 
+/** The splash split in layers for the in-app handover: the ring alone and the heart alone, in the splash's frame. */
+const splashRing = (c) =>
+  head + `  <g transform="translate(0 -92)">\n` + ring(c, GLYPH) + `  </g>\n</svg>\n`;
+const splashHeart = (c) =>
+  head +
+  `  <g transform="translate(0 -92)">\n` +
+  heart(c, GLYPH.heartScale, 528) +
+  `  </g>\n</svg>\n`;
+
+const splashText = (c) =>
+  head +
+  `  <text x="512" y="905" text-anchor="middle" font-family="Manrope" font-weight="300" font-size="108" letter-spacing="-1" fill="${c.text}">Cycle Tracker</text>\n` +
+  '</svg>\n';
+
 const out = (name, svg) => writeFileSync(resolve(root, 'assets/brand', name), svg);
 out('glyph.svg', glyph(COLOURS.light));
 out('glyph-dark.svg', glyph(COLOURS.dark));
 out('splash.svg', splash(COLOURS.light));
 out('splash-dark.svg', splash(COLOURS.dark));
+out('splash-ring.svg', splashRing(COLOURS.light));
+out('splash-ring-dark.svg', splashRing(COLOURS.dark));
+out('splash-heart.svg', splashHeart(COLOURS.light));
+out('splash-heart-dark.svg', splashHeart(COLOURS.dark));
+out('splash-text.svg', splashText(COLOURS.light));
+out('splash-text-dark.svg', splashText(COLOURS.dark));
 out('icon.svg', icon(COLOURS.light));
 out('icon-dark.svg', icon(COLOURS.dark));
 console.log('wrote assets/brand/*.svg');

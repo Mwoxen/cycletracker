@@ -75,6 +75,19 @@ render({
   size: 512,
   out: 'assets/images/splash-icon-dark.png',
 });
+// Layers for the in-app splash handover (src/ui/curtain.tsx), in the splash image's frame.
+for (const layer of ['ring', 'heart', 'text']) {
+  render({
+    svg: `assets/brand/splash-${layer}.svg`,
+    size: 512,
+    out: `assets/images/splash-${layer}.png`,
+  });
+  render({
+    svg: `assets/brand/splash-${layer}-dark.svg`,
+    size: 512,
+    out: `assets/images/splash-${layer}-dark.png`,
+  });
+}
 render({
   svg: 'assets/brand/icon.svg',
   size: 64,
