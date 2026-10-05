@@ -77,9 +77,9 @@ const en: Translation = {
     cycleDayShort: 'day {{n}}',
     needs: {
       menstrual: '{{name}} needs calm. You need to keep quiet and make coffee.',
-      follicular: '{{name}} has energy to spare today. Keep up, or step politely aside.',
-      ovulation: '{{name}} is at her peak today. That is not your doing.',
-      luteal: '{{name}} needs a little extra patience. You have some lying around somewhere.',
+      follicular: '{{name}} has energy to spare today. Say yes before you get to "let\'s see".',
+      ovulation: '{{name}} is at her peak today. Put the phone away, and do not set an alarm.',
+      luteal: '{{name}} needs a little extra patience. Dig some out, it is behind the pasta.',
     },
     needsSelf: {
       menstrual: 'You need calm today',

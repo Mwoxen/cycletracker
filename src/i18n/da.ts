@@ -75,9 +75,10 @@ const da = {
     cycleDayShort: 'dag {{n}}',
     needs: {
       menstrual: '{{name}} har brug for ro. Du har brug for at holde mund og lave kaffe.',
-      follicular: '{{name}} har overskud i dag. Hold trit, eller gå pænt af vejen.',
-      ovulation: '{{name}} er på toppen i dag. Det er ikke din fortjeneste.',
-      luteal: '{{name}} har brug for lidt ekstra tålmodighed. Du har noget liggende et sted.',
+      follicular: '{{name}} har overskud i dag. Sig ja, før du når at sige "lad os lige se".',
+      ovulation: '{{name}} er på toppen i dag. Læg telefonen væk, og sæt ikke en alarm.',
+      luteal:
+        '{{name}} har brug for lidt ekstra tålmodighed. Find den frem, den ligger bag ved pastaen.',
     },
     needsSelf: {
       menstrual: 'Du har brug for ro i dag',
