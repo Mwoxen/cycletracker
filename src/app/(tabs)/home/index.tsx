@@ -221,7 +221,12 @@ export default function HomeScreen() {
                     })}
                   </SectionTitle>
                   <Card onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}>
-                    <Txt variant="cardTitle">{program.weekly.title}</Txt>
+                    <View style={styles.headingRow}>
+                      <Txt variant="cardTitle" style={styles.weeklyTitle}>
+                        {program.weekly.title}
+                      </Txt>
+                      <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
+                    </View>
                     <View style={styles.talkBox}>
                       <Txt variant="boxLabel" color={theme.accent}>
                         {t('home.talkTogether').toUpperCase()}
@@ -298,6 +303,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   section: { gap: spacing.md },
+  weeklyTitle: { flex: 1, flexShrink: 1, marginRight: spacing.sm },
   headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 2 },
   softChip: { borderRadius: radius.chip, paddingVertical: 5, paddingHorizontal: 11 },
