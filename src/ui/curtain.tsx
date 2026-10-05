@@ -10,7 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { useRingAnchor } from '@/ui/ring-anchor';
+import { endHandover, useRingAnchor } from '@/ui/ring-anchor';
 
 /** Same colours and images as the native splash (app.config.ts), so the handover is seamless. */
 const SPLASH = {
@@ -37,7 +37,7 @@ const SPLASH = {
 const IMAGE_WIDTH = 437;
 const UNIT = IMAGE_WIDTH / 1024;
 const IMAGE_HEIGHT = 1400 * UNIT;
-const RING_OFFSET_Y = (365 - 700) * UNIT;
+const RING_OFFSET_Y = (346 - 700) * UNIT;
 const RING_RADIUS = 300 * UNIT;
 const HOLD_MS = 550;
 const MOVE_MS = 450;
@@ -81,7 +81,10 @@ export function Curtain({ ready }: { ready: boolean }) {
 
   useEffect(() => {
     if (!started) return;
-    const finish = () => setDone(true);
+    const finish = () => {
+      endHandover();
+      setDone(true);
+    };
     if (reduced || !target) {
       fade.value = withTiming(0, { duration: reduced ? 250 : FADE_MS }, () => runOnJS(finish)());
       ringFade.value = withTiming(0, { duration: reduced ? 250 : FADE_MS });

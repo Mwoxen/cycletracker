@@ -141,7 +141,7 @@ export default function HomeScreen() {
     <TabSwipe tab="home">
       <Screen title={t('home.title')} subtitle={fmt.long(today)}>
         {snapshot.hasData ? (
-          <Reveal>
+          <Reveal skipOnHandover>
             <Hero snapshot={snapshot} name={name} isTracker={isTracker} />
           </Reveal>
         ) : (

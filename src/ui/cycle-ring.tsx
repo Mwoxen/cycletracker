@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
@@ -15,7 +15,7 @@ import Svg, { Circle, Path } from 'react-native-svg';
 
 import type { DayStatus } from '@/engine/cycle';
 import { phaseForCycleDay } from '@/engine/cycle';
-import { setRingAnchor } from '@/ui/ring-anchor';
+import { isHandover, setRingAnchor } from '@/ui/ring-anchor';
 import { fontFor, phaseHex } from '@/ui/colors';
 import { usePhaseTheme, useSurfaceHex } from '@/ui/theme';
 import { Txt } from '@/ui/primitives';
@@ -119,7 +119,10 @@ export function CycleRing({
   const box = useRef<View>(null);
   const theme = usePhaseTheme();
   const surface = useSurfaceHex();
-  const reduced = useReducedMotion();
+  // During the splash handover the ring is drawn complete at once (see ring-anchor.ts).
+  const reducedMotion = useReducedMotion();
+  const [instant] = useState(() => isHandover());
+  const reduced = reducedMotion || instant;
   const mode = theme.dark ? 'dark' : 'light';
   const c = size / 2;
   // Radius leaves room for the knob (8) outside the stroke; markings sit one stroke's width
@@ -156,7 +159,7 @@ export function CycleRing({
   // Glow that breathes behind the ring; static with Reduce Motion.
   const breath = useSharedValue(0);
   useEffect(() => {
-    breath.value = reduced
+    breath.value = reducedMotion
       ? 0.5
       : withRepeat(
           withSequence(
@@ -165,7 +168,7 @@ export function CycleRing({
           ),
           -1,
         );
-  }, [breath, reduced]);
+  }, [breath, reducedMotion]);
   const glowStyle = useAnimatedStyle(() => ({
     opacity: 0.4 + 0.4 * breath.value,
     transform: [{ scale: 0.9 + 0.18 * breath.value }],
