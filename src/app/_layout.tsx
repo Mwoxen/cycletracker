@@ -29,6 +29,7 @@ import { selectActivePeriods, useStore } from '@/store/store';
 import { CatchBoundary, captureConsoleErrors, errorDetails } from '@/ui/catch-boundary';
 import { AppErrorBoundary } from '@/ui/error-boundary';
 import { colors } from '@/ui/colors';
+import { Curtain } from '@/ui/curtain';
 import { PhaseThemeProvider } from '@/ui/theme';
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
@@ -101,7 +102,9 @@ export default function RootLayout() {
     return () => clearTimeout(handle);
   }, [hydrated, profile, settings, periods]);
 
-  if (!ready) return null;
+  // The curtain copies the native splash, so the native one can go as soon as it is on screen.
+  // It parts once the app is ready and the first screen has had a moment to draw.
+  if (!ready) return <Curtain ready={false} />;
 
   return (
     <PhaseThemeProvider>
@@ -128,6 +131,7 @@ export default function RootLayout() {
           </CatchBoundary>
         </ThemeProvider>
       </GestureHandlerRootView>
+      <Curtain ready />
     </PhaseThemeProvider>
   );
 }
