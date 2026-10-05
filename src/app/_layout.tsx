@@ -28,6 +28,7 @@ import { configurePurchases } from '@/purchases';
 import { selectActivePeriods, useStore } from '@/store/store';
 import { CatchBoundary, captureConsoleErrors, errorDetails } from '@/ui/catch-boundary';
 import { AppErrorBoundary } from '@/ui/error-boundary';
+import { colors } from '@/ui/colors';
 import { PhaseThemeProvider } from '@/ui/theme';
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
@@ -107,7 +108,11 @@ export default function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <CatchBoundary>
-            <Stack>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: colors.background },
+              }}>
               <Stack.Protected guard={!!profile}>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="log/[date]" options={sheet} />

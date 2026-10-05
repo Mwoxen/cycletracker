@@ -214,22 +214,24 @@ export default function HomeScreen() {
 
             {program.weekly && !program.position.notStarted ? (
               <Reveal index={4}>
-                <SectionTitle>
-                  {t('learn.thisWeekMinutes', {
-                    min: Math.max(2, readingMinutes(program.weekly.body)),
-                  })}
-                </SectionTitle>
-                <Card onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}>
-                  <Txt variant="cardTitle">{program.weekly.title}</Txt>
-                  <View style={styles.talkBox}>
-                    <Txt variant="boxLabel" color={theme.accent}>
-                      {t('home.talkTogether').toUpperCase()}
-                    </Txt>
-                    <Txt variant="callout" style={styles.question}>
-                      “{program.weekly.conversationQuestion}”
-                    </Txt>
-                  </View>
-                </Card>
+                <View style={styles.section}>
+                  <SectionTitle>
+                    {t('learn.thisWeekMinutes', {
+                      min: Math.max(2, readingMinutes(program.weekly.body)),
+                    })}
+                  </SectionTitle>
+                  <Card onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}>
+                    <Txt variant="cardTitle">{program.weekly.title}</Txt>
+                    <View style={styles.talkBox}>
+                      <Txt variant="boxLabel" color={theme.accent}>
+                        {t('home.talkTogether').toUpperCase()}
+                      </Txt>
+                      <Txt variant="callout" style={styles.question}>
+                        “{program.weekly.conversationQuestion}”
+                      </Txt>
+                    </View>
+                  </Card>
+                </View>
               </Reveal>
             ) : null}
           </>
@@ -270,7 +272,7 @@ export default function HomeScreen() {
 
             {programStatus}
             {programStatus === null && program.card ? (
-              <View>
+              <View style={styles.section}>
                 <SectionTitle>{t('home.partnerLearnsToday')}</SectionTitle>
                 <Card onPress={() => router.push(`/(tabs)/home/daily/${program.card!.id}`)}>
                   <View style={styles.headingRow}>
@@ -295,6 +297,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  section: { gap: spacing.md },
   headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 2 },
   softChip: { borderRadius: radius.chip, paddingVertical: 5, paddingHorizontal: 11 },
