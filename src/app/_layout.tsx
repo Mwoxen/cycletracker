@@ -42,6 +42,7 @@ const sheet: NativeStackNavigationOptions = {
   presentation: 'formSheet',
   sheetAllowedDetents: [0.7, 1],
   sheetGrabberVisible: true,
+  sheetCornerRadius: 28,
   headerShown: false,
 };
 

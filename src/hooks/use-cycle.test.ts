@@ -1,4 +1,7 @@
-import { bandKind, bandSegments, isPredictedDay, type CalendarDayStatus } from './use-cycle';
+import { phaseColor, phaseSoft, phaseTint } from '@/ui/colors';
+import { cellMarks } from '@/ui/month-grid';
+
+import { isPredictedDay, type CalendarDayStatus } from './use-cycle';
 
 function status(extra: Partial<CalendarDayStatus>): CalendarDayStatus {
   return {
@@ -17,51 +20,50 @@ function status(extra: Partial<CalendarDayStatus>): CalendarDayStatus {
   };
 }
 
-describe('bandKind', () => {
-  it('bands a logged period', () => {
-    expect(bandKind(status({ isLoggedPeriod: true, phase: 'menstrual' }))).toBe('period');
-  });
-  it('gives predicted period days and the rest of the menstrual phase the light band', () => {
-    expect(bandKind(status({ isPredictedPeriod: true, phase: 'menstrual' }))).toBe('predicted');
-    expect(bandKind(status({ isLoggedPeriod: true, projected: true, phase: 'menstrual' }))).toBe(
-      'predicted',
-    );
-    expect(bandKind(status({ phase: 'menstrual' }))).toBe('predicted');
+describe('isPredictedDay', () => {
+  it('is true for expected periods and projected cycles, false for logged ones', () => {
+    expect(isPredictedDay(status({ isPredictedPeriod: true, phase: 'menstrual' }))).toBe(true);
     expect(isPredictedDay(status({ isLoggedPeriod: true, projected: true }))).toBe(true);
     expect(isPredictedDay(status({ isLoggedPeriod: true }))).toBe(false);
-  });
-  it('bands the fertile window including ovulation, PMS, and otherwise the phase', () => {
-    expect(bandKind(status({ isFertile: true }))).toBe('fertile');
-    expect(bandKind(status({ isFertile: true, isOvulation: true, phase: 'ovulation' }))).toBe(
-      'fertile',
-    );
-    expect(bandKind(status({ isPms: true, phase: 'luteal' }))).toBe('pms');
-    expect(bandKind(status({ phase: 'luteal' }))).toBe('luteal');
-    expect(bandKind(status({ phase: 'follicular' }))).toBe('follicular');
-    expect(bandKind(undefined)).toBeUndefined();
+    expect(isPredictedDay(undefined)).toBe(false);
   });
 });
 
-describe('bandSegments', () => {
-  it('connects runs and rounds their ends within the row', () => {
+describe('cellMarks', () => {
+  it('fills a logged period and dashes an expected one', () => {
+    expect(cellMarks(status({ isLoggedPeriod: true, phase: 'menstrual' }))).toEqual({
+      fill: phaseColor.menstrual,
+      dashed: undefined,
+      bar: false,
+    });
+    expect(cellMarks(status({ isPredictedPeriod: true, phase: 'menstrual' }))).toEqual({
+      fill: phaseSoft.menstrual,
+      dashed: phaseColor.menstrual,
+      bar: false,
+    });
     expect(
-      bandSegments(['period', 'period', undefined, 'fertile', 'fertile', 'fertile', 'pms']),
-    ).toEqual([
-      { kind: 'period', start: true, end: false },
-      { kind: 'period', start: false, end: true },
-      undefined,
-      { kind: 'fertile', start: true, end: false },
-      { kind: 'fertile', start: false, end: false },
-      { kind: 'fertile', start: false, end: true },
-      { kind: 'pms', start: true, end: true },
-    ]);
+      cellMarks(status({ isLoggedPeriod: true, projected: true, phase: 'menstrual' })).dashed,
+    ).toBe(phaseColor.menstrual);
   });
-  it('rounds at the row edges and makes single days full pills', () => {
-    expect(bandSegments(['fertile'])).toEqual([{ kind: 'fertile', start: true, end: true }]);
-    expect(bandSegments([undefined, undefined])).toEqual([undefined, undefined]);
-    expect(bandSegments(['pms', 'fertile'])).toEqual([
-      { kind: 'pms', start: true, end: true },
-      { kind: 'fertile', start: true, end: true },
-    ]);
+
+  it('tints the fertile window, dashes ovulation and bars PMS', () => {
+    expect(cellMarks(status({ isFertile: true }))).toEqual({
+      fill: phaseTint.ovulation,
+      dashed: undefined,
+      bar: false,
+    });
+    expect(cellMarks(status({ isFertile: true, isOvulation: true, phase: 'ovulation' }))).toEqual({
+      fill: phaseTint.ovulation,
+      dashed: phaseColor.ovulation,
+      bar: false,
+    });
+    expect(cellMarks(status({ isPms: true, phase: 'luteal' }))).toEqual({
+      fill: phaseSoft.luteal,
+      dashed: undefined,
+      bar: true,
+    });
+    expect(cellMarks(status({ phase: 'luteal' })).bar).toBe(false);
+    expect(cellMarks(status({ phase: 'follicular' })).fill).toBe(phaseSoft.follicular);
+    expect(cellMarks(undefined).fill).toBeUndefined();
   });
 });

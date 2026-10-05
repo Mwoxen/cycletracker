@@ -292,11 +292,13 @@ export function Chip({
   selected,
   onPress,
   color,
+  style,
 }: {
   label: string;
   selected?: boolean;
   onPress?: PressableProps['onPress'];
   color?: ColorValue;
+  style?: StyleProp<ViewStyle>;
 }) {
   const theme = usePhaseTheme();
   const fill = color ?? theme.accent;
@@ -311,6 +313,7 @@ export function Chip({
         selected
           ? { backgroundColor: fill, borderColor: fill }
           : { backgroundColor: 'transparent', borderColor: colors.separator },
+        style,
       ]}>
       <Txt
         variant="callout"

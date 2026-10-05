@@ -477,13 +477,14 @@ describe('sheets', () => {
     await renderApp(`/log/${today}`);
     expect(await screen.findByText(da.log.periodStartsToday)).toBeTruthy();
     const before = selectActivePeriods(useStore.getState()).length;
-    const [startSwitch] = screen.getAllByRole('switch');
-    await fireEvent(startSwitch, 'valueChange', true);
+    await fireEvent.press(screen.getByText(da.log.periodStartsToday));
     const periods = selectActivePeriods(useStore.getState());
     expect(periods).toHaveLength(before + 1);
     expect(periods.some((p) => p.startDate === today)).toBe(true);
     await fireEvent.press(screen.getByText(da.log.symptomNames.cramps));
     expect(Object.values(useStore.getState().logs)[0]?.symptoms).toEqual(['cramps']);
+    expect(screen.getByText(`✓ ${da.log.saved}`)).toBeTruthy();
+    expect(screen.getByText(da.log.removePeriodStart)).toBeTruthy();
   });
 
   it('renders the share sheet', async () => {
