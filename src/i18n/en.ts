@@ -460,7 +460,8 @@ const en: Translation = {
     restored: 'Your purchase has been restored.',
     nothingToRestore: 'There was no purchase to restore on this Apple account.',
     lockedTitle: 'This is part of Plus',
-    lockedMonth: 'Month {{n}} is part of Cycle Tracker Plus. Month 1 is free; the rest of the year costs a little.',
+    lockedMonth:
+      'Month {{n}} is part of Cycle Tracker Plus. Month 1 is free; the rest of the year costs a little.',
     lockedOverview:
       'The personal overview is part of Cycle Tracker Plus. It is built from her logs and your actions over the year.',
     teaser: 'Day {{day}} of 360 is waiting for you in Plus.',
@@ -487,14 +488,16 @@ const en: Translation = {
   },
   notifications: {
     dailyCardTitle: "Today's card is ready",
-    dailyCardBody: "One minute on what's happening today, and one thing you can do. You can manage that.",
+    dailyCardBody:
+      "One minute on what's happening today, and one thing you can do. You can manage that.",
     logTitle: 'How are you feeling today?',
     logBody: 'Log bleeding, symptoms and energy so you can both keep track.',
     periodSoonTitle: 'Period expected in 2 days',
     periodSoonBodyTracker: 'Find the heating pad now, while you still remember where it is.',
     periodSoonBodyUser: 'Your period is expected in about 2 days.',
     pmsTitle: 'PMS window begins',
-    pmsBodyTracker: 'The next days can be more vulnerable. Lower expectations, raise care, and keep the clever remarks to yourself.',
+    pmsBodyTracker:
+      'The next days can be more vulnerable. Lower expectations, raise care, and keep the clever remarks to yourself.',
     pmsBodyUser: 'The next days can be more vulnerable. Be kind to yourself.',
   },
   dates: {

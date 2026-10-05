@@ -10,7 +10,6 @@ import {
   StyleSheet,
   type ColorValue,
   Text,
-  useColorScheme,
   View,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
@@ -28,7 +27,7 @@ import {
   type WeeklyRead,
 } from '@/content';
 import type { Phase } from '@/domain/types';
-import { colors, fonts, palette, phaseColor, phaseGradient, radius, spacing } from '@/ui/colors';
+import { colors, fontFor, phaseColor, radius, spacing } from '@/ui/colors';
 import { Card, Icon, Txt } from '@/ui/primitives';
 
 const WORDS_PER_MINUTE = 200;
@@ -38,11 +37,6 @@ const BODY_MAX_SCALE = 1.6;
 export function readingMinutes(paragraphs: string[]): number {
   const words = paragraphs.join(' ').split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
-}
-
-/** The first hex colour stop of a CSS gradient string. */
-function firstStop(gradient: string): string {
-  return gradient.match(/#[0-9A-Fa-f]{6}/)?.[0] ?? palette.light.cardSecondary;
 }
 
 export function ReadingHero({
@@ -56,20 +50,8 @@ export function ReadingHero({
   meta?: string;
   phase?: Phase;
 }) {
-  const dark = useColorScheme() === 'dark';
-  const scheme = dark ? palette.dark : palette.light;
-  const top = phase
-    ? firstStop(phaseGradient[phase][dark ? 'dark' : 'light'])
-    : scheme.cardSecondary;
   return (
-    <View
-      style={[
-        styles.hero,
-        {
-          experimental_backgroundImage: `linear-gradient(180deg, ${top} 0%, ${scheme.background} 90%)`,
-        },
-      ]}
-      accessibilityRole="header">
+    <View style={styles.hero} accessibilityRole="header">
       <Txt variant="caption" color={phase ? phaseColor[phase] : colors.tint} style={styles.kicker}>
         {kicker.toUpperCase()}
       </Txt>
@@ -334,25 +316,25 @@ const styles = StyleSheet.create({
   },
   kicker: { fontWeight: '600', letterSpacing: 0.6 },
   title: {
-    fontSize: 30,
-    lineHeight: 36,
-    fontWeight: '700',
-    fontFamily: fonts?.rounded,
+    fontSize: 31,
+    lineHeight: 38,
+    fontWeight: '400',
+    fontFamily: fontFor(400),
     color: colors.label,
   },
   // Pulls the first line up under the hero's meta line: the screen's own gap is for cards.
   body: { paddingHorizontal: spacing.sm, gap: spacing.md, marginTop: -spacing.sm },
   paragraph: {
-    fontFamily: fonts?.serif,
+    fontFamily: fontFor(400),
     fontSize: 19,
     lineHeight: 29,
     color: colors.label,
   },
   lede: {
-    fontFamily: fonts?.serif,
+    fontFamily: fontFor(400),
     fontSize: 21,
     lineHeight: 31,
-    color: colors.readingLede,
+    color: colors.secondaryLabel,
   },
   bulletText: { flex: 1, flexShrink: 1 },
   pullQuote: {
@@ -362,7 +344,7 @@ const styles = StyleSheet.create({
     marginVertical: spacing.sm,
   },
   pullQuoteText: {
-    fontFamily: fonts?.serif,
+    fontFamily: fontFor(400),
     fontSize: 19,
     lineHeight: 29,
     fontStyle: 'italic',
@@ -370,7 +352,7 @@ const styles = StyleSheet.create({
   },
   section: { paddingHorizontal: spacing.sm, gap: spacing.sm },
   sectionAccent: { borderLeftWidth: 3, paddingLeft: 14, marginLeft: spacing.sm - 3 },
-  sectionTitle: { fontFamily: fonts?.rounded },
+  sectionTitle: { fontFamily: fontFor(600) },
   // No `gap` on rows that hold wrapping text: Yoga measures the text without it and clips a
   // line that fills the width to the last few points. The dot carries the spacing instead.
   bullet: { flexDirection: 'row' },

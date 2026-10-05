@@ -7,6 +7,15 @@ import {
   type NativeStackNavigationOptions,
 } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import {
+  Manrope_300Light,
+  Manrope_400Regular,
+  Manrope_500Medium,
+  Manrope_600SemiBold,
+  Manrope_700Bold,
+  Manrope_800ExtraBold,
+  useFonts,
+} from '@expo-google-fonts/manrope';
 import { useEffect } from 'react';
 import { Appearance, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -19,6 +28,7 @@ import { configurePurchases } from '@/purchases';
 import { selectActivePeriods, useStore } from '@/store/store';
 import { CatchBoundary, captureConsoleErrors, errorDetails } from '@/ui/catch-boundary';
 import { AppErrorBoundary } from '@/ui/error-boundary';
+import { PhaseThemeProvider } from '@/ui/theme';
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
   return <AppErrorBoundary {...props} details={errorDetails(props.error)} />;
@@ -38,6 +48,16 @@ const sheet: NativeStackNavigationOptions = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const hydrated = useStore((s) => s.hydrated);
+  const [fontsLoaded, fontError] = useFonts({
+    Manrope_300Light,
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+    Manrope_800ExtraBold,
+  });
+  // A font that fails to load falls back to the system font rather than blocking the app.
+  const ready = hydrated && (fontsLoaded || !!fontError);
   const profile = useStore((s) => s.profile);
   const settings = useStore((s) => s.settings);
   const periods = useStore(selectActivePeriods);
@@ -55,8 +75,8 @@ export default function RootLayout() {
   }, [appearance]);
 
   useEffect(() => {
-    if (hydrated) void SplashScreen.hideAsync();
-  }, [hydrated]);
+    if (ready) void SplashScreen.hideAsync();
+  }, [ready]);
 
   useEffect(() => {
     if (hydrated) void configurePurchases();
@@ -79,27 +99,29 @@ export default function RootLayout() {
     return () => clearTimeout(handle);
   }, [hydrated, profile, settings, periods]);
 
-  if (!hydrated) return null;
+  if (!ready) return null;
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <CatchBoundary>
-          <Stack>
-            <Stack.Protected guard={!!profile}>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="log/[date]" options={sheet} />
-              <Stack.Screen name="share" options={sheet} />
-              <Stack.Screen name="scan" options={sheet} />
-              <Stack.Screen name="import" options={sheet} />
-              <Stack.Screen name="paywall" options={sheet} />
-            </Stack.Protected>
-            <Stack.Protected guard={!profile}>
-              <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-            </Stack.Protected>
-          </Stack>
-        </CatchBoundary>
-      </ThemeProvider>
-    </GestureHandlerRootView>
+    <PhaseThemeProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <CatchBoundary>
+            <Stack>
+              <Stack.Protected guard={!!profile}>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="log/[date]" options={sheet} />
+                <Stack.Screen name="share" options={sheet} />
+                <Stack.Screen name="scan" options={sheet} />
+                <Stack.Screen name="import" options={sheet} />
+                <Stack.Screen name="paywall" options={sheet} />
+              </Stack.Protected>
+              <Stack.Protected guard={!profile}>
+                <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+              </Stack.Protected>
+            </Stack>
+          </CatchBoundary>
+        </ThemeProvider>
+      </GestureHandlerRootView>
+    </PhaseThemeProvider>
   );
 }

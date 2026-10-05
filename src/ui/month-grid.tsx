@@ -21,12 +21,21 @@ import {
 } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { selectActiveLogs, useStore } from '@/store/store';
-import { colors, fonts, phaseBand, phaseColor, radius, spacing } from '@/ui/colors';
+import { colors, fontFor, phaseColor, phaseSoft, phaseTint, radius, spacing } from '@/ui/colors';
 import { Card, Txt } from '@/ui/primitives';
 
 const WEEK_STARTS_ON = 1; // Monday
 const CELL = 36;
 
+/** Band colours until the calendar gets the design's own markings. */
+const phaseBand: Record<BandKind, ColorValue> = {
+  period: phaseColor.menstrual,
+  predicted: phaseTint.menstrual,
+  follicular: phaseSoft.follicular,
+  fertile: phaseTint.ovulation,
+  luteal: phaseSoft.luteal,
+  pms: phaseTint.luteal,
+};
 const bandColor: Record<BandKind, ColorValue> = phaseBand;
 
 /** One month as a card: heading, weekday row and a grid with continuous phase bands. */
@@ -166,7 +175,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 22,
     fontWeight: '600',
-    fontFamily: fonts?.rounded,
+    fontFamily: fontFor(500),
     paddingHorizontal: spacing.xs,
   },
   weekRow: { flexDirection: 'row' },

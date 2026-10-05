@@ -66,16 +66,16 @@ export default function DailyCardScreen() {
         }}
       />
       <PlusGate month={card.month}>
-      <View style={{ flex: 1 }}>
-        <Screen onScroll={onScroll} scrollEventThrottle={32}>
-          <ReadingHero kicker={kicker} title={card.title} meta={meta} phase={card.phaseTags[0]} />
-          <ReadingBody paragraphs={card.insight.split(/\n\s*\n/)} lede />
-          {isTracker ? <ActionBox card={card} /> : null}
-          <NextDailyRow content={content} position={position} card={card} />
-          {card.sources?.length ? <Sources sources={card.sources} /> : null}
-        </Screen>
-        <ReadingProgressBar progress={progress} />
-      </View>
+        <View style={{ flex: 1 }}>
+          <Screen onScroll={onScroll} scrollEventThrottle={32}>
+            <ReadingHero kicker={kicker} title={card.title} meta={meta} phase={card.phaseTags[0]} />
+            <ReadingBody paragraphs={card.insight.split(/\n\s*\n/)} lede />
+            {isTracker ? <ActionBox card={card} /> : null}
+            <NextDailyRow content={content} position={position} card={card} />
+            {card.sources?.length ? <Sources sources={card.sources} /> : null}
+          </Screen>
+          <ReadingProgressBar progress={progress} />
+        </View>
       </PlusGate>
     </>
   );

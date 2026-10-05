@@ -1,13 +1,13 @@
 import { useRouter } from 'expo-router';
 import type { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DynamicColorIOS, Platform, StyleSheet, useColorScheme, View } from 'react-native';
+import { DynamicColorIOS, Platform, StyleSheet, View } from 'react-native';
 
 import type { CycleSnapshot } from '@/engine/cycle';
 import { compareISO } from '@/engine/dates';
 import { useFormat } from '@/hooks/use-format';
 import { useStore } from '@/store/store';
-import { colors, phaseColor, phaseGradient, phaseSymbol, radius, spacing } from '@/ui/colors';
+import { colors, phaseColor, phaseSoft, phaseSymbol, radius, spacing } from '@/ui/colors';
 import { CycleRing } from '@/ui/cycle-ring';
 import { Card, Icon, Txt } from '@/ui/primitives';
 
@@ -43,7 +43,6 @@ export function PhaseCard({
   const { t } = useTranslation();
   const router = useRouter();
   const fmt = useFormat();
-  const scheme = useColorScheme();
   const settings = useStore((s) => s.settings);
   const today = snapshot.today;
   const prediction = snapshot.prediction;
@@ -79,10 +78,7 @@ export function PhaseCard({
   return (
     <Card
       onPress={() => router.push(`/(tabs)/home/phase/${phase}`)}
-      style={{
-        experimental_backgroundImage:
-          scheme === 'dark' ? phaseGradient[phase].dark : phaseGradient[phase].light,
-      }}>
+      style={{ backgroundColor: phaseSoft[phase] }}>
       <View style={styles.header}>
         <View style={styles.ringWrap}>
           <CycleRing
@@ -92,7 +88,7 @@ export function PhaseCard({
             size={RING_SIZE}
           />
           <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
-            <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
+            <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.onAccent} />
           </View>
         </View>
         <View style={styles.text}>

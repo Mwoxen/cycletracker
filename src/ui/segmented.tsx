@@ -63,10 +63,8 @@ const styles = StyleSheet.create({
   },
   selected: {
     backgroundColor: colors.card,
-    shadowColor: '#5A3A30',
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 1 },
+    borderWidth: 1,
+    borderColor: colors.separator,
   },
   pressed: { opacity: 0.6 },
   label: { fontWeight: '600' },

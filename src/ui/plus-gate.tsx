@@ -66,8 +66,7 @@ export function PlusGate({
   const monthOk = useMonthAccess(month ?? 1);
   const featureOk = useHasAccess(feature ?? 'cloudBackup');
   if (monthOk && featureOk) return <>{children}</>;
-  const body =
-    !monthOk && month ? t('plus.lockedMonth', { n: month }) : t('plus.lockedOverview');
+  const body = !monthOk && month ? t('plus.lockedMonth', { n: month }) : t('plus.lockedOverview');
   return (
     <Screen>
       <PlusLocked body={body} />

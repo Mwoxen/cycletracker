@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { colors, fonts, radius, spacing } from '@/ui/colors';
+import { colors, fontFor, radius, spacing } from '@/ui/colors';
 import { Txt } from '@/ui/primitives';
 
 /**
@@ -53,17 +53,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
     alignItems: 'center',
     gap: spacing.xs,
-    shadowColor: '#5A3A30',
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
+    borderWidth: 1,
+    borderColor: colors.separator,
   },
   pressed: { opacity: 0.6 },
   value: {
-    fontSize: 22,
-    lineHeight: 28,
-    fontWeight: '700',
-    fontFamily: fonts?.rounded,
+    fontSize: 26,
+    lineHeight: 32,
+    fontWeight: '300',
+    fontFamily: fontFor(300),
     fontVariant: ['tabular-nums'],
   },
 });

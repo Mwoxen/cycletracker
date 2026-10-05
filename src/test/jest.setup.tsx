@@ -153,6 +153,16 @@ jest.mock('expo-web-browser', () => ({
   openBrowserAsync: jest.fn(async () => ({ type: 'cancel' })),
 }));
 
+jest.mock('@expo-google-fonts/manrope', () => ({
+  useFonts: () => [true, null],
+  Manrope_300Light: 'Manrope_300Light',
+  Manrope_400Regular: 'Manrope_400Regular',
+  Manrope_500Medium: 'Manrope_500Medium',
+  Manrope_600SemiBold: 'Manrope_600SemiBold',
+  Manrope_700Bold: 'Manrope_700Bold',
+  Manrope_800ExtraBold: 'Manrope_800ExtraBold',
+}));
+
 jest.mock('expo-splash-screen', () => ({
   preventAutoHideAsync: jest.fn(async () => true),
   hideAsync: jest.fn(async () => true),

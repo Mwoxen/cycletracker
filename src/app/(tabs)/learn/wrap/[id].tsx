@@ -55,31 +55,31 @@ export default function WrapScreen() {
     <>
       <Stack.Screen options={{ title: t('learn.month', { n: wrap.month }) }} />
       <PlusGate month={wrap.month}>
-      <View style={{ flex: 1 }}>
-        <Screen onScroll={reading.onScroll} scrollEventThrottle={32}>
-          <ReadingHero kicker={t('learn.thisMonth')} title={wrap.title} meta={meta} />
-          <ReadingBody paragraphs={wrap.summary} lede />
-          <SectionTitle style={{ marginLeft: spacing.lg }}>{t('learn.keepDoing')}</SectionTitle>
-          <Card style={{ marginHorizontal: spacing.sm }}>
-            <ReadingBullets items={wrap.keepDoing} />
-          </Card>
-          {isTracker ? (
-            <>
-              <SectionTitle>{t('learn.quiz')}</SectionTitle>
-              <Quiz
-                questions={wrap.quiz}
-                bestScore={
-                  progress?.quizScore !== undefined && progress.quizTotal
-                    ? { score: progress.quizScore, total: progress.quizTotal }
-                    : undefined
-                }
-                onFinish={(score, total) => recordQuiz(wrap.id, score, total)}
-              />
-            </>
-          ) : null}
-        </Screen>
-        <ReadingProgressBar progress={reading.progress} />
-      </View>
+        <View style={{ flex: 1 }}>
+          <Screen onScroll={reading.onScroll} scrollEventThrottle={32}>
+            <ReadingHero kicker={t('learn.thisMonth')} title={wrap.title} meta={meta} />
+            <ReadingBody paragraphs={wrap.summary} lede />
+            <SectionTitle style={{ marginLeft: spacing.lg }}>{t('learn.keepDoing')}</SectionTitle>
+            <Card style={{ marginHorizontal: spacing.sm }}>
+              <ReadingBullets items={wrap.keepDoing} />
+            </Card>
+            {isTracker ? (
+              <>
+                <SectionTitle>{t('learn.quiz')}</SectionTitle>
+                <Quiz
+                  questions={wrap.quiz}
+                  bestScore={
+                    progress?.quizScore !== undefined && progress.quizTotal
+                      ? { score: progress.quizScore, total: progress.quizTotal }
+                      : undefined
+                  }
+                  onFinish={(score, total) => recordQuiz(wrap.id, score, total)}
+                />
+              </>
+            ) : null}
+          </Screen>
+          <ReadingProgressBar progress={reading.progress} />
+        </View>
       </PlusGate>
     </>
   );

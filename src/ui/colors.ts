@@ -3,8 +3,9 @@ import { DynamicColorIOS, Platform, type ColorValue } from 'react-native';
 import type { Phase } from '@/domain/types';
 
 /**
- * Warm, calm palette. Colors adapt to light/dark automatically on iOS through
- * DynamicColorIOS; elsewhere the light value is used.
+ * Design tokens for "1c Intim" (docs/design/README.md). Colours adapt to light/dark through
+ * DynamicColorIOS; elsewhere the light value is used. The whole UI is toned by today's phase:
+ * `accent`, `soft` and `tint` come from `usePhaseTheme()` in `src/ui/theme.tsx`, not from here.
  */
 function dyn(light: string, dark: string): ColorValue {
   return Platform.OS === 'ios' ? DynamicColorIOS({ light, dark }) : light;
@@ -12,59 +13,49 @@ function dyn(light: string, dark: string): ColorValue {
 
 export const palette = {
   light: {
-    background: '#FBF7F2',
-    card: '#FFFFFF',
-    cardSecondary: '#F5EDE6',
-    label: '#2A211D',
-    secondaryLabel: '#7A6A63',
-    tertiaryLabel: '#A99A93',
-    separator: '#E8DDD5',
-    fill: '#EFE5DD',
-    tint: '#C4655A',
-    readingLede: '#5A4C46',
+    bg: '#EEE8EB',
+    surface: '#F8F4F6',
+    surface2: '#E5DDE1',
+    text: '#1D161B',
+    text2: '#665A61',
+    text3: '#9A8E94',
+    hair: 'rgba(29,22,27,0.12)',
+    onAccent: '#FFFFFF',
   },
   dark: {
-    background: '#161311',
-    card: '#221D1A',
-    cardSecondary: '#2C2521',
-    label: '#F4EDE8',
-    secondaryLabel: '#B7A79F',
-    tertiaryLabel: '#7E716B',
-    separator: '#3A302B',
-    fill: '#352C27',
-    tint: '#E08A7E',
-    readingLede: '#CFC1BA',
+    bg: '#0D0A0E',
+    surface: '#161218',
+    surface2: '#211B24',
+    text: '#F2EAEE',
+    text2: '#A3969E',
+    text3: '#6F636A',
+    hair: 'rgba(255,255,255,0.09)',
+    onAccent: '#140F13',
   },
 } as const;
 
-export const colors = {
-  background: dyn(palette.light.background, palette.dark.background),
-  card: dyn(palette.light.card, palette.dark.card),
-  cardSecondary: dyn(palette.light.cardSecondary, palette.dark.cardSecondary),
-  label: dyn(palette.light.label, palette.dark.label),
-  secondaryLabel: dyn(palette.light.secondaryLabel, palette.dark.secondaryLabel),
-  tertiaryLabel: dyn(palette.light.tertiaryLabel, palette.dark.tertiaryLabel),
-  separator: dyn(palette.light.separator, palette.dark.separator),
-  fill: dyn(palette.light.fill, palette.dark.fill),
-  tint: dyn(palette.light.tint, palette.dark.tint),
-  /** Warm grey for the opening paragraph of a long read. */
-  readingLede: dyn(palette.light.readingLede, palette.dark.readingLede),
-  red: dyn('#D96C6C', '#E58787'),
-  green: dyn('#6F9A6A', '#8DB887'),
-  orange: dyn('#D9994A', '#E7B06A'),
-  purple: dyn('#8C7AA6', '#A896C2'),
-  indigo: dyn('#8C7AA6', '#A896C2'),
-  pink: dyn('#C4655A', '#E08A7E'),
-  teal: dyn('#6E9E9A', '#8CBCB8'),
-  white: '#FFFFFF',
-} as const;
-
-/** Plain hex phase colors, usable in SVG, gradients and the widget. */
+/** Plain hex phase colours, usable in SVG, the widget and precomputed mixes. */
 export const phaseHex: Record<Phase, { light: string; dark: string }> = {
-  menstrual: { light: '#D96C6C', dark: '#E58787' },
-  follicular: { light: '#7FA37A', dark: '#97BD92' },
-  ovulation: { light: '#E0A458', dark: '#EAB878' },
-  luteal: { light: '#8C7AA6', dark: '#A896C2' },
+  menstrual: { light: '#B04D59', dark: '#EC8A92' },
+  follicular: { light: '#218373', dark: '#6BC4B3' },
+  ovulation: { light: '#AA732B', dark: '#E7B369' },
+  luteal: { light: '#725CA9', dark: '#AA95E8' },
+};
+
+/** `accent` mixed 20 % into `surface`: action boxes, badges, the "done" state. */
+export const phaseSoftHex: Record<Phase, { light: string; dark: string }> = {
+  menstrual: { light: '#EAD3D7', dark: '#412A30' },
+  follicular: { light: '#CDDDDC', dark: '#273637' },
+  ovulation: { light: '#E8DACD', dark: '#403228' },
+  luteal: { light: '#DDD6E7', dark: '#342C42' },
+};
+
+/** Phase colour at 26 % opacity: the fertile window in the calendar. */
+export const phaseTintHex: Record<Phase, { light: string; dark: string }> = {
+  menstrual: { light: 'rgba(176,77,89,0.26)', dark: 'rgba(236,138,146,0.26)' },
+  follicular: { light: 'rgba(33,131,115,0.26)', dark: 'rgba(107,196,179,0.26)' },
+  ovulation: { light: 'rgba(170,115,43,0.26)', dark: 'rgba(231,179,105,0.26)' },
+  luteal: { light: 'rgba(114,92,169,0.26)', dark: 'rgba(170,149,232,0.26)' },
 };
 
 export const phaseColor: Record<Phase, ColorValue> = {
@@ -74,46 +65,41 @@ export const phaseColor: Record<Phase, ColorValue> = {
   luteal: dyn(phaseHex.luteal.light, phaseHex.luteal.dark),
 };
 
-/** Soft tints used for calendar cells and card backgrounds. */
+export const phaseSoft: Record<Phase, ColorValue> = {
+  menstrual: dyn(phaseSoftHex.menstrual.light, phaseSoftHex.menstrual.dark),
+  follicular: dyn(phaseSoftHex.follicular.light, phaseSoftHex.follicular.dark),
+  ovulation: dyn(phaseSoftHex.ovulation.light, phaseSoftHex.ovulation.dark),
+  luteal: dyn(phaseSoftHex.luteal.light, phaseSoftHex.luteal.dark),
+};
+
 export const phaseTint: Record<Phase, ColorValue> = {
-  menstrual: dyn('rgba(217,108,108,0.20)', 'rgba(229,135,135,0.26)'),
-  follicular: dyn('rgba(127,163,122,0.20)', 'rgba(151,189,146,0.26)'),
-  ovulation: dyn('rgba(224,164,88,0.24)', 'rgba(234,184,120,0.28)'),
-  luteal: dyn('rgba(140,122,166,0.20)', 'rgba(168,150,194,0.26)'),
+  menstrual: dyn(phaseTintHex.menstrual.light, phaseTintHex.menstrual.dark),
+  follicular: dyn(phaseTintHex.follicular.light, phaseTintHex.follicular.dark),
+  ovulation: dyn(phaseTintHex.ovulation.light, phaseTintHex.ovulation.dark),
+  luteal: dyn(phaseTintHex.luteal.light, phaseTintHex.luteal.dark),
 };
 
-/**
- * Calendar bands: every day gets its phase, strong enough to read as a sequence. PMS has its own
- * hue (slate blue) so it does not blend into the luteal lilac around it.
- */
-export const phaseBand = {
-  period: dyn('rgba(217,108,108,0.50)', 'rgba(229,135,135,0.45)'),
-  predicted: dyn('rgba(217,108,108,0.18)', 'rgba(229,135,135,0.18)'),
-  follicular: dyn('rgba(127,163,122,0.40)', 'rgba(151,189,146,0.36)'),
-  fertile: dyn('rgba(224,164,88,0.50)', 'rgba(234,184,120,0.42)'),
-  luteal: dyn('rgba(140,122,166,0.35)', 'rgba(168,150,194,0.34)'),
-  pms: dyn('rgba(111,132,176,0.50)', 'rgba(140,160,205,0.42)'),
+export const colors = {
+  background: dyn(palette.light.bg, palette.dark.bg),
+  card: dyn(palette.light.surface, palette.dark.surface),
+  cardSecondary: dyn(palette.light.surface2, palette.dark.surface2),
+  label: dyn(palette.light.text, palette.dark.text),
+  secondaryLabel: dyn(palette.light.text2, palette.dark.text2),
+  tertiaryLabel: dyn(palette.light.text3, palette.dark.text3),
+  separator: dyn(palette.light.hair, palette.dark.hair),
+  fill: dyn(palette.light.surface2, palette.dark.surface2),
+  onAccent: dyn(palette.light.onAccent, palette.dark.onAccent),
+  /**
+   * Static fallback accent (the menstrual rose) for style sheets that cannot read the phase
+   * theme. Components use `usePhaseTheme().accent` so the UI follows today's phase.
+   */
+  tint: dyn(phaseHex.menstrual.light, phaseHex.menstrual.dark),
+  red: dyn(phaseHex.menstrual.light, phaseHex.menstrual.dark),
+  green: dyn(phaseHex.follicular.light, phaseHex.follicular.dark),
+  orange: dyn(phaseHex.ovulation.light, phaseHex.ovulation.dark),
+  purple: dyn(phaseHex.luteal.light, phaseHex.luteal.dark),
+  white: '#FFFFFF',
 } as const;
-
-/** CSS gradient strings for the phase card, light and dark. */
-export const phaseGradient: Record<Phase, { light: string; dark: string }> = {
-  menstrual: {
-    light: 'linear-gradient(160deg, #FBE3E1, #F3C4C0)',
-    dark: 'linear-gradient(160deg, #3A2426, #4A2C2E)',
-  },
-  follicular: {
-    light: 'linear-gradient(160deg, #E6F0E1, #CFE0C8)',
-    dark: 'linear-gradient(160deg, #24312A, #2C3D33)',
-  },
-  ovulation: {
-    light: 'linear-gradient(160deg, #FCEBD6, #F6D6A9)',
-    dark: 'linear-gradient(160deg, #3D2F1F, #4C3A24)',
-  },
-  luteal: {
-    light: 'linear-gradient(160deg, #ECE6F3, #D9CFE6)',
-    dark: 'linear-gradient(160deg, #2E2838, #3A3247)',
-  },
-};
 
 export const phaseSymbol: Record<Phase, string> = {
   menstrual: 'drop.fill',
@@ -128,14 +114,40 @@ export const spacing = {
   md: 16,
   lg: 24,
   xl: 32,
+  /** Between sections (docs/design/README.md). */
+  section: 30,
+  /** Section label to its card. */
+  label: 10,
+  /** Card padding. */
+  card: 18,
 } as const;
 
 export const radius = {
-  card: 16,
+  card: 18,
   chip: 999,
+  cell: 12,
+  field: 14,
+  sheet: 28,
 } as const;
 
-export const fonts = Platform.select({
-  ios: { rounded: 'ui-rounded' as const, serif: 'ui-serif' as const, sans: undefined },
-  default: { rounded: undefined, serif: undefined, sans: undefined },
-});
+/** Manrope, loaded in the root layout from @expo-google-fonts/manrope. */
+export const fonts = {
+  light: 'Manrope_300Light',
+  regular: 'Manrope_400Regular',
+  medium: 'Manrope_500Medium',
+  semibold: 'Manrope_600SemiBold',
+  bold: 'Manrope_700Bold',
+  extrabold: 'Manrope_800ExtraBold',
+} as const;
+
+/** Font family for a weight, so one place maps weights to the bundled Manrope files. */
+export function fontFor(weight: 300 | 400 | 500 | 600 | 700 | 800): string {
+  return {
+    300: fonts.light,
+    400: fonts.regular,
+    500: fonts.medium,
+    600: fonts.semibold,
+    700: fonts.bold,
+    800: fonts.extrabold,
+  }[weight];
+}

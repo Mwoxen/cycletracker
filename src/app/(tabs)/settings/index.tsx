@@ -9,12 +9,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet, Switch, TextInput } from 'react-native';
 
-import {
-  APPEARANCES,
-  LANGUAGES,
-  type Language,
-  type Role,
-} from '@/domain/types';
+import { APPEARANCES, LANGUAGES, type Language, type Role } from '@/domain/types';
 import { fromISODate, toISODate } from '@/engine/dates';
 import { readCloudBackup } from '@/backup/cloud';
 import { exportSnapshotFile, pickSnapshotFile } from '@/backup/file';
@@ -24,7 +19,8 @@ import { useToday } from '@/hooks/use-today';
 import { hasNotificationPermission, requestNotificationPermission } from '@/notifications';
 import { previewMerge, selectSnapshotData, useStore } from '@/store';
 import { TabSwipe } from '@/ui/tab-swipe';
-import { colors, palette, spacing } from '@/ui/colors';
+import { colors, spacing } from '@/ui/colors';
+import { usePhaseTheme } from '@/ui/theme';
 import { Button, Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Segmented } from '@/ui/segmented';
 import { Stepper } from '@/ui/stepper';
@@ -52,6 +48,7 @@ function updateLabel(embedded: string): string {
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const fmt = useFormat();
   const router = useRouter();
   const today = useToday();
@@ -88,10 +85,7 @@ export default function SettingsScreen() {
     void Haptics.selectionAsync();
     updateProfile({ language });
   };
-  const toggleReminder = async (
-    key: 'dailyCard' | 'periodSoon' | 'pmsWindow',
-    value: boolean,
-  ) => {
+  const toggleReminder = async (key: 'dailyCard' | 'periodSoon' | 'pmsWindow', value: boolean) => {
     if (value) {
       const granted = await requestNotificationPermission();
       setNotifGranted(granted);
@@ -286,7 +280,7 @@ export default function SettingsScreen() {
               value={fromISODate(profile.programStartDate)}
               mode="date"
               display="inline"
-              accentColor={palette.light.tint}
+              accentColor={theme.accentHex}
               onValueChange={(_, d) => updateProfile({ programStartDate: toISODate(d) })}
               locale={locale}
               style={styles.picker}

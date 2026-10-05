@@ -458,7 +458,8 @@ const da = {
     restored: 'Dit køb er gendannet.',
     nothingToRestore: 'Der var ikke noget køb at gendanne på denne Apple-konto.',
     lockedTitle: 'Det her hører til Plus',
-    lockedMonth: 'Måned {{n}} er en del af Cycle Tracker Plus. Måned 1 er gratis, resten af året koster lidt.',
+    lockedMonth:
+      'Måned {{n}} er en del af Cycle Tracker Plus. Måned 1 er gratis, resten af året koster lidt.',
     lockedOverview:
       'Den personlige oversigt er en del af Cycle Tracker Plus. Den bygges af hendes registreringer og dine handlinger hen over året.',
     teaser: 'Dag {{day}} af 360 ligger klar til dig i Plus.',
@@ -492,7 +493,8 @@ const da = {
     periodSoonBodyTracker: 'Find varmepuden nu, mens du stadig kan huske, hvor den ligger.',
     periodSoonBodyUser: 'Din menstruation forventes om cirka 2 dage.',
     pmsTitle: 'PMS-vinduet begynder',
-    pmsBodyTracker: 'De næste dage kan være mere sårbare. Sænk forventningerne, øg omsorgen, og hold de kloge kommentarer for dig selv.',
+    pmsBodyTracker:
+      'De næste dage kan være mere sårbare. Sænk forventningerne, øg omsorgen, og hold de kloge kommentarer for dig selv.',
     pmsBodyUser: 'De næste dage kan være mere sårbare. Vær god ved dig selv.',
   },
   dates: {

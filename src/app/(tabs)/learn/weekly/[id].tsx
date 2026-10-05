@@ -61,26 +61,26 @@ export default function WeeklyReadScreen() {
     <>
       <Stack.Screen options={{ title: t('learn.week', { n: read.week }) }} />
       <PlusGate month={read.month}>
-      <View style={{ flex: 1 }}>
-        <Screen onScroll={onScroll} scrollEventThrottle={32}>
-          <ReadingHero kicker={kicker} title={read.title} meta={meta} />
-          <ReadingBody paragraphs={read.body} lede pullQuote={pullQuoteFor(read.body)} />
-          <Card style={{ backgroundColor: colors.tint }}>
-            <Txt
-              variant="footnote"
-              color={colors.white}
-              style={{ fontWeight: '600', opacity: 0.85 }}>
-              {t('learn.conversationQuestion').toUpperCase()}
-            </Txt>
-            <Txt variant="title" color={colors.white}>
-              {read.conversationQuestion}
-            </Txt>
-          </Card>
-          <NextWeeklyRow content={content} position={position} read={read} />
-          {read.sources?.length ? <Sources sources={read.sources} /> : null}
-        </Screen>
-        <ReadingProgressBar progress={progress} />
-      </View>
+        <View style={{ flex: 1 }}>
+          <Screen onScroll={onScroll} scrollEventThrottle={32}>
+            <ReadingHero kicker={kicker} title={read.title} meta={meta} />
+            <ReadingBody paragraphs={read.body} lede pullQuote={pullQuoteFor(read.body)} />
+            <Card style={{ backgroundColor: colors.tint }}>
+              <Txt
+                variant="footnote"
+                color={colors.white}
+                style={{ fontWeight: '600', opacity: 0.85 }}>
+                {t('learn.conversationQuestion').toUpperCase()}
+              </Txt>
+              <Txt variant="title" color={colors.white}>
+                {read.conversationQuestion}
+              </Txt>
+            </Card>
+            <NextWeeklyRow content={content} position={position} read={read} />
+            {read.sources?.length ? <Sources sources={read.sources} /> : null}
+          </Screen>
+          <ReadingProgressBar progress={progress} />
+        </View>
       </PlusGate>
     </>
   );

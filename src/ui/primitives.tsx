@@ -15,7 +15,9 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
-import { colors, fonts, radius, spacing } from './colors';
+import { colors, fontFor, radius, spacing } from './colors';
+import { Pressed } from './pressed';
+import { usePhaseTheme } from './theme';
 
 /**
  * Page title drawn in the content instead of a native large title, which iOS 26 under native
@@ -24,8 +26,8 @@ import { colors, fonts, radius, spacing } from './colors';
  */
 export function PageTitle({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
-    <View style={{ paddingTop: spacing.xs, gap: 2 }} accessibilityRole="header">
-      <Txt variant="largeTitle">{title}</Txt>
+    <View style={{ paddingTop: spacing.xs, gap: 4 }} accessibilityRole="header">
+      <Txt variant="screenTitle">{title}</Txt>
       {subtitle ? <Txt variant="footnote">{subtitle}</Txt> : null}
     </View>
   );
@@ -58,8 +60,27 @@ export function Screen({
   );
 }
 
+/**
+ * Text roles from docs/design/README.md. The old names stay as aliases so every screen keeps
+ * compiling: `largeTitle` = screen title, `title` = card title, `headline` = emphasised UI text.
+ */
 type TextVariant =
-  'largeTitle' | 'title' | 'headline' | 'body' | 'callout' | 'footnote' | 'caption';
+  | 'hero'
+  | 'screenTitle'
+  | 'readTitle'
+  | 'cardTitle'
+  | 'question'
+  | 'read'
+  | 'label'
+  | 'boxLabel'
+  | 'tag'
+  | 'largeTitle'
+  | 'title'
+  | 'headline'
+  | 'body'
+  | 'callout'
+  | 'footnote'
+  | 'caption';
 
 export function Txt({
   variant = 'body',
@@ -78,6 +99,15 @@ export function Txt({
 }
 
 const textColor: Record<TextVariant, ColorValue> = {
+  hero: colors.label,
+  screenTitle: colors.label,
+  readTitle: colors.label,
+  cardTitle: colors.label,
+  question: colors.label,
+  read: colors.label,
+  label: colors.secondaryLabel,
+  boxLabel: colors.tint,
+  tag: colors.secondaryLabel,
   largeTitle: colors.label,
   title: colors.label,
   headline: colors.label,
@@ -87,7 +117,7 @@ const textColor: Record<TextVariant, ColorValue> = {
   caption: colors.secondaryLabel,
 };
 
-/** Grouped inset card, like a section in Settings. */
+/** Surface card: 1 pt hair border, radius 18, no shadow. Scales to .98 while pressed. */
 export function Card({
   children,
   style,
@@ -95,23 +125,25 @@ export function Card({
 }: PropsWithChildren<{ style?: StyleProp<ViewStyle>; onPress?: () => void }>) {
   if (onPress) {
     return (
-      <Pressable
+      <Pressed
         onPress={onPress}
+        scale={0.98}
         accessibilityRole="button"
-        style={({ pressed }) => [styles.card, style, pressed && styles.pressed]}>
+        style={[styles.card, style]}>
         {children}
-      </Pressable>
+      </Pressed>
     );
   }
   return <View style={[styles.card, style]}>{children}</View>;
 }
 
+/** Small uppercase section label (11/600, 0.16em) above a card. */
 export function SectionTitle({
   children,
   style,
 }: PropsWithChildren<{ style?: StyleProp<ViewStyle> }>) {
   return (
-    <Txt variant="footnote" style={[styles.sectionTitle, style]}>
+    <Txt variant="label" style={[styles.sectionTitle, style]}>
       {String(children).toUpperCase()}
     </Txt>
   );
@@ -120,7 +152,7 @@ export function SectionTitle({
 export function Icon({
   name,
   size = 18,
-  color = colors.tint,
+  color,
   weight = 'medium',
 }: {
   name: SFSymbol;
@@ -128,11 +160,12 @@ export function Icon({
   color?: ColorValue;
   weight?: 'regular' | 'medium' | 'semibold' | 'bold';
 }) {
+  const theme = usePhaseTheme();
   return (
     <SymbolView
       name={name}
       size={size}
-      tintColor={color as string}
+      tintColor={(color ?? theme.accent) as string}
       weight={weight}
       fallback={<View style={{ width: size, height: size }} />}
     />
@@ -169,13 +202,14 @@ export function Row({
   destructive?: boolean;
   last?: boolean;
 }) {
+  const theme = usePhaseTheme();
   const content = (
     <View style={[styles.row, !last && styles.rowBorder]}>
       {lead ? (
         <View style={styles.rowLead}>{lead}</View>
       ) : symbol ? (
         <View style={styles.rowSymbol}>
-          <Icon name={symbol} color={symbolColor ?? colors.tint} />
+          <Icon name={symbol} color={symbolColor ?? theme.accent} />
         </View>
       ) : null}
       <View style={styles.rowText}>
@@ -203,6 +237,10 @@ export function Row({
   );
 }
 
+/**
+ * Buttons from the design: primary = capsule outline in the accent, 54 high; secondary = hair
+ * outline, 50 high; plain = text only; destructive = outline in the menstrual red.
+ */
 export function Button({
   title,
   onPress,
@@ -218,69 +256,76 @@ export function Button({
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  const bg =
-    variant === 'primary'
-      ? colors.tint
+  const theme = usePhaseTheme();
+  const fg =
+    variant === 'primary' || variant === 'plain'
+      ? theme.accent
       : variant === 'destructive'
         ? colors.red
-        : variant === 'secondary'
-          ? colors.fill
-          : 'transparent';
-  const fg =
-    variant === 'primary' || variant === 'destructive'
-      ? colors.white
-      : variant === 'plain'
-        ? colors.tint
         : colors.label;
+  const border =
+    variant === 'primary'
+      ? { borderWidth: 1.5, borderColor: theme.accent, minHeight: 54 }
+      : variant === 'destructive'
+        ? { borderWidth: 1.5, borderColor: colors.red, minHeight: 54 }
+        : variant === 'secondary'
+          ? { borderWidth: 1, borderColor: colors.separator, minHeight: 50 }
+          : { minHeight: 44 };
   return (
-    <Pressable
+    <Pressed
       onPress={onPress}
       disabled={disabled}
+      scale={0.97}
       accessibilityRole="button"
-      style={({ pressed }) => [
-        styles.button,
-        { backgroundColor: bg, opacity: disabled ? 0.4 : pressed ? 0.7 : 1 },
-        style,
-      ]}>
+      style={[styles.button, border, { opacity: disabled ? 0.4 : 1 }, style]}>
       {symbol ? <Icon name={symbol} color={fg} size={16} weight="semibold" /> : null}
-      <Txt variant="headline" color={fg}>
+      <Txt variant="headline" color={fg} style={variant === 'plain' ? styles.plainText : null}>
         {title}
       </Txt>
-    </Pressable>
+    </Pressed>
   );
 }
 
+/** Capsule chip: hair outline, or filled with the accent (text in onAccent) when selected. */
 export function Chip({
   label,
   selected,
   onPress,
-  color = colors.tint,
+  color,
 }: {
   label: string;
   selected?: boolean;
   onPress?: PressableProps['onPress'];
   color?: ColorValue;
 }) {
+  const theme = usePhaseTheme();
+  const fill = color ?? theme.accent;
   return (
-    <Pressable
+    <Pressed
       onPress={onPress}
+      scale={0.94}
       accessibilityRole="button"
       accessibilityState={{ selected: !!selected }}
-      style={({ pressed }) => [
+      style={[
         styles.chip,
-        { backgroundColor: selected ? color : colors.fill, opacity: pressed ? 0.7 : 1 },
+        selected
+          ? { backgroundColor: fill, borderColor: fill }
+          : { backgroundColor: 'transparent', borderColor: colors.separator },
       ]}>
-      <Txt variant="callout" color={selected ? colors.white : colors.label}>
+      <Txt
+        variant="callout"
+        color={selected ? colors.onAccent : colors.label}
+        style={{ fontFamily: fontFor(600), fontSize: 14, lineHeight: 18 }}>
         {label}
       </Txt>
-    </Pressable>
+    </Pressed>
   );
 }
 
 export function Badge({ label, color }: { label: string; color: ColorValue }) {
   return (
     <View style={[styles.badge, { backgroundColor: color }]}>
-      <Txt variant="caption" color={colors.white} style={{ fontWeight: '600' }}>
+      <Txt variant="caption" color={colors.onAccent} style={{ fontFamily: fontFor(600) }}>
         {label}
       </Txt>
     </View>
@@ -323,44 +368,45 @@ const styles = StyleSheet.create({
   screenContent: {
     paddingTop: spacing.sm,
     paddingHorizontal: spacing.md,
-    paddingBottom: spacing.xl,
+    paddingBottom: spacing.xl + spacing.lg,
     gap: spacing.md,
   },
   // Whole-number line heights: a text frame whose measured height is a whole number survives
   // pixel-grid rounding, so iOS does not drop its last line (facebook/react-native#53450).
-  largeTitle: {
-    fontSize: 34,
-    lineHeight: 41,
-    fontWeight: '700',
-    letterSpacing: 0.2,
-    fontFamily: fonts?.rounded,
-  },
-  title: { fontSize: 22, lineHeight: 28, fontWeight: '700', fontFamily: fonts?.rounded },
-  headline: { fontSize: 17, lineHeight: 22, fontWeight: '600' },
-  body: { fontSize: 17, lineHeight: 22 },
-  callout: { fontSize: 16, lineHeight: 21 },
-  footnote: { fontSize: 13, lineHeight: 18 },
-  caption: { fontSize: 12, lineHeight: 16 },
+  hero: { fontFamily: fontFor(300), fontSize: 31, lineHeight: 36, letterSpacing: -0.5 },
+  screenTitle: { fontFamily: fontFor(300), fontSize: 28, lineHeight: 30, letterSpacing: -0.3 },
+  readTitle: { fontFamily: fontFor(400), fontSize: 31, lineHeight: 34, letterSpacing: -0.6 },
+  cardTitle: { fontFamily: fontFor(400), fontSize: 21, lineHeight: 25, letterSpacing: -0.2 },
+  question: { fontFamily: fontFor(400), fontSize: 23, lineHeight: 29, letterSpacing: -0.2 },
+  read: { fontFamily: fontFor(400), fontSize: 18, lineHeight: 29 },
+  label: { fontFamily: fontFor(600), fontSize: 11, lineHeight: 14, letterSpacing: 1.8 },
+  boxLabel: { fontFamily: fontFor(700), fontSize: 12, lineHeight: 15, letterSpacing: 0.8 },
+  tag: { fontFamily: fontFor(600), fontSize: 10, lineHeight: 12, letterSpacing: 1.4 },
+  largeTitle: { fontFamily: fontFor(300), fontSize: 28, lineHeight: 30, letterSpacing: -0.3 },
+  title: { fontFamily: fontFor(400), fontSize: 21, lineHeight: 25, letterSpacing: -0.2 },
+  headline: { fontFamily: fontFor(600), fontSize: 17, lineHeight: 22 },
+  body: { fontFamily: fontFor(400), fontSize: 16, lineHeight: 23 },
+  callout: { fontFamily: fontFor(400), fontSize: 15, lineHeight: 21 },
+  footnote: { fontFamily: fontFor(400), fontSize: 13, lineHeight: 18 },
+  caption: { fontFamily: fontFor(400), fontSize: 12, lineHeight: 16 },
   card: {
     backgroundColor: colors.card,
     borderRadius: radius.card,
-    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.separator,
+    padding: spacing.card,
     gap: spacing.sm,
-    shadowColor: '#5A3A30',
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
   },
-  sectionTitle: { marginLeft: spacing.md, marginBottom: -spacing.sm },
+  sectionTitle: { marginLeft: spacing.xs, marginBottom: -(spacing.md - spacing.label) },
   // Rows that hold wrapping text use margins, not `gap`: Yoga measures the text without the gap
   // and clips a line that fills the width to the last few points.
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 11,
+    paddingVertical: 12,
     minHeight: 44,
   },
-  rowBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.separator },
+  rowBorder: { borderBottomWidth: 1, borderBottomColor: colors.separator },
   rowSymbol: { width: 28, alignItems: 'center', marginRight: spacing.sm },
   rowLead: { marginRight: spacing.sm + spacing.xs, alignItems: 'center', justifyContent: 'center' },
   rowText: { flex: 1, flexShrink: 1, marginRight: spacing.sm },
@@ -371,15 +417,17 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: spacing.md,
-    borderRadius: radius.card,
-    minHeight: 50,
-  },
-  chip: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
+    paddingVertical: 12,
+    paddingHorizontal: spacing.lg,
     borderRadius: radius.chip,
+    backgroundColor: 'transparent',
+  },
+  plainText: { fontFamily: fontFor(600) },
+  chip: {
+    paddingVertical: 9,
+    paddingHorizontal: 13,
+    borderRadius: radius.chip,
+    borderWidth: 1,
     minHeight: 36,
     justifyContent: 'center',
   },

@@ -35,85 +35,87 @@ export default function OverviewScreen() {
     <>
       <Stack.Screen options={{ title: t('learn.overview') }} />
       <PlusGate feature="personalOverview">
-      <Screen>
-        <Txt color={colors.secondaryLabel}>{t('learn.overviewIntro')}</Txt>
+        <Screen>
+          <Txt color={colors.secondaryLabel}>{t('learn.overviewIntro')}</Txt>
 
-        <SectionTitle>{t('learn.yearSummary')}</SectionTitle>
-        <Card>
-          <Txt>{t('learn.yearCards', { read: summary.cardsRead, total: summary.cardsTotal })}</Txt>
-          <Txt>{t('learn.yearActions', { n: summary.actionsDone })}</Txt>
-          <Txt>
-            {t('learn.yearQuizzes', { n: summary.quizzesPassed, total: summary.monthsAvailable })}
-          </Txt>
-        </Card>
+          <SectionTitle>{t('learn.yearSummary')}</SectionTitle>
+          <Card>
+            <Txt>
+              {t('learn.yearCards', { read: summary.cardsRead, total: summary.cardsTotal })}
+            </Txt>
+            <Txt>{t('learn.yearActions', { n: summary.actionsDone })}</Txt>
+            <Txt>
+              {t('learn.yearQuizzes', { n: summary.quizzesPassed, total: summary.monthsAvailable })}
+            </Txt>
+          </Card>
 
-        {PHASE_ORDER.map((phase) => {
-          const info = content.phases[phase];
-          const r = insights[phase];
-          const mood = top<Mood>(r.moods, MOODS);
-          const energy = top<Energy>(r.energies, ENERGIES);
-          return (
-            <View key={phase} style={{ gap: spacing.sm }}>
-              <View style={styles.header}>
-                <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
-                  <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
+          {PHASE_ORDER.map((phase) => {
+            const info = content.phases[phase];
+            const r = insights[phase];
+            const mood = top<Mood>(r.moods, MOODS);
+            const energy = top<Energy>(r.energies, ENERGIES);
+            return (
+              <View key={phase} style={{ gap: spacing.sm }}>
+                <View style={styles.header}>
+                  <View style={[styles.icon, { backgroundColor: phaseColor[phase] }]}>
+                    <Icon name={phaseSymbol[phase] as SFSymbol} size={18} color={colors.white} />
+                  </View>
+                  <Txt variant="title" style={{ flex: 1, flexShrink: 1 }}>
+                    {info.name}
+                  </Txt>
                 </View>
-                <Txt variant="title" style={{ flex: 1, flexShrink: 1 }}>
-                  {info.name}
-                </Txt>
+                <Card>
+                  {r.days === 0 ? (
+                    <Txt color={colors.secondaryLabel}>{t('learn.overviewNoData')}</Txt>
+                  ) : (
+                    <>
+                      <Txt variant="footnote">{t('learn.overviewDays', { n: r.days })}</Txt>
+                      {r.topSymptoms.length ? (
+                        <>
+                          <Txt variant="headline">{t('learn.overviewSymptoms')}</Txt>
+                          {r.topSymptoms.map((s) => (
+                            <View key={s.symptom} style={{ gap: 2 }}>
+                              <Txt>
+                                {t(`log.symptomNames.${s.symptom}`)} · {s.count}
+                              </Txt>
+                              <Txt variant="footnote">{content.symptomTips[s.symptom].doThis}</Txt>
+                            </View>
+                          ))}
+                        </>
+                      ) : null}
+                      {mood || energy ? (
+                        <Txt variant="footnote">
+                          {mood ? `${t('learn.overviewMood')}: ${t(`log.moods.${mood}`)}` : ''}
+                          {mood && energy ? ' · ' : ''}
+                          {energy
+                            ? `${t('learn.overviewEnergy')}: ${t(`log.energies.${energy}`)}`
+                            : ''}
+                        </Txt>
+                      ) : null}
+                    </>
+                  )}
+                </Card>
+                <Card>
+                  <Txt variant="headline">{t('learn.overviewActions')}</Txt>
+                  {r.actionsDone.length ? (
+                    <Bullets items={r.actionsDone.slice(0, 6).map((c) => c.action)} />
+                  ) : (
+                    <Txt color={colors.secondaryLabel}>{t('learn.overviewNoActions')}</Txt>
+                  )}
+                </Card>
+                <Card style={{ padding: 0, paddingHorizontal: 16 }}>
+                  <Row
+                    title={t('learn.overviewTip')}
+                    subtitle={info.whatYouCanDo[0]}
+                    symbol="lightbulb"
+                    onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}
+                    last
+                  />
+                </Card>
               </View>
-              <Card>
-                {r.days === 0 ? (
-                  <Txt color={colors.secondaryLabel}>{t('learn.overviewNoData')}</Txt>
-                ) : (
-                  <>
-                    <Txt variant="footnote">{t('learn.overviewDays', { n: r.days })}</Txt>
-                    {r.topSymptoms.length ? (
-                      <>
-                        <Txt variant="headline">{t('learn.overviewSymptoms')}</Txt>
-                        {r.topSymptoms.map((s) => (
-                          <View key={s.symptom} style={{ gap: 2 }}>
-                            <Txt>
-                              {t(`log.symptomNames.${s.symptom}`)} · {s.count}
-                            </Txt>
-                            <Txt variant="footnote">{content.symptomTips[s.symptom].doThis}</Txt>
-                          </View>
-                        ))}
-                      </>
-                    ) : null}
-                    {mood || energy ? (
-                      <Txt variant="footnote">
-                        {mood ? `${t('learn.overviewMood')}: ${t(`log.moods.${mood}`)}` : ''}
-                        {mood && energy ? ' · ' : ''}
-                        {energy
-                          ? `${t('learn.overviewEnergy')}: ${t(`log.energies.${energy}`)}`
-                          : ''}
-                      </Txt>
-                    ) : null}
-                  </>
-                )}
-              </Card>
-              <Card>
-                <Txt variant="headline">{t('learn.overviewActions')}</Txt>
-                {r.actionsDone.length ? (
-                  <Bullets items={r.actionsDone.slice(0, 6).map((c) => c.action)} />
-                ) : (
-                  <Txt color={colors.secondaryLabel}>{t('learn.overviewNoActions')}</Txt>
-                )}
-              </Card>
-              <Card style={{ padding: 0, paddingHorizontal: 16 }}>
-                <Row
-                  title={t('learn.overviewTip')}
-                  subtitle={info.whatYouCanDo[0]}
-                  symbol="lightbulb"
-                  onPress={() => router.push(`/(tabs)/learn/phase/${phase}`)}
-                  last
-                />
-              </Card>
-            </View>
-          );
-        })}
-      </Screen>
+            );
+          })}
+        </Screen>
       </PlusGate>
     </>
   );
