@@ -18,6 +18,8 @@ on:
       - app.config.ts
       - eas.json
       - assets/**
+      - targets/**
+      - patches/**
       - .github/workflows/eas-build.yml
   workflow_dispatch:
     inputs:

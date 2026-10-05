@@ -260,3 +260,9 @@ fejlrapport".
 - Lade to forskellige mennesker (partneren og hende) føle, at appen er skrevet til dem.
 - Rumme dansk og engelsk, lys og mørk tilstand, og iOS' egne tekststørrelser.
 - Holde forudsigelser tydeligt adskilt fra det, der er registreret.
+
+## Udtryk
+
+Appens visuelle udtryk er retning 1c "Intim", beskrevet i `design/README.md` (farver, Manrope,
+afstande, cyklusringen og skærmbeskrivelser). To aftalte afvigelser: fanebjælken beholder ikoner,
+og cyklusugerne findes ikke i appen. Alt andet følger pakken så tæt, som React Native tillader.

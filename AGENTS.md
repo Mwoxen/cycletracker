@@ -25,8 +25,12 @@ This is an Expo (React Native) iOS app written in TypeScript. Read `README.md` f
 - The home-screen widget lives in `targets/widget` (Swift, built by `@bacons/apple-targets`) and
   reads JSON written by `src/widget/sync.ts` to the App Group. Keep `phase(forCycleDay:)` in Swift
   in step with `phaseForCycleDay` in `src/engine/cycle.ts`.
-- Design tokens live in `src/ui/colors.ts` (warm palette via `DynamicColorIOS`). Do not hardcode
-  colours in screens.
+- The visual design is "1c Intim" (`docs/design/README.md`: tokens, typography, ring geometry,
+  screen specs). Tokens live in `src/ui/colors.ts` (palette and phase colours via
+  `DynamicColorIOS`, Manrope through `fontFor(weight)`), text roles in `Txt` variants in
+  `src/ui/primitives.tsx`, and today's accent/soft/tint in `usePhaseTheme()` (`src/ui/theme.tsx`).
+  Do not hardcode colours or `fontWeight` in screens; `src/ui/theme.test.ts` checks contrast.
+  The widget's colours in `targets/widget/expo-target.config.js` mirror the same hex values.
 - Privacy: no analytics, no crash reporting, no network calls besides EAS Update and iCloud.
 - Predictions are educational; never present them as contraception.
 

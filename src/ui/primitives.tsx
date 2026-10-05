@@ -325,16 +325,6 @@ export function Chip({
   );
 }
 
-export function Badge({ label, color }: { label: string; color: ColorValue }) {
-  return (
-    <View style={[styles.badge, { backgroundColor: color }]}>
-      <Txt variant="caption" color={colors.onAccent} style={{ fontFamily: fontFor(600) }}>
-        {label}
-      </Txt>
-    </View>
-  );
-}
-
 export function Bullets({ items }: { items: string[] }) {
   return (
     <View style={{ gap: spacing.sm }}>
@@ -348,22 +338,6 @@ export function Bullets({ items }: { items: string[] }) {
       ))}
     </View>
   );
-}
-
-export function Paragraphs({ items }: { items: string[] }) {
-  return (
-    <View style={{ gap: spacing.md }}>
-      {items.map((p, i) => (
-        <Txt key={i} style={{ lineHeight: 24 }}>
-          {p}
-        </Txt>
-      ))}
-    </View>
-  );
-}
-
-export function Gap({ size = spacing.md }: { size?: number }) {
-  return <View style={{ height: size }} />;
 }
 
 const styles = StyleSheet.create({
@@ -434,6 +408,5 @@ const styles = StyleSheet.create({
     minHeight: 36,
     justifyContent: 'center',
   },
-  badge: { paddingVertical: 3, paddingHorizontal: 8, borderRadius: 6 },
   bullet: { flexDirection: 'row' },
 });
