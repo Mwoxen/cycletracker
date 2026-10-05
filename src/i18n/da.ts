@@ -88,7 +88,7 @@ const da = {
     },
     fertileFrom: 'Frugtbart vindue fra {{date}}',
     ovulationAround: 'Ægløsning ca. {{date}}',
-    todaysCardDay: 'Dagens kort · dag {{day}} af 360',
+    todaysCardDay: 'Dagens kort · dag {{day}} af 365',
     noDataTitle: 'Ingen cyklusdata endnu',
     noDataBodyTracker:
       'Registrér seneste menstruationsstart, når {{name}} fortæller dig det, så viser appen fasen og forudsigelserne her.',
@@ -120,7 +120,7 @@ const da = {
     conversation: 'Ugens samtalespørgsmål',
     weeklyRead: 'Ugens artikel · snak om det',
     programNotStarted: 'Programmet starter {{date}}',
-    programCompleted: 'Du har gennemført hele årsprogrammet. 360 dage. Hun har lagt mærke til det.',
+    programCompleted: 'Du har gennemført hele årsprogrammet. 365 dage. Hun har lagt mærke til det.',
     contentMissing: 'Indholdet for denne måned er på vej.',
     regularity: {
       unknown: 'Log et par cyklusser mere for at se mønsteret',
@@ -144,7 +144,7 @@ const da = {
   },
   learn: {
     title: 'Lær',
-    subtitle: 'Dag {{day}} af 360 · måned {{month}}',
+    subtitle: 'Dag {{day}} af 365 · måned {{month}}',
     stats: {
       read: 'kort læst',
       done: 'handlinger gjort',
@@ -250,7 +250,7 @@ const da = {
     conversationAtEnd: 'Et samtalespørgsmål til sidst',
     questions: '{{n}} spørgsmål',
     source: 'Kilde',
-    cardDay: 'Kort · dag {{day}} af 360',
+    cardDay: 'Kort · dag {{day}} af 365',
     sources: 'Kilder',
     unlocksTomorrow: 'Låses op i morgen',
   },
@@ -473,7 +473,7 @@ const da = {
       'Måned {{n}} er en del af Cycle Tracker Plus. Måned 1 er gratis, resten af året koster lidt.',
     lockedOverview:
       'Den personlige oversigt er en del af Cycle Tracker Plus. Den bygges af hendes registreringer og dine handlinger hen over året.',
-    teaser: 'Dag {{day}} af 360 ligger klar til dig i Plus.',
+    teaser: 'Dag {{day}} af 365 ligger klar til dig i Plus.',
     seePlus: 'Se Cycle Tracker Plus',
     status: 'Status',
     free: 'Gratis',

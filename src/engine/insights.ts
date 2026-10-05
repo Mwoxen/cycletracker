@@ -3,7 +3,7 @@
  */
 import type { ProgramPosition } from '@/content/program';
 import type { DailyCard, LanguageContent } from '@/content/types';
-import { isDailyUnlocked, isMonthWrapUnlocked, isWeeklyUnlocked } from '@/content/program';
+import { dailyOf, isDailyUnlocked, isMonthWrapUnlocked, isWeeklyUnlocked } from '@/content/program';
 import { DAYS_PER_MONTH, MONTHS_IN_PROGRAM } from '@/content/types';
 import type {
   DayLog,
@@ -54,7 +54,7 @@ export function catchUpItems(
 ): CatchUpItem[] {
   const out: CatchUpItem[] = [];
   for (const m of content.months) {
-    for (const c of m.daily) {
+    for (const c of dailyOf(content, m)) {
       if (isDailyUnlocked(position, m.month, c.day) && !progress[c.id]?.readAt) {
         out.push({
           kind: 'daily',
@@ -122,7 +122,7 @@ export function searchIndex(
     });
   }
   for (const m of content.months) {
-    for (const c of m.daily) {
+    for (const c of dailyOf(content, m)) {
       out.push({
         kind: 'daily',
         id: c.id,
@@ -227,7 +227,7 @@ export function phaseInsights(
       .map(([symptom, count]) => ({ symptom, count }));
   }
   for (const m of content.months) {
-    for (const c of m.daily) {
+    for (const c of dailyOf(content, m)) {
       if (!progress[c.id]?.actionDoneAt) continue;
       for (const tag of c.phaseTags) result[tag].actionsDone.push(c);
     }
@@ -250,7 +250,7 @@ export function programSummary(
   let actionsDone = 0;
   let quizzesPassed = 0;
   for (const m of content.months) {
-    for (const c of m.daily) {
+    for (const c of dailyOf(content, m)) {
       cardsTotal += 1;
       if (progress[c.id]?.readAt) cardsRead += 1;
       if (progress[c.id]?.actionDoneAt) actionsDone += 1;

@@ -3,7 +3,13 @@ import { useMemo, type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, type ColorValue } from 'react-native';
 
-import { MONTHS_IN_PROGRAM, isMonthAvailable, isMonthWrapUnlocked, PHASE_ORDER } from '@/content';
+import {
+  MONTHS_IN_PROGRAM,
+  allDaily,
+  isMonthAvailable,
+  isMonthWrapUnlocked,
+  PHASE_ORDER,
+} from '@/content';
 import { catchUpItems, readingStreak } from '@/engine/insights';
 import { useProgram } from '@/hooks/use-program';
 import { useToday } from '@/hooks/use-today';
@@ -62,10 +68,7 @@ export default function LearnScreen() {
     [content, position, progress],
   );
 
-  const dailyIds = useMemo(
-    () => new Set(content.months.flatMap((m) => m.daily.map((c) => c.id))),
-    [content],
-  );
+  const dailyIds = useMemo(() => new Set(allDaily(content).map((c) => c.id)), [content]);
   const readCount = Object.values(progress).filter(
     (p) => p.readAt && dailyIds.has(p.lessonId),
   ).length;

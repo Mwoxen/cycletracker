@@ -108,13 +108,19 @@ export interface LanguageContent {
   phases: Record<Phase, PhaseInfo>;
   symptomTips: Record<Symptom, SymptomTip>;
   months: MonthContent[];
+  /** Five bonus cards after the 360-day programme: month 12, days 31-35 (programme days 361-365). */
+  bonus: DailyCard[];
   cycleWeeks: CycleWeekFocus[];
 }
 
 export const DAYS_PER_MONTH = 30;
 export const WEEKS_PER_MONTH = 4;
 export const MONTHS_IN_PROGRAM = 12;
-export const PROGRAM_DAYS = DAYS_PER_MONTH * MONTHS_IN_PROGRAM;
+/** The twelve 30-day months. */
+export const REGULAR_DAYS = DAYS_PER_MONTH * MONTHS_IN_PROGRAM;
+/** Bonus cards that close the year, after the last month. */
+export const BONUS_DAYS = 5;
+export const PROGRAM_DAYS = REGULAR_DAYS + BONUS_DAYS;
 
 export const dailyId = (month: number, day: number) =>
   `m${String(month).padStart(2, '0')}-d${String(day).padStart(2, '0')}`;

@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
-import { DAYS_PER_MONTH, MONTHS_IN_PROGRAM, findDaily, type DailyCard } from '@/content';
+import { PROGRAM_DAYS, findDaily, type DailyCard } from '@/content';
 import type { ISODate, LessonProgress } from '@/domain/types';
 import { addDaysISO, toISODate } from '@/engine/dates';
 import { readingStreak } from '@/engine/insights';
@@ -66,7 +66,7 @@ export default function StatsScreen() {
     return days;
   }, [content, progress, today]);
 
-  const total = MONTHS_IN_PROGRAM * DAYS_PER_MONTH;
+  const total = PROGRAM_DAYS;
   const title = t(`learn.statsTitle.${kind}`);
   const intro =
     kind === 'read'

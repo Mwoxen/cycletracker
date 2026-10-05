@@ -1,7 +1,9 @@
 import { CYCLE_WEEKS, PHASES, SYMPTOMS } from '@/domain/types';
 
 import { content } from './index';
+import { validateBonus } from './validate';
 import {
+  BONUS_DAYS,
   CYCLE_WEEK_ACTIONS,
   DAYS_PER_MONTH,
   WEEKS_PER_MONTH,
@@ -105,6 +107,20 @@ describe.each(Object.entries(content))('%s content', (lang, data) => {
   });
 });
 
+describe.each(Object.entries(content))('%s bonus cards', (lang, data) => {
+  it('has five valid closing cards for programme days 361-365', () => {
+    expect(data.bonus).toHaveLength(BONUS_DAYS);
+    expect(() => validateBonus(data.bonus, lang)).not.toThrow();
+  });
+  it('has ids that do not clash with the monthly cards', () => {
+    const ids = [
+      ...data.months.flatMap((m) => m.daily.map((c) => c.id)),
+      ...data.bonus.map((c) => c.id),
+    ];
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
 describe('language parity', () => {
   it('has the same months and item ids in every language', () => {
     const langs = Object.values(content);
@@ -114,6 +130,10 @@ describe('language parity', () => {
         .sort();
     const reference = idsOf(langs[0]);
     for (const d of langs.slice(1)) expect(idsOf(d)).toEqual(reference);
+  });
+
+  it('has the same bonus card ids in every language', () => {
+    expect(content.da.bonus.map((c) => c.id)).toEqual(content.en.bonus.map((c) => c.id));
   });
 
   it('has the same phase tags and quiz answers in every language', () => {

@@ -89,7 +89,7 @@ const en: Translation = {
     },
     fertileFrom: 'Fertile window from {{date}}',
     ovulationAround: 'Ovulation around {{date}}',
-    todaysCardDay: "Today's card · day {{day}} of 360",
+    todaysCardDay: "Today's card · day {{day}} of 365",
     noDataTitle: 'No cycle data yet',
     noDataBodyTracker:
       'Log the last period start when {{name}} tells you, and the app will show the phase and predictions here.',
@@ -121,7 +121,7 @@ const en: Translation = {
     conversation: "This week's conversation question",
     weeklyRead: "This week's read · talk about it",
     programNotStarted: 'The program starts {{date}}',
-    programCompleted: 'You have completed the full year program. 360 days. She noticed.',
+    programCompleted: 'You have completed the full year program. 365 days. She noticed.',
     contentMissing: 'Content for this month is on its way.',
     regularity: {
       unknown: 'Log a few more cycles to see the pattern',
@@ -145,7 +145,7 @@ const en: Translation = {
   },
   learn: {
     title: 'Learn',
-    subtitle: 'Day {{day}} of 360 · month {{month}}',
+    subtitle: 'Day {{day}} of 365 · month {{month}}',
     stats: {
       read: 'cards read',
       done: 'actions done',
@@ -251,7 +251,7 @@ const en: Translation = {
     conversationAtEnd: 'A conversation question at the end',
     questions: '{{n}} questions',
     source: 'Source',
-    cardDay: 'Card · day {{day}} of 360',
+    cardDay: 'Card · day {{day}} of 365',
     sources: 'Sources',
     unlocksTomorrow: 'Unlocks tomorrow',
   },
@@ -474,7 +474,7 @@ const en: Translation = {
       'Month {{n}} is part of Cycle Tracker Plus. Month 1 is free; the rest of the year costs a little.',
     lockedOverview:
       'The personal overview is part of Cycle Tracker Plus. It is built from her logs and your actions over the year.',
-    teaser: 'Day {{day}} of 360 is waiting for you in Plus.',
+    teaser: 'Day {{day}} of 365 is waiting for you in Plus.',
     seePlus: 'See Cycle Tracker Plus',
     status: 'Status',
     free: 'Free',

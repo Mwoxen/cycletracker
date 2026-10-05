@@ -221,7 +221,7 @@ describe('tabs', () => {
     expect(app.getPathname()).toBe('/learn/stats');
     expect(await learn.findByText(da.learn.statsTitle.read)).toBeTruthy();
     expect(
-      learn.getByText(da.learn.statsReadIntro.replace('{{n}}', '1').replace('{{total}}', '360')),
+      learn.getByText(da.learn.statsReadIntro.replace('{{n}}', '1').replace('{{total}}', '365')),
     ).toBeTruthy();
     expect(learn.getByText(month1.daily[0].title)).toBeTruthy();
   });
@@ -597,12 +597,21 @@ describe('later in the program', () => {
     expect(await learnTab().findByText(content.months[6].theme)).toBeTruthy();
   });
 
-  it('says the program is completed after day 360', async () => {
+  it('says the program is completed after day 365', async () => {
     onboard('tracker', addDaysISO(TODAY, -400));
     await renderApp('/home');
     expect(await homeTab().findByText(/gennemført hele årsprogrammet/)).toBeTruthy();
-    const last = content.months[11].daily.find((c) => c.day === 30)!;
-    expect(homeTab().queryByText(last.title)).toBeNull();
+    expect(homeTab().queryByText(content.bonus[4].title)).toBeNull();
+  });
+
+  it('shows the bonus cards on days 361-365', async () => {
+    onboard('tracker', addDaysISO(TODAY, -362)); // programme day 363
+    grantPlus();
+    await renderApp('/home');
+    expect(await homeTab().findByText(content.bonus[2].title)).toBeTruthy();
+    expect(
+      homeTab().getByText(upper(da.home.todaysCardDay.replace('{{day}}', '363'))),
+    ).toBeTruthy();
   });
 
   it('renders home before the program has started', async () => {

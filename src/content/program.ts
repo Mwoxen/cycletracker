@@ -9,6 +9,7 @@ import {
   DAYS_PER_MONTH,
   MONTHS_IN_PROGRAM,
   PROGRAM_DAYS,
+  REGULAR_DAYS,
   WEEKS_PER_MONTH,
   type DailyCard,
   type LanguageContent,
@@ -25,7 +26,7 @@ export interface ProgramPosition {
   /** True when today is before the program start date. */
   notStarted: boolean;
   month: number;
-  /** 1..DAYS_PER_MONTH */
+  /** 1..DAYS_PER_MONTH, or 31..35 on the bonus days. */
   dayInMonth: number;
   /** 1..WEEKS_PER_MONTH, the week the current day belongs to. */
   weekInMonth: number;
@@ -36,8 +37,12 @@ export interface ProgramPosition {
 export function programPosition(programStartDate: ISODate, today: ISODate): ProgramPosition {
   const rawDay = daysBetween(programStartDate, today) + 1;
   const programDay = Math.min(Math.max(rawDay, 1), PROGRAM_DAYS);
-  const month = Math.floor((programDay - 1) / DAYS_PER_MONTH) + 1;
-  const dayInMonth = ((programDay - 1) % DAYS_PER_MONTH) + 1;
+  // The bonus days (361-365) belong to month 12 as its days 31-35.
+  const month = Math.min(Math.floor((programDay - 1) / DAYS_PER_MONTH) + 1, MONTHS_IN_PROGRAM);
+  const dayInMonth =
+    programDay > REGULAR_DAYS
+      ? programDay - (MONTHS_IN_PROGRAM - 1) * DAYS_PER_MONTH
+      : ((programDay - 1) % DAYS_PER_MONTH) + 1;
   const weekInMonth = Math.min(Math.floor((dayInMonth - 1) / 7) + 1, WEEKS_PER_MONTH);
   return {
     programDay,
@@ -64,7 +69,20 @@ export function getDailyCard(
   month: number,
   day: number,
 ): DailyCard | undefined {
+  if (month === MONTHS_IN_PROGRAM && day > DAYS_PER_MONTH) {
+    return content.bonus.find((c) => c.day === day);
+  }
   return getMonth(content, month)?.daily.find((c) => c.day === day);
+}
+
+/** The daily cards of a month; month 12 also carries the five bonus cards. */
+export function dailyOf(content: LanguageContent, month: MonthContent): DailyCard[] {
+  return month.month === MONTHS_IN_PROGRAM ? [...month.daily, ...content.bonus] : month.daily;
+}
+
+/** Every daily card in programme order: the twelve months, then the bonus cards. */
+export function allDaily(content: LanguageContent): DailyCard[] {
+  return [...content.months.flatMap((m) => m.daily), ...content.bonus];
 }
 
 export function getWeeklyRead(
@@ -80,11 +98,7 @@ export function getWrap(content: LanguageContent, month: number): MonthlyWrap | 
 }
 
 export function findDaily(content: LanguageContent, id: string): DailyCard | undefined {
-  for (const m of content.months) {
-    const c = m.daily.find((x) => x.id === id);
-    if (c) return c;
-  }
-  return undefined;
+  return allDaily(content).find((c) => c.id === id);
 }
 
 export function findWeekly(content: LanguageContent, id: string): WeeklyRead | undefined {

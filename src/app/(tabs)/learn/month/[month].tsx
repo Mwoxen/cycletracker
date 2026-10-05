@@ -1,7 +1,13 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { getMonth, isDailyUnlocked, isMonthWrapUnlocked, isWeeklyUnlocked } from '@/content';
+import {
+  dailyOf,
+  getMonth,
+  isDailyUnlocked,
+  isMonthWrapUnlocked,
+  isWeeklyUnlocked,
+} from '@/content';
 import { useProgram } from '@/hooks/use-program';
 import { colors } from '@/ui/colors';
 import { Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
@@ -86,7 +92,7 @@ export default function MonthScreen() {
 
         <SectionTitle>{t('learn.daily')}</SectionTitle>
         <Card style={{ padding: 0, paddingHorizontal: 16 }}>
-          {month.daily.map((c, i) => {
+          {dailyOf(content, month).map((c, i, list) => {
             const unlocked = isDailyUnlocked(position, m, c.day);
             const read = !!progress[c.id]?.readAt;
             const done = !!progress[c.id]?.actionDoneAt;
@@ -110,7 +116,7 @@ export default function MonthScreen() {
                 }
                 symbolColor={done ? colors.green : read ? theme.accent : colors.tertiaryLabel}
                 onPress={unlocked ? () => router.push(`/(tabs)/learn/daily/${c.id}`) : undefined}
-                last={i === month.daily.length - 1}
+                last={i === list.length - 1}
               />
             );
           })}

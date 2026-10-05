@@ -15,6 +15,9 @@ describe('programPosition', () => {
     ['2026-03-30', 30, 1, 30, 4],
     ['2026-03-31', 31, 2, 1, 1],
     ['2026-04-27', 58, 2, 28, 4],
+    ['2027-02-23', 360, 12, 30, 4],
+    ['2027-02-24', 361, 12, 31, 4],
+    ['2027-02-28', 365, 12, 35, 4],
   ])('%s -> day %i, month %i, day-in-month %i, week %i', (today, day, month, dim, week) => {
     const p = programPosition('2026-03-01', today);
     expect(p.programDay).toBe(day);
@@ -36,7 +39,10 @@ describe('programPosition', () => {
     expect(p.completed).toBe(true);
     expect(p.programDay).toBe(PROGRAM_DAYS);
     expect(p.month).toBe(12);
-    expect(p.dayInMonth).toBe(30);
+    expect(p.dayInMonth).toBe(35);
+    // The last bonus day is not yet "completed"; the day after it is.
+    expect(programPosition('2026-03-01', '2027-02-28').completed).toBe(false);
+    expect(programPosition('2026-03-01', '2027-03-01').completed).toBe(true);
   });
 });
 
@@ -50,6 +56,13 @@ describe('unlocking', () => {
   it('unlocks weekly reads at the start of each week', () => {
     expect(isWeeklyUnlocked(pos, 1, 3)).toBe(true);
     expect(isWeeklyUnlocked(pos, 1, 4)).toBe(false);
+  });
+  it('unlocks the bonus cards on days 361-365', () => {
+    const day360 = programPosition('2026-03-01', '2027-02-23');
+    expect(isDailyUnlocked(day360, 12, 31)).toBe(false);
+    const day361 = programPosition('2026-03-01', '2027-02-24');
+    expect(isDailyUnlocked(day361, 12, 31)).toBe(true);
+    expect(isDailyUnlocked(day361, 12, 32)).toBe(false);
   });
   it('unlocks the wrap on the last day of the month', () => {
     expect(isWrapUnlocked(pos)).toBe(false);

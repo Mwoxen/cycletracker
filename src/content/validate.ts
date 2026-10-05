@@ -4,11 +4,14 @@
 import { PHASES } from '@/domain/types';
 
 import {
+  BONUS_DAYS,
   DAYS_PER_MONTH,
+  MONTHS_IN_PROGRAM,
   WEEKS_PER_MONTH,
   dailyId,
   weeklyId,
   wrapId,
+  type DailyCard,
   type MonthContent,
 } from './types';
 
@@ -78,6 +81,22 @@ export function validateMonth(month: MonthContent, n: number, lang: string): voi
   });
   const ids = [...month.daily.map((c) => c.id), ...month.weekly.map((x) => x.id), month.wrap.id];
   assert(new Set(ids).size === ids.length, `${where}: duplicate ids`);
+}
+
+export function validateBonus(bonus: DailyCard[], lang: string): void {
+  const where = `${lang} bonus`;
+  assert(bonus.length === BONUS_DAYS, `${where}: ${bonus.length} cards, expected ${BONUS_DAYS}`);
+  bonus.forEach((card, i) => {
+    const day = DAYS_PER_MONTH + 1 + i;
+    const w = `${where} day ${day}`;
+    assert(card.day === day, `${w}: day field is ${card.day}`);
+    assert(card.month === MONTHS_IN_PROGRAM, `${w}: month field is ${card.month}`);
+    assert(card.id === dailyId(MONTHS_IN_PROGRAM, day), `${w}: id is ${card.id}`);
+    assert(card.title.length > 3, `${w}: missing title`);
+    const len = words(card.insight);
+    assert(len >= 60 && len <= 170, `${w}: insight is ${len} words (60-170)`);
+    assert(words(card.action) >= 6, `${w}: action is too short`);
+  });
 }
 
 export function validateParity(a: MonthContent, b: MonthContent, n: number): void {
