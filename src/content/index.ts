@@ -14,6 +14,7 @@ import { month10 as da10 } from './da/month-10';
 import { month11 as da11 } from './da/month-11';
 import { month12 as da12 } from './da/month-12';
 import { bonus as daBonus } from './da/bonus';
+import { phasesForHer as daPhasesForHer } from './da/phases-for-her';
 import { phases as daPhases } from './da/phases';
 import { symptomTips as daTips } from './da/symptom-tips';
 import { cycleWeeks as enCycleWeeks } from './en/cycle-weeks';
@@ -30,6 +31,7 @@ import { month10 as en10 } from './en/month-10';
 import { month11 as en11 } from './en/month-11';
 import { month12 as en12 } from './en/month-12';
 import { bonus as enBonus } from './en/bonus';
+import { phasesForHer as enPhasesForHer } from './en/phases-for-her';
 import { phases as enPhases } from './en/phases';
 import { symptomTips as enTips } from './en/symptom-tips';
 import type { LanguageContent } from './types';
@@ -37,6 +39,7 @@ import type { LanguageContent } from './types';
 export const content: Record<Language, LanguageContent> = {
   da: {
     phases: daPhases,
+    phasesForHer: daPhasesForHer,
     symptomTips: daTips,
     months: [da01, da02, da03, da04, da05, da06, da07, da08, da09, da10, da11, da12],
     bonus: daBonus,
@@ -44,6 +47,7 @@ export const content: Record<Language, LanguageContent> = {
   },
   en: {
     phases: enPhases,
+    phasesForHer: enPhasesForHer,
     symptomTips: enTips,
     months: [en01, en02, en03, en04, en05, en06, en07, en08, en09, en10, en11, en12],
     bonus: enBonus,

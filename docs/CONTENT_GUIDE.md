@@ -143,8 +143,12 @@ Notifikation: "Dagens kort er klar. Ét minut. Du kan godt."
 - Kilder: `{ label: 'NHS: Periods', url: 'https://www.nhs.uk/conditions/periods/' }`. Brug kun
   URL'er, du er sikker på findes (NHS conditions-sider, ACOG FAQ, Sundhed.dk patienthåndbogen,
   NICE CKS). Udelad hellere URL end at gætte.
-- Hendes egne tekster (`selfCare`, symptomtippenes `what`, hendes UI, samtalespørgsmålene i
-  ugens artikel) er ikke humoristiske. De er varme og saglige som før.
+- Hendes egne tekster er ikke humoristiske. De er varme og saglige: `selfCare`, symptomtippenes
+  `what`, hendes UI, samtalespørgsmålene i ugens artikel og `phasesForHer` (hendes udgave af
+  faseopslagene: hvad der sker, hvordan hun kan have det, hvad partneren kan gøre). Fasernes
+  `whatHappens`, `howSheMayFeel`, `whatYouCanDo` og `avoid` er partnerens og må være i
+  køkkenstemmen, men hun læser dem aldrig. Når du tilføjer en tekst, så spørg: kan hun komme til at
+  læse den som sig selv? Så hører den i hendes udgave.
 
 ## Månedstemaer
 

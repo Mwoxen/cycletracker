@@ -83,6 +83,14 @@ export interface PhaseInfo {
   avoid: string[];
 }
 
+/** What the cycle owner reads about her own phase: neutral, addressed to her, without the partner jokes. */
+export interface PhaseSelfView {
+  whatHappens: string[];
+  howYouMayFeel: string[];
+  /** What her partner can do, as a short list for her to know about. */
+  partnerCanDo: string[];
+}
+
 export interface SymptomTip {
   /** One sentence on what is going on. */
   what: string;
@@ -106,6 +114,8 @@ export const CYCLE_WEEK_ACTIONS = 3;
 
 export interface LanguageContent {
   phases: Record<Phase, PhaseInfo>;
+  /** The cycle owner's own view of each phase (neutral). */
+  phasesForHer: Record<Phase, PhaseSelfView>;
   symptomTips: Record<Symptom, SymptomTip>;
   months: MonthContent[];
   /** Five bonus cards after the 360-day programme: month 12, days 31-35 (programme days 361-365). */

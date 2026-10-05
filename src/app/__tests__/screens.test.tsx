@@ -114,6 +114,9 @@ describe('home', () => {
     expect(home.getByText(da.home.howYouMayFeel)).toBeTruthy();
     expect(home.getByText(da.home.selfCare)).toBeTruthy();
     expect(home.getByText(content.phases.follicular.selfCare[0])).toBeTruthy();
+    // What she reads about how she may feel is her own neutral text, not the partner's jokes.
+    expect(home.getByText(content.phasesForHer.follicular.howYouMayFeel[0])).toBeTruthy();
+    expect(home.queryByText(content.phases.follicular.howSheMayFeel[0])).toBeNull();
     // The partner's program is a compact read-only pointer, not the action card.
     expect(home.getByText(upper(da.home.partnerLearnsToday))).toBeTruthy();
     expect(home.getByText(month1.daily[0].title)).toBeTruthy();
@@ -408,6 +411,10 @@ describe('learn sub-screens', () => {
     expect(learn.getByText(content.phases.luteal.selfCare[0])).toBeTruthy();
     expect(learn.getByText(da.learn.partnerCanDo)).toBeTruthy();
     expect(learn.getByText(da.learn.howYouMayFeel)).toBeTruthy();
+    // Her sections carry her own neutral texts, never the partner's.
+    expect(learn.getByText(content.phasesForHer.luteal.whatHappens[0])).toBeTruthy();
+    expect(learn.queryByText(content.phases.luteal.whatHappens[0])).toBeNull();
+    expect(learn.queryByText(content.phases.luteal.whatYouCanDo[0])).toBeNull();
     expect(learn.queryByText(da.learn.avoid)).toBeNull();
     expect(learn.queryByText(content.phases.luteal.avoid[0])).toBeNull();
   });

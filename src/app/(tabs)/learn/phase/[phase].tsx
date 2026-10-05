@@ -24,6 +24,7 @@ export default function PhaseScreen() {
   const { progress, onScroll } = useReadingProgress();
   const key = (PHASES as string[]).includes(phase) ? (phase as Phase) : 'menstrual';
   const info = content.phases[key];
+  const her = content.phasesForHer[key];
   const accent = phaseColor[key];
 
   const sections: { title: string; items: string[]; accent?: typeof accent }[] = isTracker
@@ -35,9 +36,9 @@ export default function PhaseScreen() {
       ]
     : [
         { title: t('learn.selfCare'), items: info.selfCare, accent },
-        { title: t('learn.whatHappensInBody'), items: info.whatHappens },
-        { title: t('learn.howYouMayFeel'), items: info.howSheMayFeel },
-        { title: t('learn.partnerCanDo'), items: info.whatYouCanDo },
+        { title: t('learn.whatHappensInBody'), items: her.whatHappens },
+        { title: t('learn.howYouMayFeel'), items: her.howYouMayFeel },
+        { title: t('learn.partnerCanDo'), items: her.partnerCanDo },
       ];
 
   return (

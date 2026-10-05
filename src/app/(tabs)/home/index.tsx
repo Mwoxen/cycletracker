@@ -246,7 +246,7 @@ export default function HomeScreen() {
               <Reveal index={1}>
                 <BulletsCard
                   heading={t('home.howYouMayFeel')}
-                  items={phaseInfo.howSheMayFeel}
+                  items={program.content.phasesForHer[phaseInfo.phase].howYouMayFeel}
                   onPress={openPhase}
                 />
               </Reveal>

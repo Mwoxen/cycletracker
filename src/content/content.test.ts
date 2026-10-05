@@ -15,6 +15,18 @@ import {
 const words = (s: string) => s.trim().split(/\s+/).length;
 
 describe.each(Object.entries(content))('%s content', (lang, data) => {
+  it('has a neutral view of each phase for the cycle owner, apart from the partner texts', () => {
+    for (const phase of PHASES) {
+      const her = data.phasesForHer[phase];
+      expect(her.whatHappens.length).toBeGreaterThan(0);
+      expect(her.howYouMayFeel.length).toBeGreaterThan(0);
+      expect(her.partnerCanDo.length).toBeGreaterThan(0);
+      // She never reads the partner's version of a line.
+      for (const line of data.phases[phase].howSheMayFeel)
+        expect(her.howYouMayFeel).not.toContain(line);
+    }
+  });
+
   it('has all four phases with actionable advice', () => {
     for (const phase of PHASES) {
       const info = data.phases[phase];
