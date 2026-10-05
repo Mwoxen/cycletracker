@@ -29,22 +29,26 @@ const SPLASH = {
     text: require('../../assets/images/splash-text-dark.png'),
   },
 };
-/** The native splash draws the 1024-unit image at this width, centred on the screen. */
-const IMAGE_WIDTH = 160;
+/**
+ * The native splash draws the 1024×1400 image 437 pt wide, centred on the screen. At that size
+ * the ring in it has Home's radius (128 pt) and stroke, and sits about where Home draws it
+ * (scripts/brand-svg.mjs). Any remaining offset to the real ring is closed with a short glide.
+ */
+const IMAGE_WIDTH = 437;
 const UNIT = IMAGE_WIDTH / 1024;
-/** In the image the ring's centre sits 92 units above the middle, with a 300-unit radius. */
-const RING_OFFSET_Y = -92 * UNIT;
+const IMAGE_HEIGHT = 1400 * UNIT;
+const RING_OFFSET_Y = (365 - 700) * UNIT;
 const RING_RADIUS = 300 * UNIT;
 const HOLD_MS = 550;
-const MOVE_MS = 700;
+const MOVE_MS = 450;
 const FADE_MS = 550;
 const EASE = Easing.bezier(0.2, 0.8, 0.2, 1);
 
 /**
  * A copy of the splash screen drawn in JavaScript. It stays until the app is ready and the first
- * screen has had a moment to draw. When Home's ring has reported where it sits, the splash ring
- * glides and grows into it while the heart, the name and the background fade; otherwise it
- * simply fades out. Unmounts when done.
+ * screen has had a moment to draw. The heart, the name and the background then fade, and the
+ * splash ring, already Home's size, fades into Home's ring (with a short glide if the two sit
+ * a few points apart). Without a ring on screen it simply fades out. Unmounts when done.
  */
 export function Curtain({ ready }: { ready: boolean }) {
   const scheme = useColorScheme() === 'dark' ? SPLASH.dark : SPLASH.light;
@@ -84,10 +88,10 @@ export function Curtain({ ready }: { ready: boolean }) {
       return;
     }
     move.value = withTiming(1, { duration: MOVE_MS, easing: EASE });
-    fade.value = withTiming(0, { duration: MOVE_MS * 0.75, easing: Easing.out(Easing.quad) });
+    fade.value = withTiming(0, { duration: FADE_MS, easing: Easing.out(Easing.quad) });
     ringFade.value = withDelay(
-      MOVE_MS * 0.45,
-      withTiming(0, { duration: MOVE_MS * 0.55 }, () => runOnJS(finish)()),
+      MOVE_MS * 0.5,
+      withTiming(0, { duration: FADE_MS }, () => runOnJS(finish)()),
     );
     // Only the first anchor starts the move; later layout changes must not restart it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,9 +112,9 @@ export function Curtain({ ready }: { ready: boolean }) {
   if (done) return null;
   const box = {
     width: IMAGE_WIDTH,
-    height: IMAGE_WIDTH,
+    height: IMAGE_HEIGHT,
     left: width / 2 - IMAGE_WIDTH / 2,
-    top: height / 2 - IMAGE_WIDTH / 2,
+    top: height / 2 - IMAGE_HEIGHT / 2,
   };
   return (
     <Animated.View style={styles.fill} pointerEvents="auto" testID="curtain">
