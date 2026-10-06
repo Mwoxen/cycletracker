@@ -69,7 +69,8 @@ const icon = (c) =>
   '</svg>\n';
 
 /**
- * The splash, in a 1024×1400 frame shown 437 pt wide: the ring then has the same radius (128 pt)
+ * The splash, in a 1024×1400 frame shown 437 pt wide (app.config.ts sets imageWidth to 598: the
+ * plugin draws the image in a square of that size, scaled to fit its height): the ring then has the same radius (128 pt)
  * and stroke (6 pt) as the ring on Home, and sits about where Home draws it, so the splash can
  * fade straight into it. The heart sits inside, the name below. Layers are rendered separately
  * for the in-app handover (src/ui/curtain.tsx).

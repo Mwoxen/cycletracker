@@ -88,8 +88,10 @@ const config: ExpoConfig = {
       {
         backgroundColor: '#EEE8EB',
         image: './assets/images/splash-icon.png',
-        // 437 pt makes the splash ring the same size as the ring on Home (see scripts/brand-svg.mjs).
-        imageWidth: 437,
+        // The plugin draws the image in a square of this size and scales it to fit. Our image is
+        // 1024x1400, so a 598 pt square makes it 437 pt wide, which gives the splash ring the same
+        // radius as the ring on Home (see scripts/brand-svg.mjs and src/ui/curtain.tsx).
+        imageWidth: 598,
         dark: { backgroundColor: '#0D0A0E', image: './assets/images/splash-icon-dark.png' },
       },
     ],

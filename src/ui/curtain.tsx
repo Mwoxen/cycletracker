@@ -30,13 +30,14 @@ const SPLASH = {
   },
 };
 /**
- * The native splash draws the 1024×1400 image 437 pt wide, centred on the screen. At that size
- * the ring in it has Home's radius (128 pt) and stroke, and sits about where Home draws it
- * (scripts/brand-svg.mjs). Any remaining offset to the real ring is closed with a short glide.
+ * The native splash (app.config.ts) puts the 1024x1400 image in a 598 pt square, scaled to fit:
+ * 598/1400 pt per unit, so 437 pt wide, and the ring in it has Home's radius and stroke
+ * (scripts/brand-svg.mjs). This copy draws the same image at the same size and place. Any
+ * remaining offset to the real ring is closed with a short glide.
  */
-const IMAGE_WIDTH = 437;
-const UNIT = IMAGE_WIDTH / 1024;
-const IMAGE_HEIGHT = 1400 * UNIT;
+const IMAGE_HEIGHT = 598;
+const UNIT = IMAGE_HEIGHT / 1400;
+const IMAGE_WIDTH = 1024 * UNIT;
 const RING_OFFSET_Y = (346 - 700) * UNIT;
 const RING_RADIUS = 300 * UNIT;
 const HOLD_MS = 550;
