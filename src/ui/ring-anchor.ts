@@ -18,6 +18,19 @@ export function endHandover() {
   handover = false;
 }
 
+/** The Home ring registers a function that measures itself right now (window coordinates). */
+let measurer: (() => Promise<RingAnchor | null>) | null = null;
+export function registerRingMeasurer(fn: (() => Promise<RingAnchor | null>) | null) {
+  measurer = fn;
+}
+/** A fresh measurement of the Home ring, or the last reported anchor when none can be taken. */
+export async function measureRing(): Promise<RingAnchor | null> {
+  if (!measurer) return anchor;
+  const fresh = await measurer();
+  if (fresh) setRingAnchor(fresh);
+  return fresh ?? anchor;
+}
+
 let anchor: RingAnchor | null = null;
 const listeners = new Set<() => void>();
 

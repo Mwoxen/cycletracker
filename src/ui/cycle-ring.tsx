@@ -15,7 +15,7 @@ import Svg, { Circle, Path } from 'react-native-svg';
 
 import type { DayStatus } from '@/engine/cycle';
 import { phaseForCycleDay } from '@/engine/cycle';
-import { isHandover, setRingAnchor } from '@/ui/ring-anchor';
+import { isHandover, registerRingMeasurer, setRingAnchor } from '@/ui/ring-anchor';
 import { fontFor, phaseHex } from '@/ui/colors';
 import { usePhaseTheme, useSurfaceHex } from '@/ui/theme';
 import { Txt } from '@/ui/primitives';
@@ -117,6 +117,18 @@ export function CycleRing({
   reportAnchor?: boolean;
 }) {
   const box = useRef<View>(null);
+  useEffect(() => {
+    if (!reportAnchor) return;
+    registerRingMeasurer(
+      () =>
+        new Promise((resolve) => {
+          const node = box.current;
+          if (!node) return resolve(null);
+          node.measureInWindow((x, y, w) => resolve({ x, y, size: w }));
+        }),
+    );
+    return () => registerRingMeasurer(null);
+  }, [reportAnchor]);
   const theme = usePhaseTheme();
   const surface = useSurfaceHex();
   // During the splash handover the ring is drawn complete at once (see ring-anchor.ts).

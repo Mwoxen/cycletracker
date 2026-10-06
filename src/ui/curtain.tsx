@@ -10,7 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { endHandover, useRingAnchor } from '@/ui/ring-anchor';
+import { endHandover, measureRing, type RingAnchor } from '@/ui/ring-anchor';
 
 /** Same colours and images as the native splash (app.config.ts), so the handover is seamless. */
 const SPLASH = {
@@ -40,8 +40,8 @@ const IMAGE_HEIGHT = 1400 * UNIT;
 const RING_OFFSET_Y = (346 - 700) * UNIT;
 const RING_RADIUS = 300 * UNIT;
 const HOLD_MS = 550;
-const MOVE_MS = 450;
-const FADE_MS = 550;
+const MOVE_MS = 380;
+const FADE_MS = 500;
 const EASE = Easing.bezier(0.2, 0.8, 0.2, 1);
 
 /**
@@ -54,28 +54,34 @@ export function Curtain({ ready }: { ready: boolean }) {
   const scheme = useColorScheme() === 'dark' ? SPLASH.dark : SPLASH.light;
   const { width, height } = useWindowDimensions();
   const reduced = useReducedMotion();
-  const anchor = useRingAnchor();
   const [done, setDone] = useState(false);
   const [started, setStarted] = useState(false);
+  const [target, setTarget] = useState<{ x: number; y: number; scale: number } | null>(null);
   const move = useSharedValue(0);
   const fade = useSharedValue(1);
   const ringFade = useSharedValue(1);
 
-  // Where the splash ring is, and where Home's ring wants it.
+  // Where the splash ring is on screen.
   const fromX = width / 2;
   const fromY = height / 2 + RING_OFFSET_Y;
-  const target = anchor
-    ? {
-        x: anchor.x + anchor.size / 2,
-        y: anchor.y + anchor.size / 2,
-        scale: (anchor.size / 2 - 12) / RING_RADIUS,
-      }
-    : null;
 
   useEffect(() => {
     if (!ready || started) return;
-    // Give Home a moment to mount and report its ring; without one the splash just fades.
-    const handle = setTimeout(() => setStarted(true), HOLD_MS);
+    // Give Home a moment to mount and lay out, then measure its ring right before we move.
+    const handle = setTimeout(() => {
+      void measureRing().then((anchor: RingAnchor | null) => {
+        setTarget(
+          anchor
+            ? {
+                x: anchor.x + anchor.size / 2,
+                y: anchor.y + anchor.size / 2,
+                scale: (anchor.size / 2 - 12) / RING_RADIUS,
+              }
+            : null,
+        );
+        setStarted(true);
+      });
+    }, HOLD_MS);
     return () => clearTimeout(handle);
   }, [ready, started]);
 
@@ -90,17 +96,29 @@ export function Curtain({ ready }: { ready: boolean }) {
       ringFade.value = withTiming(0, { duration: reduced ? 250 : FADE_MS });
       return;
     }
-    move.value = withTiming(1, { duration: MOVE_MS, easing: EASE });
-    fade.value = withTiming(0, { duration: FADE_MS, easing: Easing.out(Easing.quad) });
-    ringFade.value = withDelay(
-      MOVE_MS * 0.5,
-      withTiming(0, { duration: FADE_MS }, () => runOnJS(finish)()),
+    // 1) Heart and name fade while the ring glides onto Home's ring, over the still solid
+    //    background, so there is never a moment with two rings visible.
+    // 2) Then background and splash ring fade together, revealing Home's identical ring.
+    const far =
+      Math.hypot(target.x - fromX, target.y - fromY) > 1.5 || Math.abs(target.scale - 1) > 0.01;
+    const glide = far ? MOVE_MS : 0;
+    move.value = withTiming(1, { duration: glide, easing: EASE });
+    fade.value = withDelay(
+      glide,
+      withTiming(0, { duration: FADE_MS, easing: Easing.out(Easing.quad) }),
     );
-    // Only the first anchor starts the move; later layout changes must not restart it.
+    ringFade.value = withDelay(
+      glide,
+      withTiming(0, { duration: FADE_MS, easing: Easing.out(Easing.quad) }, () =>
+        runOnJS(finish)(),
+      ),
+    );
+    // Only the first measurement starts the move; later layout changes must not restart it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, reduced]);
 
   const background = useAnimatedStyle(() => ({ opacity: fade.value }));
+  const heartAndName = useAnimatedStyle(() => ({ opacity: target ? 1 - move.value : fade.value }));
   const ring = useAnimatedStyle(() => {
     const t = move.value;
     const tx = target ? (target.x - fromX) * t : 0;
@@ -126,12 +144,12 @@ export function Curtain({ ready }: { ready: boolean }) {
         <>
           <Animated.Image
             source={scheme.heart}
-            style={[styles.layer, box, background]}
+            style={[styles.layer, box, heartAndName]}
             resizeMode="contain"
           />
           <Animated.Image
             source={scheme.text}
-            style={[styles.layer, box, background]}
+            style={[styles.layer, box, heartAndName]}
             resizeMode="contain"
           />
           <Animated.Image
