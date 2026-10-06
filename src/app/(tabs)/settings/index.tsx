@@ -64,7 +64,7 @@ export default function SettingsScreen() {
   const resetAll = useStore((s) => s.resetAll);
   const [notifGranted, setNotifGranted] = useState<boolean | undefined>();
   const [name, setName] = useState(profile?.partnerName ?? '');
-  const [openPicker, setOpenPicker] = useState<'start' | 'time' | null>(null);
+  const [openPicker, setOpenPicker] = useState<'start' | 'time' | 'programTime' | null>(null);
   const [updateState, setUpdateState] = useState<'idle' | 'checking' | 'downloading'>('idle');
   const entitlement = useStore((s) => s.entitlement);
   const plan = usePlan();
@@ -98,6 +98,8 @@ export default function SettingsScreen() {
   };
   const reminderTime = new Date();
   reminderTime.setHours(r.dailyCardHour, r.dailyCardMinute, 0, 0);
+  const programTime = new Date();
+  programTime.setHours(r.programHour, r.programMinute, 0, 0);
   const locale = profile.language === 'da' ? 'da_DK' : 'en_GB';
 
   const exportFile = async () => {
@@ -429,8 +431,41 @@ export default function SettingsScreen() {
                     onValueChange={(v) => void toggleReminder('monthWrap', v)}
                   />
                 }
-                last={notifGranted !== false}
+                last={notifGranted !== false && !(r.weeklyRead || r.monthWrap)}
               />
+              {r.weeklyRead || r.monthWrap ? (
+                <>
+                  <Row
+                    title={t('settings.programTime')}
+                    onPress={() =>
+                      setOpenPicker(openPicker === 'programTime' ? null : 'programTime')
+                    }
+                    chevron={false}
+                    trailing={
+                      <Txt
+                        color={openPicker === 'programTime' ? theme.accent : colors.secondaryLabel}>
+                        {fmt.time(programTime)}
+                      </Txt>
+                    }
+                    last={notifGranted !== false && openPicker !== 'programTime'}
+                  />
+                  {openPicker === 'programTime' ? (
+                    <DateTimePicker
+                      value={programTime}
+                      mode="time"
+                      display="spinner"
+                      onValueChange={(_, d) =>
+                        updateReminders({
+                          programHour: d.getHours(),
+                          programMinute: d.getMinutes(),
+                        })
+                      }
+                      locale={locale}
+                      style={styles.picker}
+                    />
+                  ) : null}
+                </>
+              ) : null}
             </>
           ) : null}
           {notifGranted === false ? (

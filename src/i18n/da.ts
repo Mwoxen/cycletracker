@@ -361,6 +361,7 @@ const da = {
     pmsWindow: 'PMS-vinduet starter',
     weeklyRead: 'Ny artikel i ugen',
     monthWrap: 'Månedens opsamling og quiz',
+    programTime: 'Tidspunkt for artikler og opsamling',
     notificationsDenied: 'Notifikationer er slået fra i iOS-indstillinger.',
     backup: 'Backup og deling',
     cloudBackup: 'iCloud-backup',

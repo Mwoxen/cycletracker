@@ -18,8 +18,6 @@ import { hasMonthAccess, type Plan } from '@/entitlements';
 import i18n from '@/i18n';
 
 const REMINDER_HOUR = 9;
-/** New articles and wraps are announced in the evening, when the two of them have time to talk. */
-const PROGRAM_HOUR = 19;
 /**
  * iOS keeps at most 64 pending local notifications, so only the next few articles and wraps are
  * scheduled. The schedule is rebuilt every time the app opens.
@@ -45,6 +43,7 @@ export function upcomingProgramNotifications(
   language: Profile['language'],
   plan: Plan,
   now: Date,
+  time: { hour: number; minute: number } = { hour: 19, minute: 0 },
   limit: number = MAX_PROGRAM_NOTIFICATIONS,
 ): ProgramNotification[] {
   const content = getContent(language);
@@ -73,7 +72,7 @@ export function upcomingProgramNotifications(
     }
   }
   return items
-    .filter((i) => at(i.date, PROGRAM_HOUR).getTime() > now.getTime())
+    .filter((i) => at(i.date, time.hour, time.minute).getTime() > now.getTime())
     .sort((a, b) => compareISO(a.date, b.date))
     .slice(0, limit);
 }
@@ -160,6 +159,7 @@ export async function syncNotifications(
         profile.language,
         plan,
         new Date(),
+        { hour: r.programHour, minute: r.programMinute },
       );
       for (const item of upcoming) {
         if (item.kind === 'weekly' ? !r.weeklyRead : !r.monthWrap) continue;
@@ -178,7 +178,7 @@ export async function syncNotifications(
           },
           trigger: {
             type: Notifications.SchedulableTriggerInputTypes.DATE,
-            date: at(item.date, PROGRAM_HOUR),
+            date: at(item.date, r.programHour, r.programMinute),
           },
         });
       }

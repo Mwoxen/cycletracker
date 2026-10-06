@@ -117,6 +117,8 @@ describe('snapshot round trip', () => {
     expect(older.settings?.reminders.cycleWeek).toBe(true);
     expect(older.settings?.reminders.weeklyRead).toBe(true);
     expect(older.settings?.reminders.monthWrap).toBe(true);
+    expect(older.settings?.reminders.programHour).toBe(19);
+    expect(older.settings?.reminders.programMinute).toBe(0);
     expect(older.settings?.reminders.pmsWindow).toBe(false);
   });
 

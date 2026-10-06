@@ -375,6 +375,8 @@ function sanitizeSettings(v: unknown): Settings | undefined {
       cycleWeek: typeof r.cycleWeek === 'boolean' ? r.cycleWeek : d.reminders.cycleWeek,
       weeklyRead: typeof r.weeklyRead === 'boolean' ? r.weeklyRead : d.reminders.weeklyRead,
       monthWrap: typeof r.monthWrap === 'boolean' ? r.monthWrap : d.reminders.monthWrap,
+      programHour: int(r.programHour, d.reminders.programHour, 0, 23),
+      programMinute: int(r.programMinute, d.reminders.programMinute, 0, 59),
     },
   };
 }
