@@ -442,7 +442,7 @@ const en: Translation = {
     name: 'Cycle Tracker Plus',
     title: 'The whole year, not just the first month',
     subtitle:
-      'Month 1 is free. Plus unlocks the next 11 months: 330 daily cards, 44 reads, 11 quizzes and the personal overview.',
+      'Month 1 of the programme is free, with no subscription. Plus unlocks the next 11 months: 330 daily cards, 44 reads, 11 quizzes and the personal overview.',
     perks: [
       'One card every day for a whole year, with one thing you can do',
       "The week's read with a conversation question for the two of you",
@@ -458,6 +458,7 @@ const en: Translation = {
     bestValue: 'Best value',
     continue: 'Continue',
     buy: 'Start Plus',
+    buyTrial: 'Try free for {{n}} days',
     restore: 'Restore purchases',
     redeem: 'Redeem code',
     terms: 'Terms',
@@ -474,7 +475,7 @@ const en: Translation = {
     nothingToRestore: 'There was no purchase to restore on this Apple account.',
     lockedTitle: 'This is part of Plus',
     lockedMonth:
-      'Month {{n}} is part of Cycle Tracker Plus. Month 1 is free; the rest of the year costs a little.',
+      'Month {{n}} is part of Cycle Tracker Plus. Month 1 of the programme is free; the rest of the year costs a little.',
     lockedOverview:
       'The personal overview is part of Cycle Tracker Plus. It is built from her logs and your actions over the year.',
     teaser: 'Day {{day}} of 365 is waiting for you in Plus.',

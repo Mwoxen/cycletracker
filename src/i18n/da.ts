@@ -441,7 +441,7 @@ const da = {
     name: 'Cycle Tracker Plus',
     title: 'Hele året, ikke kun den første måned',
     subtitle:
-      'Måned 1 er gratis. Plus låser de 11 næste måneder op: 330 daglige kort, 44 artikler, 11 quizzer og den personlige oversigt.',
+      'Måned 1 af programmet er gratis, helt uden abonnement. Plus låser de 11 næste måneder op: 330 daglige kort, 44 artikler, 11 quizzer og den personlige oversigt.',
     perks: [
       'Ét kort hver dag i et helt år, med én ting du kan gøre',
       'Ugens artikel med et samtalespørgsmål til jer to',
@@ -457,6 +457,7 @@ const da = {
     bestValue: 'Bedst',
     continue: 'Fortsæt',
     buy: 'Start Plus',
+    buyTrial: 'Prøv gratis i {{n}} dage',
     restore: 'Gendan køb',
     redeem: 'Indløs kode',
     terms: 'Vilkår',
@@ -473,7 +474,7 @@ const da = {
     nothingToRestore: 'Der var ikke noget køb at gendanne på denne Apple-konto.',
     lockedTitle: 'Det her hører til Plus',
     lockedMonth:
-      'Måned {{n}} er en del af Cycle Tracker Plus. Måned 1 er gratis, resten af året koster lidt.',
+      'Måned {{n}} er en del af Cycle Tracker Plus. Måned 1 af programmet er gratis, resten af året koster lidt.',
     lockedOverview:
       'Den personlige oversigt er en del af Cycle Tracker Plus. Den bygges af hendes registreringer og dine handlinger hen over året.',
     teaser: 'Dag {{day}} af 365 ligger klar til dig i Plus.',

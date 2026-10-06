@@ -181,7 +181,11 @@ export default function PaywallScreen() {
                 : `${chosen.product.priceString} ${periodLabel(chosen, t)}`}
             </Txt>
           ) : null}
-          <Button title={t('plus.buy')} onPress={() => void buy()} disabled={busy || !chosen} />
+          <Button
+            title={trial ? t('plus.buyTrial', { n: trial }) : t('plus.buy')}
+            onPress={() => void buy()}
+            disabled={busy || !chosen}
+          />
         </>
       )}
 
