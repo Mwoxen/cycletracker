@@ -74,6 +74,7 @@ jest.mock('expo-notifications', () => ({
   cancelAllScheduledNotificationsAsync: jest.fn(async () => undefined),
   scheduleNotificationAsync: jest.fn(async () => 'id'),
   SchedulableTriggerInputTypes: { DAILY: 'daily', DATE: 'date' },
+  useLastNotificationResponse: jest.fn(() => null),
 }));
 
 jest.mock('expo-haptics', () => ({

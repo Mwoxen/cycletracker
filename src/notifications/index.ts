@@ -1,7 +1,8 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-import { programPosition } from '@/content/program';
+import { getDailyCard, programPosition } from '@/content/program';
+import { getContent } from '@/content';
 import type { PeriodEvent, Profile, Settings } from '@/domain/types';
 import { predict } from '@/engine/cycle';
 import { addDaysISO, compareISO, fromISODate, todayISO } from '@/engine/dates';
@@ -128,4 +129,22 @@ export async function syncNotifications(
   } catch {
     // Notifications are best-effort; never let them break the app.
   }
+}
+
+/**
+ * Where a tap on a scheduled notification should lead, or undefined to just open the app.
+ * The daily reminder opens today's card for the partner and the log sheet for the cycle owner;
+ * the card is resolved at tap time because the reminder repeats every day.
+ */
+export function routeForNotification(
+  identifier: string,
+  profile: Profile | undefined,
+  today: string = todayISO(),
+): string | undefined {
+  if (!profile || identifier !== 'daily-card') return undefined;
+  if (profile.role !== 'tracker') return `/log/${today}`;
+  const position = programPosition(profile.programStartDate, today);
+  if (position.completed || position.notStarted) return undefined;
+  const card = getDailyCard(getContent(profile.language), position.month, position.dayInMonth);
+  return card ? `/(tabs)/home/daily/${card.id}` : undefined;
 }

@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 import { readingScreenOptions, useStackScreenOptions } from '@/ui/navigation';
 
+/** A deep link (a tapped notification) into a card keeps Home underneath, so Back returns to it. */
+export const unstable_settings = { initialRouteName: 'index' };
+
 export default function HomeLayout() {
   const { t } = useTranslation();
   const screenOptions = useStackScreenOptions();
