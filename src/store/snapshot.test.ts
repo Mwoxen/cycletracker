@@ -115,6 +115,8 @@ describe('snapshot round trip', () => {
       JSON.stringify({ version: 1, settings: { reminders: { pmsWindow: false } } }),
     );
     expect(older.settings?.reminders.cycleWeek).toBe(true);
+    expect(older.settings?.reminders.weeklyRead).toBe(true);
+    expect(older.settings?.reminders.monthWrap).toBe(true);
     expect(older.settings?.reminders.pmsWindow).toBe(false);
   });
 

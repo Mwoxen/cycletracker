@@ -360,6 +360,8 @@ const en: Translation = {
     dailyCardTime: 'Time',
     periodSoon: 'Period in 2 days',
     pmsWindow: 'PMS window starts',
+    weeklyRead: 'New article of the week',
+    monthWrap: 'Monthly wrap and quiz',
     notificationsDenied: 'Notifications are turned off in iOS Settings.',
     backup: 'Backup and sharing',
     cloudBackup: 'iCloud backup',
@@ -509,6 +511,10 @@ const en: Translation = {
     pmsBodyTracker:
       'The next days can be more vulnerable. Lower expectations, raise care, and keep the clever remarks to yourself.',
     pmsBodyUser: 'The next days can be more vulnerable. Be kind to yourself.',
+    weeklyTitle: "This week's article is ready",
+    weeklyBody: '{{title}} – read it, then have the conversation.',
+    wrapTitle: "The month's wrap is ready",
+    wrapBody: '{{title}} – wrap and quiz: what stuck?',
   },
   dates: {
     formatLong: 'EEEE, MMMM d',

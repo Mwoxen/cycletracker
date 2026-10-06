@@ -359,6 +359,8 @@ const da = {
     dailyCardTime: 'Tidspunkt',
     periodSoon: 'Menstruation om 2 dage',
     pmsWindow: 'PMS-vinduet starter',
+    weeklyRead: 'Ny artikel i ugen',
+    monthWrap: 'Månedens opsamling og quiz',
     notificationsDenied: 'Notifikationer er slået fra i iOS-indstillinger.',
     backup: 'Backup og deling',
     cloudBackup: 'iCloud-backup',
@@ -507,6 +509,10 @@ const da = {
     pmsBodyTracker:
       'De næste dage kan være mere sårbare. Sænk forventningerne, øg omsorgen, og hold de kloge kommentarer for dig selv.',
     pmsBodyUser: 'De næste dage kan være mere sårbare. Vær god ved dig selv.',
+    weeklyTitle: 'Ugens artikel er klar',
+    weeklyBody: '{{title}} – læs den, og tag samtalen.',
+    wrapTitle: 'Månedens opsamling er klar',
+    wrapBody: '{{title}} – opsamling og quiz: hvad blev hængende?',
   },
   dates: {
     formatLong: "EEEE 'd.' d. MMMM",

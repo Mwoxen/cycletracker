@@ -85,7 +85,10 @@ export default function SettingsScreen() {
     void Haptics.selectionAsync();
     updateProfile({ language });
   };
-  const toggleReminder = async (key: 'dailyCard' | 'periodSoon' | 'pmsWindow', value: boolean) => {
+  const toggleReminder = async (
+    key: 'dailyCard' | 'periodSoon' | 'pmsWindow' | 'weeklyRead' | 'monthWrap',
+    value: boolean,
+  ) => {
     if (value) {
       const granted = await requestNotificationPermission();
       setNotifGranted(granted);
@@ -405,8 +408,31 @@ export default function SettingsScreen() {
                 onValueChange={(v) => void toggleReminder('pmsWindow', v)}
               />
             }
-            last={notifGranted !== false}
+            last={notifGranted !== false && !isTracker}
           />
+          {isTracker ? (
+            <>
+              <Row
+                title={t('settings.weeklyRead')}
+                trailing={
+                  <Switch
+                    value={r.weeklyRead}
+                    onValueChange={(v) => void toggleReminder('weeklyRead', v)}
+                  />
+                }
+              />
+              <Row
+                title={t('settings.monthWrap')}
+                trailing={
+                  <Switch
+                    value={r.monthWrap}
+                    onValueChange={(v) => void toggleReminder('monthWrap', v)}
+                  />
+                }
+                last={notifGranted !== false}
+              />
+            </>
+          ) : null}
           {notifGranted === false ? (
             <Button
               title={t('settings.notificationsDenied')}

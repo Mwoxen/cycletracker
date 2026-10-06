@@ -159,6 +159,8 @@ describe('store', () => {
     expect(merged.weekFocus).toEqual({});
     expect(merged.weekActionsDone).toEqual({});
     expect(merged.settings.reminders.cycleWeek).toBe(true);
+    expect(merged.settings.reminders.weeklyRead).toBe(true);
+    expect(merged.settings.reminders.monthWrap).toBe(true);
     expect(merged.settings.reminders.pmsWindow).toBe(false);
   });
 

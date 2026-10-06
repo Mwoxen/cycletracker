@@ -373,6 +373,8 @@ function sanitizeSettings(v: unknown): Settings | undefined {
       periodSoon: typeof r.periodSoon === 'boolean' ? r.periodSoon : d.reminders.periodSoon,
       pmsWindow: typeof r.pmsWindow === 'boolean' ? r.pmsWindow : d.reminders.pmsWindow,
       cycleWeek: typeof r.cycleWeek === 'boolean' ? r.cycleWeek : d.reminders.cycleWeek,
+      weeklyRead: typeof r.weeklyRead === 'boolean' ? r.weeklyRead : d.reminders.weeklyRead,
+      monthWrap: typeof r.monthWrap === 'boolean' ? r.monthWrap : d.reminders.monthWrap,
     },
   };
 }

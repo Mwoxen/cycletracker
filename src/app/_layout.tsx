@@ -24,6 +24,7 @@ import { useCloudBackup } from '@/hooks/use-cloud-backup';
 import { useNotificationTaps } from '@/hooks/use-notification-taps';
 import { useWidgetSync } from '@/hooks/use-widget-sync';
 import { setLanguage } from '@/i18n';
+import { usePlan } from '@/entitlements';
 import { installNotificationHandler, syncNotifications } from '@/notifications';
 import { configurePurchases } from '@/purchases';
 import { selectActivePeriods, useStore } from '@/store/store';
@@ -65,6 +66,7 @@ export default function RootLayout() {
   const profile = useStore((s) => s.profile);
   const settings = useStore((s) => s.settings);
   const periods = useStore(selectActivePeriods);
+  const plan = usePlan();
   const language = profile?.language;
   useCloudBackup();
   useNotificationTaps();
@@ -100,9 +102,9 @@ export default function RootLayout() {
   // Keep local notifications in step with the data; debounced so rapid edits only schedule once.
   useEffect(() => {
     if (!hydrated) return;
-    const handle = setTimeout(() => void syncNotifications(profile, settings, periods), 1500);
+    const handle = setTimeout(() => void syncNotifications(profile, settings, periods, plan), 1500);
     return () => clearTimeout(handle);
-  }, [hydrated, profile, settings, periods]);
+  }, [hydrated, profile, settings, periods, plan]);
 
   // The curtain copies the native splash, so the native one can go as soon as it is on screen.
   // It fades once the app is ready and the first screen has had a moment to draw. The start

@@ -116,6 +116,10 @@ export interface Reminders {
   pmsWindow: boolean;
   /** The morning a new cycle week begins. */
   cycleWeek: boolean;
+  /** The evening a new weekly article is unlocked (partner only). */
+  weeklyRead: boolean;
+  /** The evening a month's wrap and quiz is unlocked (partner only). */
+  monthWrap: boolean;
 }
 
 export interface Settings {
@@ -188,6 +192,8 @@ export const DEFAULT_SETTINGS: Settings = {
     periodSoon: true,
     pmsWindow: true,
     cycleWeek: true,
+    weeklyRead: true,
+    monthWrap: true,
   },
   cloudBackup: true,
   appearance: 'system',
