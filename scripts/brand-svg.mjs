@@ -15,6 +15,7 @@ const COLOURS = {
     lut: '#725CA9',
     bg: '#EEE8EB',
     text: '#1D161B',
+    text2: '#665A61',
   },
   dark: {
     men: '#EC8A92',
@@ -23,6 +24,7 @@ const COLOURS = {
     lut: '#AA95E8',
     bg: '#0D0A0E',
     text: '#F2EAEE',
+    text2: '#A3969E',
   },
 };
 const GLYPH = { r: 300, width: 64, gap: 3.6, heartScale: 0.88 };
@@ -84,8 +86,11 @@ const splashRingLayer = (c) =>
   `  <g transform="translate(512 ${SPLASH_FRAME.ringY})" fill="none" stroke-width="${SPLASH_RING.width}">\n${segments(c, SPLASH_RING)}  </g>\n`;
 const splashHeartLayer = (c) =>
   `  <g transform="translate(512 ${SPLASH_FRAME.ringY + 16}) scale(0.88)">\n    <path d="${HEART}" fill="${c.men}"/>\n  </g>\n`;
+// The name is 34 pt and the tagline 16 pt on a device (0.4268 pt per unit), baselines at screen y
+// 507 and 545 on a 874 pt screen, as in the approved mockup.
 const splashTextLayer = (c) =>
-  `  <text x="512" y="${SPLASH_FRAME.textY}" text-anchor="middle" font-family="Manrope" font-weight="300" font-size="40" letter-spacing="-0.4" fill="${c.text}">Cycle Tracker</text>\n`;
+  `  <text x="512" y="864" text-anchor="middle" font-family="Manrope" font-weight="300" font-size="80" letter-spacing="-0.8" fill="${c.text}">Cycle Tracker</text>\n` +
+  `  <text x="512" y="953" text-anchor="middle" font-family="Manrope" font-weight="400" font-size="37.5" letter-spacing="0.5" fill="${c.text2}">One minute a day</text>\n`;
 const splash = (c) =>
   splashHead + splashRingLayer(c) + splashHeartLayer(c) + splashTextLayer(c) + '</svg>\n';
 const splashRing = (c) => splashHead + splashRingLayer(c) + '</svg>\n';

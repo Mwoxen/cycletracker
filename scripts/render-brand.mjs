@@ -28,9 +28,15 @@ const manrope = resolve(
   'node_modules/@expo-google-fonts/manrope/300Light/Manrope_300Light.ttf',
 );
 
+const manropeRegular = resolve(
+  root,
+  'node_modules/@expo-google-fonts/manrope/400Regular/Manrope_400Regular.ttf',
+);
+
 function render({ svg, size, height = size, out, background = 'transparent', scale = 1 }) {
   const html = `<!doctype html><html><head><style>
     @font-face{font-family:Manrope;font-weight:300;src:url(file://${manrope}) format('truetype')}
+    @font-face{font-family:Manrope;font-weight:400;src:url(file://${manropeRegular}) format('truetype')}
     html,body{margin:0;padding:0;background:${background};width:${size}px;height:${height}px;overflow:hidden}
     svg{display:block;width:${size}px;height:${height}px;transform:scale(${scale});transform-origin:center}
   </style></head><body>${readFileSync(svg, 'utf8')}</body></html>`;
