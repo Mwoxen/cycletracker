@@ -114,7 +114,8 @@ const config: ExpoConfig = {
   extra: {
     ...(projectId ? { eas: { projectId } } : {}),
     // RevenueCat's public iOS SDK key (not a secret, but kept out of the repo). Without it the
-    // app runs free with purchases disabled.
+    // app runs free with purchases disabled. The key is read when the build or update is made,
+    // so adding or changing the secret needs a new native build to reach installed apps.
     revenueCatIosKey: process.env.REVENUECAT_IOS_KEY || undefined,
   },
 };
