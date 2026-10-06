@@ -93,7 +93,14 @@ jobs:
           node -e '
             const fs = require("fs");
             const eas = JSON.parse(fs.readFileSync("eas.json", "utf8"));
-            eas.build.production.env = { ...(eas.build.production.env || {}), APPLE_TEAM_ID: process.env.APPLE_TEAM_ID };
+            // EAS builds on its own servers and cannot see GitHub secrets. Passing the RevenueCat key
+            // here (in the copy of eas.json made during this run only) puts it in the build, and keeps the runtime
+            // fingerprint EAS computes equal to the one computed here.
+            eas.build.production.env = {
+              ...(eas.build.production.env || {}),
+              APPLE_TEAM_ID: process.env.APPLE_TEAM_ID,
+              ...(process.env.REVENUECAT_IOS_KEY ? { REVENUECAT_IOS_KEY: process.env.REVENUECAT_IOS_KEY } : {}),
+            };
             eas.submit.production.ios = {
               ascApiKeyPath: "./asc-api-key.p8",
               ascApiKeyId: process.env.ASC_KEY_ID,
