@@ -108,9 +108,14 @@ betalingsskærmen siger, at køb ikke er tilgængelige. Trinnene tager ca. en ha
    Udfyld visningsnavn og beskrivelse på dansk og engelsk, og læg et skærmbillede på hvert produkt
    (det kræver Apple til review; et screenshot af betalingsskærmen er nok).
 3. **RevenueCat.** Opret en gratis konto på https://app.revenuecat.com, et projekt "Cycle Tracker"
-   og en iOS-app med bundle id `com.mwoxen.cycletracker`. Under appens indstillinger: læg
-   App Store Connect API-nøglen ind (samme `.p8` som i del 2, RevenueCat vejleder) og "App-Specific
-   Shared Secret" fra App Store Connect → appen → App-oplysninger.
+   og en iOS-app med bundle id `com.mwoxen.cycletracker`. Under appens indstillinger lægges to
+   nøgler ind, og de er forskellige filer. Begge laves i App Store Connect → Brugere og adgang →
+   Integrationer:
+   - **In-App Purchase-nøglen** (`SubscriptionKey_….p8`, fanen "In-App Purchase"), påkrævet. Skriv
+     også Key ID og Issuer ID ind.
+   - **App Store Connect API-nøglen** (`AuthKey_….p8`, rolle App Manager), valgfri. Den lader
+     RevenueCat importere produkter og priser. Samme Issuer ID.
+   Begge `.p8`-filer kan kun hentes én gang og gemmes uden for repoet.
 4. **Produkter, entitlement og offering i RevenueCat.** Products: importér `plus_monthly` og
    `plus_yearly`. Entitlements: opret én med id `plus` og knyt begge produkter til den.
    Offerings: i "default" tilføjes to packages, `$rc_annual` → `plus_yearly` og
