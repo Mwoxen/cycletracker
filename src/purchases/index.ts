@@ -84,6 +84,32 @@ export async function loadPackages(): Promise<PurchasesPackage[]> {
   return [...packages].sort((a, b) => order(a) - order(b));
 }
 
+/**
+ * What the store returned, as plain text, for finding out why prices or the free trial look
+ * wrong: the storefront country, and per package the product, currency, price and intro offer.
+ * Shown on a long press on the paywall; nothing is sent anywhere.
+ */
+export async function describeStore(packages: PurchasesPackage[]): Promise<string> {
+  const lines: string[] = [];
+  try {
+    const storefront = await Purchases.getStorefront();
+    lines.push(`Storefront: ${storefront?.countryCode ?? 'unknown'}`);
+  } catch {
+    lines.push('Storefront: unavailable');
+  }
+  if (packages.length === 0) lines.push('No packages');
+  for (const p of packages) {
+    const intro = p.product.introPrice;
+    lines.push(
+      `${p.product.identifier}: ${p.product.priceString} (${p.product.currencyCode})` +
+        (intro
+          ? `, intro ${intro.price} for ${intro.periodNumberOfUnits} ${intro.periodUnit}`
+          : ', no intro offer'),
+    );
+  }
+  return lines.join('\n');
+}
+
 export type PurchaseOutcome = 'purchased' | 'cancelled' | 'failed';
 
 export async function purchase(pkg: PurchasesPackage): Promise<PurchaseOutcome> {

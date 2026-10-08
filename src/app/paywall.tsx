@@ -7,7 +7,14 @@ import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { PACKAGE_TYPE, type PurchasesPackage } from 'react-native-purchases';
 
 import { usePlan } from '@/entitlements';
-import { loadPackages, purchase, purchasesAvailable, redeemOfferCode, restore } from '@/purchases';
+import {
+  describeStore,
+  loadPackages,
+  purchase,
+  purchasesAvailable,
+  redeemOfferCode,
+  restore,
+} from '@/purchases';
 import { colors, fontFor, radius, spacing } from '@/ui/colors';
 import { Bullets, Button, Card, Icon, Txt } from '@/ui/primitives';
 import { usePhaseTheme } from '@/ui/theme';
@@ -109,9 +116,16 @@ export default function PaywallScreen() {
           </Txt>
         </Pressable>
       </View>
-      <Txt variant="boxLabel" color={theme.accent} style={styles.kicker}>
-        {t('plus.name').toUpperCase()}
-      </Txt>
+      <Pressable
+        onLongPress={() =>
+          void describeStore(packages ?? []).then((text) => Alert.alert('Store', text))
+        }
+        delayLongPress={800}
+        accessible={false}>
+        <Txt variant="boxLabel" color={theme.accent} style={styles.kicker}>
+          {t('plus.name').toUpperCase()}
+        </Txt>
+      </Pressable>
       <Txt variant="largeTitle">{t('plus.title')}</Txt>
       <Txt color={colors.secondaryLabel}>{t('plus.subtitle')}</Txt>
       <Card>
