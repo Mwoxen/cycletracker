@@ -13,7 +13,7 @@ export default function LearnLayout() {
       <Stack.Screen name="weekly/[id]" options={readingScreenOptions} />
       <Stack.Screen name="wrap/[id]" options={readingScreenOptions} />
       <Stack.Screen name="phase/[phase]" options={readingScreenOptions} />
-      <Stack.Screen name="month/[month]" options={{ title: '' }} />
+      <Stack.Screen name="month/[month]" options={{ title: '', headerLargeTitleEnabled: false }} />
       <Stack.Screen name="archive" options={{ title: '' }} />
       <Stack.Screen name="stats" options={{ title: '', headerLargeTitleEnabled: false }} />
       <Stack.Screen name="overview" options={{ title: '', headerLargeTitleEnabled: false }} />
