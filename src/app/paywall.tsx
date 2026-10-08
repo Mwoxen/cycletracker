@@ -120,14 +120,15 @@ export default function PaywallScreen() {
         onLongPress={() =>
           void describeStore(packages ?? []).then((text) => Alert.alert('Store', text))
         }
-        delayLongPress={800}
-        accessible={false}>
+        delayLongPress={600}
+        accessible={false}
+        style={styles.intro}>
         <Txt variant="boxLabel" color={theme.accent} style={styles.kicker}>
           {t('plus.name').toUpperCase()}
         </Txt>
+        <Txt variant="largeTitle">{t('plus.title')}</Txt>
+        <Txt color={colors.secondaryLabel}>{t('plus.subtitle')}</Txt>
       </Pressable>
-      <Txt variant="largeTitle">{t('plus.title')}</Txt>
-      <Txt color={colors.secondaryLabel}>{t('plus.subtitle')}</Txt>
       <Card>
         <Bullets items={t('plus.perks', { returnObjects: true }) as string[]} />
       </Card>
@@ -239,6 +240,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  intro: { gap: spacing.md },
   kicker: { marginBottom: -spacing.sm },
   options: { gap: spacing.sm },
   option: {
