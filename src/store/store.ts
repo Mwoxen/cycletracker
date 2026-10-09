@@ -48,6 +48,9 @@ export interface AppState extends SnapshotData {
   setHydrated: (value: boolean) => void;
   setBackupStatus: (patch: Partial<BackupStatus>) => void;
   setEntitlement: (entitlement: Entitlement) => void;
+  /** Test switch: show the partner side as a free user. */
+  previewFree: boolean;
+  setPreviewFree: (value: boolean) => void;
   completeOnboarding: (input: OnboardingInput) => void;
   updateProfile: (patch: Partial<Omit<Profile, 'id'>>) => void;
   updateSettings: (patch: Partial<Settings>) => void;
@@ -96,11 +99,13 @@ export const useStore = create<AppState>()(
       hydrated: false,
       backupStatus: { available: false },
       entitlement: FREE_ENTITLEMENT,
+      previewFree: false,
       ...initialData(),
 
       setHydrated: (value) => set({ hydrated: value }),
       setBackupStatus: (patch) => set({ backupStatus: { ...get().backupStatus, ...patch } }),
       setEntitlement: (entitlement) => set({ entitlement }),
+      setPreviewFree: (value) => set({ previewFree: value }),
 
       completeOnboarding: (input) => {
         const now = Date.now();
@@ -323,6 +328,7 @@ export const useStore = create<AppState>()(
         weekActionsDone: state.weekActionsDone,
         phaseActionsDone: state.phaseActionsDone,
         entitlement: state.entitlement,
+        previewFree: state.previewFree,
       }),
       migrate: (persisted, version) => {
         // Future schema migrations go here, keyed on `version`.
@@ -339,6 +345,7 @@ export const useStore = create<AppState>()(
           weekActionsDone: p.weekActionsDone ?? {},
           phaseActionsDone: p.phaseActionsDone ?? {},
           entitlement: p.entitlement ?? FREE_ENTITLEMENT,
+          previewFree: p.previewFree ?? false,
           settings: {
             ...DEFAULT_SETTINGS,
             ...p.settings,

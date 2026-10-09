@@ -73,6 +73,8 @@ export default function SettingsScreen() {
   const [openPicker, setOpenPicker] = useState<'start' | 'time' | 'programTime' | null>(null);
   const [updateState, setUpdateState] = useState<'idle' | 'checking' | 'downloading'>('idle');
   const entitlement = useStore((s) => s.entitlement);
+  const previewFree = useStore((s) => s.previewFree);
+  const setPreviewFree = useStore((s) => s.setPreviewFree);
   const plan = usePlan();
 
   useEffect(() => {
@@ -195,8 +197,9 @@ export default function SettingsScreen() {
     }
   };
 
-  const planLabel =
-    plan === 'plus'
+  const planLabel = previewFree
+    ? t('plus.freePreview')
+    : plan === 'plus'
       ? entitlement.source === 'granted'
         ? t('plus.granted')
         : entitlement.periodType === 'trial'
@@ -558,9 +561,20 @@ export default function SettingsScreen() {
               <Pressable
                 delayLongPress={600}
                 onLongPress={() =>
-                  void describeCustomer().then((text) =>
-                    Alert.alert('Plus', `role: ${profile.role}, plan: ${plan}\n${text}`),
-                  )
+                  Alert.alert('Test', undefined, [
+                    {
+                      text: previewFree ? t('plus.previewPlus') : t('plus.previewFree'),
+                      onPress: () => setPreviewFree(!previewFree),
+                    },
+                    {
+                      text: t('plus.previewInfo'),
+                      onPress: () =>
+                        void describeCustomer().then((text) =>
+                          Alert.alert('Plus', `role: ${profile.role}, plan: ${plan}\n${text}`),
+                        ),
+                    },
+                    { text: t('common.cancel'), style: 'cancel' },
+                  ])
                 }>
                 <Row title={t('plus.status')} subtitle={planHint} value={planLabel} />
               </Pressable>

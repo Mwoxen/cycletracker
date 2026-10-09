@@ -21,6 +21,14 @@ describe('entitlements', () => {
     expect(resolvePlan(undefined, FREE_ENTITLEMENT)).toBe('free');
   });
 
+  it('lets the partner preview the free plan without touching the purchase', () => {
+    expect(resolvePlan(tracker, plus, true)).toBe('free');
+    expect(resolvePlan(tracker, plus, false)).toBe('plus');
+    // The switch only ever takes access away from the partner; she keeps everything.
+    expect(resolvePlan({ ...tracker, role: 'user' }, FREE_ENTITLEMENT, true)).toBe('plus');
+    expect(resolvePlan(tracker, FREE_ENTITLEMENT, true)).toBe('free');
+  });
+
   it('gives the user role everything: she does not pay to be understood', () => {
     expect(resolvePlan({ ...tracker, role: 'user' }, FREE_ENTITLEMENT)).toBe('plus');
   });

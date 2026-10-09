@@ -19,8 +19,15 @@ export const FREE_MONTHS = 1;
 
 const PLUS_FEATURES: Feature[] = ['fullProgram', 'personalOverview'];
 
-export function resolvePlan(profile: Profile | undefined, entitlement: Entitlement): Plan {
+export function resolvePlan(
+  profile: Profile | undefined,
+  entitlement: Entitlement,
+  previewFree = false,
+): Plan {
   if (profile?.role === 'user') return 'plus';
+  // A test switch for the partner side: look at the app as a free user without touching the
+  // purchase. It can only take access away from the person holding the phone, never add any.
+  if (previewFree) return 'free';
   return entitlement.plan;
 }
 
@@ -37,7 +44,8 @@ export function hasMonthAccess(month: number, plan: Plan): boolean {
 export function usePlan(): Plan {
   const profile = useStore((s) => s.profile);
   const entitlement = useStore((s) => s.entitlement);
-  return resolvePlan(profile, entitlement);
+  const previewFree = useStore((s) => s.previewFree);
+  return resolvePlan(profile, entitlement, previewFree);
 }
 
 export function useHasAccess(feature: Feature): boolean {

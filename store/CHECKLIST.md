@@ -7,6 +7,12 @@ review (typisk 1-3 dage).
 ## Før du starter
 
 - [ ] Et build ligger i TestFlight (se `SETUP.md`), og du har selv prøvet appen på telefonen.
+- [ ] **Fjern testværktøjerne, før appen sendes til review.** De ligger i den samme kode som App Store-versionen:
+  langt tryk på rækken *Status* under Cycle Tracker Plus i Indstillinger (valget *Vis som Gratis (test)* og
+  butikkens status, `describeCustomer` i `src/purchases/index.ts`) og langt tryk på titlen på
+  betalingsskærmen (`describeStore`, `src/app/paywall.tsx`). Vis-som-gratis-kontakten er `previewFree` i
+  `src/store/store.ts` og `src/entitlements/index.ts`. Ingen af dem kan give Plus, men de hører ikke hjemme
+  i den udgivne app.
 - [ ] GitHub Pages er slået til (Settings → Pages → Source: GitHub Actions), så
       https://mwoxen.github.io/cycletracker/privacy.html og `/support.html` svarer.
 
