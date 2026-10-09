@@ -7,7 +7,7 @@ import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet, Switch, TextInput } from 'react-native';
+import { Alert, Pressable, StyleSheet, Switch, TextInput } from 'react-native';
 
 import { APPEARANCES, LANGUAGES, type Language, type Role } from '@/domain/types';
 import { fromISODate, toISODate } from '@/engine/dates';
@@ -25,7 +25,13 @@ import { Button, Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Segmented } from '@/ui/segmented';
 import { Stepper } from '@/ui/stepper';
 import { usePlan } from '@/entitlements';
-import { openManageSubscriptions, purchasesAvailable, redeemOfferCode, restore } from '@/purchases';
+import {
+  describeCustomer,
+  openManageSubscriptions,
+  purchasesAvailable,
+  redeemOfferCode,
+  restore,
+} from '@/purchases';
 
 /** "1.0.0 (7)" from the native build. */
 function appVersionLabel(): string {
@@ -549,7 +555,15 @@ export default function SettingsScreen() {
           <>
             <SectionTitle>{t('plus.name')}</SectionTitle>
             <Card style={styles.rowsCard}>
-              <Row title={t('plus.status')} subtitle={planHint} value={planLabel} />
+              <Pressable
+                delayLongPress={600}
+                onLongPress={() =>
+                  void describeCustomer().then((text) =>
+                    Alert.alert('Plus', `role: ${profile.role}, plan: ${plan}\n${text}`),
+                  )
+                }>
+                <Row title={t('plus.status')} subtitle={planHint} value={planLabel} />
+              </Pressable>
               {entitlement.source === 'store' ? (
                 <Row
                   title={t('plus.manage')}

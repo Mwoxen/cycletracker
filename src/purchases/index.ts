@@ -110,6 +110,31 @@ export async function describeStore(packages: PurchasesPackage[]): Promise<strin
   return lines.join('\n');
 }
 
+/**
+ * What RevenueCat currently says about this customer, as plain text, for finding out why the app
+ * is or is not Plus. Shown on a long press on the Plus status in Settings; nothing is sent.
+ */
+export async function describeCustomer(): Promise<string> {
+  if (!purchasesAvailable) return 'Purchases are not available in this build.';
+  try {
+    const info = await Purchases.getCustomerInfo();
+    const plus = info.entitlements.all[PLUS_ENTITLEMENT];
+    const lines = [
+      plus
+        ? `plus: ${plus.isActive ? 'ACTIVE' : 'not active'}, ${plus.store}${plus.isSandbox ? ' (sandbox)' : ''}, ${plus.periodType}`
+        : 'plus: never had it',
+      plus ? `expires: ${plus.expirationDate ?? 'never'}` : '',
+      `active subscriptions: ${info.activeSubscriptions.join(', ') || 'none'}`,
+      `latest expiry: ${info.latestExpirationDate ?? 'none'}`,
+      `fetched: ${info.requestDate}`,
+      `user: ${info.originalAppUserId}`,
+    ];
+    return lines.filter(Boolean).join('\n');
+  } catch (e) {
+    return `Could not read RevenueCat: ${(e as { message?: string }).message ?? 'unknown error'}`;
+  }
+}
+
 export type PurchaseOutcome = 'purchased' | 'cancelled' | 'failed';
 
 export async function purchase(pkg: PurchasesPackage): Promise<PurchaseOutcome> {
