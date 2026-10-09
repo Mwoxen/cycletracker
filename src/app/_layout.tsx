@@ -17,7 +17,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/manrope';
 import { useEffect } from 'react';
-import { Appearance, useColorScheme } from 'react-native';
+import { AppState, Appearance, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useCloudBackup } from '@/hooks/use-cloud-backup';
@@ -26,7 +26,7 @@ import { useWidgetSync } from '@/hooks/use-widget-sync';
 import { setLanguage } from '@/i18n';
 import { usePlan } from '@/entitlements';
 import { installNotificationHandler, syncNotifications } from '@/notifications';
-import { configurePurchases } from '@/purchases';
+import { configurePurchases, refreshEntitlement } from '@/purchases';
 import { selectActivePeriods, useStore } from '@/store/store';
 import { CatchBoundary, captureConsoleErrors, errorDetails } from '@/ui/catch-boundary';
 import { AppErrorBoundary } from '@/ui/error-boundary';
@@ -87,6 +87,16 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (hydrated) void configurePurchases();
+  }, [hydrated]);
+
+  // Ask the store again whenever the app comes back to the front, so a subscription that ended
+  // (or began) while the app was in the background is picked up without a restart.
+  useEffect(() => {
+    if (!hydrated) return;
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') void refreshEntitlement();
+    });
+    return () => sub.remove();
   }, [hydrated]);
 
   // Never leave the user on a blank screen if storage fails to rehydrate. Only the in-memory
