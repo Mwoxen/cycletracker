@@ -1,0 +1,108 @@
+# Builds the app for installing straight on your own iPhone (ad hoc), outside TestFlight, so that
+# purchases use Apple's sandbox and a sandbox tester. That is the only way to reset a test
+# purchase: App Store Connect > Users and Access > Sandbox > the tester > Clear Purchase History.
+#
+# It is the production app (same code, same runtime), so it also receives the OTA updates.
+# Needs the iPhone registered with EAS first (SETUP.md, "Test purchases you can reset").
+# Starts when a tag named sandbox-<anything> is pushed, or by hand with "Run workflow".
+name: EAS Build (iOS sandbox)
+
+on:
+  push:
+    tags: ['sandbox-*']
+  workflow_dispatch:
+
+concurrency:
+  group: eas-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build for the sandbox
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      REVENUECAT_IOS_KEY: ${{ secrets.REVENUECAT_IOS_KEY }}
+    steps:
+      - name: Check required secrets
+        id: secrets
+        run: |
+          missing=""
+          for name in EXPO_TOKEN ASC_KEY_ID ASC_ISSUER_ID APPLE_TEAM_ID; do
+            if [ -z "${!name}" ]; then missing="$missing $name"; fi
+          done
+          if [ -z "${{ secrets.ASC_API_KEY_P8 }}" ]; then missing="$missing ASC_API_KEY_P8"; fi
+          if [ -n "$missing" ]; then
+            echo "::warning::Skipping iOS build. Missing secrets:$missing. See SETUP.md."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.secrets.outputs.ready == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.secrets.outputs.ready == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: expo/expo-github-action@v8
+        if: steps.secrets.outputs.ready == 'true'
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - run: npm ci
+        if: steps.secrets.outputs.ready == 'true'
+
+      - name: Require a linked EAS project
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          if [ ! -s .eas-project-id ]; then
+            echo "::error::No .eas-project-id yet. Run the 'EAS Update' workflow once first (it links the project)."
+            exit 1
+          fi
+
+      - name: Write the App Store Connect API key and the build environment
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          printf '%s' "${{ secrets.ASC_API_KEY_P8 }}" > asc-api-key.p8
+          node -e '
+            const fs = require("fs");
+            const eas = JSON.parse(fs.readFileSync("eas.json", "utf8"));
+            // EAS builds on its own servers and cannot see GitHub secrets. Passing the RevenueCat key
+            // here (in the copy of eas.json made during this run only) puts it in the build, and keeps the runtime
+            // fingerprint EAS computes equal to the one computed here.
+            // The sandbox profile lives here and not in eas.json, because a change to eas.json
+            // would start a production build. It is the production profile, built for devices.
+            eas.build.sandbox = {
+              ...eas.build.production,
+              distribution: "internal",
+              env: {
+                ...(eas.build.production.env || {}),
+                APPLE_TEAM_ID: process.env.APPLE_TEAM_ID,
+                ...(process.env.REVENUECAT_IOS_KEY ? { REVENUECAT_IOS_KEY: process.env.REVENUECAT_IOS_KEY } : {}),
+              },
+            };
+            fs.writeFileSync("eas.json", JSON.stringify(eas, null, 2) + "\n");
+          '
+
+      - name: Build on EAS for registered devices
+        if: steps.secrets.outputs.ready == 'true'
+        env:
+          EXPO_ASC_API_KEY_PATH: ${{ github.workspace }}/asc-api-key.p8
+          EXPO_ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          EXPO_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          EXPO_APPLE_TEAM_TYPE: ${{ secrets.APPLE_TEAM_TYPE || 'INDIVIDUAL' }}
+        run: eas build --platform ios --profile sandbox --non-interactive
+
+      - name: Remove the API key file
+        if: always()
+        run: rm -f asc-api-key.p8

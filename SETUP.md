@@ -128,6 +128,28 @@ betalingsskærmen siger, at køb ikke er tilgængelige. Trinnene tager ca. en ha
    et "årligt" abonnement fornyes hvert 5. minut, så du kan se fornyelse og udløb. Under
    Indstillinger → Cycle Tracker Plus kan du se status, gendanne og indløse koder.
 
+### Testkøb, du kan nulstille
+
+Køb i TestFlight bruger din rigtige Apple-konto, og dem kan du ikke rydde: testabonnementet fornyes
+dagligt nogle gange og stopper så. For at kunne købe, nulstille og købe igen skal appen installeres
+direkte på telefonen (ad hoc) i stedet for via TestFlight, så den bruger Apples sandbox og en
+sandbox-tester.
+
+1. **Tjek kvoten.** expo.dev → Billing/Usage: der skal være et iOS-build tilbage i måneden.
+2. **Registrér iPhone hos EAS.** Enten fra en computer med `npx eas-cli device:create` (scan QR-koden
+   med telefonen og installér profilen) eller, hvis expo.dev har den under kontoens indstillinger,
+   fra dashboardet. Slå også **Udviklertilstand** til: Indstillinger → Anonymitet og sikkerhed →
+   Udviklertilstand (telefonen genstarter).
+3. **Start buildet** ved at pushe et tag, der hedder `sandbox-<et tal>` (f.eks. `git tag sandbox-1 &&
+   git push origin sandbox-1`), eller med "Run workflow" på *EAS Build (iOS sandbox)*. Det er den samme
+   app som i TestFlight (samme kode og samme OTA-opdateringer), bygget til registrerede telefoner.
+4. **Installér** fra linket på buildets side på expo.dev, åbnet på telefonen. Appen erstatter
+   TestFlight-udgaven (samme bundle id). Eksportér dine data først, hvis du vil være sikker.
+5. **Log ind med sandbox-testeren**: Indstillinger → Developer → Sandbox Apple-konto. Køb som
+   normalt. Nulstil bagefter i App Store Connect → Users and Access → Sandbox → testeren →
+   **Clear Purchase History**. RevenueCat kan have en egen udløbsdato; sandbox-køb udløber hurtigt.
+6. **Tilbage til TestFlight**: slet appen og installér den fra TestFlight igen.
+
 ### Gratis adgang til andre
 
 - **Tildelt adgang (familie, venner, testere).** Bed personen sende sit "Support-id" fra
