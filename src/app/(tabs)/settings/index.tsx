@@ -4,10 +4,10 @@ import * as Updates from 'expo-updates';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import * as Linking from 'expo-linking';
-import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Pressable, StyleSheet, Switch, TextInput } from 'react-native';
+import { Alert, AppState, Pressable, StyleSheet, Switch, TextInput } from 'react-native';
 
 import { APPEARANCES, LANGUAGES, type Language, type Role } from '@/domain/types';
 import { fromISODate, toISODate } from '@/engine/dates';
@@ -77,8 +77,18 @@ export default function SettingsScreen() {
   const setPreviewFree = useStore((s) => s.setPreviewFree);
   const plan = usePlan();
 
+  // The answer lives in iOS Settings and can change while this screen stays mounted, so look
+  // again whenever the tab is shown and whenever the app comes back to the front.
+  useFocusEffect(
+    useCallback(() => {
+      void hasNotificationPermission().then(setNotifGranted);
+    }, []),
+  );
   useEffect(() => {
-    void hasNotificationPermission().then(setNotifGranted);
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') void hasNotificationPermission().then(setNotifGranted);
+    });
+    return () => sub.remove();
   }, []);
 
   if (!profile) return null;
