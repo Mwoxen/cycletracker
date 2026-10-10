@@ -35,7 +35,7 @@ describe('entitlementFromCustomerInfo', () => {
       source: 'store',
       expiresAt: 1_800_000_000_000,
       willRenew: true,
-      periodType: 'TRIAL',
+      periodType: 'trial',
       productId: 'plus_yearly',
     });
   });

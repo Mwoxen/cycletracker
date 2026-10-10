@@ -40,7 +40,8 @@ export function entitlementFromCustomerInfo(info: CustomerInfo): Entitlement {
     source: granted ? 'granted' : 'store',
     expiresAt: plus.expirationDateMillis ?? undefined,
     willRenew: plus.willRenew,
-    periodType: plus.periodType,
+    // RevenueCat sends 'TRIAL', 'INTRO' or 'NORMAL'; the rest of the app reads 'trial'.
+    periodType: plus.periodType?.toLowerCase(),
     productId: plus.productIdentifier,
     managementUrl: info.managementURL ?? undefined,
     appUserId,
