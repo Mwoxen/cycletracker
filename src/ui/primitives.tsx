@@ -318,6 +318,11 @@ export function Chip({
       <Txt
         variant="callout"
         color={selected ? colors.onAccent : colors.label}
+        // A label is never split across lines: it keeps to one line and, if the chip is too
+        // narrow (large text sizes), shrinks a little before it would be cut.
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.75}
         style={{ fontFamily: fontFor(600), fontSize: 14, lineHeight: 18 }}>
         {label}
       </Txt>

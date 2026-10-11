@@ -180,7 +180,7 @@ export default function LogSheet() {
       {startingHere || ongoing ? (
         <View style={styles.section}>
           <Label>{t('log.flow')}</Label>
-          <View style={styles.grid}>
+          <View style={styles.flowGrid}>
             {FLOWS.map((f) => (
               <Chip
                 key={f}
@@ -188,7 +188,7 @@ export default function LogSheet() {
                 selected={log?.flow === f}
                 onPress={() => setFlow(f)}
                 color={phaseColor.menstrual}
-                style={styles.gridChip}
+                style={styles.flowChip}
               />
             ))}
           </View>
@@ -294,6 +294,9 @@ const styles = StyleSheet.create({
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   grid: { flexDirection: 'row', gap: spacing.sm },
   gridChip: { flex: 1, alignItems: 'center', paddingHorizontal: 6 },
+  // Four bleeding levels as two rows of two: 'Pletblødning' needs more room than a quarter.
+  flowGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  flowChip: { flexBasis: '47%', flexGrow: 1, alignItems: 'center', paddingHorizontal: 6 },
   input: {
     fontFamily: fontFor(400),
     fontSize: 16,
