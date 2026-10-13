@@ -80,6 +80,19 @@ Grebene, der gør stemmen genkendelig:
     udtryk, der ikke kan oversættes, erstattes af et engelsk, der gør det samme ("for søren" →
     "for crying out loud", "sgu" → "honestly" eller slet ingenting). Aldrig oversat ord for ord.
 
+### Overskriften på Hjem (partnerens)
+
+Den store linje øverst på Hjem er en liste pr. fase (`home.needs.<fase>` i `src/i18n/da.ts` og
+`en.ts`), og appen viser én linje om dagen: `pickHeadline` i `src/content/headline.ts` tager næste
+linje for hver cyklusdag og starter et nyt sted i hver cyklus. Den første linje i hver liste er den
+oprindelige. Samme stemme og regler som ovenfor, men kortere: en til to sætninger, gerne med
+`{{name}}`, og en handling eller en holdning, han kan bruge den dag.
+
+- Listernes længde må ikke gå op i en normal cykluslængde (28): brug 5, 9, 11 eller 15, ikke 4, 7
+  eller 14. Ellers får samme cyklusdag samme linje, cyklus efter cyklus (testen tjekker det).
+- Dansk og engelsk skal have lige mange linjer.
+- Hendes version (`home.needsSelf.<fase>`) er stadig én neutral linje.
+
 ### Eksempler på stemmen
 
 Forsiden, heroens overskrift:

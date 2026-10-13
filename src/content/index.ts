@@ -60,4 +60,5 @@ export function getContent(language: Language): LanguageContent {
 }
 
 export * from './program';
+export { pickHeadline } from './headline';
 export * from './types';

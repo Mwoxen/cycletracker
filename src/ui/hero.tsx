@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { pickHeadline } from '@/content';
 import type { CycleSnapshot } from '@/engine/cycle';
 import { compareISO, daysBetween } from '@/engine/dates';
 import { useFormat } from '@/hooks/use-format';
@@ -48,7 +49,11 @@ export function Hero({
   if (!today || !prediction) return null;
   const phase = today.phase;
   const phaseName = t(`phases.${phase}`);
-  const headline = isTracker ? t(`home.needs.${phase}`, { name }) : t(`home.needsSelf.${phase}`);
+  // The partner gets a different line every day (a list per phase); she keeps the one line.
+  const pool = t(`home.needs.${phase}`, { name, returnObjects: true }) as unknown as string[];
+  const headline = isTracker
+    ? pickHeadline(Array.isArray(pool) ? pool : [], today.cycleDay, today.cycleStart)
+    : t(`home.needsSelf.${phase}`);
 
   const facts: Fact[] = [];
   if (today.isLoggedPeriod) {

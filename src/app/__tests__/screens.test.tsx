@@ -93,7 +93,12 @@ describe('home', () => {
     await renderApp('/home');
     const home = homeTab();
     // The phase card headline says what the partner needs today, e.g. "Anna har overskud i dag".
-    expect(await home.findByText(/^Anna (har|er) /)).toBeTruthy();
+    const headlines = Object.values(da.home.needs)
+      .flat()
+      .map((line) => line.replace('{{name}}', 'Anna'));
+    const escape = (line: string) => line.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const anyHeadline = new RegExp(`^(${headlines.map(escape).join('|')})$`);
+    expect(await home.findByText(anyHeadline)).toBeTruthy();
     expect(home.getByText(upper(da.home.todaysCardDay.replace('{{day}}', '1')))).toBeTruthy();
     // Facts carry a tag so predictions are never mistaken for logged data.
     expect(home.getAllByText(`≈ ${upper(da.home.tagEstimate)}`).length).toBeGreaterThan(0);
