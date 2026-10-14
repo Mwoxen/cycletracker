@@ -149,7 +149,7 @@ public class CycleSyncModule: Module {
       url.host?.hasSuffix("icloud.com") == true
     else { throw fail("That is not an iCloud share link") }
 
-    let metadata = try await container.shareMetadata(for: url, shouldFetchRootRecord: false)
+    let metadata = try await fetchShareMetadata(url)
     _ = try await container.accept(metadata)
 
     let zone = metadata.share.recordID.zoneID
@@ -157,6 +157,32 @@ public class CycleSyncModule: Module {
     defaults.set(zone.zoneName, forKey: Key.zoneName)
     defaults.set(zone.ownerName, forKey: Key.zoneOwner)
     defaults.set(metadata.share.recordID.recordName, forKey: Key.shareName)
+  }
+
+  private func fetchShareMetadata(_ url: URL) async throws -> CKShare.Metadata {
+    let container = self.container
+    return try await withCheckedThrowingContinuation { continuation in
+      let operation = CKFetchShareMetadataOperation(shareURLs: [url])
+      operation.shouldFetchRootRecord = false
+      var found: CKShare.Metadata?
+      var failure: Error?
+      operation.perShareMetadataResultBlock = { _, result in
+        switch result {
+        case .success(let metadata): found = metadata
+        case .failure(let error): failure = error
+        }
+      }
+      operation.fetchShareMetadataResultBlock = { result in
+        if case .failure(let error) = result {
+          continuation.resume(throwing: error)
+        } else if let metadata = found {
+          continuation.resume(returning: metadata)
+        } else {
+          continuation.resume(throwing: failure ?? GenericException("The share link was not found"))
+        }
+      }
+      container.add(operation)
+    }
   }
 
   // MARK: - Both sides
