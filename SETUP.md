@@ -160,6 +160,26 @@ sandbox-tester.
   eller i App Store. Efter perioden fornyes abonnementet til fuld pris, medmindre de opsiger.
 - **Hendes rolle** ("Jeg har cyklussen") er altid gratis uden koder.
 
+## 6b. Automatisk deling mellem telefonerne (CloudKit)
+
+Appen kan holde partnerens telefon opdateret automatisk gennem jeres egne iCloud-konti. Der er
+ingen server. For at det virker i TestFlight og App Store skal databasen i iCloud kende to
+posttyper. Det gør du én gang i CloudKit Dashboard:
+
+1. Åbn https://icloud.developer.apple.com/dashboard og vælg containeren `iCloud.com.mwoxen.cycletracker`.
+   (Findes den ikke, så opret den under Certificates, Identifiers & Profiles → Identifiers → appens
+   App ID → iCloud → Configure, og sæt hak i CloudKit.)
+2. Vælg **Development** øverst, og gå til **Schema → Record Types**. Opret:
+   - `CoupleRoot` med feltet `title` (String)
+   - `CoupleData` med felterne `payload` (String) og `updatedAt` (Int(64))
+3. Under **Security Roles** er standardindstillingerne fine. Under hver posttype skal
+   `_icloud` (Authenticated) have Read og Write, hvis det ikke allerede står sådan.
+4. Tryk **Deploy Schema Changes…** (øverst til venstre) og deploy til **Production**.
+   Uden dette trin virker deling i TestFlight og App Store ikke.
+
+I appen: hun går til Indstillinger → Automatisk deling → Start deling og sender linket. Partneren
+indsætter linket samme sted. Linket virker kun for den, der får det, og kan fjernes igen med Stop.
+
 ## 7. App Store
 
 Når appen virker i TestFlight, følg `store/CHECKLIST.md`. Alle tekster ligger klar i

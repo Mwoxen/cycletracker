@@ -42,6 +42,14 @@ De første abonnementer sendes til review sammen med en appversion; de kan ikke 
 - [ ] `REVENUECAT_IOS_KEY` ligger som GitHub-secret (den offentlige `appl_`-nøgle), og buildet, du sender
   ind, er bygget med den (betalingsskærmen viser priser).
 
+## Automatisk deling (CloudKit)
+
+- [ ] Posttyperne `CoupleRoot` og `CoupleData` er deployet til **Production** i CloudKit Dashboard
+      (SETUP.md afsnit 6b). Uden det virker deling ikke i TestFlight/App Store.
+- [ ] Testet med to rigtige telefoner i TestFlight: start deling, tilslut, ret en dato på hendes
+      telefon og se den på hans, ret tilbage, stop deling.
+- [ ] Privatlivstekst og App Privacy nævner, at data kan deles via brugerens egen iCloud.
+
 ## App-information
 
 - [ ] **Name**: Cycle Tracker. **Subtitle**: fra `subtitle.txt`.
