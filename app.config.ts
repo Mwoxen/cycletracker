@@ -104,6 +104,9 @@ const config: ExpoConfig = {
         recordAudioAndroid: false,
       },
     ],
+    // Listed before react-native-cloud-storage on purpose: mods run in reverse order, so this one
+    // then sees the entitlements that plugin has set and adds CloudKit to them.
+    './plugins/with-cloudkit',
     ['react-native-cloud-storage', { iCloudContainerEnvironment: 'Production' }],
     '@bacons/apple-targets',
   ],

@@ -343,6 +343,33 @@ describe('createSyncSnapshot', () => {
   });
 });
 
+describe('cycleSettings in sync snapshots', () => {
+  it('is sent by the cycle owner only', () => {
+    const owner = createSyncSnapshot(data(), 'dev1');
+    expect(owner.cycleSettings).toEqual({
+      defaultCycleLength: 28,
+      defaultPeriodLength: 5,
+      lutealLength: 14,
+    });
+    const tracker = createSyncSnapshot(data({ profile: { ...profile, role: 'tracker' } }), 'dev2');
+    expect(tracker.cycleSettings).toBeUndefined();
+  });
+
+  it('survives a round trip and clamps nonsense', () => {
+    const snap = createSyncSnapshot(data(), 'dev1');
+    expect(parseSnapshot(serializeSnapshot(snap)).cycleSettings).toEqual(snap.cycleSettings);
+    const broken = JSON.parse(serializeSnapshot(snap));
+    broken.cycleSettings = { defaultCycleLength: 'x', defaultPeriodLength: 999 };
+    expect(parseSnapshot(JSON.stringify(broken)).cycleSettings).toEqual({
+      defaultCycleLength: 28,
+      defaultPeriodLength: 10,
+      lutealLength: 14,
+    });
+    broken.cycleSettings = 'nope';
+    expect(parseSnapshot(JSON.stringify(broken)).cycleSettings).toBeUndefined();
+  });
+});
+
 describe('previewMerge', () => {
   it('counts what a merge would change without writing', () => {
     const current = data({

@@ -29,6 +29,12 @@ import { isValidISODate } from '@/engine/dates';
 
 export const SNAPSHOT_VERSION = 1;
 
+export interface CycleSettings {
+  defaultCycleLength: number;
+  defaultPeriodLength: number;
+  lutealLength: number;
+}
+
 export interface Snapshot {
   version: number;
   exportedAt: number;
@@ -38,6 +44,11 @@ export interface Snapshot {
   senderName?: string;
   profile?: Profile;
   settings?: Settings;
+  /**
+   * The numbers her predictions are based on, sent with the automatic sync so the partner's
+   * predictions match hers. Only the cycle owner's phone sends it; the partner's app applies it.
+   */
+  cycleSettings?: CycleSettings;
   periods: PeriodEvent[];
   logs: DayLog[];
   progress: LessonProgress[];
@@ -100,6 +111,14 @@ export function createSyncSnapshot(
     deviceId,
     // A user's partnerName is their own name; a tracker's is the user's, so only the user signs.
     senderName: data.profile?.role === 'user' ? data.profile.partnerName : undefined,
+    cycleSettings:
+      data.profile?.role === 'user'
+        ? {
+            defaultCycleLength: data.settings.defaultCycleLength,
+            defaultPeriodLength: data.settings.defaultPeriodLength,
+            lutealLength: data.settings.lutealLength,
+          }
+        : undefined,
     periods: Object.values(data.periods).filter((p) => p.updatedAt > since),
     logs: Object.values(data.logs).filter((l) => l.updatedAt > since),
     progress: [],
@@ -248,6 +267,7 @@ export function parseSnapshot(text: string): Snapshot {
     senderName: typeof obj.senderName === 'string' ? obj.senderName.slice(0, 60) : undefined,
     profile: sanitizeProfile(obj.profile),
     settings: sanitizeSettings(obj.settings),
+    cycleSettings: sanitizeCycleSettings(obj.cycleSettings),
     periods: arr(obj.periods).filter(isPeriod),
     logs: arr(obj.logs)
       .filter(isSyncable)
@@ -350,6 +370,17 @@ const int = (v: unknown, fallback: number, min: number, max: number): number =>
   typeof v === 'number' && Number.isFinite(v)
     ? Math.min(max, Math.max(min, Math.round(v)))
     : fallback;
+
+function sanitizeCycleSettings(v: unknown): CycleSettings | undefined {
+  if (!v || typeof v !== 'object') return undefined;
+  const s = v as Partial<CycleSettings>;
+  const d = DEFAULT_SETTINGS;
+  return {
+    defaultCycleLength: int(s.defaultCycleLength, d.defaultCycleLength, 21, 45),
+    defaultPeriodLength: int(s.defaultPeriodLength, d.defaultPeriodLength, 2, 10),
+    lutealLength: int(s.lutealLength, d.lutealLength, 10, 16),
+  };
+}
 
 function sanitizeSettings(v: unknown): Settings | undefined {
   if (!v || typeof v !== 'object') return undefined;

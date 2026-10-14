@@ -37,16 +37,25 @@ export interface OnboardingInput {
   periodLength?: number;
 }
 
+export interface CloudSyncStatus {
+  lastSyncAt?: number;
+  /** A failure code from the sync engine, e.g. 'unavailable' or 'newer-app'. */
+  lastError?: string;
+}
+
 export interface AppState extends SnapshotData {
   schemaVersion: number;
   deviceId: string;
   hydrated: boolean;
   backupStatus: BackupStatus;
+  /** Result of the last automatic partner sync through iCloud; not persisted. */
+  cloudSync: CloudSyncStatus;
   /** Cached Plus status so the UI is right at launch; refreshed from the store on start. */
   entitlement: Entitlement;
 
   setHydrated: (value: boolean) => void;
   setBackupStatus: (patch: Partial<BackupStatus>) => void;
+  setCloudSync: (patch: Partial<CloudSyncStatus>) => void;
   setEntitlement: (entitlement: Entitlement) => void;
   /** Test switch: show the partner side as a free user. */
   previewFree: boolean;
@@ -98,12 +107,14 @@ export const useStore = create<AppState>()(
       schemaVersion: SCHEMA_VERSION,
       hydrated: false,
       backupStatus: { available: false },
+      cloudSync: {},
       entitlement: FREE_ENTITLEMENT,
       previewFree: false,
       ...initialData(),
 
       setHydrated: (value) => set({ hydrated: value }),
       setBackupStatus: (patch) => set({ backupStatus: { ...get().backupStatus, ...patch } }),
+      setCloudSync: (patch) => set({ cloudSync: { ...get().cloudSync, ...patch } }),
       setEntitlement: (entitlement) => set({ entitlement }),
       setPreviewFree: (value) => set({ previewFree: value }),
 

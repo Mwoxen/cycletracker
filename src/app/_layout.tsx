@@ -21,6 +21,7 @@ import { AppState, Appearance, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useCloudBackup } from '@/hooks/use-cloud-backup';
+import { useCloudSync } from '@/hooks/use-cloud-sync';
 import { useNotificationTaps } from '@/hooks/use-notification-taps';
 import { useWidgetSync } from '@/hooks/use-widget-sync';
 import { setLanguage } from '@/i18n';
@@ -69,6 +70,7 @@ export default function RootLayout() {
   const plan = usePlan();
   const language = profile?.language;
   useCloudBackup();
+  useCloudSync();
   useNotificationTaps();
   useWidgetSync();
 
