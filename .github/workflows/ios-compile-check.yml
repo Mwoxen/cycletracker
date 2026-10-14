@@ -1,0 +1,66 @@
+# Compiles the native iOS project on a GitHub-hosted macOS runner, without signing and without
+# using any EAS build. It catches Swift and native-module errors before a real build is spent.
+# Runs on pushes to the feature branch when native files change, and by hand.
+name: iOS compile check
+
+on:
+  push:
+    branches: [claude/optimistic-cray-yglmqq]
+    paths:
+      - modules/**
+      - plugins/**
+      - app.config.ts
+      - package.json
+      - .github/workflows/ios-compile-check.yml
+  workflow_dispatch:
+
+concurrency:
+  group: ios-compile-check
+  cancel-in-progress: true
+
+jobs:
+  compile:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Select Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -n 1)" && xcodebuild -version
+
+      - run: npm ci
+
+      - name: Generate the native project
+        run: npx expo prebuild --platform ios --clean
+
+      - name: Show the entitlements the project will be signed with
+        run: cat ios/*/*.entitlements || true
+
+      - name: Install pods
+        working-directory: ios
+        run: pod install
+
+      - name: Compile for the simulator, unsigned
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild -workspace CycleTracker.xcworkspace \
+            -scheme CycleTracker \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build 2>&1 | tee "$RUNNER_TEMP/xcodebuild.log" | grep -E "error:|warning: unused|BUILD (SUCCEEDED|FAILED)|\*\* BUILD" | head -80
+
+      - name: Keep the full log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: ${{ runner.temp }}/xcodebuild.log
+          if-no-files-found: ignore
