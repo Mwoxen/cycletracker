@@ -97,7 +97,7 @@ public class CycleSyncModule: Module {
   private func describe(_ error: Error) -> String {
     guard let ck = error as? CKError else { return error.localizedDescription }
     var parts = ["CKError \(ck.code.rawValue)", ck.localizedDescription]
-    if let server = ck.userInfo[CKErrorServerDescriptionKey] as? String { parts.append(server) }
+    if let server = ck.userInfo["ServerErrorDescription"] as? String { parts.append(server) }
     if let partial = ck.partialErrorsByItemID, !partial.isEmpty {
       let each = partial.values.prefix(3).map { describe($0) }.joined(separator: " | ")
       parts.append("[\(each)]")
@@ -141,7 +141,8 @@ public class CycleSyncModule: Module {
     var log: [String] = []
 
     do {
-      let root = (try? await db.record(for: rootId)) ?? makeRoot(rootId)
+      let existing = try? await db.record(for: rootId)
+      let root = existing ?? makeRoot(rootId)
       let share = makeShare(CKShare(rootRecord: root))
       let saved = try await saveShare(db, [root, share])
       return remember(saved, zone: zone.zoneID, mode: "record")
@@ -155,7 +156,8 @@ public class CycleSyncModule: Module {
       for (_, result) in saved {
         if case .success(let record) = result { root = record }
       }
-      guard let root = root ?? (try? await db.record(for: rootId)) else {
+      if root == nil { root = try? await db.record(for: rootId) }
+      guard let root = root else {
         throw fail("the root record could not be saved or read")
       }
       let share = makeShare(CKShare(rootRecord: root))
