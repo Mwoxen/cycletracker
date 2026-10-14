@@ -495,6 +495,9 @@ const en: Translation = {
     startFailed: 'Sharing could not be started. Check iCloud and the connection, then try again.',
   },
   sync: {
+    autoJoining: 'Connecting automatic sharing …',
+    autoJoined: 'Automatic sharing is connected. You will get their changes from now on.',
+    autoJoinFailed: 'Automatic sharing could not be connected. You can still import the data here and try again under Settings, Automatic sharing.',
     shareTitle: 'Share with partner',
     shareBody:
       'Let your partner scan the code with Cycle Tracker, or send the link via AirDrop or Messages. Only cycle data is shared, never your own app settings.',

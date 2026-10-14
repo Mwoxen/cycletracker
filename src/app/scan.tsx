@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
-import { extractPayload } from '@/sync/payload';
+import { extractCloudShare, extractPayload } from '@/sync/payload';
 import { colors, radius, spacing } from '@/ui/colors';
 import { Button, Card, Txt } from '@/ui/primitives';
 import { usePhaseTheme } from '@/ui/theme';
@@ -29,7 +29,8 @@ export default function ScanSheet() {
     }
     handled.current = true;
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    router.replace({ pathname: '/import', params: { d: payload } });
+    const share = extractCloudShare(text);
+    router.replace({ pathname: '/import', params: share ? { d: payload, s: share } : { d: payload } });
   };
 
   const granted = permission?.granted ?? false;

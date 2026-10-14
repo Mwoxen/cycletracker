@@ -66,8 +66,40 @@ export function decodePayload(payload: string): Snapshot {
   return parseSnapshot(json);
 }
 
-export function buildImportLink(payload: string): string {
-  return `${DEEP_LINK_SCHEME}://${IMPORT_PATH}?d=${payload}`;
+/**
+ * The link and QR code for the partner. When the sender has an iCloud share, its address rides
+ * along (`s=`), so scanning also connects the automatic sharing without another step.
+ */
+export function buildImportLink(payload: string, cloudShareUrl?: string): string {
+  const share = cloudShareUrl ? `&s=${encodeURIComponent(cloudShareUrl)}` : '';
+  return `${DEEP_LINK_SCHEME}://${IMPORT_PATH}?d=${payload}${share}`;
+}
+
+/** The iCloud share address inside a scanned link, if there is one and it points at iCloud. */
+export function extractCloudShare(text: string): string | undefined {
+  const match = text.match(/[?&]s=([^&\s]+)/);
+  if (!match) return undefined;
+  return validCloudShare(match[1]);
+}
+
+/** Only https links on icloud.com are ever handed to the native module. */
+export function validCloudShare(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  let decoded = value;
+  try {
+    decoded = decodeURIComponent(value);
+  } catch {
+    return undefined;
+  }
+  try {
+    const url = new URL(decoded);
+    return url.protocol === 'https:' &&
+      (url.hostname === 'www.icloud.com' || url.hostname.endsWith('.icloud.com'))
+      ? decoded
+      : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 /** Accepts a full deep link, a bare payload, or text with the link somewhere inside. */

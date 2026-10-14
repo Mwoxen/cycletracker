@@ -493,6 +493,9 @@ const da = {
     startFailed: 'Deling kunne ikke startes. Tjek iCloud og forbindelsen, og prøv igen.',
   },
   sync: {
+    autoJoining: 'Forbinder automatisk deling …',
+    autoJoined: 'Automatisk deling er forbundet. Du får hendes ændringer fremover.',
+    autoJoinFailed: 'Automatisk deling kunne ikke forbindes. Data kan stadig importeres her, og du kan prøve igen under Indstillinger, Automatisk deling.',
     shareTitle: 'Del med partner',
     shareBody:
       'Lad din partner scanne koden med Cycle Tracker, eller send linket med AirDrop eller Beskeder. Kun cyklusdata deles, aldrig noter om dig selv fra appens indstillinger.',

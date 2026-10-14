@@ -1,13 +1,15 @@
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 
 import { toISODate } from '@/engine/dates';
 import { useFormat } from '@/hooks/use-format';
 import { previewMerge, selectSnapshotData, useStore, type Snapshot } from '@/store';
-import { decodePayload } from '@/sync/payload';
+import { syncWithPartner } from '@/sync/cloud/run';
+import { nativeTransport } from '@/sync/cloud/transport';
+import { decodePayload, validCloudShare } from '@/sync/payload';
 import { colors, spacing } from '@/ui/colors';
 import { Button, Card, Txt } from '@/ui/primitives';
 import { usePhaseTheme } from '@/ui/theme';
@@ -17,12 +19,14 @@ export default function ImportSheet() {
   const theme = usePhaseTheme();
   const router = useRouter();
   const fmt = useFormat();
-  const { d } = useLocalSearchParams<{ d?: string }>();
+  const { d, s: sharedParam } = useLocalSearchParams<{ d?: string; s?: string }>();
   const data = useStore(selectSnapshotData);
   const deviceId = useStore((s) => s.deviceId);
   const applySnapshot = useStore((s) => s.applySnapshot);
   const setPairing = useStore((s) => s.setPairing);
+  const isTracker = useStore((state) => state.profile?.role === 'tracker');
   const [asBackup, setAsBackup] = useState(false);
+  const [cloud, setCloud] = useState<'joined' | 'failed' | undefined>();
   const [done, setDone] = useState<{ periods: number; logs: number } | undefined>();
 
   const parsed = useMemo<{ snapshot?: Snapshot; error?: string }>(() => {
@@ -44,6 +48,28 @@ export default function ImportSheet() {
   const nothingNew =
     !!preview &&
     preview.newPeriods + preview.updatedPeriods + preview.newLogs + preview.updatedLogs === 0;
+
+  // A code from the partner's phone may carry an iCloud share. Scanning it connects the automatic
+  // sharing by itself, with nothing more to confirm.
+  const cloudShare = validCloudShare(sharedParam);
+  const joinStarted = useRef(false);
+  const canJoin = !!cloudShare && isTracker && !!parsed.snapshot && !!nativeTransport();
+  useEffect(() => {
+    if (!canJoin || !cloudShare || joinStarted.current) return;
+    const transport = nativeTransport();
+    if (!transport) return;
+    joinStarted.current = true;
+    void (async () => {
+      try {
+        const { role } = await transport.state();
+        if (role !== 'participant') await transport.joinShare(cloudShare);
+        await syncWithPartner(transport);
+        setCloud('joined');
+      } catch {
+        setCloud('failed');
+      }
+    })();
+  }, [canJoin, cloudShare]);
 
   const doImport = () => {
     if (!snapshot) return;
@@ -69,6 +95,18 @@ export default function ImportSheet() {
           </Txt>
         </Pressable>
       </View>
+
+      {canJoin ? (
+        <Card>
+          <Txt color={cloud === 'failed' ? colors.red : colors.secondaryLabel}>
+            {cloud === 'joined'
+              ? t('sync.autoJoined')
+              : cloud === 'failed'
+                ? t('sync.autoJoinFailed')
+                : t('sync.autoJoining')}
+          </Txt>
+        </Card>
+      ) : null}
 
       {parsed.error || !snapshot || !preview ? (
         <Card>

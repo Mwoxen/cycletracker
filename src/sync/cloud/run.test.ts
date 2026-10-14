@@ -94,11 +94,27 @@ describe('syncWithPartner', () => {
     expect(useStore.getState().cloudSync.lastError).toBe('unavailable');
   });
 
-  it('runs one round at a time', async () => {
+  it('runs one round at a time, with one follow-up for everyone who asked meanwhile', async () => {
     onboard('tracker');
     const t = transport('participant');
-    const [a, b] = await Promise.all([syncWithPartner(t), syncWithPartner(t)]);
-    expect(b).toBe(a);
-    expect(t.reads).toBe(1);
+    const first = syncWithPartner(t);
+    const second = syncWithPartner(t);
+    const third = syncWithPartner(t);
+    expect(third).toBe(second);
+    await Promise.all([first, second, third]);
+    expect(t.reads).toBe(2);
+  });
+
+  it('lets a request made during a round see a connection made after the round began', async () => {
+    onboard('tracker');
+    let role: CloudRole | undefined;
+    const t = transport(undefined);
+    t.state = async () => ({ role, participants: 0 });
+    const running = syncWithPartner(t); // starts while not connected
+    role = 'participant';
+    const outcome = await syncWithPartner(t);
+    await running;
+    expect(outcome).toMatchObject({ ok: true });
+    expect(t.records.has('from-partner')).toBe(true);
   });
 });

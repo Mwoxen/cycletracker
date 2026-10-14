@@ -2,7 +2,15 @@ import { DEFAULT_SETTINGS, type DayLog, type PeriodEvent } from '@/domain/types'
 import { addDaysISO } from '@/engine/dates';
 import { createSnapshot, createSyncSnapshot, type SnapshotData } from '@/store/snapshot';
 
-import { buildImportLink, decodePayload, encodePayload, extractPayload, fitsInQr } from './payload';
+import {
+  buildImportLink,
+  decodePayload,
+  encodePayload,
+  extractCloudShare,
+  extractPayload,
+  fitsInQr,
+  validCloudShare,
+} from './payload';
 
 function yearOfData(): SnapshotData {
   const periods: Record<string, PeriodEvent> = {};
@@ -73,5 +81,26 @@ describe('payload', () => {
     expect(extractPayload(`Se her: ${link} :)`)).toBe(payload);
     expect(extractPayload(payload)).toBe(payload);
     expect(extractPayload('hello world')).toBeUndefined();
+  });
+
+  it('carries an iCloud share address along and hands back only icloud.com links', () => {
+    const share = 'https://www.icloud.com/share/0abcDEF_gh#Cycle_Tracker';
+    const link = buildImportLink('AAAA1111', share);
+    expect(extractPayload(link)).toBe('AAAA1111');
+    expect(extractCloudShare(link)).toBe(share);
+    expect(extractCloudShare(buildImportLink('AAAA1111'))).toBeUndefined();
+  });
+
+  it('refuses share addresses that do not point at iCloud over https', () => {
+    for (const bad of [
+      'http://www.icloud.com/share/x',
+      'https://evil.example/share/x',
+      'https://icloud.com.evil.example/share/x',
+      'javascript:alert(1)',
+      'not a url',
+    ]) {
+      expect(extractCloudShare(buildImportLink('AAAA1111', bad))).toBeUndefined();
+    }
+    expect(validCloudShare('%E0%A4%A')).toBeUndefined();
   });
 });

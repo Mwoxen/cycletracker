@@ -1,16 +1,20 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, Share, StyleSheet, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { relativeTime } from '@/hooks/use-relative-time';
 import { createSyncSnapshot, selectSnapshotData, useStore } from '@/store';
+import { ensureCloudShareUrl } from '@/sync/cloud/share';
+import { nativeTransport } from '@/sync/cloud/transport';
 import { buildImportLink, encodePayload, fitsInQr } from '@/sync/payload';
 import { colors, spacing } from '@/ui/colors';
 import { Button, Card, Chip, Txt } from '@/ui/primitives';
 import { usePhaseTheme } from '@/ui/theme';
+
+const MAX_QR_LINK = 2300;
 
 export default function ShareSheet() {
   const { t } = useTranslation();
@@ -26,8 +30,27 @@ export default function ShareSheet() {
     const since = mode === 'delta' ? (pairing.lastSharedAt ?? 0) : 0;
     return encodePayload(createSyncSnapshot(data, deviceId, since));
   }, [data, deviceId, mode, pairing.lastSharedAt]);
-  const link = buildImportLink(payload);
+  const isOwner = useStore((s) => s.profile?.role === 'user');
+  const [cloudUrl, setCloudUrl] = useState<string | undefined>();
+
+  // The cycle owner's phone makes the iCloud share (once) so the code connects the partner too.
+  useEffect(() => {
+    if (!isOwner) return;
+    const transport = nativeTransport();
+    if (!transport) return;
+    let live = true;
+    void ensureCloudShareUrl(transport).then((url) => {
+      if (live) setCloudUrl(url);
+    });
+    return () => {
+      live = false;
+    };
+  }, [isOwner]);
+
+  const link = buildImportLink(payload, cloudUrl);
   const qrOk = fitsInQr(payload);
+  // The iCloud address must not push the code past what scans well; the link still carries it.
+  const qrLink = link.length <= MAX_QR_LINK ? link : buildImportLink(payload);
 
   const markShared = () => {
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -71,7 +94,7 @@ export default function ShareSheet() {
       <Card style={{ alignItems: 'center', gap: spacing.md }}>
         {qrOk ? (
           <View style={styles.qr}>
-            <QRCode value={link} size={240} backgroundColor="#ffffff" color="#000000" ecl="M" />
+            <QRCode value={qrLink} size={240} backgroundColor="#ffffff" color="#000000" ecl="M" />
           </View>
         ) : (
           <Txt color={colors.secondaryLabel} style={{ textAlign: 'center' }}>

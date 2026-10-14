@@ -9,13 +9,25 @@ import { runCloudSync, type SyncOutcome } from './engine';
 import type { CloudTransport } from './transport';
 
 let inFlight: Promise<SyncOutcome> | undefined;
+let followUp: Promise<SyncOutcome> | undefined;
 
+/**
+ * One round at a time. A request that arrives while a round is running may be about something the
+ * running round did not see (a connection made a moment ago, a change just saved), so it gets one
+ * more round right after, shared by everyone who asks in the meantime.
+ */
 export function syncWithPartner(transport: CloudTransport): Promise<SyncOutcome> {
-  // A second request while one is running joins it; the hook asks again after data changes.
-  inFlight ??= run(transport).finally(() => {
-    inFlight = undefined;
+  if (!inFlight) {
+    inFlight = run(transport).finally(() => {
+      inFlight = undefined;
+    });
+    return inFlight;
+  }
+  followUp ??= inFlight.then(() => {
+    followUp = undefined;
+    return syncWithPartner(transport);
   });
-  return inFlight;
+  return followUp;
 }
 
 async function run(transport: CloudTransport): Promise<SyncOutcome> {
