@@ -68,7 +68,9 @@ async function run(transport: CloudTransport): Promise<SyncOutcome> {
 
 function finish(outcome: SyncOutcome): SyncOutcome {
   const { setCloudSync } = useStore.getState();
-  if (outcome.ok) setCloudSync({ lastSyncAt: Date.now(), lastError: undefined });
-  else if (outcome.reason !== 'not-connected') setCloudSync({ lastError: outcome.reason });
+  if (outcome.ok) setCloudSync({ lastSyncAt: Date.now(), lastError: undefined, lastDetail: undefined });
+  else if (outcome.reason !== 'not-connected') {
+    setCloudSync({ lastError: outcome.reason, lastDetail: outcome.message });
+  }
   return outcome;
 }

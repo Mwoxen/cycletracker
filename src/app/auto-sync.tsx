@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Pressable, ScrollView, Share, StyleSheet, TextInput, View } from 'react-native';
 
+import { errorDetail } from '@/sync/cloud/detail';
 import { relativeTime } from '@/hooks/use-relative-time';
 import { useStore } from '@/store/store';
 import { syncWithPartner } from '@/sync/cloud/run';
@@ -58,6 +59,9 @@ export default function AutoSyncSheet() {
     };
   }, [load]);
 
+  const failureText = (outcome: { reason: string; message?: string }) =>
+    `${t(`autoSync.errors.${outcome.reason}`)}${outcome.message ? `\n${outcome.message}` : ''}`;
+
   const sendLink = async (url: string) => {
     try {
       await Share.share({ url, message: url, title: t('autoSync.title') });
@@ -76,8 +80,8 @@ export default function AutoSyncSheet() {
       await refresh();
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       void syncWithPartner(transport);
-    } catch {
-      setMessage(t('autoSync.startFailed'));
+    } catch (e) {
+      setMessage(`${t('autoSync.startFailed')}\n${errorDetail(e)}`);
     } finally {
       setBusy(undefined);
     }
@@ -94,9 +98,9 @@ export default function AutoSyncSheet() {
       await refresh();
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       const outcome = await syncWithPartner(transport);
-      if (!outcome.ok) setMessage(t(`autoSync.errors.${outcome.reason}`));
-    } catch {
-      setMessage(t('autoSync.joinFailed'));
+      if (!outcome.ok) setMessage(failureText(outcome));
+    } catch (e) {
+      setMessage(`${t('autoSync.joinFailed')}\n${errorDetail(e)}`);
     } finally {
       setBusy(undefined);
     }
@@ -110,7 +114,7 @@ export default function AutoSyncSheet() {
     setMessage(
       outcome.ok
         ? t('autoSync.syncedNow', { changed: outcome.changed })
-        : t(`autoSync.errors.${outcome.reason}`),
+        : failureText(outcome),
     );
     await refresh();
     setBusy(undefined);
@@ -170,7 +174,7 @@ export default function AutoSyncSheet() {
           </Txt>
           <Txt variant="footnote" color={colors.secondaryLabel}>
             {cloudSync.lastError
-              ? t(`autoSync.errors.${cloudSync.lastError}`)
+              ? `${t(`autoSync.errors.${cloudSync.lastError}`)}${cloudSync.lastDetail ? `\n${cloudSync.lastDetail}` : ''}`
               : cloudSync.lastSyncAt
                 ? t('autoSync.lastSync', { when: relativeTime(cloudSync.lastSyncAt) })
                 : t('autoSync.neverSynced')}
@@ -226,8 +230,14 @@ export default function AutoSyncSheet() {
         </Card>
       )}
 
+      {!connected && !message && cloudSync.lastDetail ? (
+        <Txt variant="footnote" color={colors.secondaryLabel} selectable>
+          {cloudSync.lastDetail}
+        </Txt>
+      ) : null}
+
       {message ? (
-        <Txt variant="footnote" color={colors.secondaryLabel}>
+        <Txt variant="footnote" color={colors.secondaryLabel} selectable>
           {message}
         </Txt>
       ) : null}

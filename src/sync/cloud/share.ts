@@ -1,3 +1,6 @@
+import { useStore } from '@/store/store';
+
+import { errorDetail } from './detail';
 import { syncWithPartner } from './run';
 import type { CloudTransport } from './transport';
 
@@ -13,7 +16,8 @@ export async function ensureCloudShareUrl(transport: CloudTransport): Promise<st
     // Publish her data right away, so the partner finds it the moment they connect.
     void syncWithPartner(transport);
     return url;
-  } catch {
+  } catch (e) {
+    useStore.getState().setCloudSync({ lastError: 'error', lastDetail: errorDetail(e) });
     return undefined;
   }
 }

@@ -106,7 +106,7 @@ describe('automatic sharing sheet', () => {
 
     await fireEvent.changeText(await screen.findByPlaceholderText(da.autoSync.linkPlaceholder), 'x');
     await fireEvent.press(screen.getByText(da.autoSync.join));
-    expect(await screen.findByText(da.autoSync.joinFailed)).toBeTruthy();
+    expect(await screen.findByText(new RegExp(`${da.autoSync.joinFailed}[\\s\\S]*nope`))).toBeTruthy();
     expect(screen.queryByText(da.autoSync.connected)).toBeNull();
   });
 

@@ -128,12 +128,15 @@ describe("the partner's import screen", () => {
   it('says so, and still lets the data be imported, when joining fails', async () => {
     const { payload, share } = herCode(true);
     const transport = fakeTransport();
-    transport.joinShare.mockRejectedValue(new Error('nope'));
+    transport.joinShare.mockRejectedValue(new Error('CKError 9: Not Authenticated'));
     nativeTransport.mockReturnValue(transport);
     onboard('tracker');
     await renderApp(`/import?d=${payload}&s=${encodeURIComponent(share!)}`);
 
-    expect(await screen.findByText(da.sync.autoJoinFailed)).toBeTruthy();
+    // The system's own words are shown with it, so the cause can be found.
+    expect(
+      await screen.findByText(new RegExp(`${da.sync.autoJoinFailed}[\\s\\S]*Not Authenticated`)),
+    ).toBeTruthy();
     expect(screen.getByText(da.sync.importButton)).toBeTruthy();
   });
 

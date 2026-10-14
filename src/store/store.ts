@@ -41,6 +41,8 @@ export interface CloudSyncStatus {
   lastSyncAt?: number;
   /** A failure code from the sync engine, e.g. 'unavailable' or 'newer-app'. */
   lastError?: string;
+  /** The system's own description of the failure, shown on the sharing screen to help find the cause. */
+  lastDetail?: string;
 }
 
 export interface AppState extends SnapshotData {

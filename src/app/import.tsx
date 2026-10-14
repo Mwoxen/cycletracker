@@ -7,6 +7,7 @@ import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { toISODate } from '@/engine/dates';
 import { useFormat } from '@/hooks/use-format';
 import { previewMerge, selectSnapshotData, useStore, type Snapshot } from '@/store';
+import { errorDetail } from '@/sync/cloud/detail';
 import { syncWithPartner } from '@/sync/cloud/run';
 import { nativeTransport } from '@/sync/cloud/transport';
 import { decodePayload, validCloudShare } from '@/sync/payload';
@@ -27,6 +28,7 @@ export default function ImportSheet() {
   const isTracker = useStore((state) => state.profile?.role === 'tracker');
   const [asBackup, setAsBackup] = useState(false);
   const [cloud, setCloud] = useState<'joined' | 'failed' | undefined>();
+  const [cloudDetail, setCloudDetail] = useState<string | undefined>();
   const [done, setDone] = useState<{ periods: number; logs: number } | undefined>();
 
   const parsed = useMemo<{ snapshot?: Snapshot; error?: string }>(() => {
@@ -65,7 +67,8 @@ export default function ImportSheet() {
         if (role !== 'participant') await transport.joinShare(cloudShare);
         await syncWithPartner(transport);
         setCloud('joined');
-      } catch {
+      } catch (e) {
+        setCloudDetail(errorDetail(e));
         setCloud('failed');
       }
     })();
@@ -102,7 +105,7 @@ export default function ImportSheet() {
             {cloud === 'joined'
               ? t('sync.autoJoined')
               : cloud === 'failed'
-                ? t('sync.autoJoinFailed')
+                ? `${t('sync.autoJoinFailed')}${cloudDetail ? `\n${cloudDetail}` : ''}`
                 : t('sync.autoJoining')}
           </Txt>
         </Card>
