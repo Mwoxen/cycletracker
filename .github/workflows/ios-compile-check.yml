@@ -20,13 +20,14 @@ concurrency:
 
 jobs:
   compile:
-    name: compile (Xcode ${{ matrix.xcode }})
+    name: compile (Xcode ${{ matrix.xcode }}, ${{ matrix.mode }})
     runs-on: macos-15
     strategy:
       fail-fast: false
       matrix:
         # The newest Xcode on the runner can be ahead of what Expo supports; try a few.
-        xcode: ['26.0', '26.1', '26.2']
+        xcode: ['16.4', '26.0']
+        mode: [simulator, device]
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
@@ -59,11 +60,16 @@ jobs:
         working-directory: ios
         run: |
           set -o pipefail
+          if [ "${{ matrix.mode }}" = device ]; then
+            sdk=iphoneos; dest='generic/platform=iOS'; conf=Release
+          else
+            sdk=iphonesimulator; dest='generic/platform=iOS Simulator'; conf=Debug
+          fi
           xcodebuild -workspace CycleTracker.xcworkspace \
             -scheme CycleTracker \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
+            -configuration "$conf" \
+            -sdk "$sdk" \
+            -destination "$dest" \
             CODE_SIGNING_ALLOWED=NO \
             build 2>&1 | tee "$RUNNER_TEMP/xcodebuild.log" | grep -E "error:|warning: unused|BUILD (SUCCEEDED|FAILED)|\*\* BUILD" | head -80
 
@@ -71,6 +77,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: xcodebuild-log-${{ matrix.xcode }}
+          name: xcodebuild-log-${{ matrix.xcode }}-${{ matrix.mode }}
           path: ${{ runner.temp }}/xcodebuild.log
           if-no-files-found: ignore
