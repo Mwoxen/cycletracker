@@ -23,6 +23,8 @@ public class CycleSyncModule: Module {
     static let zoneName = "cyclesync.zoneName"
     static let zoneOwner = "cyclesync.zoneOwner"
     static let shareName = "cyclesync.shareName"
+    /// "record": the share hangs on a root record; "zone": the whole zone is shared.
+    static let mode = "cyclesync.mode"
   }
 
   private var container: CKContainer { CKContainer(identifier: Self.containerId) }
@@ -129,17 +131,67 @@ public class CycleSyncModule: Module {
 
     let zone = CKRecordZone(zoneName: Self.zoneName)
     _ = try await db.save(zone)
-
     let rootId = CKRecord.ID(recordName: Self.rootName, zoneID: zone.zoneID)
-    let root = CKRecord(recordType: Self.rootType, recordID: rootId)
-    root["title"] = "Cycle Tracker" as CKRecordValue
 
-    let share = CKShare(rootRecord: root)
+    // CloudKit rejects a share in some setups without saying why, so three ways are tried in turn
+    // and every failure is reported if none works:
+    //   A. the root record and the share saved together (the documented way),
+    //   B. the root record first, then the share on the saved root,
+    //   C. a share of the whole zone, with no root record.
+    var log: [String] = []
+
+    do {
+      let root = (try? await db.record(for: rootId)) ?? makeRoot(rootId)
+      let share = makeShare(CKShare(rootRecord: root))
+      let saved = try await saveShare(db, [root, share])
+      return remember(saved, zone: zone.zoneID, mode: "record")
+    } catch {
+      log.append("A: \(describe(error))")
+    }
+
+    do {
+      let (saved, _) = try await db.modifyRecords(saving: [makeRoot(rootId)], deleting: [])
+      var root: CKRecord?
+      for (_, result) in saved {
+        if case .success(let record) = result { root = record }
+      }
+      guard let root = root ?? (try? await db.record(for: rootId)) else {
+        throw fail("the root record could not be saved or read")
+      }
+      let share = makeShare(CKShare(rootRecord: root))
+      let savedShare = try await saveShare(db, [root, share])
+      return remember(savedShare, zone: zone.zoneID, mode: "record")
+    } catch {
+      log.append("B: \(describe(error))")
+    }
+
+    do {
+      let share = makeShare(CKShare(recordZoneID: zone.zoneID))
+      let saved = try await saveShare(db, [share])
+      return remember(saved, zone: zone.zoneID, mode: "zone")
+    } catch {
+      log.append("C: \(describe(error))")
+    }
+
+    throw fail("The share could not be created. " + log.joined(separator: "  ||  "))
+  }
+
+  private func makeRoot(_ id: CKRecord.ID) -> CKRecord {
+    let root = CKRecord(recordType: Self.rootType, recordID: id)
+    root["title"] = "Cycle Tracker" as CKRecordValue
+    return root
+  }
+
+  private func makeShare(_ share: CKShare) -> CKShare {
     share[CKShare.SystemFieldKey.title] = "Cycle Tracker" as CKRecordValue
     // Anyone holding the link can join and write their own record; the link is only given to the partner.
     share.publicPermission = .readWrite
+    return share
+  }
 
-    let (saved, _) = try await db.modifyRecords(saving: [root, share], deleting: [])
+  /// Saves the records and returns the saved share, or throws what CloudKit said about the failure.
+  private func saveShare(_ db: CKDatabase, _ records: [CKRecord]) async throws -> CKShare {
+    let (saved, _) = try await db.modifyRecords(saving: records, deleting: [])
     var savedShare: CKShare?
     var failures: [String] = []
     for (id, result) in saved {
@@ -150,18 +202,20 @@ public class CycleSyncModule: Module {
         failures.append("\(id.recordName): \(describe(error))")
       }
     }
-    if !failures.isEmpty {
-      throw fail("Saving the share failed. " + failures.joined(separator: " ; "))
+    if !failures.isEmpty { throw fail(failures.joined(separator: " ; ")) }
+    guard let share = savedShare, share.url != nil else {
+      throw fail("saved, but there is no share link")
     }
-    guard let url = (savedShare ?? share).url else {
-      throw fail("The share was saved but has no link (zone \(zone.zoneID.zoneName))")
-    }
+    return share
+  }
 
+  private func remember(_ share: CKShare, zone: CKRecordZone.ID, mode: String) -> String {
     defaults.set("owner", forKey: Key.role)
-    defaults.set(zone.zoneID.zoneName, forKey: Key.zoneName)
-    defaults.set(zone.zoneID.ownerName, forKey: Key.zoneOwner)
-    defaults.set((savedShare ?? share).recordID.recordName, forKey: Key.shareName)
-    return url.absoluteString
+    defaults.set(zone.zoneName, forKey: Key.zoneName)
+    defaults.set(zone.ownerName, forKey: Key.zoneOwner)
+    defaults.set(share.recordID.recordName, forKey: Key.shareName)
+    defaults.set(mode, forKey: Key.mode)
+    return share.url?.absoluteString ?? ""
   }
 
   private func acceptedParticipants(in zone: CKRecordZone.ID) async -> Int {
@@ -190,6 +244,9 @@ public class CycleSyncModule: Module {
     defaults.set(zone.zoneName, forKey: Key.zoneName)
     defaults.set(zone.ownerName, forKey: Key.zoneOwner)
     defaults.set(metadata.share.recordID.recordName, forKey: Key.shareName)
+    var zoneWide = false
+    if #available(iOS 16.0, *) { zoneWide = metadata.hierarchicalRootRecordID == nil }
+    defaults.set(zoneWide ? "zone" : "record", forKey: Key.mode)
   }
 
   private func fetchShareMetadata(_ url: URL) async throws -> CKShare.Metadata {
@@ -211,7 +268,7 @@ public class CycleSyncModule: Module {
         } else if let metadata = found {
           continuation.resume(returning: metadata)
         } else {
-          continuation.resume(throwing: failure ?? GenericException("The share link was not found"))
+          continuation.resume(throwing: failure ?? Exception(name: "CycleSyncError", description: "The share link was not found"))
         }
       }
       container.add(operation)
@@ -235,9 +292,11 @@ public class CycleSyncModule: Module {
       record = try await db.record(for: id)
     } catch let error as CKError where error.code == .unknownItem {
       record = CKRecord(recordType: Self.dataType, recordID: id)
-      // Child of the shared root, so the share covers it.
-      record.parent = CKRecord.Reference(
-        recordID: CKRecord.ID(recordName: Self.rootName, zoneID: zone), action: .none)
+      // Child of the shared root, so the share covers it (not needed when the whole zone is shared).
+      if defaults.string(forKey: Key.mode) != "zone" {
+        record.parent = CKRecord.Reference(
+          recordID: CKRecord.ID(recordName: Self.rootName, zoneID: zone), action: .none)
+      }
     }
     record["payload"] = payload as CKRecordValue
     record["updatedAt"] = Int64(Date().timeIntervalSince1970 * 1000) as CKRecordValue
@@ -271,7 +330,7 @@ public class CycleSyncModule: Module {
         _ = try? await container.sharedCloudDatabase.deleteRecord(withID: id)
       }
     }
-    for key in [Key.role, Key.zoneName, Key.zoneOwner, Key.shareName] {
+    for key in [Key.role, Key.zoneName, Key.zoneOwner, Key.shareName, Key.mode] {
       defaults.removeObject(forKey: key)
     }
   }
