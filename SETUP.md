@@ -188,9 +188,10 @@ Når appen virker i TestFlight, følg `store/CHECKLIST.md`. Alle tekster ligger 
 ## Nødplan: byg på GitHub Actions i stedet for EAS
 
 Er de 15 gratis EAS-builds brugt op en måned, kør workflowet **iOS build (macOS fallback)**:
-https://github.com/Mwoxen/cycletracker/actions/workflows/ios-build-macos.yml → **Run workflow**.
-Det bygger på GitHubs egne Mac-maskiner (gratis på et offentligt repo) og uploader til TestFlight
-med de samme secrets. Det tager 20-30 minutter.
+https://github.com/Mwoxen/cycletracker/actions/workflows/ios-build-macos.yml → **Run workflow**
+(vælg branch). Det lader EAS CLI bygge på GitHubs egne Mac-maskiner (gratis på et offentligt repo)
+med det certifikat, EAS allerede har til appen, og uploader til TestFlight. Det bruger ingen
+EAS-kvote og de samme secrets som det almindelige build. Det tager 25-35 minutter.
 
 ## Hvis noget driller
 

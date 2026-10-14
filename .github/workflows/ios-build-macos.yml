@@ -1,11 +1,12 @@
-# Fallback: build and upload the iOS app on a GitHub-hosted macOS runner instead of EAS Build.
-# Free on this public repository. Use it if the monthly EAS build quota is exhausted.
+# Fallback: build the iOS app on a GitHub-hosted macOS runner instead of on EAS's servers.
+# Free on this public repository and it does not use the monthly EAS build quota: EAS CLI runs the
+# build here ("eas build --local") with the signing certificate and profile it already keeps for
+# the app, so nothing has to be exported from EAS or added as a secret. The result is uploaded to
+# TestFlight with "eas submit", which is free as well.
 #
 # Manual trigger only (Actions > "iOS build (macOS fallback)" > Run workflow, pick the branch).
-# Needs the secrets ASC_KEY_ID, ASC_ISSUER_ID, ASC_API_KEY_P8 and APPLE_TEAM_ID, and REVENUECAT_IOS_KEY
-# so the purchase screen works. APPLE_TEAM_ID and REVENUECAT_IOS_KEY are also read by app.config.ts
-# and are part of the runtime fingerprint, which is why they must be the same as in eas-update.yml:
-# otherwise over-the-air updates never reach the build. The log prints the runtime version to check.
+# Needs the same secrets as eas-build.yml: EXPO_TOKEN, ASC_KEY_ID, ASC_ISSUER_ID, ASC_API_KEY_P8,
+# APPLE_TEAM_ID, REVENUECAT_IOS_KEY, and ASC_APP_ID for the upload.
 #
 # The macos-26 image is needed: Expo SDK 57 does not compile with the Xcode versions on macos-15.
 name: iOS build (macOS fallback)
@@ -27,14 +28,16 @@ jobs:
     runs-on: macos-26
     timeout-minutes: 90
     env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       REVENUECAT_IOS_KEY: ${{ secrets.REVENUECAT_IOS_KEY }}
+      ASC_APP_ID: ${{ secrets.ASC_APP_ID }}
     steps:
       - name: Check required secrets
         run: |
-          for name in ASC_KEY_ID ASC_ISSUER_ID APPLE_TEAM_ID; do
+          for name in EXPO_TOKEN ASC_KEY_ID ASC_ISSUER_ID APPLE_TEAM_ID; do
             if [ -z "${!name}" ]; then echo "::error::Missing secret $name (see SETUP.md)"; exit 1; fi
           done
           if [ -z "${{ secrets.ASC_API_KEY_P8 }}" ]; then echo "::error::Missing secret ASC_API_KEY_P8"; exit 1; fi
@@ -46,88 +49,96 @@ jobs:
           node-version: 22
           cache: npm
 
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
       - name: Select Xcode
         run: sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -n 1)" && xcodebuild -version
 
       - run: npm ci
 
-      - name: Generate the native project
-        run: npx expo prebuild --platform ios --clean
-
-      - name: Show what the build will be signed with and which runtime version it gets
+      - name: Require a linked EAS project
         run: |
-          cat ios/*/*.entitlements
-          grep -A1 "EXUpdatesRuntimeVersion" ios/*/Supporting/Expo.plist || true
+          if [ ! -s .eas-project-id ]; then
+            echo "::error::No .eas-project-id yet. Run the 'EAS Update' workflow once first (it links the project)."
+            exit 1
+          fi
 
-      - name: Install pods
-        working-directory: ios
-        run: pod install
-
-      - name: Write the App Store Connect API key
+      - name: Show what the build will be signed with
         run: |
-          mkdir -p ~/private_keys
-          printf '%s' "${{ secrets.ASC_API_KEY_P8 }}" > "$HOME/private_keys/AuthKey_${ASC_KEY_ID}.p8"
-          cat > ExportOptions.plist <<EOF
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0"><dict>
-            <key>method</key><string>app-store-connect</string>
-            <key>destination</key><string>${{ inputs.upload && 'upload' || 'export' }}</string>
-            <key>signingStyle</key><string>automatic</string>
-            <key>teamID</key><string>${APPLE_TEAM_ID}</string>
-            <key>uploadSymbols</key><true/>
-            <key>manageAppVersionAndBuildNumber</key><true/>
-          </dict></plist>
-          EOF
+          npx expo config --type introspect --json 2>/dev/null | node -e '
+            let s = ""; process.stdin.on("data", (d) => (s += d)).on("end", () => {
+              const c = JSON.parse(s.slice(s.indexOf("{")));
+              console.log(JSON.stringify(c.ios.entitlements, null, 2));
+            });'
 
-      - name: Archive
-        working-directory: ios
+      - name: Write the App Store Connect API key and the build environment
+        run: |
+          printf '%s' "${{ secrets.ASC_API_KEY_P8 }}" > asc-api-key.p8
+          node -e '
+            const fs = require("fs");
+            const eas = JSON.parse(fs.readFileSync("eas.json", "utf8"));
+            // The same environment as eas-build.yml, so the runtime fingerprint is the same as the
+            // one the EAS Update workflow computes; otherwise updates never reach this build.
+            eas.build.production.env = {
+              ...(eas.build.production.env || {}),
+              APPLE_TEAM_ID: process.env.APPLE_TEAM_ID,
+              ...(process.env.REVENUECAT_IOS_KEY ? { REVENUECAT_IOS_KEY: process.env.REVENUECAT_IOS_KEY } : {}),
+            };
+            eas.submit.production.ios = {
+              ascApiKeyPath: "./asc-api-key.p8",
+              ascApiKeyId: process.env.ASC_KEY_ID,
+              ascApiKeyIssuerId: process.env.ASC_ISSUER_ID,
+              appleTeamId: process.env.APPLE_TEAM_ID,
+              ...(process.env.ASC_APP_ID ? { ascAppId: process.env.ASC_APP_ID } : {}),
+            };
+            fs.writeFileSync("eas.json", JSON.stringify(eas, null, 2) + "\n");
+          '
+
+      - name: Build on this runner with the credentials EAS keeps
+        env:
+          EXPO_ASC_API_KEY_PATH: ${{ github.workspace }}/asc-api-key.p8
+          EXPO_ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          EXPO_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          EXPO_APPLE_TEAM_TYPE: ${{ secrets.APPLE_TEAM_TYPE || 'INDIVIDUAL' }}
+          EAS_LOCAL_BUILD_SKIP_CLEANUP: '1'
+          EAS_LOCAL_BUILD_WORKINGDIR: ${{ runner.temp }}/eas-local
         run: |
           set -o pipefail
-          xcodebuild -workspace CycleTracker.xcworkspace \
-            -scheme CycleTracker \
-            -configuration Release \
-            -destination 'generic/platform=iOS' \
-            -archivePath "$RUNNER_TEMP/CycleTracker.xcarchive" \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath "$HOME/private_keys/AuthKey_${ASC_KEY_ID}.p8" \
-            -authenticationKeyID "$ASC_KEY_ID" \
-            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
-            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
-            CODE_SIGN_STYLE=Automatic \
-            CURRENT_PROJECT_VERSION="${GITHUB_RUN_NUMBER}" \
-            archive 2>&1 | tee "$RUNNER_TEMP/archive.log" | grep -E "error:|warning: .*(sign|provision|entitle)|ARCHIVE (SUCCEEDED|FAILED)" | head -60
+          eas build --platform ios --profile production --local --non-interactive \
+            --output "$RUNNER_TEMP/CycleTracker.ipa" 2>&1 | tee "$RUNNER_TEMP/build.log"
 
-      - name: Export and upload
+      - name: Upload to TestFlight
+        if: ${{ inputs.upload }}
         run: |
-          set -o pipefail
-          xcodebuild -exportArchive \
-            -archivePath "$RUNNER_TEMP/CycleTracker.xcarchive" \
-            -exportOptionsPlist ExportOptions.plist \
-            -exportPath "$RUNNER_TEMP/export" \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath "$HOME/private_keys/AuthKey_${ASC_KEY_ID}.p8" \
-            -authenticationKeyID "$ASC_KEY_ID" \
-            -authenticationKeyIssuerID "$ASC_ISSUER_ID" 2>&1 | tee "$RUNNER_TEMP/export.log" | tail -n 60
+          if [ -z "$ASC_APP_ID" ]; then
+            echo "::error::ASC_APP_ID secret is not set, so the build cannot be submitted (SETUP.md step 3)."
+            exit 1
+          fi
+          eas submit --platform ios --profile production --non-interactive \
+            --path "$RUNNER_TEMP/CycleTracker.ipa"
 
       - name: Keep the IPA as an artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: CycleTracker-ipa
-          path: ${{ runner.temp }}/export/*.ipa
+          path: ${{ runner.temp }}/CycleTracker.ipa
           if-no-files-found: ignore
 
-      - name: Keep the build logs
+      - name: Keep the build log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-logs
+          name: build-log
           path: |
-            ${{ runner.temp }}/archive.log
-            ${{ runner.temp }}/export.log
+            ${{ runner.temp }}/build.log
+            ${{ runner.temp }}/eas-local/**/*.log
           if-no-files-found: ignore
 
       - name: Remove the API key
         if: always()
-        run: rm -rf ~/private_keys ExportOptions.plist
+        run: rm -f asc-api-key.p8
