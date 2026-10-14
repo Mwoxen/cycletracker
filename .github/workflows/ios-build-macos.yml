@@ -1,8 +1,13 @@
 # Fallback: build and upload the iOS app on a GitHub-hosted macOS runner instead of EAS Build.
 # Free on this public repository. Use it if the monthly EAS build quota is exhausted.
 #
-# Manual trigger only. Requires the same secrets as eas-build.yml:
-#   EXPO_TOKEN (for the EAS Update URL), ASC_KEY_ID, ASC_ISSUER_ID, ASC_API_KEY_P8, APPLE_TEAM_ID.
+# Manual trigger only (Actions > "iOS build (macOS fallback)" > Run workflow, pick the branch).
+# Needs the secrets ASC_KEY_ID, ASC_ISSUER_ID, ASC_API_KEY_P8 and APPLE_TEAM_ID, and REVENUECAT_IOS_KEY
+# so the purchase screen works. APPLE_TEAM_ID and REVENUECAT_IOS_KEY are also read by app.config.ts
+# and are part of the runtime fingerprint, which is why they must be the same as in eas-update.yml:
+# otherwise over-the-air updates never reach the build. The log prints the runtime version to check.
+#
+# The macos-26 image is needed: Expo SDK 57 does not compile with the Xcode versions on macos-15.
 name: iOS build (macOS fallback)
 
 on:
@@ -19,12 +24,13 @@ concurrency:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 90
     env:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      REVENUECAT_IOS_KEY: ${{ secrets.REVENUECAT_IOS_KEY }}
     steps:
       - name: Check required secrets
         run: |
@@ -47,6 +53,11 @@ jobs:
 
       - name: Generate the native project
         run: npx expo prebuild --platform ios --clean
+
+      - name: Show what the build will be signed with and which runtime version it gets
+        run: |
+          cat ios/*/*.entitlements
+          grep -A1 "EXUpdatesRuntimeVersion" ios/*/Supporting/Expo.plist || true
 
       - name: Install pods
         working-directory: ios
@@ -72,6 +83,7 @@ jobs:
       - name: Archive
         working-directory: ios
         run: |
+          set -o pipefail
           xcodebuild -workspace CycleTracker.xcworkspace \
             -scheme CycleTracker \
             -configuration Release \
@@ -84,10 +96,11 @@ jobs:
             DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
             CODE_SIGN_STYLE=Automatic \
             CURRENT_PROJECT_VERSION="${GITHUB_RUN_NUMBER}" \
-            archive | tail -n 60
+            archive 2>&1 | tee "$RUNNER_TEMP/archive.log" | grep -E "error:|warning: .*(sign|provision|entitle)|ARCHIVE (SUCCEEDED|FAILED)" | head -60
 
       - name: Export and upload
         run: |
+          set -o pipefail
           xcodebuild -exportArchive \
             -archivePath "$RUNNER_TEMP/CycleTracker.xcarchive" \
             -exportOptionsPlist ExportOptions.plist \
@@ -95,7 +108,7 @@ jobs:
             -allowProvisioningUpdates \
             -authenticationKeyPath "$HOME/private_keys/AuthKey_${ASC_KEY_ID}.p8" \
             -authenticationKeyID "$ASC_KEY_ID" \
-            -authenticationKeyIssuerID "$ASC_ISSUER_ID" | tail -n 40
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" 2>&1 | tee "$RUNNER_TEMP/export.log" | tail -n 60
 
       - name: Keep the IPA as an artifact
         if: always()
@@ -103,6 +116,16 @@ jobs:
         with:
           name: CycleTracker-ipa
           path: ${{ runner.temp }}/export/*.ipa
+          if-no-files-found: ignore
+
+      - name: Keep the build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            ${{ runner.temp }}/archive.log
+            ${{ runner.temp }}/export.log
           if-no-files-found: ignore
 
       - name: Remove the API key
