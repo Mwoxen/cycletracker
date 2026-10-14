@@ -61,6 +61,7 @@ export default function SettingsScreen() {
   const profile = useStore((s) => s.profile);
   const pairing = useStore((s) => s.pairing);
   const backupStatus = useStore((s) => s.backupStatus);
+  const cloudSync = useStore((s) => s.cloudSync);
   const deviceId = useStore((s) => s.deviceId);
   const applySnapshot = useStore((s) => s.applySnapshot);
   const settings = useStore((s) => s.settings);
@@ -537,6 +538,16 @@ export default function SettingsScreen() {
             symbol="square.and.arrow.down"
             onPress={() => void importFile()}
             chevron={false}
+          />
+          <Row
+            title={t('autoSync.title')}
+            subtitle={
+              cloudSync.lastSyncAt
+                ? t('autoSync.lastSync', { when: relativeTime(cloudSync.lastSyncAt) })
+                : t('autoSync.rowSubtitleOff')
+            }
+            symbol="arrow.triangle.2.circlepath.icloud"
+            onPress={() => router.push('/auto-sync')}
           />
           <Row
             title={t('settings.share')}

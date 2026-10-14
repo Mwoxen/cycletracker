@@ -506,6 +506,13 @@ describe('sheets', () => {
     expect(screen.getByText(da.sync.sendLink)).toBeTruthy();
   });
 
+  it('renders the automatic sharing sheet for both roles without the native module', async () => {
+    onboard('user');
+    await renderApp('/auto-sync');
+    expect(await screen.findByText(da.autoSync.title)).toBeTruthy();
+    expect(screen.getByText(da.autoSync.needsApp)).toBeTruthy();
+  });
+
   it('renders the import sheet without a payload', async () => {
     onboard('tracker');
     await renderApp('/import');

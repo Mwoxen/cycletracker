@@ -144,7 +144,10 @@ jest.mock('react-native-purchases', () => {
   };
 });
 
-jest.mock('expo-clipboard', () => ({ setStringAsync: jest.fn(async () => true) }));
+jest.mock('expo-clipboard', () => ({
+  setStringAsync: jest.fn(async () => true),
+  getStringAsync: jest.fn(async () => ''),
+}));
 
 jest.mock('expo-localization', () => ({
   getLocales: () => [{ languageCode: 'da', languageTag: 'da-DK', regionCode: 'DK' }],
