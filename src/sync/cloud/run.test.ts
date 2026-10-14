@@ -2,7 +2,7 @@ import { encodePayload } from '@/sync/payload';
 import { createSyncSnapshot } from '@/store/snapshot';
 import { selectSnapshotData, useStore } from '@/store/store';
 
-import { syncWithPartner } from './run';
+import { forgetPublished, syncWithPartner } from './run';
 import type { CloudRecord, CloudRole, CloudTransport } from './transport';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
@@ -44,6 +44,7 @@ const onboard = (role: 'user' | 'tracker') => {
 };
 
 beforeEach(() => {
+  forgetPublished();
   useStore.getState().resetAll();
   useStore.getState().setCloudSync({ lastSyncAt: undefined, lastError: undefined });
 });
@@ -116,5 +117,35 @@ describe('syncWithPartner', () => {
     await running;
     expect(outcome).toMatchObject({ ok: true });
     expect(t.records.has('from-partner')).toBe(true);
+  });
+
+  it('does not write the same data twice, and writes again after a local change', async () => {
+    onboard('tracker');
+    const t = transport('participant');
+    expect(await syncWithPartner(t)).toMatchObject({ ok: true, wrote: true });
+    expect(await syncWithPartner(t)).toMatchObject({ ok: true, wrote: false });
+    useStore.getState().upsertLog('2026-03-05', { mood: 'good' });
+    expect(await syncWithPartner(t)).toMatchObject({ ok: true, wrote: true });
+    expect(t.records.get('from-partner')).toBeDefined();
+  });
+
+  it('settles after receiving data: a second round changes nothing and writes nothing', async () => {
+    const cloud = new Map<string, CloudRecord>();
+    onboard('user');
+    useStore.getState().startPeriod('2026-03-20');
+    const s = useStore.getState();
+    cloud.set('from-owner', {
+      payload: encodePayload(createSyncSnapshot(selectSnapshotData(s), s.deviceId)),
+      updatedAt: 1,
+    });
+    useStore.getState().resetAll();
+    forgetPublished();
+    onboard('tracker');
+    const t = transport('participant', cloud);
+    expect(await syncWithPartner(t)).toMatchObject({ ok: true, received: true, wrote: true });
+    const periods = useStore.getState().periods;
+    expect(await syncWithPartner(t)).toMatchObject({ ok: true, received: true, changed: 0, wrote: false });
+    // The store object is the same, so the sync hook has no reason to start another round.
+    expect(useStore.getState().periods).toBe(periods);
   });
 });

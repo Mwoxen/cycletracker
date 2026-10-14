@@ -88,9 +88,10 @@ public class CycleSyncModule: Module {
     return CKRecordZone.ID(zoneName: name, ownerName: owner)
   }
 
-  /// An error whose text reaches the JavaScript side (a plain GenericException loses its message).
+  /// An error whose text reaches the JavaScript side. Expo puts `reason` into the message, and a
+  /// plain Exception or GenericException leaves it at "undefined reason".
   private func fail(_ message: String) -> Exception {
-    Exception(name: "CycleSyncError", description: message)
+    CycleSyncError(message)
   }
 
   /// CloudKit errors in words: the code, the system's text and the server's own explanation.
@@ -98,6 +99,9 @@ public class CycleSyncModule: Module {
     guard let ck = error as? CKError else { return error.localizedDescription }
     var parts = ["CKError \(ck.code.rawValue)", ck.localizedDescription]
     if let server = ck.userInfo["ServerErrorDescription"] as? String { parts.append(server) }
+    if let underlying = ck.userInfo[NSUnderlyingErrorKey] as? NSError {
+      parts.append("underlying \(underlying.domain) \(underlying.code): \(underlying.localizedDescription)")
+    }
     if let partial = ck.partialErrorsByItemID, !partial.isEmpty {
       let each = partial.values.prefix(3).map { describe($0) }.joined(separator: " | ")
       parts.append("[\(each)]")
@@ -270,7 +274,7 @@ public class CycleSyncModule: Module {
         } else if let metadata = found {
           continuation.resume(returning: metadata)
         } else {
-          continuation.resume(throwing: failure ?? Exception(name: "CycleSyncError", description: "The share link was not found"))
+          continuation.resume(throwing: failure ?? CycleSyncError("The share link was not found"))
         }
       }
       container.add(operation)
@@ -336,4 +340,16 @@ public class CycleSyncModule: Module {
       defaults.removeObject(forKey: key)
     }
   }
+}
+
+/// Carries a message through Expo's error reporting: Expo reads `reason`, not `description`.
+final class CycleSyncError: Exception, @unchecked Sendable {
+  private let message: String
+
+  init(_ message: String, file: String = #fileID, line: UInt = #line, function: String = #function) {
+    self.message = message
+    super.init(file: file, line: line, function: function)
+  }
+
+  override var reason: String { message }
 }

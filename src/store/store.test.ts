@@ -204,4 +204,15 @@ describe('store', () => {
     };
     expect(() => migrate(legacy, 0)).not.toThrow();
   });
+
+  it('keeps the periods and logs objects when a snapshot brings nothing new', () => {
+    onboard();
+    useStore.getState().startPeriod('2026-03-20');
+    const before = useStore.getState();
+    const snapshot = createSnapshot(selectSnapshotData(before), 'other');
+    useStore.getState().applySnapshot(snapshot, { includeProfile: false, includeProgress: false });
+    const after = useStore.getState();
+    expect(after.periods).toBe(before.periods);
+    expect(after.logs).toBe(before.logs);
+  });
 });

@@ -20,6 +20,13 @@ export interface SyncDeps {
   applyIncoming: (snapshot: Snapshot) => { periods: number; logs: number };
   /** The cycle owner's numbers, applied on the partner's phone only. */
   applyCycleSettings?: (settings: CycleSettings) => void;
+  /**
+   * True when this snapshot is what this phone published last time, so the write can be skipped.
+   * Called before the write with the snapshot that would be written.
+   */
+  alreadyPublished?: (snapshot: Snapshot) => boolean;
+  /** Called after a successful write with what was written. */
+  published?: (snapshot: Snapshot) => void;
   /** Only for tests; defaults to {@link MAX_CLOUD_PAYLOAD}. */
   maxPayload?: number;
 }
@@ -64,11 +71,14 @@ export async function runCloudSync(deps: SyncDeps): Promise<SyncOutcome> {
       }
     }
 
-    // 2. This phone's own data, after the merge.
-    const payload = encodePayload(deps.buildOutgoing());
+    // 2. This phone's own data, after the merge; skipped when it is what was published last time.
+    const outgoing = deps.buildOutgoing();
+    if (deps.alreadyPublished?.(outgoing)) return { ok: true, received, changed, wrote: false };
+    const payload = encodePayload(outgoing);
     if (payload.length > (deps.maxPayload ?? MAX_CLOUD_PAYLOAD))
       return { ok: false, reason: 'too-large' };
     await transport.write(ownRecord(role), payload);
+    deps.published?.(outgoing);
     return { ok: true, received, changed, wrote: true };
   } catch (e) {
     return { ok: false, reason: 'error', message: e instanceof Error ? e.message : String(e) };
