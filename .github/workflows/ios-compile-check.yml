@@ -21,12 +21,13 @@ concurrency:
 jobs:
   compile:
     name: compile (Xcode ${{ matrix.xcode }}, ${{ matrix.mode }})
-    runs-on: macos-15
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         # The newest Xcode on the runner can be ahead of what Expo supports; try a few.
-        xcode: ['16.4', '26.0']
+        os: [macos-26]
+        xcode: ['latest']
         mode: [simulator, device]
     timeout-minutes: 60
     steps:
@@ -40,7 +41,11 @@ jobs:
       - name: Select Xcode
         run: |
           ls -d /Applications/Xcode_*.app
-          app="$(ls -d /Applications/Xcode_${{ matrix.xcode }}*.app | sort -V | tail -n 1)"
+          if [ "${{ matrix.xcode }}" = latest ]; then
+            app="$(ls -d /Applications/Xcode_*.app | sort -V | tail -n 1)"
+          else
+            app="$(ls -d /Applications/Xcode_${{ matrix.xcode }}*.app | sort -V | tail -n 1)"
+          fi
           sudo xcode-select -s "$app"
           xcodebuild -version
 
