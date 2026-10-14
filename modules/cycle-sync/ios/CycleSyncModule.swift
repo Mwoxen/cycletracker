@@ -50,19 +50,19 @@ public class CycleSyncModule: Module {
     }
 
     AsyncFunction("createShare") { () async throws -> String in
-      try await self.createShare()
+      try await self.reporting { try await self.createShare() }
     }
 
     AsyncFunction("joinShare") { (url: String) async throws in
-      try await self.joinShare(url)
+      try await self.reporting { try await self.joinShare(url) }
     }
 
     AsyncFunction("write") { (name: String, payload: String) async throws in
-      try await self.write(name: name, payload: payload)
+      try await self.reporting { try await self.write(name: name, payload: payload) }
     }
 
     AsyncFunction("read") { (name: String) async throws -> [String: Any] in
-      try await self.read(name: name)
+      try await self.reporting { try await self.read(name: name) }
     }
 
     AsyncFunction("stop") { () async throws in
@@ -86,8 +86,32 @@ public class CycleSyncModule: Module {
     return CKRecordZone.ID(zoneName: name, ownerName: owner)
   }
 
+  /// An error whose text reaches the JavaScript side (a plain GenericException loses its message).
   private func fail(_ message: String) -> Exception {
-    GenericException(message)
+    Exception(name: "CycleSyncError", description: message)
+  }
+
+  /// CloudKit errors in words: the code, the system's text and the server's own explanation.
+  private func describe(_ error: Error) -> String {
+    guard let ck = error as? CKError else { return error.localizedDescription }
+    var parts = ["CKError \(ck.code.rawValue)", ck.localizedDescription]
+    if let server = ck.userInfo[CKErrorServerDescriptionKey] as? String { parts.append(server) }
+    if let partial = ck.partialErrorsByItemID, !partial.isEmpty {
+      let each = partial.values.prefix(3).map { describe($0) }.joined(separator: " | ")
+      parts.append("[\(each)]")
+    }
+    return parts.joined(separator: ": ")
+  }
+
+  /// Runs a call and turns anything it throws into an error with a readable message.
+  private func reporting<T>(_ body: () async throws -> T) async throws -> T {
+    do {
+      return try await body()
+    } catch let exception as Exception {
+      throw exception
+    } catch {
+      throw fail(describe(error))
+    }
   }
 
   // MARK: - Owner
@@ -117,11 +141,20 @@ public class CycleSyncModule: Module {
 
     let (saved, _) = try await db.modifyRecords(saving: [root, share], deleting: [])
     var savedShare: CKShare?
-    for (_, result) in saved {
-      if case .success(let record) = result, let s = record as? CKShare { savedShare = s }
+    var failures: [String] = []
+    for (id, result) in saved {
+      switch result {
+      case .success(let record):
+        if let s = record as? CKShare { savedShare = s }
+      case .failure(let error):
+        failures.append("\(id.recordName): \(describe(error))")
+      }
+    }
+    if !failures.isEmpty {
+      throw fail("Saving the share failed. " + failures.joined(separator: " ; "))
     }
     guard let url = (savedShare ?? share).url else {
-      throw fail("The share link was not created")
+      throw fail("The share was saved but has no link (zone \(zone.zoneID.zoneName))")
     }
 
     defaults.set("owner", forKey: Key.role)
