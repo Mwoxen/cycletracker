@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Udviklingsbuild · Cycle Tracker</title>
+    <link rel="stylesheet" href="site.css" />
+    <link rel="icon" href="icon.png" />
+  </head>
+  <body>
+    <header>
+      <img src="icon.png" alt="" />
+      <strong><a href="index.html" style="color: inherit">Cycle Tracker</a></strong>
+    </header>
+    <main>
+      <h1>Udviklingsbuild (CloudKit)</h1>
+      <div class="card">
+        <p>
+          Kun til de telefoner, der er registreret til ad hoc-builds. Åbn siden i Safari på
+          telefonen og tryk på knappen. Appen erstatter den installerede version; dine data bliver
+          på telefonen.
+        </p>
+        <p>
+          <a
+            href="itms-services://?action=download-manifest&amp;url=https://mwoxen.github.io/cycletracker/cloudkit-dev.plist"
+            >Installér Cycle Tracker (CloudKit dev)</a
+          >
+        </p>
+        <p>
+          Bagefter: Indstillinger → Automatisk deling → Start deling. Så findes posttypen
+          <code>cloudkit.share</code> i Development-skemaet i CloudKit Dashboard og kan deployes til
+          Production. Installér derefter TestFlight-versionen igen.
+        </p>
+      </div>
+    </main>
+  </body>
+</html>

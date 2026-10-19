@@ -1,0 +1,144 @@
+# One-off helper for CloudKit (SETUP.md 6c): builds the app on a GitHub macOS runner with ad hoc
+# signing and the iCloud container environment set to Development ("cloudkit-dev" profile in
+# eas.json), and publishes the IPA as the GitHub release "cloudkit-dev". Installed on a registered
+# iPhone (workflow "Register iPhone for ad hoc builds"), one "Start deling" in the app creates the
+# share record type in the Development schema, which can then be deployed to Production.
+#
+# Like ios-build-macos.yml this is free and uses no EAS build quota. Manual trigger only.
+name: iOS CloudKit development build
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ios-build-macos
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 90
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      REVENUECAT_IOS_KEY: ${{ secrets.REVENUECAT_IOS_KEY }}
+    steps:
+      - name: Check required secrets
+        run: |
+          for name in EXPO_TOKEN ASC_KEY_ID ASC_ISSUER_ID APPLE_TEAM_ID; do
+            if [ -z "${!name}" ]; then echo "::error::Missing secret $name (see SETUP.md)"; exit 1; fi
+          done
+          if [ -z "${{ secrets.ASC_API_KEY_P8 }}" ]; then echo "::error::Missing secret ASC_API_KEY_P8"; exit 1; fi
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Select Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -n 1)" && xcodebuild -version
+
+      - run: npm ci
+
+      - name: Require a linked EAS project
+        run: |
+          if [ ! -s .eas-project-id ]; then
+            echo "::error::No .eas-project-id yet. Run the 'EAS Update' workflow once first (it links the project)."
+            exit 1
+          fi
+
+      - name: Show what the build will be signed with
+        env:
+          CLOUDKIT_ENV: Development
+        run: |
+          npx expo config --type introspect --json 2>/dev/null | node -e '
+            let s = ""; process.stdin.on("data", (d) => (s += d)).on("end", () => {
+              const c = JSON.parse(s.slice(s.indexOf("{")));
+              console.log(JSON.stringify(c.ios.entitlements, null, 2));
+              const env = c.ios.entitlements["com.apple.developer.icloud-container-environment"];
+              if (env !== "Development") { console.error("Expected the Development iCloud environment, got " + env); process.exit(1); }
+            });'
+
+      - name: Write the App Store Connect API key and the build environment
+        run: |
+          printf '%s' "${{ secrets.ASC_API_KEY_P8 }}" > asc-api-key.p8
+          node -e '
+            const fs = require("fs");
+            const eas = JSON.parse(fs.readFileSync("eas.json", "utf8"));
+            eas.build["cloudkit-dev"].env = {
+              ...(eas.build["cloudkit-dev"].env || {}),
+              APPLE_TEAM_ID: process.env.APPLE_TEAM_ID,
+              ...(process.env.REVENUECAT_IOS_KEY ? { REVENUECAT_IOS_KEY: process.env.REVENUECAT_IOS_KEY } : {}),
+            };
+            fs.writeFileSync("eas.json", JSON.stringify(eas, null, 2) + "\n");
+          '
+
+      - name: Build with ad hoc signing
+        env:
+          EXPO_ASC_API_KEY_PATH: ${{ github.workspace }}/asc-api-key.p8
+          EXPO_ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          EXPO_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          EXPO_APPLE_TEAM_TYPE: ${{ secrets.APPLE_TEAM_TYPE || 'INDIVIDUAL' }}
+          EAS_LOCAL_BUILD_SKIP_CLEANUP: '1'
+          EAS_LOCAL_BUILD_WORKINGDIR: ${{ runner.temp }}/eas-local
+        run: |
+          # Ad hoc signing cannot be set up non-interactively (in that mode EAS only reuses
+          # credentials it already has), so the build runs interactively on a pseudo-terminal and
+          # every question gets its default: reuse the distribution certificate and put all
+          # registered iPhones in the profile. Apple is reached with the API key, so no login.
+          # expect presses Enter whenever the output has been quiet for a few seconds; an Enter
+          # while nothing is asked is harmless.
+          command -v expect > /dev/null || brew install expect
+          set -o pipefail
+          OUT="$RUNNER_TEMP/CycleTracker.ipa" expect -c '
+            set timeout 5
+            spawn eas build --platform ios --profile cloudkit-dev --local --output $env(OUT)
+            expect {
+              timeout { send "\r"; exp_continue }
+              -re ".+" { exp_continue }
+              eof
+            }
+            lassign [wait] pid spawnid os_error exit_code
+            exit $exit_code
+          ' 2>&1 | tee "$RUNNER_TEMP/build.log"
+          test -s "$RUNNER_TEMP/CycleTracker.ipa"
+
+      - name: Publish as the "cloudkit-dev" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # A fixed tag, so the install page on GitHub Pages (docs/site/dev.html) always points at
+          # the newest build. The IPA only installs on the iPhones in its signing profile.
+          gh release delete cloudkit-dev --yes --cleanup-tag --repo "$GITHUB_REPOSITORY" || true
+          gh release create cloudkit-dev "$RUNNER_TEMP/CycleTracker.ipa#CycleTracker-dev.ipa" \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
+            --title "CloudKit development build" \
+            --notes "Ad hoc build of $GITHUB_SHA signed for the CloudKit Development environment. Install from https://mwoxen.github.io/cycletracker/dev.html (SETUP.md 6c)."
+          echo "Installér fra https://mwoxen.github.io/cycletracker/dev.html" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudkit-dev-build-log
+          path: |
+            ${{ runner.temp }}/build.log
+            ${{ runner.temp }}/eas-local/**/*.log
+          if-no-files-found: ignore
+
+      - name: Remove the API key
+        if: always()
+        run: rm -f asc-api-key.p8

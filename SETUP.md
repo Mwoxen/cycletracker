@@ -180,6 +180,28 @@ posttyper. Det gør du én gang i CloudKit Dashboard:
 I appen: hun går til Indstillinger → Automatisk deling → Start deling og sender linket. Partneren
 indsætter linket samme sted. Linket virker kun for den, der får det, og kan fjernes igen med Stop.
 
+## 6c. Hvis "Start deling" fejler med CKErrorDomain 12 (posttypen `cloudkit.share` mangler)
+
+Selve delingen er en post af systemtypen `cloudkit.share`. Den kan ikke oprettes i dashboardet; den
+opstår først, når en app gemmer en deling i **Development**, og skal så deployes til Production.
+TestFlight-builds kører altid mod Production, så typen kommer aldrig af sig selv. Prøv først
+**Import Schema** i Development med en skemafil, der har en `cloudkit.share`-blok (eksport af
+Development-skemaet plus blokken med systemfelterne, `GRANT WRITE TO "_creator"` og
+`GRANT READ TO "_world"`). Afviser dashboardet den, så lav ét udviklingsbuild uden Mac:
+
+1. Workflowet **Register iPhone for ad hoc builds** → Run workflow. Åbn linket fra jobbets
+   oversigt i Safari på hendes telefon, tryk Download Profile, og installér profilen under
+   Indstillinger → Profil hentet. (Registreringen gælder for alle fremtidige ad hoc-builds.)
+2. Workflowet **iOS CloudKit development build** → Run workflow (branchen med koden). Det bygger
+   med profilen `cloudkit-dev` (ad hoc, iCloud-miljø Development) og lægger IPA'en som release
+   `cloudkit-dev`. Ca. 30 minutter.
+3. Kør workflowet **Pages** én gang (Run workflow, samme branch), så installationssiden findes.
+4. På hendes telefon: åbn https://mwoxen.github.io/cycletracker/dev.html i Safari, installér, og
+   tryk Indstillinger → Automatisk deling → **Start deling**.
+5. I CloudKit Dashboard → Development → Record Types står nu `cloudkit.share`. Tryk
+   **Deploy Schema Changes…** til Production.
+6. Installér TestFlight-versionen igen fra TestFlight. Deling virker nu i Production.
+
 ## 7. App Store
 
 Når appen virker i TestFlight, følg `store/CHECKLIST.md`. Alle tekster ligger klar i
