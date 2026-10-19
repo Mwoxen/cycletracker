@@ -94,18 +94,26 @@ public class CycleSyncModule: Module {
     CycleSyncError(message)
   }
 
-  /// CloudKit errors in words: the code, the system's text and the server's own explanation.
+  /// Errors in words: our own message when it is ours, otherwise the domain, code, the system's
+  /// text and whatever else the error carries (CloudKit puts the server's explanation in there).
   private func describe(_ error: Error) -> String {
-    guard let ck = error as? CKError else { return error.localizedDescription }
-    var parts = ["CKError \(ck.code.rawValue)", ck.localizedDescription]
-    if let server = ck.userInfo["ServerErrorDescription"] as? String { parts.append(server) }
-    if let underlying = ck.userInfo[NSUnderlyingErrorKey] as? NSError {
-      parts.append("underlying \(underlying.domain) \(underlying.code): \(underlying.localizedDescription)")
+    if let own = error as? Exception { return own.reason }
+    let ns = error as NSError
+    var parts = ["\(ns.domain) \(ns.code)", ns.localizedDescription]
+    if let ck = error as? CKError {
+      if let partial = ck.partialErrorsByItemID, !partial.isEmpty {
+        let each = partial.values.prefix(3).map { describe($0) }.joined(separator: " | ")
+        parts.append("[\(each)]")
+      }
     }
-    if let partial = ck.partialErrorsByItemID, !partial.isEmpty {
-      let each = partial.values.prefix(3).map { describe($0) }.joined(separator: " | ")
-      parts.append("[\(each)]")
+    if let underlying = ns.userInfo[NSUnderlyingErrorKey] as? NSError {
+      parts.append("underlying: \(describe(underlying))")
     }
+    let skip: Set<String> = [NSLocalizedDescriptionKey, NSUnderlyingErrorKey, "CKPartialErrors"]
+    let rest = ns.userInfo.filter { !skip.contains($0.key) }
+      .map { "\($0.key)=\($0.value)" }
+      .joined(separator: ", ")
+    if !rest.isEmpty { parts.append(String(rest.prefix(600))) }
     return parts.joined(separator: ": ")
   }
 
@@ -179,7 +187,22 @@ public class CycleSyncModule: Module {
       log.append("C: \(describe(error))")
     }
 
-    throw fail("The share could not be created. " + log.joined(separator: "  ||  "))
+    // D is a test, not a way in: the same share with read-only public access. If CloudKit accepts
+    // that, it is the public read-write access it refuses, which decides how this gets fixed.
+    do {
+      let existing = try? await db.record(for: rootId)
+      let share = CKShare(rootRecord: existing ?? makeRoot(rootId))
+      share[CKShare.SystemFieldKey.title] = "Cycle Tracker" as CKRecordValue
+      share.publicPermission = .readOnly
+      _ = try await saveShare(db, [existing ?? makeRoot(rootId), share])
+      _ = try? await db.deleteRecordZone(withID: zone.zoneID)
+      log.append("D: a read-only public share IS accepted, so CloudKit refuses public read-write access")
+    } catch {
+      log.append("D (read-only test): \(describe(error))")
+    }
+
+    let os = ProcessInfo.processInfo.operatingSystemVersionString
+    throw fail("The share could not be created (\(os)). " + log.joined(separator: "  ||  "))
   }
 
   private func makeRoot(_ id: CKRecord.ID) -> CKRecord {
