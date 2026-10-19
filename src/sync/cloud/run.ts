@@ -82,7 +82,9 @@ async function run(transport: CloudTransport): Promise<SyncOutcome> {
         settings.lutealLength !== incoming.lutealLength
       ) {
         updateSettings(incoming);
+        return true;
       }
+      return false;
     },
   });
   return finish(outcome);

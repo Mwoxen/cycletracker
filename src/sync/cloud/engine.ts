@@ -16,10 +16,13 @@ export interface SyncDeps {
   role: CloudRole;
   /** What this phone publishes: its cycle data as a full snapshot. */
   buildOutgoing: () => Snapshot;
-  /** Merges the other phone's data in and reports how much changed. */
+  /** Merges the other phone's data in and reports how many periods and logs changed. */
   applyIncoming: (snapshot: Snapshot) => { periods: number; logs: number };
-  /** The cycle owner's numbers, applied on the partner's phone only. */
-  applyCycleSettings?: (settings: CycleSettings) => void;
+  /**
+   * The cycle owner's numbers, applied on the partner's phone only. Returns whether they differed
+   * from what the phone had, so the change is counted.
+   */
+  applyCycleSettings?: (settings: CycleSettings) => boolean | void;
   /**
    * True when this snapshot is what this phone published last time, so the write can be skipped.
    * Called before the write with the snapshot that would be written.
@@ -66,7 +69,7 @@ export async function runCloudSync(deps: SyncDeps): Promise<SyncOutcome> {
         changed = result.periods + result.logs;
         received = true;
         if (role === 'participant' && snapshot.cycleSettings) {
-          deps.applyCycleSettings?.(snapshot.cycleSettings);
+          if (deps.applyCycleSettings?.(snapshot.cycleSettings) === true) changed += 1;
         }
       }
     }
