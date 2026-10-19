@@ -8,7 +8,7 @@ import {
 } from '@/store/snapshot';
 import { decodePayload, encodePayload } from '@/sync/payload';
 
-import { runCloudSync } from './engine';
+import { runCloudSync, type SyncDeps } from './engine';
 import type { CloudAccount, CloudRecord, CloudRole, CloudTransport } from './transport';
 
 /** Both phones see the same shared space; this stands in for iCloud. */
@@ -91,7 +91,7 @@ function phone(role: CloudRole, initial: Partial<SnapshotData> = {}) {
       data = { ...data, ...partial };
     },
     applied,
-    deps: (cloud: FakeCloud, extra: { maxPayload?: number } = {}) => ({
+    deps: (cloud: FakeCloud, extra: Partial<SyncDeps> = {}) => ({
       transport: cloud.transport(),
       role,
       buildOutgoing: () => createSyncSnapshot(data, `device-${role}`),
@@ -100,7 +100,15 @@ function phone(role: CloudRole, initial: Partial<SnapshotData> = {}) {
         data = r.data;
         return { periods: r.periodsChanged, logs: r.logsChanged };
       },
-      applyCycleSettings: (s: CycleSettings) => applied.push(s),
+      applyCycleSettings: (s: CycleSettings) => {
+        applied.push(s);
+        const same =
+          data.settings.defaultCycleLength === s.defaultCycleLength &&
+          data.settings.defaultPeriodLength === s.defaultPeriodLength &&
+          data.settings.lutealLength === s.lutealLength;
+        if (!same) data = { ...data, settings: { ...data.settings, ...s } };
+        return !same;
+      },
       ...extra,
     }),
   };
@@ -241,6 +249,18 @@ describe('automatic sync between two phones', () => {
       expect(him.applied).toEqual([
         { defaultCycleLength: 31, defaultPeriodLength: 6, lutealLength: 13 },
       ]);
+    });
+
+    it('count as a change on his phone, and not when they are what he already had', async () => {
+      const cloud = new FakeCloud();
+      const her = phone('owner', { settings: { ...DEFAULT_SETTINGS, defaultCycleLength: 31 } });
+      await runCloudSync(her.deps(cloud));
+      const him = phone('participant');
+      let same = false;
+      const deps = him.deps(cloud, { applyCycleSettings: () => !same });
+      expect(await runCloudSync(deps)).toMatchObject({ ok: true, changed: 1 });
+      same = true;
+      expect(await runCloudSync(deps)).toMatchObject({ ok: true, changed: 0 });
     });
 
     it('are never applied on her own phone from his data', async () => {

@@ -17,6 +17,15 @@
       "ios": {
         "resourceClass": "m-medium"
       }
+    },
+    "cloudkit-dev": {
+      "extends": "production",
+      "distribution": "internal",
+      "channel": "cloudkit-dev",
+      "autoIncrement": false,
+      "env": {
+        "CLOUDKIT_ENV": "Development"
+      }
     }
   },
   "submit": {

@@ -141,7 +141,9 @@ function mergeSyncable<T extends Syncable>(
       changed += 1;
     }
   }
-  return { result, changed };
+  // The same object when nothing changed, so a merge that brings nothing new is not seen as a
+  // change by anything watching the store (the cloud sync would otherwise run again and again).
+  return { result: changed ? result : current, changed };
 }
 
 function mergeProgress(
@@ -177,12 +179,16 @@ function mergeWeekFocus(
   incoming: WeekFocus[],
 ): Record<string, WeekFocus> {
   const result = { ...current };
+  let changed = false;
   for (const item of incoming) {
     const key = String(item.week);
     const existing = result[key];
-    if (!existing || item.updatedAt > existing.updatedAt) result[key] = item;
+    if (!existing || item.updatedAt > existing.updatedAt) {
+      result[key] = item;
+      changed = true;
+    }
   }
-  return result;
+  return changed ? result : current;
 }
 
 /** Union of ticked actions per cycle and key (week or phase); a tick on either device stays. */

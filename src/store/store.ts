@@ -342,6 +342,8 @@ export const useStore = create<AppState>()(
         phaseActionsDone: state.phaseActionsDone,
         entitlement: state.entitlement,
         previewFree: state.previewFree,
+        // Only the time: errors are found again by the next round.
+        cloudSync: { lastSyncAt: state.cloudSync.lastSyncAt },
       }),
       migrate: (persisted, version) => {
         // Future schema migrations go here, keyed on `version`.

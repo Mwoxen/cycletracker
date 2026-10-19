@@ -1,0 +1,77 @@
+# Registers an iPhone for internal (ad hoc) builds, without a computer: the job runs
+# "eas device:create", which only has an interactive mode, and answers its two questions itself.
+# It prints a registration link in the job summary. Open the link on the iPhone and install the
+# profile it offers; that stores the phone's UDID at EAS. The next "cloudkit-dev" build in
+# "iOS build (macOS fallback)" then includes the phone in its signing profile. See SETUP.md 6c.
+name: Register iPhone for ad hoc builds
+
+on:
+  workflow_dispatch:
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EXPO_ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      EXPO_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      EXPO_APPLE_TEAM_TYPE: ${{ secrets.APPLE_TEAM_TYPE || 'INDIVIDUAL' }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+    steps:
+      - name: Check required secrets
+        run: |
+          for name in EXPO_TOKEN EXPO_ASC_KEY_ID EXPO_ASC_ISSUER_ID EXPO_APPLE_TEAM_ID; do
+            if [ -z "${!name}" ]; then echo "::error::Missing secret $name (see SETUP.md)"; exit 1; fi
+          done
+          if [ -z "${{ secrets.ASC_API_KEY_P8 }}" ]; then echo "::error::Missing secret ASC_API_KEY_P8"; exit 1; fi
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - run: npm ci
+
+      - name: Write the App Store Connect API key
+        run: printf '%s' "${{ secrets.ASC_API_KEY_P8 }}" > asc-api-key.p8
+
+      - name: Create a registration link
+        env:
+          EXPO_ASC_API_KEY_PATH: ${{ github.workspace }}/asc-api-key.p8
+        run: |
+          sudo apt-get install -y -qq expect > /dev/null
+          # The command asks (1) whether to use the project's account and (2) how to register.
+          # expect presses Enter whenever the output has been quiet for a few seconds, which
+          # accepts both defaults (yes, "Website"); the command then prints the link and exits.
+          expect -c '
+            set timeout 4
+            spawn eas device:create
+            expect {
+              timeout { send "\r"; exp_continue }
+              -re ".+" { exp_continue }
+              eof
+            }
+          ' | tee device-create.log
+          url="$(grep -o 'https://expo.dev/register-device/[A-Za-z0-9-]*' device-create.log | tail -n 1)"
+          if [ -z "$url" ]; then echo "::error::No registration link was printed; see the log above."; exit 1; fi
+          {
+            echo "## Registrér telefonen"
+            echo
+            echo "Åbn dette link i Safari på den iPhone, der skal have buildet, og tryk Download Profile. Installér derefter profilen under Indstillinger → Profil hentet."
+            echo
+            echo "$url"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "Registration link: $url"
+
+      - name: Remove the API key
+        if: always()
+        run: rm -f asc-api-key.p8 device-create.log

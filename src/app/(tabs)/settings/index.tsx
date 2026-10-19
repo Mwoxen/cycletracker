@@ -552,8 +552,10 @@ export default function SettingsScreen() {
           <Row
             title={t('settings.share')}
             subtitle={
-              pairing.lastSharedAt
-                ? t('home.lastShared', { when: relativeTime(pairing.lastSharedAt) })
+              pairing.lastSharedAt || cloudSync.lastSyncAt
+                ? t('home.lastShared', {
+                    when: relativeTime(Math.max(pairing.lastSharedAt ?? 0, cloudSync.lastSyncAt ?? 0)),
+                  })
                 : t('home.neverShared')
             }
             symbol="qrcode"

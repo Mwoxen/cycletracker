@@ -343,6 +343,21 @@ describe('createSyncSnapshot', () => {
   });
 });
 
+describe('a merge that brings nothing new', () => {
+  it('keeps the same objects, so nothing watching the store sees a change', () => {
+    const current = data({
+      periods: { a: p('a', '2026-03-01', 10) },
+      weekFocus: { '1': { week: 1, text: 'x', updatedAt: 5 } },
+    });
+    const same = createSyncSnapshot(current, 'dev2');
+    const merged = mergeSnapshot(current, same, { includeProfile: false, includeProgress: false });
+    expect(merged.data.periods).toBe(current.periods);
+    expect(merged.data.logs).toBe(current.logs);
+    expect(merged.data.weekFocus).toBe(current.weekFocus);
+    expect(merged.periodsChanged + merged.logsChanged).toBe(0);
+  });
+});
+
 describe('cycleSettings in sync snapshots', () => {
   it('is sent by the cycle owner only', () => {
     const owner = createSyncSnapshot(data(), 'dev1');

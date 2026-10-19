@@ -59,6 +59,7 @@ export default function HomeScreen() {
   const theme = usePhaseTheme();
   const profile = useStore((s) => s.profile);
   const pairing = useStore((s) => s.pairing);
+  const cloudSyncAt = useStore((s) => s.cloudSync.lastSyncAt);
   const { today, snapshot } = useCycle();
   const program = useProgram();
   const todayLog = useStore(selectLogForDate(today));
@@ -95,14 +96,16 @@ export default function HomeScreen() {
   if (todayLog?.energy) logChips.push(t(`log.energies.${todayLog.energy}`));
   const tip = todayLog?.symptoms.length ? program.content.symptomTips[todayLog.symptoms[0]] : null;
 
+  // The QR code and the automatic sync both keep the partner up to date; show the newest.
+  const syncedAt = latest(isTracker ? pairing.lastSyncAt : pairing.lastSharedAt, cloudSyncAt);
   const syncLine = isTracker
-    ? pairing.lastSyncAt
-      ? t('home.lastSynced', { when: relativeTime(pairing.lastSyncAt) })
+    ? syncedAt
+      ? t('home.lastSynced', { when: relativeTime(syncedAt) })
       : t('home.neverSynced')
-    : pairing.lastSharedAt
-      ? t('home.lastShared', { when: relativeTime(pairing.lastSharedAt) })
+    : syncedAt
+      ? t('home.lastShared', { when: relativeTime(syncedAt) })
       : t('home.neverShared');
-  const synced = isTracker ? !!pairing.lastSyncAt : !!pairing.lastSharedAt;
+  const synced = !!syncedAt;
 
   const actions = (
     <View style={styles.actions}>
@@ -299,6 +302,10 @@ export default function HomeScreen() {
       </Screen>
     </TabSwipe>
   );
+}
+
+function latest(a?: number, b?: number): number | undefined {
+  return Math.max(a ?? 0, b ?? 0) || undefined;
 }
 
 const styles = StyleSheet.create({
