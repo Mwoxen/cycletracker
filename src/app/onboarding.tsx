@@ -52,9 +52,11 @@ export default function Onboarding() {
     };
   }, []);
 
-  const restore = () => {
+  const restore = async () => {
     if (!backup) return;
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    // Same as finishing the setup: without this, a restored install never gets a notification.
+    await requestNotificationPermission();
     applySnapshot(backup, { includeProfile: true, includeProgress: true });
   };
   const defaults = useStore((s) => s.settings);
@@ -118,7 +120,7 @@ export default function Onboarding() {
             <Button
               title={t('onboarding.restoreButton')}
               symbol="icloud.and.arrow.down"
-              onPress={restore}
+              onPress={() => void restore()}
             />
           </Card>
         ) : checkingBackup ? (

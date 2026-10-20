@@ -25,7 +25,7 @@ import { useCloudSync } from '@/hooks/use-cloud-sync';
 import { useNotificationTaps } from '@/hooks/use-notification-taps';
 import { useWidgetSync } from '@/hooks/use-widget-sync';
 import { setLanguage } from '@/i18n';
-import { usePlan } from '@/entitlements';
+import { resolvePlan, usePlan } from '@/entitlements';
 import { installNotificationHandler, syncNotifications } from '@/notifications';
 import { configurePurchases, refreshEntitlement } from '@/purchases';
 import { selectActivePeriods, useStore } from '@/store/store';
@@ -96,7 +96,12 @@ export default function RootLayout() {
   useEffect(() => {
     if (!hydrated) return;
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') void refreshEntitlement();
+      if (state !== 'active') return;
+      void refreshEntitlement();
+      // Notification permission can change in iOS Settings while the app is in the background.
+      const s = useStore.getState();
+      const plan = resolvePlan(s.profile, s.entitlement, s.previewFree);
+      void syncNotifications(s.profile, s.settings, selectActivePeriods(s), plan);
     });
     return () => sub.remove();
   }, [hydrated]);

@@ -16,8 +16,13 @@ import { exportSnapshotFile, pickSnapshotFile } from '@/backup/file';
 import { useFormat } from '@/hooks/use-format';
 import { relativeTime } from '@/hooks/use-relative-time';
 import { useToday } from '@/hooks/use-today';
-import { hasNotificationPermission, requestNotificationPermission } from '@/notifications';
-import { previewMerge, selectSnapshotData, useStore } from '@/store';
+import {
+  notificationPermissionState,
+  requestNotificationPermission,
+  syncNotifications,
+  type NotificationPermissionState,
+} from '@/notifications';
+import { previewMerge, selectActivePeriods, selectSnapshotData, useStore } from '@/store';
 import { TabSwipe } from '@/ui/tab-swipe';
 import { colors, spacing } from '@/ui/colors';
 import { usePhaseTheme } from '@/ui/theme';
@@ -69,7 +74,8 @@ export default function SettingsScreen() {
   const updateSettings = useStore((s) => s.updateSettings);
   const updateReminders = useStore((s) => s.updateReminders);
   const resetAll = useStore((s) => s.resetAll);
-  const [notifGranted, setNotifGranted] = useState<boolean | undefined>();
+  const [notifState, setNotifState] = useState<NotificationPermissionState | undefined>();
+  const notifHint = notifState === 'denied' || notifState === 'undetermined';
   const [name, setName] = useState(profile?.partnerName ?? '');
   const [openPicker, setOpenPicker] = useState<'start' | 'time' | 'programTime' | null>(null);
   const [updateState, setUpdateState] = useState<'idle' | 'checking' | 'downloading'>('idle');
@@ -82,12 +88,12 @@ export default function SettingsScreen() {
   // again whenever the tab is shown and whenever the app comes back to the front.
   useFocusEffect(
     useCallback(() => {
-      void hasNotificationPermission().then(setNotifGranted);
+      void notificationPermissionState().then(setNotifState);
     }, []),
   );
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') void hasNotificationPermission().then(setNotifGranted);
+      if (state === 'active') void notificationPermissionState().then(setNotifState);
     });
     return () => sub.remove();
   }, []);
@@ -108,12 +114,18 @@ export default function SettingsScreen() {
     key: 'dailyCard' | 'periodSoon' | 'pmsWindow' | 'weeklyRead' | 'monthWrap',
     value: boolean,
   ) => {
-    if (value) {
-      const granted = await requestNotificationPermission();
-      setNotifGranted(granted);
-      if (!granted) return;
-    }
+    if (value && !(await allowNotifications())) return;
     updateReminders({ [key]: value });
+  };
+  /** Asks iOS, and schedules everything right away when the answer is yes. */
+  const allowNotifications = async () => {
+    const granted = await requestNotificationPermission();
+    setNotifState(granted ? 'granted' : 'denied');
+    if (granted) {
+      const s = useStore.getState();
+      void syncNotifications(s.profile, s.settings, selectActivePeriods(s), plan);
+    }
+    return granted;
   };
   const reminderTime = new Date();
   reminderTime.setHours(r.dailyCardHour, r.dailyCardMinute, 0, 0);
@@ -430,7 +442,7 @@ export default function SettingsScreen() {
                 onValueChange={(v) => void toggleReminder('pmsWindow', v)}
               />
             }
-            last={notifGranted !== false && !isTracker}
+            last={!notifHint && !isTracker}
           />
           {isTracker ? (
             <>
@@ -451,7 +463,7 @@ export default function SettingsScreen() {
                     onValueChange={(v) => void toggleReminder('monthWrap', v)}
                   />
                 }
-                last={notifGranted !== false && !(r.weeklyRead || r.monthWrap)}
+                last={!notifHint && !(r.weeklyRead || r.monthWrap)}
               />
               {r.weeklyRead || r.monthWrap ? (
                 <>
@@ -467,7 +479,7 @@ export default function SettingsScreen() {
                         {fmt.time(programTime)}
                       </Txt>
                     }
-                    last={notifGranted !== false && openPicker !== 'programTime'}
+                    last={!notifHint && openPicker !== 'programTime'}
                   />
                   {openPicker === 'programTime' ? (
                     <DateTimePicker
@@ -488,7 +500,13 @@ export default function SettingsScreen() {
               ) : null}
             </>
           ) : null}
-          {notifGranted === false ? (
+          {notifState === 'undetermined' ? (
+            <Button
+              title={t('settings.notificationsAsk')}
+              variant="plain"
+              onPress={() => void allowNotifications()}
+            />
+          ) : notifState === 'denied' ? (
             <Button
               title={t('settings.notificationsDenied')}
               variant="plain"

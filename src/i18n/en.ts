@@ -407,6 +407,7 @@ const en: Translation = {
     weeklyRead: 'New article of the week',
     monthWrap: 'Monthly wrap and quiz',
     programTime: 'Time for articles and wraps',
+    notificationsAsk: 'Turn on notifications',
     notificationsDenied: 'Notifications are turned off in iOS Settings.',
     backup: 'Backup and sharing',
     cloudBackup: 'iCloud backup',
