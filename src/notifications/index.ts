@@ -105,10 +105,23 @@ export async function requestNotificationPermission(): Promise<boolean> {
 }
 
 export async function hasNotificationPermission(): Promise<boolean> {
+  return (await notificationPermissionState()) === 'granted';
+}
+
+export type NotificationPermissionState = 'granted' | 'undetermined' | 'denied';
+
+/**
+ * 'undetermined' means iOS has never shown the permission dialog for this install (for example
+ * after a reinstall and a restore from backup), so the app can still ask; 'denied' means the user
+ * said no and only iOS Settings can change it.
+ */
+export async function notificationPermissionState(): Promise<NotificationPermissionState> {
   try {
-    return (await Notifications.getPermissionsAsync()).granted;
+    const current = await Notifications.getPermissionsAsync();
+    if (current.granted) return 'granted';
+    return current.canAskAgain && current.status === 'undetermined' ? 'undetermined' : 'denied';
   } catch {
-    return false;
+    return 'denied';
   }
 }
 

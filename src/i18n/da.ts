@@ -405,6 +405,7 @@ const da = {
     weeklyRead: 'Ny artikel i ugen',
     monthWrap: 'Månedens opsamling og quiz',
     programTime: 'Tidspunkt for artikler og opsamling',
+    notificationsAsk: 'Slå notifikationer til',
     notificationsDenied: 'Notifikationer er slået fra i iOS-indstillinger.',
     backup: 'Backup og deling',
     cloudBackup: 'iCloud-backup',
