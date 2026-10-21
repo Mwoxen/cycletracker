@@ -104,7 +104,7 @@ export default function ReminderTimesSheet() {
       {slots.map((slot) => {
         const active = open === slot.key;
         return (
-          <View key={slot.key}>
+          <View key={slot.key} style={styles.group}>
             <SectionTitle>{groupTitle[slot.key]}</SectionTitle>
             <Card style={styles.rowsCard}>
               <Row
@@ -192,6 +192,8 @@ const styles = StyleSheet.create({
   content: { padding: spacing.lg, gap: spacing.md, paddingBottom: spacing.xl },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   rowsCard: { padding: 0, paddingHorizontal: spacing.md, gap: 0 },
+  // The section label's negative bottom margin assumes the screen's 16 pt gap between items.
+  group: { gap: spacing.md },
   time: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8 },
   quick: {
     flexDirection: 'row',
