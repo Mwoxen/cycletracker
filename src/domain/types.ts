@@ -148,6 +148,8 @@ export interface Profile {
   language: Language;
   /** The name the tracker uses for their partner, or the user's own name. */
   partnerName: string;
+  /** The tracker's own name, shown on the profile card. Optional; the user role has no use for it. */
+  ownName?: string;
   /** Program day 1 is this date. */
   programStartDate: ISODate;
   plan: 'free';

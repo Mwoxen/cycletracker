@@ -23,6 +23,7 @@ export default function ProfileScreen() {
   const profile = useStore((s) => s.profile);
   const updateProfile = useStore((s) => s.updateProfile);
   const [name, setName] = useState(profile?.partnerName ?? '');
+  const [ownName, setOwnName] = useState(profile?.ownName ?? '');
   const [pickingStart, setPickingStart] = useState(false);
 
   if (!profile) return null;
@@ -58,7 +59,7 @@ export default function ProfileScreen() {
   return (
     <Screen title={t('settings.profile')}>
       <View style={styles.hero}>
-        <Avatar name={profile.partnerName} size={84} />
+        <Avatar name={isTracker ? profile.ownName : profile.partnerName} size={84} />
         <Txt variant="footnote">{programLine}</Txt>
       </View>
 
@@ -70,6 +71,24 @@ export default function ProfileScreen() {
 
       <SectionTitle>{t('settings.names')}</SectionTitle>
       <Card style={styles.rowsCard}>
+        {isTracker ? (
+          <Row
+            title={t('settings.yourName')}
+            trailing={
+              <TextInput
+                value={ownName}
+                onChangeText={setOwnName}
+                onEndEditing={() => updateProfile({ ownName: ownName.trim() || undefined })}
+                placeholder={t('settings.yourNamePlaceholder')}
+                placeholderTextColor={colors.tertiaryLabel}
+                style={styles.input}
+                autoCapitalize="words"
+                returnKeyType="done"
+                accessibilityLabel={t('settings.yourName')}
+              />
+            }
+          />
+        ) : null}
         <Row
           title={isTracker ? t('settings.partnerName') : t('settings.yourName')}
           last

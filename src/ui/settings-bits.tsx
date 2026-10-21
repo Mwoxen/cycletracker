@@ -49,10 +49,10 @@ export function Pill({ label, filled }: { label: string; filled?: boolean }) {
 }
 
 /** The round initial used on the profile card and the profile screen. */
-export function Avatar({ name, size = 52 }: { name: string; size?: number }) {
+export function Avatar({ name, size = 52 }: { name?: string; size?: number }) {
   const theme = usePhaseTheme();
   const { t } = useTranslation();
-  const initial = name.trim().charAt(0).toUpperCase() || '·';
+  const initial = name?.trim().charAt(0).toUpperCase();
   return (
     <View
       accessibilityLabel={t('settings.profile')}
@@ -64,13 +64,17 @@ export function Avatar({ name, size = 52 }: { name: string; size?: number }) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <Txt
-        variant="cardTitle"
-        color={theme.accent}
-        // The variant's fixed line height clips a glyph this big, so it scales with the size.
-        style={{ fontSize: size * 0.42, lineHeight: Math.round(size * 0.42 * 1.3) }}>
-        {initial}
-      </Txt>
+      {initial ? (
+        <Txt
+          variant="cardTitle"
+          color={theme.accent}
+          // The variant's fixed line height clips a glyph this big, so it scales with the size.
+          style={{ fontSize: size * 0.42, lineHeight: Math.round(size * 0.42 * 1.3) }}>
+          {initial}
+        </Txt>
+      ) : (
+        <Icon name="person.fill" size={size * 0.4} color={theme.accent} />
+      )}
     </View>
   );
 }

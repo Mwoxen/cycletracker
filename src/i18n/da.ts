@@ -452,6 +452,8 @@ const da = {
     programDone: 'Programmet er gennemført',
     roleHelp:
       'Partneren læser dagens kort og får hendes registreringer. Den, der har cyklussen, registrerer og deler.',
+    yourNamePlaceholder: 'Dit fornavn',
+    partnerOf: 'Partner til {{name}}',
     names: 'Navne',
     nameHelp: 'Navnet bruges i kortene: "{{name}} har overskud i dag".',
     program: 'Program',
