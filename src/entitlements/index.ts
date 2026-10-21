@@ -3,9 +3,10 @@
  * the subscription directly. The plan comes from the cached entitlement in the store, which
  * `src/purchases` keeps in step with the App Store through RevenueCat.
  *
- * What is free: month 1 of the program, the phase pages, the calendar, logging, backup and
- * sharing between the two phones. Cycle Tracker Plus unlocks months 2-12 and the personal
- * overview. The user role (she) always has full access: she does not pay to be understood.
+ * What is free: the first 7 days of the program, the phase pages, the calendar, logging, backup
+ * and sharing between the two phones. Cycle Tracker Plus unlocks the rest of the year (day 8
+ * onwards) and the personal overview. The user role (she) always has full access: she does not
+ * pay to be understood.
  */
 import type { Entitlement, Profile } from '@/domain/types';
 import { useStore } from '@/store/store';
@@ -14,8 +15,8 @@ export type Feature = 'fullProgram' | 'cloudBackup' | 'sync' | 'personalOverview
 
 export type Plan = 'free' | 'plus';
 
-/** Program months anyone can read; later months need Plus. */
-export const FREE_MONTHS = 1;
+/** Program days anyone can read; from the next day on the program needs Plus. */
+export const FREE_DAYS = 7;
 
 const PLUS_FEATURES: Feature[] = ['fullProgram', 'personalOverview'];
 
@@ -36,9 +37,9 @@ export function hasAccess(feature: Feature, plan: Plan): boolean {
   return !PLUS_FEATURES.includes(feature);
 }
 
-/** Whether a program month is readable on the plan (unlock-by-day still applies on top). */
-export function hasMonthAccess(month: number, plan: Plan): boolean {
-  return plan === 'plus' || month <= FREE_MONTHS;
+/** Whether a program day is readable on the plan (unlock-by-date still applies on top). */
+export function hasDayAccess(programDay: number, plan: Plan): boolean {
+  return plan === 'plus' || programDay <= FREE_DAYS;
 }
 
 export function usePlan(): Plan {
@@ -52,6 +53,6 @@ export function useHasAccess(feature: Feature): boolean {
   return hasAccess(feature, usePlan());
 }
 
-export function useMonthAccess(month: number): boolean {
-  return hasMonthAccess(month, usePlan());
+export function useDayAccess(programDay: number): boolean {
+  return hasDayAccess(programDay, usePlan());
 }

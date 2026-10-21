@@ -54,7 +54,7 @@ link-deling mellem partnernes telefoner) og Fase 3 (hele årsprogrammet: 12 mån
 kort, 48 ugentlige artikler og 12 quizzer på dansk og engelsk, plus arkiv, søgning, streak og en
 personlig årsoversigt), Fase 4 (ikon, splash, privatlivspolitik, App Store-metadata og tjekliste,
 macOS-fallback-build) og Fase 5 (varmt design, cyklusring, animationer, tilgængelighed og en
-hjemmeskærms-widget) og Fase 6 (Cycle Tracker Plus: måned 1 gratis, resten af året som
+hjemmeskærms-widget) og Fase 6 (Cycle Tracker Plus: de første 7 dage gratis, resten af året som
 abonnement via RevenueCat, tilbudskoder og tildelt adgang) er bygget, og appen har fået det
 endelige udtryk "1c Intim" (`docs/design/README.md`: fasetonet accent, Manrope, 280 pt cyklusring,
 nye læseskærme, kalender og registrering). Tilbage: App Store-indsendelse (dit klik).

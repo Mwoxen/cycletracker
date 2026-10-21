@@ -27,8 +27,11 @@ De første abonnementer sendes til review sammen med en appversion; de kan ikke 
 - [ ] **Review-skærmbillede af betalingsskærmen** på begge abonnementer. Tag det på en telefon, hvor
   priserne vises (ikke fejlbeskeden), og skriv gerne en kort note til reviewer: hvordan man åbner
   betalingsskærmen (Indstillinger → Cycle Tracker Plus, eller en låst måned).
-- [ ] **Introtilbuddet, gratis i 1 uge,** gælder **alle lande** på begge abonnementer, og *Introductory
-  Offers* i priserne viser et tal over 0 (ikke "kommende"). Tjek, at appen viser *Prøv gratis i 7 dage*.
+- [ ] **Beslut introtilbuddet.** Appen giver selv de første 7 programdage gratis (`FREE_DAYS` i
+  `src/entitlements/index.ts`), så Apples introtilbud på 1 uge oven i giver reelt 14 gratis dage.
+  Fjern tilbuddet i App Store Connect, hvis 7 dage skal være det hele; så viser appen *Start Plus* i
+  stedet for *Prøv gratis i 7 dage*. Beholdes det, skal det gælde **alle lande** på begge abonnementer, og
+  *Introductory Offers* i priserne vise et tal over 0 (ikke "kommende").
 - [ ] **Knyt begge abonnementer til appversionen** (versionens side → *In-App Purchases and
   Subscriptions*), før du trykker *Submit for Review*.
 - [ ] **RevenueCat → Apple-serverbeskeder:** kopiér URL'en fra RevenueCat (Apps & providers → iOS-appen →

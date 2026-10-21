@@ -531,9 +531,9 @@ const da = {
   },
   plus: {
     name: 'Cycle Tracker Plus',
-    title: 'Hele året, ikke kun den første måned',
+    title: 'Hele året, ikke kun den første uge',
     subtitle:
-      'Måned 1 af programmet er gratis, helt uden abonnement. Plus låser de 11 næste måneder op: 330 daglige kort, 44 artikler, 11 quizzer og den personlige oversigt.',
+      'De første 7 dage af programmet er gratis, helt uden abonnement. Plus låser resten af året op: 358 daglige kort, 47 artikler, 12 opsamlinger med quiz og den personlige oversigt.',
     perks: [
       'Ét kort hver dag i et helt år, med én ting du kan gøre',
       'Ugens artikel med et samtalespørgsmål til jer to',
@@ -565,8 +565,8 @@ const da = {
     restored: 'Dit køb er gendannet.',
     nothingToRestore: 'Der var ikke noget køb at gendanne på denne Apple-konto.',
     lockedTitle: 'Det her hører til Plus',
-    lockedMonth:
-      'Måned {{n}} er en del af Cycle Tracker Plus. Måned 1 af programmet er gratis, resten af året koster lidt.',
+    lockedDay:
+      'Dag {{n}} er en del af Cycle Tracker Plus. De første 7 dage af programmet er gratis, resten af året koster lidt.',
     lockedOverview:
       'Den personlige oversigt er en del af Cycle Tracker Plus. Den bygges af hendes registreringer og dine handlinger hen over året.',
     teaser: 'Dag {{day}} af 365 ligger klar til dig i Plus.',

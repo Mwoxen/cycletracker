@@ -9,12 +9,14 @@ import {
   getWeeklyRead,
   getWrap,
   programPosition,
+  weeklyProgramDay,
+  wrapProgramDay,
 } from '@/content/program';
-import { DAYS_PER_MONTH, MONTHS_IN_PROGRAM, WEEKS_PER_MONTH } from '@/content/types';
+import { MONTHS_IN_PROGRAM, WEEKS_PER_MONTH } from '@/content/types';
 import type { PeriodEvent, Profile, Settings } from '@/domain/types';
 import { predict } from '@/engine/cycle';
 import { addDaysISO, compareISO, fromISODate, todayISO } from '@/engine/dates';
-import { hasMonthAccess, type Plan } from '@/entitlements';
+import { hasDayAccess, type Plan } from '@/entitlements';
 import i18n from '@/i18n';
 
 const REMINDER_HOUR = 9;
@@ -36,7 +38,7 @@ export interface ProgramNotification {
 /**
  * The next weekly articles and monthly wraps that unlock after `now`, in order. A weekly article
  * unlocks on the first day of its week and a wrap on the last day of its month (see
- * `isWeeklyUnlocked` and `isMonthWrapUnlocked`). Months the plan does not cover are left out.
+ * `isWeeklyUnlocked` and `isMonthWrapUnlocked`). Days the plan does not cover are left out.
  */
 export function upcomingProgramNotifications(
   programStartDate: string,
@@ -49,11 +51,10 @@ export function upcomingProgramNotifications(
   const content = getContent(language);
   const items: ProgramNotification[] = [];
   for (let month = 1; month <= MONTHS_IN_PROGRAM; month++) {
-    if (!hasMonthAccess(month, plan)) continue;
     for (let week = 1; week <= WEEKS_PER_MONTH; week++) {
       const read = getWeeklyRead(content, month, week);
-      if (!read) continue;
-      const day = (month - 1) * DAYS_PER_MONTH + (week - 1) * 7 + 1;
+      const day = weeklyProgramDay(month, week);
+      if (!read || !hasDayAccess(day, plan)) continue;
       items.push({
         identifier: `weekly:${read.id}`,
         kind: 'weekly',
@@ -62,11 +63,11 @@ export function upcomingProgramNotifications(
       });
     }
     const wrap = getWrap(content, month);
-    if (wrap) {
+    if (wrap && hasDayAccess(wrapProgramDay(month), plan)) {
       items.push({
         identifier: `wrap:${wrap.id}`,
         kind: 'wrap',
-        date: addDaysISO(programStartDate, month * DAYS_PER_MONTH - 1),
+        date: addDaysISO(programStartDate, wrapProgramDay(month) - 1),
         title: wrap.title,
       });
     }

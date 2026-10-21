@@ -124,19 +124,25 @@ export function isWrapUnlocked(pos: ProgramPosition): boolean {
 }
 
 /** Whether a given program item is unlocked at the position (drip schedule). */
+/** The programme day a daily card belongs to (bonus cards are month 12, days 31-35). */
+export const dailyProgramDay = (month: number, day: number): number =>
+  (month - 1) * DAYS_PER_MONTH + day;
+/** The programme day a weekly read unlocks: the first day of its week. */
+export const weeklyProgramDay = (month: number, week: number): number =>
+  (month - 1) * DAYS_PER_MONTH + (week - 1) * 7 + 1;
+/** The programme day a month's wrap unlocks: the last day of the month. */
+export const wrapProgramDay = (month: number): number => month * DAYS_PER_MONTH;
+
 export function isDailyUnlocked(pos: ProgramPosition, month: number, day: number): boolean {
-  const itemDay = (month - 1) * DAYS_PER_MONTH + day;
-  return itemDay <= pos.programDay;
+  return dailyProgramDay(month, day) <= pos.programDay;
 }
 
 export function isWeeklyUnlocked(pos: ProgramPosition, month: number, week: number): boolean {
-  const itemDay = (month - 1) * DAYS_PER_MONTH + (week - 1) * 7 + 1;
-  return itemDay <= pos.programDay;
+  return weeklyProgramDay(month, week) <= pos.programDay;
 }
 
 export function isMonthWrapUnlocked(pos: ProgramPosition, month: number): boolean {
-  const itemDay = month * DAYS_PER_MONTH;
-  return itemDay <= pos.programDay;
+  return wrapProgramDay(month) <= pos.programDay;
 }
 
 /**
