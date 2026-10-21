@@ -473,6 +473,7 @@ export default function SettingsScreen() {
           <Row
             title={t('settings.version')}
             value={`${appVersionLabel()} · ${updateLabel(t('settings.updateEmbedded'))}`}
+            last={!Updates.isEnabled && !entitlement.appUserId}
           />
           {Updates.isEnabled ? (
             <Row
@@ -485,19 +486,9 @@ export default function SettingsScreen() {
                     : undefined
               }
               onPress={() => void fetchUpdate()}
+              last={!entitlement.appUserId}
             />
           ) : null}
-          <Row
-            title={t('settings.privacy')}
-            subtitle={t('settings.privacyHint')}
-            onPress={() => router.push('/(tabs)/settings/about')}
-          />
-          <Row
-            title={t('settings.disclaimer')}
-            subtitle={t('settings.disclaimerHint')}
-            onPress={() => router.push('/(tabs)/settings/about')}
-            last={!entitlement.appUserId}
-          />
           {entitlement.appUserId ? (
             <Row
               title={t('plus.supportId')}
@@ -512,6 +503,15 @@ export default function SettingsScreen() {
               last
             />
           ) : null}
+        </Card>
+
+        <Card>
+          <Txt variant="headline">{t('settings.privacy')}</Txt>
+          <Txt variant="footnote">{t('settings.privacyBody')}</Txt>
+        </Card>
+        <Card>
+          <Txt variant="headline">{t('settings.disclaimer')}</Txt>
+          <Txt variant="footnote">{t('settings.disclaimerBody')}</Txt>
         </Card>
 
         <Card style={[styles.rowsCard, styles.dangerCard]}>

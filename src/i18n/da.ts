@@ -482,8 +482,6 @@ const da = {
     dataHint: 'Eksportér, importér eller gendan fra iCloud',
     dataHelp:
       'En eksport er en fil med alt fra denne telefon. Import fletter en fil ind; gendan henter den sidste iCloud-backup.',
-    privacyHint: 'Alle data ligger på telefonen',
-    disclaimerHint: 'Ikke prævention, ikke lægehjælp',
     resetHelp:
       'Profil, registreringer og læringsfremdrift slettes fra denne telefon. Din partners telefon rører det ikke.',
     languageNames: {
