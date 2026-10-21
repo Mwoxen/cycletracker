@@ -29,6 +29,8 @@ public class CycleSyncModule: Module {
 
   private var container: CKContainer { CKContainer(identifier: Self.containerId) }
   private let defaults = UserDefaults.standard
+  /// Whether this launch has already looked in iCloud for a connection the defaults do not know.
+  private var rediscovered = false
 
   public func definition() -> ModuleDefinition {
     Name("CycleSync")
@@ -43,6 +45,7 @@ public class CycleSyncModule: Module {
     }
 
     AsyncFunction("state") { () async -> [String: Any] in
+      await self.rediscover()
       let role = self.defaults.string(forKey: Key.role) ?? ""
       var participants = 0
       if role == "owner", let zone = self.storedZone() {
@@ -73,6 +76,40 @@ public class CycleSyncModule: Module {
   }
 
   // MARK: - Where things live
+
+  /// The connection lives in iCloud, not on the phone: after a reinstall (or a restore from
+  /// backup) the defaults are empty while her zone and share, or his accepted share, still exist.
+  /// Looks once per launch, only while nothing is stored: first for a zone of ours in the private
+  /// database (she), then for one in the shared database (he).
+  private func rediscover() async {
+    if rediscovered || defaults.string(forKey: Key.role) != nil { return }
+    rediscovered = true
+    let privateZone = CKRecordZone.ID(zoneName: Self.zoneName, ownerName: CKCurrentUserDefaultName)
+    if let found = await findShare(in: container.privateCloudDatabase, zone: privateZone) {
+      _ = remember(found.share, zone: privateZone, mode: found.mode)
+      return
+    }
+    guard let zones = try? await container.sharedCloudDatabase.allRecordZones(),
+      let zone = zones.first(where: { $0.zoneID.zoneName == Self.zoneName }),
+      let found = await findShare(in: container.sharedCloudDatabase, zone: zone.zoneID)
+    else { return }
+    rememberParticipant(found.share, zone: zone.zoneID, mode: found.mode)
+  }
+
+  /// The share of a zone, whichever way it was made: on the root record, or zone-wide.
+  private func findShare(in db: CKDatabase, zone: CKRecordZone.ID) async -> (share: CKShare, mode: String)? {
+    let rootId = CKRecord.ID(recordName: Self.rootName, zoneID: zone)
+    if let root = try? await db.record(for: rootId), let reference = root.share,
+      let share = try? await db.record(for: reference.recordID) as? CKShare
+    {
+      return (share, "record")
+    }
+    let zoneShareId = CKRecord.ID(recordName: CKRecordNameZoneWideShare, zoneID: zone)
+    if let share = try? await db.record(for: zoneShareId) as? CKShare {
+      return (share, "zone")
+    }
+    return nil
+  }
 
   private func isOwner() -> Bool { defaults.string(forKey: Key.role) == "owner" }
 
@@ -268,14 +305,18 @@ public class CycleSyncModule: Module {
     let metadata = try await fetchShareMetadata(url)
     _ = try await container.accept(metadata)
 
-    let zone = metadata.share.recordID.zoneID
+    var zoneWide = false
+    if #available(iOS 16.0, *) { zoneWide = metadata.hierarchicalRootRecordID == nil }
+    rememberParticipant(
+      metadata.share, zone: metadata.share.recordID.zoneID, mode: zoneWide ? "zone" : "record")
+  }
+
+  private func rememberParticipant(_ share: CKShare, zone: CKRecordZone.ID, mode: String) {
     defaults.set("participant", forKey: Key.role)
     defaults.set(zone.zoneName, forKey: Key.zoneName)
     defaults.set(zone.ownerName, forKey: Key.zoneOwner)
-    defaults.set(metadata.share.recordID.recordName, forKey: Key.shareName)
-    var zoneWide = false
-    if #available(iOS 16.0, *) { zoneWide = metadata.hierarchicalRootRecordID == nil }
-    defaults.set(zoneWide ? "zone" : "record", forKey: Key.mode)
+    defaults.set(share.recordID.recordName, forKey: Key.shareName)
+    defaults.set(mode, forKey: Key.mode)
   }
 
   private func fetchShareMetadata(_ url: URL) async throws -> CKShare.Metadata {
