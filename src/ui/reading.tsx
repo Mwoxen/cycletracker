@@ -130,18 +130,21 @@ export function ReadingSection({
 }
 
 /** Bulleted list in the reading typeface, for the sections on a phase page. */
-export function ReadingBullets({ items }: { items: string[] }) {
+export function ReadingBullets({ items, compact }: { items: string[]; compact?: boolean }) {
   return (
     <View style={{ gap: spacing.sm }}>
       {items.map((item, i) => (
         <View key={i} style={styles.bullet}>
-          <Text allowFontScaling maxFontSizeMultiplier={BODY_MAX_SCALE} style={styles.bulletDot}>
+          <Text
+            allowFontScaling
+            maxFontSizeMultiplier={BODY_MAX_SCALE}
+            style={[styles.bulletDot, compact && styles.compact]}>
             •
           </Text>
           <Text
             allowFontScaling
             maxFontSizeMultiplier={BODY_MAX_SCALE}
-            style={[styles.paragraph, styles.bulletText]}>
+            style={[styles.paragraph, styles.bulletText, compact && styles.compact]}>
             {item}
           </Text>
         </View>
@@ -326,6 +329,8 @@ const styles = StyleSheet.create({
     color: colors.label,
   },
   bulletText: { flex: 1, flexShrink: 1 },
+  /** Inside a card: 15 pt body instead of the reading size. */
+  compact: { fontSize: 15, lineHeight: 22 },
   box: {
     borderRadius: radius.card,
     padding: spacing.card,

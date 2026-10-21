@@ -215,9 +215,11 @@ describe('tabs', () => {
       learn.getByText(da.learn.subtitle.replace('{{day}}', '1').replace('{{month}}', '1')),
     ).toBeTruthy();
     expect(learn.getByText(da.learn.stats.read)).toBeTruthy();
-    expect(learn.getByText(da.learn.todaysCard)).toBeTruthy();
+    expect(learn.getByText(new RegExp(`^${da.learn.todaysCard} · `))).toBeTruthy();
     // Today's card and this week's read are unread, so the catch-up list is never empty on day 1.
     expect(learn.getByText('2 ulæste')).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.yearLabel))).toBeTruthy();
+    expect(learn.getByText(da.learn.moreMonths.replace('{{n}}', '8'))).toBeTruthy();
   });
 
   it('opens the cards read behind the first number on the Learn tab', async () => {
@@ -432,21 +434,26 @@ describe('learn sub-screens', () => {
     onboard('tracker');
     await renderApp(`/learn/phase/${phase}`);
     const learn = learnTab();
-    expect(await learn.findByText(content.phases[phase].avoid[0])).toBeTruthy();
-    // Reading style: sentence-case section titles on the background, timing without a prefix.
-    expect(learn.getByText(da.learn.avoid)).toBeTruthy();
-    expect(learn.getByText(da.learn.whatYouCanDo)).toBeTruthy();
+    expect(await learn.findByText(upper(da.learn.whatYouCanDo))).toBeTruthy();
+    expect(learn.getByText(content.phases[phase].whatYouCanDo[0])).toBeTruthy();
     expect(learn.getByText(content.phases[phase].timing)).toBeTruthy();
+    // The first section is open, the rest fold out on tap.
+    expect(learn.getByText(content.phases[phase].whatHappens[0])).toBeTruthy();
+    expect(learn.queryByText(content.phases[phase].avoid[0])).toBeNull();
+    await fireEvent.press(learn.getByText(da.learn.avoid));
+    expect(await learn.findByText(content.phases[phase].avoid[0])).toBeTruthy();
   });
 
   it('renders the phase page for the user role with self-care and without avoid', async () => {
     onboard('user');
     await renderApp('/learn/phase/luteal');
     const learn = learnTab();
-    expect(await learn.findByText(da.learn.selfCare)).toBeTruthy();
+    expect(await learn.findByText(upper(da.learn.selfCare))).toBeTruthy();
     expect(learn.getByText(content.phases.luteal.selfCare[0])).toBeTruthy();
     expect(learn.getByText(da.learn.partnerCanDo)).toBeTruthy();
     expect(learn.getByText(da.learn.howYouMayFeel)).toBeTruthy();
+    await fireEvent.press(learn.getByText(da.learn.howYouMayFeel));
+    await fireEvent.press(learn.getByText(da.learn.partnerCanDo));
     // Her sections carry her own neutral texts, never the partner's.
     expect(learn.getByText(content.phasesForHer.luteal.whatHappens[0])).toBeTruthy();
     expect(learn.queryByText(content.phases.luteal.whatHappens[0])).toBeNull();
@@ -641,7 +648,7 @@ describe('later in the program', () => {
     expect(await learn.findByText(/^\d+ ulæste$/)).toBeTruthy();
     expect(learn.getByText(content.months[6].daily.find((c) => c.day === 21)!.title)).toBeTruthy();
     // The oldest unread item is the month 1 week 1 read.
-    await fireEvent.press(learn.getByText(da.learn.catchUp));
+    await fireEvent.press(learn.getByText(da.learn.readNow));
     expect(await learn.findByText(month1.weekly[0].body[0])).toBeTruthy();
   });
 

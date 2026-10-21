@@ -4,9 +4,35 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { QuizQuestion } from '@/content';
-import { colors, radius, spacing } from '@/ui/colors';
-import { Button, Card, Icon, Txt } from '@/ui/primitives';
+import { colors, fontFor, phaseColor, phaseSoft, radius, spacing } from '@/ui/colors';
+import { Card, Icon, Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
+const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+/** Filled capsule button in the accent: "Start the quiz", "Next question". */
+function FilledButton({ title, onPress }: { title: string; onPress: () => void }) {
+  const theme = usePhaseTheme();
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      style={({ pressed }) => [
+        styles.filled,
+        { backgroundColor: theme.accent },
+        pressed && styles.pressed,
+      ]}>
+      <Txt variant="headline" color={colors.onAccent}>
+        {title}
+      </Txt>
+    </Pressable>
+  );
+}
+
+/**
+ * The quiz card at the end of a monthly wrap: a row of dots for the questions (green right,
+ * red wrong, accent current), the question, lettered options, an explanation box, one button.
+ */
 export function Quiz({
   questions,
   bestScore,
@@ -17,35 +43,71 @@ export function Quiz({
   onFinish: (score: number, total: number) => void;
 }) {
   const { t } = useTranslation();
+  const theme = usePhaseTheme();
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
   const [chosen, setChosen] = useState<number | undefined>();
-  const [score, setScore] = useState(0);
+  const [results, setResults] = useState<boolean[]>([]);
   const [finished, setFinished] = useState(false);
+  const score = results.filter(Boolean).length;
 
   const restart = () => {
     setStarted(true);
     setIndex(0);
     setChosen(undefined);
-    setScore(0);
+    setResults([]);
     setFinished(false);
   };
 
+  const dots = (
+    <View style={styles.dots} accessibilityLabel={t('learn.questionN', { n: index + 1, total: questions.length })}>
+      {questions.map((_, i) => (
+        <View
+          key={i}
+          style={[
+            styles.dot,
+            {
+              backgroundColor:
+                results[i] === true
+                  ? phaseColor.follicular
+                  : results[i] === false
+                    ? phaseColor.menstrual
+                    : started && !finished && i === index
+                      ? theme.accent
+                      : colors.fill,
+            },
+          ]}
+        />
+      ))}
+    </View>
+  );
+  const head = (
+    <View style={styles.head}>
+      <Txt variant="boxLabel" color={theme.accent}>
+        {t('learn.quiz').toUpperCase()}
+      </Txt>
+      {dots}
+    </View>
+  );
+
   if (!started) {
     return (
-      <Card>
-        <Txt variant="headline">{t('learn.quiz')}</Txt>
-        {bestScore ? <Txt variant="footnote">{t('learn.bestScore', bestScore)}</Txt> : null}
-        <Button title={bestScore ? t('learn.retryQuiz') : t('learn.startQuiz')} onPress={restart} />
+      <Card style={styles.card}>
+        {head}
+        <Txt variant="question">
+          {bestScore ? t('learn.bestScore', bestScore) : t('reading.questions', { n: questions.length })}
+        </Txt>
+        <FilledButton title={bestScore ? t('learn.retryQuiz') : t('learn.startQuiz')} onPress={restart} />
       </Card>
     );
   }
 
   if (finished) {
     return (
-      <Card>
-        <Txt variant="title">{t('learn.result', { score, total: questions.length })}</Txt>
-        <Button title={t('learn.retryQuiz')} variant="secondary" onPress={restart} />
+      <Card style={styles.card}>
+        {head}
+        <Txt variant="question">{t('learn.result', { score, total: questions.length })}</Txt>
+        <FilledButton title={t('learn.retryQuiz')} onPress={restart} />
       </Card>
     );
   }
@@ -53,6 +115,7 @@ export function Quiz({
   const q = questions[index];
   const answered = chosen !== undefined;
   const isLast = index === questions.length - 1;
+  const wasCorrect = chosen === q.correctIndex;
 
   const choose = (i: number) => {
     if (answered) return;
@@ -61,14 +124,13 @@ export function Quiz({
     void Haptics.notificationAsync(
       correct ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Warning,
     );
-    if (correct) setScore((s) => s + 1);
+    setResults((r) => [...r, correct]);
   };
 
   const next = () => {
     if (isLast) {
-      const finalScore = score;
       setFinished(true);
-      onFinish(finalScore, questions.length);
+      onFinish(score, questions.length);
       return;
     }
     setIndex((i) => i + 1);
@@ -76,61 +138,106 @@ export function Quiz({
   };
 
   return (
-    <Card>
-      <Txt variant="footnote">
-        {t('learn.questionN', { n: index + 1, total: questions.length })}
-      </Txt>
-      <Txt variant="headline">{q.question}</Txt>
+    <Card style={styles.card}>
+      {head}
+      <Txt variant="question">{q.question}</Txt>
       <View style={{ gap: spacing.sm }}>
         {q.options.map((option, i) => {
           const isCorrect = i === q.correctIndex;
           const isChosen = i === chosen;
-          const bg =
-            answered && isCorrect ? colors.green : answered && isChosen ? colors.red : colors.fill;
-          const fg = answered && (isCorrect || isChosen) ? colors.onAccent : colors.label;
+          const tone =
+            answered && isCorrect ? 'follicular' : answered && isChosen ? 'menstrual' : undefined;
           return (
             <Pressable
               key={i}
               onPress={() => choose(i)}
               disabled={answered}
               accessibilityRole="button"
+              accessibilityState={{ selected: isChosen }}
               style={({ pressed }) => [
                 styles.option,
-                { backgroundColor: bg },
-                pressed && { opacity: 0.7 },
+                tone && { borderColor: phaseColor[tone], backgroundColor: phaseSoft[tone] },
+                pressed && styles.pressed,
               ]}>
-              <Txt color={fg} style={{ flex: 1, flexShrink: 1, marginRight: spacing.sm }}>
+              <View
+                style={[styles.letter, { backgroundColor: tone ? phaseColor[tone] : colors.fill }]}>
+                <Txt
+                  variant="caption"
+                  color={tone ? colors.onAccent : colors.secondaryLabel}
+                  style={styles.letterText}>
+                  {LETTERS[i] ?? String(i + 1)}
+                </Txt>
+              </View>
+              <Txt variant="callout" style={styles.optionText}>
                 {option}
               </Txt>
-              {answered && isCorrect ? (
-                <Icon name="checkmark" size={16} color={colors.onAccent} weight="bold" />
-              ) : null}
-              {answered && isChosen && !isCorrect ? (
-                <Icon name="xmark" size={16} color={colors.onAccent} weight="bold" />
-              ) : null}
             </Pressable>
           );
         })}
       </View>
       {answered ? (
-        <View style={{ gap: spacing.sm }}>
-          <Txt variant="headline" color={chosen === q.correctIndex ? colors.green : colors.red}>
-            {chosen === q.correctIndex ? t('learn.correct') : t('learn.incorrect')}
-          </Txt>
-          <Txt color={colors.secondaryLabel}>{q.explanation}</Txt>
-          <Button title={isLast ? t('learn.seeResult') : t('learn.nextQuestion')} onPress={next} />
-        </View>
+        <>
+          <View
+            style={[
+              styles.explain,
+              { backgroundColor: wasCorrect ? phaseSoft.follicular : phaseSoft.menstrual },
+            ]}>
+            <View style={styles.explainHead}>
+              <Icon
+                name={wasCorrect ? 'checkmark.circle.fill' : 'xmark.circle.fill'}
+                size={15}
+                color={wasCorrect ? phaseColor.follicular : phaseColor.menstrual}
+              />
+              <Txt
+                variant="headline"
+                color={wasCorrect ? phaseColor.follicular : phaseColor.menstrual}>
+                {wasCorrect ? t('learn.correct') : t('learn.incorrect')}
+              </Txt>
+            </View>
+            <Txt variant="footnote" color={colors.label}>
+              {q.explanation}
+            </Txt>
+          </View>
+          <FilledButton title={isLast ? t('learn.seeResult') : t('learn.nextQuestion')} onPress={next} />
+        </>
       ) : null}
     </Card>
   );
 }
 
 const styles = StyleSheet.create({
+  card: { gap: spacing.md, paddingVertical: 20 },
+  head: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  dots: { flexDirection: 'row', gap: 5 },
+  dot: { width: 8, height: 8, borderRadius: 4 },
   option: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: spacing.md,
-    borderRadius: radius.card,
-    minHeight: 48,
+    gap: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: radius.field,
+    borderWidth: 1,
+    borderColor: colors.separator,
+    minHeight: 52,
   },
+  letter: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  letterText: { fontFamily: fontFor(700) },
+  optionText: { flex: 1, flexShrink: 1, fontFamily: fontFor(500) },
+  explain: { borderRadius: radius.field, paddingVertical: 14, paddingHorizontal: 16, gap: 4 },
+  explainHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  filled: {
+    minHeight: 50,
+    borderRadius: radius.chip,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: spacing.md,
+  },
+  pressed: { opacity: 0.7 },
 });
