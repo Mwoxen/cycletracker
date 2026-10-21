@@ -110,7 +110,7 @@ describe('upcomingProgramNotifications', () => {
     expect(evening.every((i) => i.date > '2026-03-22')).toBe(true);
   });
 
-  it('only covers the free month on the free plan', () => {
+  it('only covers the free week on the free plan: the first article, nothing after day 7', () => {
     const free = upcomingProgramNotifications(
       start,
       'da',
@@ -119,8 +119,7 @@ describe('upcomingProgramNotifications', () => {
       undefined,
       100,
     );
-    expect(free).toHaveLength(5);
-    expect(free.every((i) => i.date <= '2026-03-30')).toBe(true);
+    expect(free.map((i) => i.date)).toEqual(['2026-03-01']);
   });
 
   it('keeps to the limit so the 64-notification cap is never reached', () => {

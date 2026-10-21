@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet, View } from 'react-native';
 
-import { useHasAccess, useMonthAccess, type Feature } from '@/entitlements';
+import { useDayAccess, useHasAccess, type Feature } from '@/entitlements';
 import { purchasesAvailable, restore } from '@/purchases';
 import { colors, spacing } from '@/ui/colors';
 import { Button, Card, Icon, Screen, Txt } from '@/ui/primitives';
@@ -54,21 +54,22 @@ export function PlusLocked({ body }: { body: string }) {
 
 /** Wraps a whole screen: shows it when the plan allows, else the locked card in its place. */
 export function PlusGate({
-  month,
+  programDay,
   feature,
   children,
 }: {
-  /** Program month the screen belongs to; locked past the free months. */
-  month?: number;
+  /** Programme day the screen belongs to; locked past the free days. */
+  programDay?: number;
   /** A feature gate, when the screen is not tied to a month. */
   feature?: Feature;
   children: React.ReactNode;
 }) {
   const { t } = useTranslation();
-  const monthOk = useMonthAccess(month ?? 1);
+  const dayOk = useDayAccess(programDay ?? 1);
   const featureOk = useHasAccess(feature ?? 'cloudBackup');
-  if (monthOk && featureOk) return <>{children}</>;
-  const body = !monthOk && month ? t('plus.lockedMonth', { n: month }) : t('plus.lockedOverview');
+  if (dayOk && featureOk) return <>{children}</>;
+  const body =
+    !dayOk && programDay ? t('plus.lockedDay', { n: programDay }) : t('plus.lockedOverview');
   return (
     <Screen>
       <PlusLocked body={body} />

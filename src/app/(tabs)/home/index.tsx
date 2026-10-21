@@ -2,7 +2,8 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
-import { useMonthAccess } from '@/entitlements';
+import { dailyProgramDay } from '@/content/program';
+import { useDayAccess } from '@/entitlements';
 import { useCycle } from '@/hooks/use-cycle';
 import { useFormat } from '@/hooks/use-format';
 import { useProgram } from '@/hooks/use-program';
@@ -63,7 +64,9 @@ export default function HomeScreen() {
   const { today, snapshot } = useCycle();
   const program = useProgram();
   const todayLog = useStore(selectLogForDate(today));
-  const cardUnlocked = useMonthAccess(program.card?.month ?? 1);
+  const cardUnlocked = useDayAccess(
+    program.card ? dailyProgramDay(program.card.month, program.card.day) : 1,
+  );
   const isTracker = profile?.role === 'tracker';
   const name = profile?.partnerName ?? '';
   const phase = snapshot.today?.phase;

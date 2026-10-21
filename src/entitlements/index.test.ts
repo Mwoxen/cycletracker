@@ -1,6 +1,6 @@
 import { FREE_ENTITLEMENT, type Entitlement, type Profile } from '@/domain/types';
 
-import { FREE_MONTHS, hasAccess, hasMonthAccess, resolvePlan } from './index';
+import { FREE_DAYS, hasAccess, hasDayAccess, resolvePlan } from './index';
 
 const tracker: Profile = {
   id: 'p',
@@ -41,10 +41,11 @@ describe('entitlements', () => {
     expect(hasAccess('fullProgram', 'plus')).toBe(true);
   });
 
-  it('opens the first month for everyone and the rest for Plus', () => {
-    expect(FREE_MONTHS).toBe(1);
-    expect(hasMonthAccess(1, 'free')).toBe(true);
-    expect(hasMonthAccess(2, 'free')).toBe(false);
-    expect(hasMonthAccess(12, 'plus')).toBe(true);
+  it('opens the first week for everyone and the rest of the year for Plus', () => {
+    expect(FREE_DAYS).toBe(7);
+    expect(hasDayAccess(1, 'free')).toBe(true);
+    expect(hasDayAccess(7, 'free')).toBe(true);
+    expect(hasDayAccess(8, 'free')).toBe(false);
+    expect(hasDayAccess(365, 'plus')).toBe(true);
   });
 });

@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { findWeekly } from '@/content';
-import { useMonthAccess } from '@/entitlements';
+import { weeklyProgramDay } from '@/content/program';
+import { useDayAccess } from '@/entitlements';
 import { useProgram } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
 import { PlusGate } from '@/ui/plus-gate';
@@ -28,7 +29,7 @@ export default function WeeklyReadScreen() {
   const markRead = useStore((s) => s.markRead);
   const isTracker = useStore((s) => s.profile?.role === 'tracker');
   const { progress, onScroll } = useReadingProgress();
-  const unlocked = useMonthAccess(read?.month ?? 1);
+  const unlocked = useDayAccess(read ? weeklyProgramDay(read.month, read.week) : 1);
 
   useEffect(() => {
     if (read && isTracker && unlocked) markRead(read.id);
@@ -59,7 +60,7 @@ export default function WeeklyReadScreen() {
   return (
     <>
       <Stack.Screen options={{ title: t('learn.week', { n: read.week }) }} />
-      <PlusGate month={read.month}>
+      <PlusGate programDay={weeklyProgramDay(read.month, read.week)}>
         <View style={{ flex: 1 }}>
           <Screen onScroll={onScroll} scrollEventThrottle={32}>
             <ReadingHero kicker={kicker} title={read.title} meta={meta} />

@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { findWrap } from '@/content';
-import { useMonthAccess } from '@/entitlements';
+import { wrapProgramDay } from '@/content/program';
+import { useDayAccess } from '@/entitlements';
 import { useContent } from '@/hooks/use-program';
 import { useStore } from '@/store/store';
 import { spacing } from '@/ui/colors';
@@ -30,7 +31,7 @@ export default function WrapScreen() {
   const progress = useStore((s) => (wrap ? s.progress[wrap.id] : undefined));
   const isTracker = useStore((s) => s.profile?.role === 'tracker');
   const reading = useReadingProgress();
-  const unlocked = useMonthAccess(wrap?.month ?? 1);
+  const unlocked = useDayAccess(wrap ? wrapProgramDay(wrap.month) : 1);
 
   useEffect(() => {
     if (wrap && isTracker && unlocked) markRead(wrap.id);
@@ -55,7 +56,7 @@ export default function WrapScreen() {
   return (
     <>
       <Stack.Screen options={{ title: t('learn.month', { n: wrap.month }) }} />
-      <PlusGate month={wrap.month}>
+      <PlusGate programDay={wrapProgramDay(wrap.month)}>
         <View style={{ flex: 1 }}>
           <Screen onScroll={reading.onScroll} scrollEventThrottle={32}>
             <ReadingHero kicker={t('learn.thisMonth')} title={wrap.title} meta={meta} />

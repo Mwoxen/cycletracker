@@ -387,6 +387,7 @@ describe('learn sub-screens', () => {
 
   it('renders a monthly wrap and plays the quiz', async () => {
     onboard('tracker');
+    grantPlus(); // the wrap is day 30, past the free week
     await renderApp(`/learn/wrap/${wrapId(1)}`);
     const learn = learnTab();
     expect(await learn.findByText(month1.wrap.summary[0])).toBeTruthy();
@@ -569,13 +570,13 @@ describe('later in the program', () => {
     expect(screen.getByText(da.plus.unavailable)).toBeTruthy();
   });
 
-  it('locks a month 2 card on the free plan and does not mark it read', async () => {
+  it('locks a card past the free week on the free plan and does not mark it read', async () => {
     onboard('tracker', addDaysISO(TODAY, -40));
     const id = dailyId(2, 5);
     await renderApp(`/learn/daily/${id}`);
     const learn = learnTab();
     expect(await learn.findByText(da.plus.lockedTitle)).toBeTruthy();
-    expect(learn.getByText(da.plus.lockedMonth.replace('{{n}}', '2'))).toBeTruthy();
+    expect(learn.getByText(da.plus.lockedDay.replace('{{n}}', '35'))).toBeTruthy();
     expect(learn.queryByText(content.months[1].daily[4].insight)).toBeNull();
     expect(useStore.getState().progress[id]?.readAt).toBeUndefined();
   });

@@ -51,6 +51,26 @@ describe('syncNotifications', () => {
     const byId = new Map(scheduled().map((s) => [s.id, s.trigger]));
 
     expect(byId.get('daily-card')).toEqual({ type: 'daily', hour: 8, minute: 30 });
+    // Day 8 onwards is Plus, so neither the week 4 article (day 22) nor the wrap (day 30) is
+    // announced on the free plan.
+    expect(byId.has(`weekly:${getWeeklyRead(content, 1, 4)!.id}`)).toBe(false);
+    expect(byId.has(`wrap:${getWrap(content, 1)!.id}`)).toBe(false);
+    // Next period 26 Oct: the reminder is two days before, PMS five days before, both at 09:00.
+    expect(byId.get('period-soon')).toEqual({ type: 'date', date: local('2026-10-24', 9) });
+    expect(byId.get('pms-window')).toEqual({ type: 'date', date: local('2026-10-21', 9) });
+    expect(scheduled()).toHaveLength(3);
+  });
+
+  it('announces the articles and the wrap on Plus', async () => {
+    await syncNotifications(
+      profile('tracker', '2026-09-29'),
+      DEFAULT_SETTINGS,
+      [period('2026-10-01')],
+      'plus',
+    );
+    const content = getContent('da');
+    const byId = new Map(scheduled().map((s) => [s.id, s.trigger]));
+    const ids = [...byId.keys()];
     // Week 4 unlocks today at 19:00, which is still ahead at 06:25.
     expect(byId.get(`weekly:${getWeeklyRead(content, 1, 4)!.id}`)).toEqual({
       type: 'date',
@@ -60,12 +80,7 @@ describe('syncNotifications', () => {
       type: 'date',
       date: local('2026-10-28', 19),
     });
-    // Month 2 is not part of the free plan.
-    expect(byId.has(`weekly:${getWeeklyRead(content, 2, 1)!.id}`)).toBe(false);
-    // Next period 26 Oct: the reminder is two days before, PMS five days before, both at 09:00.
-    expect(byId.get('period-soon')).toEqual({ type: 'date', date: local('2026-10-24', 9) });
-    expect(byId.get('pms-window')).toEqual({ type: 'date', date: local('2026-10-21', 9) });
-    expect(scheduled()).toHaveLength(5);
+    expect(ids).toContain(`weekly:${getWeeklyRead(content, 2, 1)!.id}`);
   });
 
   it('does not announce articles to the cycle owner, and honours the switches', async () => {
