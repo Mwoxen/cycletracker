@@ -454,6 +454,8 @@ const en: Translation = {
     programDone: 'The programme is complete',
     roleHelp:
       "The partner reads today's card and receives her logs. The one with the cycle logs and shares.",
+    yourNamePlaceholder: 'Your first name',
+    partnerOf: 'Partner of {{name}}',
     names: 'Names',
     nameHelp: 'The name is used in the cards: "{{name}} has energy today".',
     program: 'Programme',

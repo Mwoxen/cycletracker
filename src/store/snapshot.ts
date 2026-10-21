@@ -366,6 +366,9 @@ function sanitizeProfile(v: unknown): Profile | undefined {
     role: p.role,
     language: p.language,
     partnerName: typeof p.partnerName === 'string' ? p.partnerName.slice(0, 60) : '',
+    ...(typeof p.ownName === 'string' && p.ownName.trim()
+      ? { ownName: p.ownName.trim().slice(0, 60) }
+      : {}),
     programStartDate: p.programStartDate,
     plan: 'free',
     onboardedAt: typeof p.onboardedAt === 'number' ? p.onboardedAt : 0,

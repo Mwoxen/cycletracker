@@ -210,15 +210,21 @@ export default function SettingsScreen() {
     <TabSwipe tab="settings">
       <Screen title={t('settings.title')}>
         <Card onPress={() => router.push('/(tabs)/settings/profile')} style={styles.profileCard}>
-          <Avatar name={profile.partnerName} />
+          <Avatar name={isTracker ? profile.ownName : profile.partnerName} />
           <View style={styles.profileText}>
-            <Txt variant="cardTitle">{profile.partnerName}</Txt>
+            <Txt variant="cardTitle">
+              {isTracker
+                ? profile.ownName || t('settings.partnerOf', { name: profile.partnerName })
+                : profile.partnerName}
+            </Txt>
             <Txt variant="footnote">
               {isTracker
-                ? t('settings.profileLineTracker', {
-                    name: profile.partnerName,
-                    language: languageName,
-                  })
+                ? profile.ownName
+                  ? t('settings.profileLineTracker', {
+                      name: profile.partnerName,
+                      language: languageName,
+                    })
+                  : languageName
                 : t('settings.profileLineUser', { language: languageName })}
             </Txt>
             <View style={styles.pills}>
