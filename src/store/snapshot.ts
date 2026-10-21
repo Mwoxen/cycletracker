@@ -409,6 +409,8 @@ function sanitizeSettings(v: unknown): Settings | undefined {
       dailyCardMinute: int(r.dailyCardMinute, d.reminders.dailyCardMinute, 0, 59),
       periodSoon: typeof r.periodSoon === 'boolean' ? r.periodSoon : d.reminders.periodSoon,
       pmsWindow: typeof r.pmsWindow === 'boolean' ? r.pmsWindow : d.reminders.pmsWindow,
+      cycleHour: int(r.cycleHour, d.reminders.cycleHour, 0, 23),
+      cycleMinute: int(r.cycleMinute, d.reminders.cycleMinute, 0, 59),
       cycleWeek: typeof r.cycleWeek === 'boolean' ? r.cycleWeek : d.reminders.cycleWeek,
       weeklyRead: typeof r.weeklyRead === 'boolean' ? r.weeklyRead : d.reminders.weeklyRead,
       monthWrap: typeof r.monthWrap === 'boolean' ? r.monthWrap : d.reminders.monthWrap,

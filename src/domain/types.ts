@@ -114,6 +114,9 @@ export interface Reminders {
   dailyCardMinute: number;
   periodSoon: boolean;
   pmsWindow: boolean;
+  /** Time of day for the two cycle reminders above; 09:00 by default. */
+  cycleHour: number;
+  cycleMinute: number;
   /** The morning a new cycle week begins. */
   cycleWeek: boolean;
   /** The day a new weekly article is unlocked (partner only). */
@@ -194,6 +197,8 @@ export const DEFAULT_SETTINGS: Settings = {
     dailyCardMinute: 30,
     periodSoon: true,
     pmsWindow: true,
+    cycleHour: 9,
+    cycleMinute: 0,
     cycleWeek: true,
     weeklyRead: true,
     monthWrap: true,

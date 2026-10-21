@@ -188,9 +188,12 @@ export function Row({
   trailing,
   destructive,
   last,
+  subtitleLead,
 }: {
   title: string;
   subtitle?: string;
+  /** Rendered in front of the subtitle, e.g. a status dot. */
+  subtitleLead?: ReactNode;
   value?: string;
   symbol?: SFSymbol;
   symbolColor?: ColorValue;
@@ -215,9 +218,12 @@ export function Row({
       <View style={styles.rowText}>
         <Txt color={destructive ? colors.red : colors.label}>{title}</Txt>
         {subtitle ? (
-          <Txt variant="footnote" style={{ marginTop: 2 }}>
-            {subtitle}
-          </Txt>
+          <View style={styles.rowSubtitle}>
+            {subtitleLead}
+            <Txt variant="footnote" style={styles.rowSubtitleText}>
+              {subtitle}
+            </Txt>
+          </View>
         ) : null}
       </View>
       {value ? (
@@ -392,6 +398,8 @@ const styles = StyleSheet.create({
   rowSymbol: { width: 28, alignItems: 'center', marginRight: spacing.sm },
   rowLead: { marginRight: spacing.sm + spacing.xs, alignItems: 'center', justifyContent: 'center' },
   rowText: { flex: 1, flexShrink: 1, marginRight: spacing.sm },
+  rowSubtitle: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
+  rowSubtitleText: { flexShrink: 1 },
   rowValue: { marginRight: spacing.sm + spacing.xs },
   pressed: { opacity: 0.6 },
   button: {

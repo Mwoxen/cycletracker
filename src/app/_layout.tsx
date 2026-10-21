@@ -146,6 +146,7 @@ export default function RootLayout() {
                 <Stack.Screen name="auto-sync" options={sheet} />
                 <Stack.Screen name="import" options={sheet} />
                 <Stack.Screen name="paywall" options={sheet} />
+                <Stack.Screen name="reminder-times" options={sheet} />
               </Stack.Protected>
               <Stack.Protected guard={!profile}>
                 <Stack.Screen
