@@ -189,8 +189,11 @@ export function Row({
   destructive,
   last,
   subtitleLead,
+  titleColor,
 }: {
   title: string;
+  /** Title colour, e.g. text2 for a locked row. */
+  titleColor?: ColorValue;
   subtitle?: string;
   /** Rendered in front of the subtitle, e.g. a status dot. */
   subtitleLead?: ReactNode;
@@ -216,7 +219,7 @@ export function Row({
         </View>
       ) : null}
       <View style={styles.rowText}>
-        <Txt color={destructive ? colors.red : colors.label}>{title}</Txt>
+        <Txt color={destructive ? colors.red : (titleColor ?? colors.label)}>{title}</Txt>
         {subtitle ? (
           <View style={styles.rowSubtitle}>
             {subtitleLead}
@@ -254,6 +257,7 @@ export function Button({
   symbol,
   disabled,
   style,
+  lead,
 }: {
   title: string;
   onPress: () => void;
@@ -261,6 +265,8 @@ export function Button({
   symbol?: SFSymbol;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
+  /** Rendered before the title, e.g. a phase dot. */
+  lead?: ReactNode;
 }) {
   const theme = usePhaseTheme();
   const fg =
@@ -284,6 +290,7 @@ export function Button({
       scale={0.97}
       accessibilityRole="button"
       style={[styles.button, border, { opacity: disabled ? 0.4 : 1 }, style]}>
+      {lead}
       {symbol ? <Icon name={symbol} color={fg} size={16} weight="semibold" /> : null}
       <Txt variant="headline" color={fg} style={variant === 'plain' ? styles.plainText : null}>
         {title}
