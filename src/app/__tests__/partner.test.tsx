@@ -1,6 +1,6 @@
 /**
- * The automatic sharing sheet with a fake iCloud transport in place of the native module:
- * the cycle owner starts the sharing, the partner joins with a pasted link, and either can stop.
+ * The partner sheet with a fake iCloud transport in place of the native module: she shows her
+ * code and sends the link, he joins with a pasted link, and either can see the state and stop.
  */
 import { fireEvent, screen, waitFor } from 'expo-router/testing-library';
 import { Alert, Share } from 'react-native';
@@ -27,7 +27,7 @@ function fakeTransport(initial: CloudState = { participants: 0 }) {
     accountStatus: jest.fn(async () => 'available' as const),
     state: jest.fn(async () => state),
     createShare: jest.fn(async () => {
-      state = { role: 'owner', participants: 0 };
+      state = { role: 'owner', participants: state.participants };
       return 'https://www.icloud.com/share/abc';
     }),
     joinShare: jest.fn(async (_url: string) => {
@@ -62,76 +62,97 @@ beforeEach(() => {
 
 afterEach(() => jest.restoreAllMocks());
 
-describe('automatic sharing sheet', () => {
-  it('lets the cycle owner start sharing and send the link', async () => {
+describe('partner sheet', () => {
+  it('shows her the code, makes the iCloud share by itself and waits for the partner', async () => {
     const transport = fakeTransport();
     nativeTransport.mockReturnValue(transport);
     onboard('user');
-    await renderApp('/auto-sync');
+    await renderApp('/partner');
 
-    await fireEvent.press(await screen.findByText(da.autoSync.start));
-    expect(await screen.findByText(da.autoSync.connected)).toBeTruthy();
-    expect(transport.createShare).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(transport.createShare).toHaveBeenCalledTimes(1));
+    expect(await screen.findByText(da.autoSync.waitingForPartner)).toBeTruthy();
+    expect(screen.queryByText(da.autoSync.stop)).toBeNull();
+    await fireEvent.press(screen.getByText(da.sync.sendLink));
     expect(Share.share).toHaveBeenCalledWith(
-      expect.objectContaining({ url: 'https://www.icloud.com/share/abc' }),
+      expect.objectContaining({ url: expect.stringContaining('icloud.com') }),
     );
-    expect(screen.getByText(da.autoSync.waitingForPartner)).toBeTruthy();
-    // Let the background sync that follows settle before the test ends.
     await waitFor(() => expect(useStore.getState().cloudSync.lastSyncAt).toBeDefined());
   });
 
-  it('lets the partner join with a pasted link', async () => {
+  it('lets him join with a pasted iCloud link', async () => {
     const transport = fakeTransport();
     nativeTransport.mockReturnValue(transport);
     onboard('tracker');
-    await renderApp('/auto-sync');
+    await renderApp('/partner');
 
     await fireEvent.changeText(
       await screen.findByPlaceholderText(da.autoSync.linkPlaceholder),
       ' https://www.icloud.com/share/abc ',
     );
     await fireEvent.press(screen.getByText(da.autoSync.join));
-    expect(await screen.findByText(da.autoSync.connected)).toBeTruthy();
+    expect(
+      await screen.findByText(da.partner.connectedWith.replace('{{name}}', 'Anna')),
+    ).toBeTruthy();
     expect(transport.joinShare).toHaveBeenCalledWith('https://www.icloud.com/share/abc');
     expect(screen.getByText(da.autoSync.connectedTracker)).toBeTruthy();
+    expect(screen.getByText(da.partner.scanAgain)).toBeTruthy();
     await waitFor(() => expect(useStore.getState().cloudSync.lastSyncAt).toBeDefined());
   });
 
-  it('says so when the link cannot be used', async () => {
+  it('says so when a pasted text is neither a code link nor an iCloud link', async () => {
+    const transport = fakeTransport();
+    nativeTransport.mockReturnValue(transport);
+    onboard('tracker');
+    await renderApp('/partner');
+
+    await fireEvent.changeText(await screen.findByPlaceholderText(da.autoSync.linkPlaceholder), 'x');
+    await fireEvent.press(screen.getByText(da.autoSync.join));
+    expect(await screen.findByText(da.sync.importInvalid)).toBeTruthy();
+    expect(transport.joinShare).not.toHaveBeenCalled();
+  });
+
+  it('reports an iCloud link that cannot be joined', async () => {
     const transport = fakeTransport();
     transport.joinShare.mockRejectedValue(new Error('nope'));
     nativeTransport.mockReturnValue(transport);
     onboard('tracker');
-    await renderApp('/auto-sync');
+    await renderApp('/partner');
 
-    await fireEvent.changeText(await screen.findByPlaceholderText(da.autoSync.linkPlaceholder), 'x');
+    await fireEvent.changeText(
+      await screen.findByPlaceholderText(da.autoSync.linkPlaceholder),
+      'https://www.icloud.com/share/abc',
+    );
     await fireEvent.press(screen.getByText(da.autoSync.join));
     expect(await screen.findByText(new RegExp(`${da.autoSync.joinFailed}[\\s\\S]*nope`))).toBeTruthy();
-    expect(screen.queryByText(da.autoSync.connected)).toBeNull();
   });
 
-  it('shows the state of an existing pairing and stops it after confirmation', async () => {
+  it('shows her an existing connection and stops it after confirmation', async () => {
     const transport = fakeTransport({ role: 'owner', participants: 1 });
     nativeTransport.mockReturnValue(transport);
     onboard('user');
+    useStore.getState().setPairing({ partnerDeviceId: 'p', partnerName: 'Bo' });
     const alert = jest.spyOn(Alert, 'alert').mockImplementation((_t, _m, buttons) => {
       buttons?.find((b) => b.style === 'destructive')?.onPress?.();
     });
-    await renderApp('/auto-sync');
+    await renderApp('/partner');
 
-    expect(await screen.findByText(da.autoSync.partnerJoined)).toBeTruthy();
+    expect(await screen.findByText(da.partner.connectedWith.replace('{{name}}', 'Bo'))).toBeTruthy();
+    expect(screen.getByText(da.partner.showCodeAgain)).toBeTruthy();
     await fireEvent.press(screen.getByText(da.autoSync.stop));
     expect(alert).toHaveBeenCalled();
-    expect(await screen.findByText(da.autoSync.start)).toBeTruthy();
+    // A fresh share is made right away, so the code keeps connecting; she waits for a scan.
+    expect(await screen.findByText(da.autoSync.waitingForPartner)).toBeTruthy();
     expect(transport.stop).toHaveBeenCalledTimes(1);
+    expect(transport.createShare).toHaveBeenCalledTimes(2);
   });
 
-  it('explains when iCloud is not signed in', async () => {
+  it('explains when iCloud is not signed in, and still shows the code', async () => {
     const transport = fakeTransport();
     transport.accountStatus.mockResolvedValue('noAccount');
     nativeTransport.mockReturnValue(transport);
     onboard('user');
-    await renderApp('/auto-sync');
+    await renderApp('/partner');
     expect(await screen.findByText(da.autoSync.noAccount)).toBeTruthy();
+    expect(screen.getByText(da.sync.sendLink)).toBeTruthy();
   });
 });

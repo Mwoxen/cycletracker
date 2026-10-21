@@ -141,9 +141,8 @@ export default function RootLayout() {
               <Stack.Protected guard={!!profile}>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false, animation: 'none' }} />
                 <Stack.Screen name="log/[date]" options={sheet} />
-                <Stack.Screen name="share" options={sheet} />
                 <Stack.Screen name="scan" options={sheet} />
-                <Stack.Screen name="auto-sync" options={sheet} />
+                <Stack.Screen name="partner" options={sheet} />
                 <Stack.Screen name="import" options={sheet} />
                 <Stack.Screen name="paywall" options={sheet} />
                 <Stack.Screen name="reminder-times" options={sheet} />

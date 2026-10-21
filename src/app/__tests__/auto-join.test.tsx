@@ -73,12 +73,12 @@ beforeEach(() => {
 
 afterEach(() => jest.restoreAllMocks());
 
-describe('her share screen', () => {
+describe('her partner screen', () => {
   it('puts the iCloud address into the link she sends', async () => {
     const transport = fakeTransport();
     nativeTransport.mockReturnValue(transport);
     onboard('user');
-    await renderApp('/share');
+    await renderApp('/partner');
 
     await waitFor(() => expect(transport.createShare).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(useStore.getState().cloudSync.lastSyncAt).toBeDefined());
@@ -92,7 +92,7 @@ describe('her share screen', () => {
     transport.accountStatus.mockResolvedValue('noAccount');
     nativeTransport.mockReturnValue(transport);
     onboard('user');
-    await renderApp('/share');
+    await renderApp('/partner');
 
     await fireEvent.press(await screen.findByText(da.sync.sendLink));
     const sent = (Share.share as jest.Mock).mock.calls[0][0].url as string;

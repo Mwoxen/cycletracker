@@ -119,13 +119,13 @@ export default function HomeScreen() {
         <Button
           title={t('home.scanPartner')}
           variant="secondary"
-          onPress={() => router.push('/scan')}
+          onPress={() => router.push('/partner')}
         />
       ) : (
         <Button
           title={t('home.shareWithPartner')}
           variant="secondary"
-          onPress={() => router.push('/share')}
+          onPress={() => router.push('/partner')}
         />
       )}
       <View style={styles.syncRow}>

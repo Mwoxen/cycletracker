@@ -199,7 +199,7 @@ describe('home', () => {
     const home = homeTab();
     expect(await home.findByText(/^Sidst synkroniseret /)).toBeTruthy();
     expect(home.queryByText(da.home.neverSynced)).toBeNull();
-    expect(settingsTab().getByText(da.sync.pairedWith.replace('{{name}}', 'Bo'))).toBeTruthy();
+    expect(settingsTab().getByText(/^Forbundet med Bo/)).toBeTruthy();
   });
 });
 
@@ -530,17 +530,18 @@ describe('sheets', () => {
     expect(screen.getByText(da.log.removePeriodStart)).toBeTruthy();
   });
 
-  it('renders the share sheet', async () => {
+  it('renders the partner sheet with her code', async () => {
     onboard('user');
-    await renderApp('/share');
-    expect(await screen.findByText(da.sync.shareTitle)).toBeTruthy();
+    await renderApp('/partner');
+    expect(await screen.findByText(da.partner.ownerHint)).toBeTruthy();
     expect(screen.getByText(da.sync.sendLink)).toBeTruthy();
   });
 
-  it('renders the automatic sharing sheet for both roles without the native module', async () => {
-    onboard('user');
-    await renderApp('/auto-sync');
-    expect(await screen.findByText(da.autoSync.title)).toBeTruthy();
+  it('renders the partner sheet for him with the scan button, without the native module', async () => {
+    onboard('tracker');
+    await renderApp('/partner');
+    expect(await screen.findByText(da.partner.title)).toBeTruthy();
+    expect(screen.getByText(da.partner.scanHers.replace('{{name}}', 'Anna'))).toBeTruthy();
     expect(screen.getByText(da.autoSync.needsApp)).toBeTruthy();
   });
 

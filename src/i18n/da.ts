@@ -534,10 +534,26 @@ const da = {
     joinFailed: 'Linket kunne ikke bruges. Tjek at det er det rigtige, og at din partner har delt.',
     startFailed: 'Deling kunne ikke startes. Tjek iCloud og forbindelsen, og prøv igen.',
   },
+  partner: {
+    title: 'Partner',
+    rowConnected: 'Forbundet med {{name}}',
+    rowNotConnected: 'Ikke forbundet endnu',
+    connectedWith: 'Forbundet med {{name}}',
+    introOwner:
+      'Lad din partner scanne koden med Cycle Tracker, så er I forbundet, og hun får dine ændringer automatisk gennem jeres egne iCloud-konti. Der er ingen server.',
+    introTracker:
+      'Scan koden på din partners telefon, så er I forbundet, og du får hendes ændringer automatisk gennem jeres egne iCloud-konti. Der er ingen server.',
+    ownerHint: 'Din partner scanner koden, så er I forbundet.',
+    codeAgainHint: 'Til en ny telefon, eller hvis forbindelsen skal laves om.',
+    scanHers: 'Scan {{name}}s kode',
+    pasteHint: 'Eller indsæt et link, hun har sendt dig.',
+    showCodeAgain: 'Vis kode igen',
+    scanAgain: 'Scan igen',
+  },
   sync: {
     autoJoining: 'Forbinder automatisk deling …',
     autoJoined: 'Automatisk deling er forbundet. Du får hendes ændringer fremover.',
-    autoJoinFailed: 'Automatisk deling kunne ikke forbindes. Data kan stadig importeres her, og du kan prøve igen under Indstillinger, Automatisk deling.',
+    autoJoinFailed: 'Automatisk deling kunne ikke forbindes. Data kan stadig importeres her, og du kan prøve igen under Indstillinger, Partner.',
     shareTitle: 'Del med partner',
     shareBody:
       'Lad din partner scanne koden med Cycle Tracker, eller send linket med AirDrop eller Beskeder. Kun cyklusdata deles, aldrig noter om dig selv fra appens indstillinger.',
