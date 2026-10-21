@@ -42,15 +42,68 @@ enum Phase: String {
     }
 }
 
-/// Mirrors phaseForCycleDay in src/engine/cycle.ts.
-func phase(forCycleDay day: Int, cycleLength: Int, periodLength: Int, lutealLength: Int) -> Phase {
+/// Mirrors effectiveLuteal in src/engine/cycle.ts: the ovulation day of a typical cycle.
+func ovulationDay(cycleLength: Int, periodLength: Int, lutealLength: Int) -> Int {
     let maxLuteal = max(1, cycleLength - periodLength - 2)
     let luteal = min(max(lutealLength, 7), maxLuteal)
-    let ovulationDay = cycleLength - luteal + 1
+    return cycleLength - luteal + 1
+}
+
+/// Mirrors phaseForCycleDay in src/engine/cycle.ts.
+func phase(forCycleDay day: Int, cycleLength: Int, periodLength: Int, lutealLength: Int) -> Phase {
+    let ovulation = ovulationDay(cycleLength: cycleLength, periodLength: periodLength, lutealLength: lutealLength)
     if day <= periodLength { return .menstrual }
-    if day < ovulationDay - 1 { return .follicular }
-    if day <= ovulationDay + 1 { return .ovulation }
+    if day < ovulation - 1 { return .follicular }
+    if day <= ovulation + 1 { return .ovulation }
     return .luteal
+}
+
+/// Mirrors FERTILE_DAYS_BEFORE_OVULATION and PMS_WINDOW_DAYS in src/engine/cycle.ts.
+let fertileDaysBeforeOvulation = 5
+let pmsWindowDays = 5
+
+struct PhaseSpan: Identifiable {
+    let phase: Phase
+    /// 1-based first and last cycle day of the span.
+    let from: Int
+    let to: Int
+    var id: String { phase.rawValue }
+}
+
+/// The four phases of a typical cycle as consecutive day spans, for the ring.
+func phaseSpans(cycleLength: Int, periodLength: Int, lutealLength: Int) -> [PhaseSpan] {
+    var spans: [PhaseSpan] = []
+    var start = 1
+    var current = phase(forCycleDay: 1, cycleLength: cycleLength, periodLength: periodLength, lutealLength: lutealLength)
+    if cycleLength >= 2 {
+        for day in 2...cycleLength {
+            let p = phase(forCycleDay: day, cycleLength: cycleLength, periodLength: periodLength, lutealLength: lutealLength)
+            if p != current {
+                spans.append(PhaseSpan(phase: current, from: start, to: day - 1))
+                start = day
+                current = p
+            }
+        }
+    }
+    spans.append(PhaseSpan(phase: current, from: start, to: cycleLength))
+    return spans
+}
+
+/// One line under the phase: where today sits in relation to bleeding, the fertile window or PMS.
+func hint(strings: Strings, phase: Phase, day: Int, cycleLength: Int, periodLength: Int, lutealLength: Int) -> String? {
+    let ovulation = ovulationDay(cycleLength: cycleLength, periodLength: periodLength, lutealLength: lutealLength)
+    switch phase {
+    case .menstrual:
+        return day <= periodLength ? strings.bleedingDay(day) : nil
+    case .follicular:
+        let fertileStart = ovulation - fertileDaysBeforeOvulation
+        return day < fertileStart ? strings.fertileIn(fertileStart - day) : strings.fertileNow
+    case .ovulation:
+        return strings.fertileNow
+    case .luteal:
+        let pmsStart = cycleLength - pmsWindowDays + 1
+        return day < pmsStart ? strings.pmsIn(pmsStart - day) : strings.pmsNow
+    }
 }
 
 func loadState() -> WidgetState? {
@@ -92,6 +145,21 @@ struct Strings {
         if days == 1 { return lang == "da" ? "Menstruation i morgen" : "Period tomorrow" }
         return lang == "da" ? "Menstruation om \(days) dage" : "Period in \(days) days"
     }
+
+    func cycleDayShort(_ n: Int) -> String { lang == "da" ? "Cyklusdag \(n)" : "Cycle day \(n)" }
+    func dayBadge(_ n: Int) -> String { lang == "da" ? "DAG \(n)" : "DAY \(n)" }
+
+    func bleedingDay(_ n: Int) -> String { lang == "da" ? "Dag \(n) af blødningen" : "Day \(n) of bleeding" }
+    func fertileIn(_ days: Int) -> String {
+        if days == 1 { return lang == "da" ? "Frugtbart vindue starter i morgen" : "Fertile window starts tomorrow" }
+        return lang == "da" ? "Frugtbart vindue om \(days) dage" : "Fertile window in \(days) days"
+    }
+    var fertileNow: String { lang == "da" ? "Frugtbart vindue er i gang" : "Fertile window now" }
+    func pmsIn(_ days: Int) -> String {
+        if days == 1 { return lang == "da" ? "PMS-vinduet starter i morgen" : "PMS window starts tomorrow" }
+        return lang == "da" ? "PMS-vinduet starter om \(days) dage" : "PMS window in \(days) days"
+    }
+    var pmsNow: String { lang == "da" ? "PMS-vinduet er i gang" : "PMS window now" }
 
     var noData: String { lang == "da" ? "Åbn appen og registrér en menstruationsstart" : "Open the app and log a period start" }
     var title: String { lang == "da" ? "Cycle Tracker" : "Cycle Tracker" }
@@ -141,6 +209,58 @@ struct CycleProvider: TimelineProvider {
 
 // MARK: - Views
 
+/// The cycle as a ring (docs/design/README.md): one coloured segment per phase, 1.1° gaps,
+/// day 1 at twelve o'clock, the days still ahead in the current phase at 22 %, and a knob on today.
+struct CycleRing<Center: View>: View {
+    let spans: [PhaseSpan]
+    let day: Int
+    let cycleLength: Int
+    var lineWidth: CGFloat = 5
+    @ViewBuilder let center: () -> Center
+
+    private let gap = 1.1 / 360.0
+
+    var body: some View {
+        GeometryReader { geo in
+            let side = min(geo.size.width, geo.size.height)
+            let radius = (side - lineWidth) / 2
+            let length = Double(max(cycleLength, 1))
+            let today = Double(min(max(day, 1), cycleLength))
+            ZStack {
+                Circle().stroke(Color("track"), lineWidth: lineWidth)
+                ForEach(spans) { span in
+                    let start = Double(span.from - 1) / length + gap / 2
+                    let end = Double(span.to) / length - gap / 2
+                    let done = min(end, max(start, today / length))
+                    if done > start {
+                        Circle()
+                            .trim(from: start, to: done)
+                            .stroke(span.phase.color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt))
+                            .rotationEffect(.degrees(-90))
+                    }
+                    if end > done {
+                        Circle()
+                            .trim(from: done, to: end)
+                            .stroke(span.phase.color.opacity(0.22), style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt))
+                            .rotationEffect(.degrees(-90))
+                    }
+                }
+                // Trims start at three o'clock and are turned a quarter; the knob's angle includes that turn.
+                let angle = 2 * Double.pi * (today - 0.5) / length - Double.pi / 2
+                let knobColor = spans.first(where: { Int(today) >= $0.from && Int(today) <= $0.to })?.phase.color ?? Color("label")
+                Circle()
+                    .fill(Color("WidgetBackground"))
+                    .overlay(Circle().stroke(knobColor, lineWidth: 2))
+                    .frame(width: 12, height: 12)
+                    .offset(x: radius * CGFloat(cos(angle)), y: radius * CGFloat(sin(angle)))
+                center()
+            }
+            .frame(width: side, height: side)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+}
+
 struct CycleWidgetView: View {
     @Environment(\.widgetFamily) var family
     let entry: CycleEntry
@@ -152,39 +272,93 @@ struct CycleWidgetView: View {
             let cycleLength = max(state.cycleLength, rawDay)
             let day = rawDay
             let current = phase(forCycleDay: day, cycleLength: cycleLength, periodLength: state.periodLength, lutealLength: state.lutealLength)
+            let spans = phaseSpans(cycleLength: cycleLength, periodLength: state.periodLength, lutealLength: state.lutealLength)
             let daysUntil = state.daysUntilPeriod - entry.offset
-            content(state: state, strings: strings, phase: current, day: day, daysUntil: daysUntil)
+            let line = hint(strings: strings, phase: current, day: day, cycleLength: cycleLength, periodLength: state.periodLength, lutealLength: state.lutealLength)
+            switch family {
+            case .accessoryCircular:
+                accessory(day: day, cycleLength: cycleLength)
+            case .systemSmall:
+                small(strings: strings, phase: current, day: day, cycleLength: cycleLength, spans: spans)
+            default:
+                medium(state: state, strings: strings, phase: current, day: day, cycleLength: cycleLength, spans: spans, daysUntil: daysUntil, line: line)
+            }
         } else {
             let strings = Strings(lang: entry.state?.lang ?? "en")
-            VStack(alignment: .leading, spacing: 6) {
-                Image(systemName: "heart.circle.fill").font(.title2).foregroundStyle(Color("AccentColor"))
-                Text(strings.noData).font(.footnote).foregroundStyle(Color("secondaryLabel"))
+            if family == .accessoryCircular {
+                Image(systemName: "heart.circle").font(.title2)
+            } else {
+                VStack(alignment: .leading, spacing: 6) {
+                    Image(systemName: "heart.circle.fill").font(.title2).foregroundStyle(Color("AccentColor"))
+                    Text(strings.noData).font(.footnote).foregroundStyle(Color("secondaryLabel"))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
     }
 
-    @ViewBuilder
-    func content(state: WidgetState, strings: Strings, phase: Phase, day: Int, daysUntil: Int) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 6) {
-                Image(systemName: phase.symbol).foregroundStyle(phase.color)
-                Text(state.isTracker ? state.name : strings.title)
-                    .font(.caption).fontWeight(.semibold).foregroundStyle(Color("secondaryLabel"))
-                    .lineLimit(1)
+    /// Small: the ring fills the widget, the day and the phase sit in the middle.
+    func small(strings: Strings, phase: Phase, day: Int, cycleLength: Int, spans: [PhaseSpan]) -> some View {
+        CycleRing(spans: spans, day: day, cycleLength: cycleLength) {
+            VStack(spacing: 3) {
+                Text(strings.dayBadge(day))
+                    .font(.system(size: 9, weight: .semibold)).tracking(1.4)
+                    .foregroundStyle(Color("secondaryLabel"))
+                Text(strings.phaseName(phase))
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(phase.color)
+                    .lineLimit(1).minimumScaleFactor(0.7)
             }
-            Text(strings.phaseName(phase))
-                .font(family == .systemSmall ? .headline : .title3).fontWeight(.bold)
-                .foregroundStyle(Color("label"))
-                .lineLimit(1).minimumScaleFactor(0.8)
-            Text(strings.cycleDay(day))
-                .font(.subheadline).foregroundStyle(Color("label"))
-            Spacer(minLength: 2)
-            Text(strings.nextPeriod(daysUntil))
-                .font(.caption).foregroundStyle(daysUntil < 0 ? phase.color : Color("secondaryLabel"))
-                .lineLimit(2)
+            .padding(.horizontal, 14)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .padding(2)
+    }
+
+    /// Medium: the ring with the day number, then name, phase, next period and the hint line.
+    func medium(state: WidgetState, strings: Strings, phase: Phase, day: Int, cycleLength: Int, spans: [PhaseSpan], daysUntil: Int, line: String?) -> some View {
+        HStack(spacing: 14) {
+            CycleRing(spans: spans, day: day, cycleLength: cycleLength) {
+                Text("\(day)")
+                    .font(.system(size: 24, weight: .light))
+                    .foregroundStyle(Color("label"))
+            }
+            .frame(width: 112, height: 112)
+            VStack(alignment: .leading, spacing: 5) {
+                Text(state.isTracker ? "\(state.name) · \(strings.cycleDayShort(day))" : strings.cycleDayShort(day))
+                    .font(.system(size: 11, weight: .semibold)).tracking(1.2).textCase(.uppercase)
+                    .foregroundStyle(Color("secondaryLabel"))
+                    .lineLimit(1).minimumScaleFactor(0.8)
+                Text(strings.phaseName(phase))
+                    .font(.system(size: 24, weight: .light))
+                    .foregroundStyle(phase.color)
+                    .lineLimit(1).minimumScaleFactor(0.7)
+                Text(strings.nextPeriod(daysUntil))
+                    .font(.system(size: 13))
+                    .foregroundStyle(daysUntil < 0 ? phase.color : Color("secondaryLabel"))
+                    .lineLimit(1)
+                if let line = line {
+                    HStack(spacing: 6) {
+                        Circle().fill(phase.color).frame(width: 6, height: 6)
+                        Text(line).font(.system(size: 13)).foregroundStyle(Color("secondaryLabel")).lineLimit(1).minimumScaleFactor(0.8)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+    }
+
+    /// Lock screen: a plain progress ring with the day in the middle, tinted by the system.
+    func accessory(day: Int, cycleLength: Int) -> some View {
+        ZStack {
+            Circle().stroke(.primary.opacity(0.3), lineWidth: 6)
+            Circle()
+                .trim(from: 0, to: Double(min(max(day, 1), cycleLength)) / Double(max(cycleLength, 1)))
+                .stroke(.primary, style: StrokeStyle(lineWidth: 6, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+            Text("\(day)").font(.system(size: 22, weight: .medium))
+        }
+        .widgetAccentable()
     }
 }
 
@@ -198,7 +372,7 @@ struct CycleWidget: Widget {
                 .widgetURL(URL(string: "cycletracker://"))
         }
         .configurationDisplayName("Cycle Tracker")
-        .description("Fase, cyklusdag og næste menstruation. / Phase, cycle day and next period.")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .description("Cyklusringen, fasen og næste menstruation. / The cycle ring, the phase and the next period.")
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular])
     }
 }
