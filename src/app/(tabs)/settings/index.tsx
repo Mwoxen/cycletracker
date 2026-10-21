@@ -359,22 +359,29 @@ export default function SettingsScreen() {
             lead={<IconTile symbol="icloud" accent />}
             onPress={() => router.push('/auto-sync')}
           />
-          <Row
-            title={t('settings.share')}
-            subtitle={t('settings.shareHint')}
-            lead={<IconTile symbol="qrcode" />}
-            onPress={() => router.push('/share')}
-          />
-          <Row
-            title={t('settings.scan')}
-            subtitle={
-              pairing.partnerDeviceId
-                ? t('sync.pairedWith', { name: pairing.partnerName ?? '?' })
-                : t('sync.notPaired')
-            }
-            lead={<IconTile symbol="qrcode.viewfinder" />}
-            onPress={() => router.push('/scan')}
-          />
+          {isTracker ? (
+            <Row
+              title={t('settings.scan')}
+              subtitle={
+                pairing.partnerDeviceId
+                  ? t('sync.pairedWith', { name: pairing.partnerName ?? '?' })
+                  : t('sync.notPaired')
+              }
+              lead={<IconTile symbol="qrcode.viewfinder" />}
+              onPress={() => router.push('/scan')}
+            />
+          ) : (
+            <Row
+              title={t('settings.share')}
+              subtitle={
+                pairing.partnerDeviceId
+                  ? t('sync.pairedWith', { name: pairing.partnerName ?? '?' })
+                  : t('settings.shareHint')
+              }
+              lead={<IconTile symbol="qrcode" />}
+              onPress={() => router.push('/share')}
+            />
+          )}
           <Row
             title={t('settings.cloudBackup')}
             subtitle={
