@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { colors, fontFor, radius } from './colors';
 import { Txt } from './primitives';
+import { usePhaseTheme } from './theme';
 
 /** Compact pill segmented control for the trailing side of a settings row. */
 export function Segmented<T extends string>({
@@ -10,13 +11,17 @@ export function Segmented<T extends string>({
   value,
   onChange,
   stretch,
+  accent,
 }: {
   options: { value: T; label: string }[];
   value: T;
   onChange: (value: T) => void;
   /** Fill the available width with equal segments (a control on its own, not in a row). */
   stretch?: boolean;
+  /** Fill the selected segment with today's phase colour instead of the surface. */
+  accent?: boolean;
 }) {
+  const theme = usePhaseTheme();
   const select = (next: T) => {
     if (next === value) return;
     void Haptics.selectionAsync();
@@ -36,11 +41,12 @@ export function Segmented<T extends string>({
               styles.segment,
               stretch && styles.stretch,
               selected && styles.selected,
+              selected && accent && { backgroundColor: theme.accent, borderColor: theme.accent },
               pressed && !selected && styles.pressed,
             ]}>
             <Txt
               variant="footnote"
-              color={selected ? colors.label : colors.secondaryLabel}
+              color={selected ? (accent ? colors.onAccent : colors.label) : colors.secondaryLabel}
               style={styles.label}>
               {o.label}
             </Txt>
