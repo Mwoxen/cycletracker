@@ -2,6 +2,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { colors, fontFor, radius, spacing } from '@/ui/colors';
 import { Txt } from '@/ui/primitives';
+import { usePhaseTheme } from '@/ui/theme';
 
 /**
  * A small card-like tile with a big number and a footnote label, for rows of stats. With
@@ -11,14 +12,18 @@ export function Stat({
   value,
   label,
   onPress,
+  selected,
 }: {
   value: string;
   label: string;
   onPress?: () => void;
+  /** Outlined in today's accent, with the number in it: the tile whose list is shown. */
+  selected?: boolean;
 }) {
+  const theme = usePhaseTheme();
   const inner = (
     <>
-      <Txt style={styles.value} color={colors.label}>
+      <Txt style={styles.value} color={selected ? theme.accent : colors.label}>
         {value}
       </Txt>
       <Txt variant="footnote" numberOfLines={1}>
@@ -32,7 +37,12 @@ export function Stat({
         onPress={onPress}
         accessibilityRole="button"
         accessibilityLabel={`${value} ${label}`}
-        style={({ pressed }) => [styles.tile, pressed && styles.pressed]}>
+        accessibilityState={{ selected: !!selected }}
+        style={({ pressed }) => [
+          styles.tile,
+          selected && { borderColor: theme.accent },
+          pressed && styles.pressed,
+        ]}>
         {inner}
       </Pressable>
     );

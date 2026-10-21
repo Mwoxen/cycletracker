@@ -482,7 +482,10 @@ describe('learn sub-screens', () => {
     const learn = learnTab();
     expect(await learn.findByText(month1.theme)).toBeTruthy();
     expect(learn.getByText(upper(da.learn.daily))).toBeTruthy();
-    expect(learn.getAllByText(month1.daily[month1.daily.length - 1].title)).toHaveLength(1);
+    // The cards are a grid of day numbers; the last day is locked on program day 1.
+    expect(learn.getAllByText(String(month1.daily.length))).toHaveLength(1);
+    expect(learn.getByText(da.learn.legendLocked)).toBeTruthy();
+    expect(learn.getByText(month1.weekly[0].title)).toBeTruthy();
   });
 
   it('renders the archive', async () => {
@@ -518,16 +521,16 @@ describe('sheets', () => {
     onboard('tracker');
     const today = todayISO();
     await renderApp(`/log/${today}`);
-    expect(await screen.findByText(da.log.periodStartsToday)).toBeTruthy();
+    expect(await screen.findByText(da.log.howToday)).toBeTruthy();
     const before = selectActivePeriods(useStore.getState()).length;
-    await fireEvent.press(screen.getByText(da.log.periodStartsToday));
+    await fireEvent.press(screen.getByText(da.log.periodStart));
     const periods = selectActivePeriods(useStore.getState());
     expect(periods).toHaveLength(before + 1);
     expect(periods.some((p) => p.startDate === today)).toBe(true);
     await fireEvent.press(screen.getByText(da.log.symptomNames.cramps));
     expect(Object.values(useStore.getState().logs)[0]?.symptoms).toEqual(['cramps']);
-    expect(screen.getByText(`✓ ${da.log.saved}`)).toBeTruthy();
-    expect(screen.getByText(da.log.removePeriodStart)).toBeTruthy();
+    expect(screen.getByText(da.log.saved)).toBeTruthy();
+    expect(screen.getByText(da.log.clearDay)).toBeTruthy();
   });
 
   it('renders the partner sheet with her code', async () => {
