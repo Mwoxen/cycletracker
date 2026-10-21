@@ -261,7 +261,8 @@ export function Button({
 }: {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'plain' | 'destructive';
+  /** `filled` is the one solid button of a screen: accent background, text in onAccent. */
+  variant?: 'primary' | 'secondary' | 'plain' | 'destructive' | 'filled';
   symbol?: SFSymbol;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -274,15 +275,19 @@ export function Button({
       ? theme.accent
       : variant === 'destructive'
         ? colors.red
-        : colors.label;
+        : variant === 'filled'
+          ? colors.onAccent
+          : colors.label;
   const border =
     variant === 'primary'
       ? { borderWidth: 1.5, borderColor: theme.accent, minHeight: 54 }
-      : variant === 'destructive'
-        ? { borderWidth: 1.5, borderColor: colors.red, minHeight: 54 }
-        : variant === 'secondary'
-          ? { borderWidth: 1, borderColor: colors.separator, minHeight: 50 }
-          : { minHeight: 44 };
+      : variant === 'filled'
+        ? { backgroundColor: theme.accent, minHeight: 54 }
+        : variant === 'destructive'
+          ? { borderWidth: 1.5, borderColor: colors.red, minHeight: 54 }
+          : variant === 'secondary'
+            ? { borderWidth: 1, borderColor: colors.separator, minHeight: 50 }
+            : { minHeight: 44 };
   return (
     <Pressed
       onPress={onPress}

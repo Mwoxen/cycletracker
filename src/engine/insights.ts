@@ -97,6 +97,10 @@ export interface SearchItem {
   text: string;
   unlocked: boolean;
   read: boolean;
+  /** Programme month, and the day or week in it, for the row badge. */
+  month?: number;
+  day?: number;
+  week?: number;
 }
 
 export function searchIndex(
@@ -131,6 +135,8 @@ export function searchIndex(
         text: `${c.insight} ${c.action}`,
         unlocked: isDailyUnlocked(position, m.month, c.day),
         read: !!progress[c.id]?.readAt,
+        month: m.month,
+        day: c.day,
       });
     }
     for (const w of m.weekly) {
@@ -142,6 +148,8 @@ export function searchIndex(
         text: `${w.body.join(' ')} ${w.conversationQuestion}`,
         unlocked: isWeeklyUnlocked(position, m.month, w.week),
         read: !!progress[w.id]?.readAt,
+        month: m.month,
+        week: w.week,
       });
     }
     out.push({
@@ -152,6 +160,7 @@ export function searchIndex(
       text: `${m.wrap.summary.join(' ')} ${m.wrap.keepDoing.join(' ')}`,
       unlocked: isMonthWrapUnlocked(position, m.month),
       read: !!progress[m.wrap.id]?.readAt,
+      month: m.month,
     });
   }
   return out;

@@ -168,7 +168,9 @@ export default function LogSheet() {
       <View style={styles.section}>
         <Label>{t('log.period')}</Label>
         {ongoing && !endsHere ? (
-          <Txt variant="footnote">{t('log.periodOngoing', { date: fmt.short(ongoing.startDate) })}</Txt>
+          <Txt variant="footnote">
+            {t('log.periodOngoing', { date: fmt.short(ongoing.startDate) })}
+          </Txt>
         ) : null}
         <Segmented options={periodOptions} value={periodChoice} onChange={choosePeriod} stretch />
       </View>

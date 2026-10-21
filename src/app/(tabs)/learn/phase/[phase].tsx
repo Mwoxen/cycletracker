@@ -144,7 +144,9 @@ export default function PhaseScreen() {
                     size={22}
                     color={accent}
                   />
-                  <Txt style={styles.rowText} color={checked ? colors.secondaryLabel : colors.label}>
+                  <Txt
+                    style={styles.rowText}
+                    color={checked ? colors.secondaryLabel : colors.label}>
                     {text}
                   </Txt>
                 </Pressable>

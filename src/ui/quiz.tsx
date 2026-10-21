@@ -5,29 +5,10 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { QuizQuestion } from '@/content';
 import { colors, fontFor, phaseColor, phaseSoft, radius, spacing } from '@/ui/colors';
-import { Card, Icon, Txt } from '@/ui/primitives';
+import { Button, Card, Icon, Txt } from '@/ui/primitives';
 import { usePhaseTheme } from '@/ui/theme';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-/** Filled capsule button in the accent: "Start the quiz", "Next question". */
-function FilledButton({ title, onPress }: { title: string; onPress: () => void }) {
-  const theme = usePhaseTheme();
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      style={({ pressed }) => [
-        styles.filled,
-        { backgroundColor: theme.accent },
-        pressed && styles.pressed,
-      ]}>
-      <Txt variant="headline" color={colors.onAccent}>
-        {title}
-      </Txt>
-    </Pressable>
-  );
-}
 
 /**
  * The quiz card at the end of a monthly wrap: a row of dots for the questions (green right,
@@ -60,7 +41,9 @@ export function Quiz({
   };
 
   const dots = (
-    <View style={styles.dots} accessibilityLabel={t('learn.questionN', { n: index + 1, total: questions.length })}>
+    <View
+      style={styles.dots}
+      accessibilityLabel={t('learn.questionN', { n: index + 1, total: questions.length })}>
       {questions.map((_, i) => (
         <View
           key={i}
@@ -95,9 +78,15 @@ export function Quiz({
       <Card style={styles.card}>
         {head}
         <Txt variant="question">
-          {bestScore ? t('learn.bestScore', bestScore) : t('reading.questions', { n: questions.length })}
+          {bestScore
+            ? t('learn.bestScore', bestScore)
+            : t('reading.questions', { n: questions.length })}
         </Txt>
-        <FilledButton title={bestScore ? t('learn.retryQuiz') : t('learn.startQuiz')} onPress={restart} />
+        <Button
+          variant="filled"
+          title={bestScore ? t('learn.retryQuiz') : t('learn.startQuiz')}
+          onPress={restart}
+        />
       </Card>
     );
   }
@@ -107,7 +96,7 @@ export function Quiz({
       <Card style={styles.card}>
         {head}
         <Txt variant="question">{t('learn.result', { score, total: questions.length })}</Txt>
-        <FilledButton title={t('learn.retryQuiz')} onPress={restart} />
+        <Button variant="filled" title={t('learn.retryQuiz')} onPress={restart} />
       </Card>
     );
   }
@@ -198,7 +187,11 @@ export function Quiz({
               {q.explanation}
             </Txt>
           </View>
-          <FilledButton title={isLast ? t('learn.seeResult') : t('learn.nextQuestion')} onPress={next} />
+          <Button
+            variant="filled"
+            title={isLast ? t('learn.seeResult') : t('learn.nextQuestion')}
+            onPress={next}
+          />
         </>
       ) : null}
     </Card>
@@ -232,12 +225,5 @@ const styles = StyleSheet.create({
   optionText: { flex: 1, flexShrink: 1, fontFamily: fontFor(500) },
   explain: { borderRadius: radius.field, paddingVertical: 14, paddingHorizontal: 16, gap: 4 },
   explainHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  filled: {
-    minHeight: 50,
-    borderRadius: radius.chip,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: spacing.md,
-  },
   pressed: { opacity: 0.7 },
 });

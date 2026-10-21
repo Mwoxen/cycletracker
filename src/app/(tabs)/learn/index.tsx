@@ -177,9 +177,7 @@ export default function LearnScreen() {
           )
         }
         trailing={
-          unlocked ? undefined : (
-            <Icon name="lock.fill" size={13} color={colors.tertiaryLabel} />
-          )
+          unlocked ? undefined : <Icon name="lock.fill" size={13} color={colors.tertiaryLabel} />
         }
         chevron={unlocked}
         onPress={() => router.push(`/(tabs)/learn/month/${m}`)}
@@ -332,7 +330,9 @@ export default function LearnScreen() {
           <Row
             title={wrap ? wrap.title : t('learn.thisMonth')}
             titleColor={wrap ? undefined : colors.secondaryLabel}
-            subtitle={wrap ? t('learn.wrap') : t('learn.locked', { n: wrapProgramDay(position.month) })}
+            subtitle={
+              wrap ? t('learn.wrap') : t('learn.locked', { n: wrapProgramDay(position.month) })
+            }
             lead={
               wrap ? (
                 <LeadIcon color={theme.accent} symbol="star.fill" tint={colors.onAccent} />
@@ -381,7 +381,9 @@ export default function LearnScreen() {
 
         <SectionTitle>{t('learn.program')}</SectionTitle>
         <Card style={styles.list}>
-          {shownMonths.map((m, i) => monthRow(m, hiddenMonths === 0 && i === shownMonths.length - 1))}
+          {shownMonths.map((m, i) =>
+            monthRow(m, hiddenMonths === 0 && i === shownMonths.length - 1),
+          )}
           {hiddenMonths > 0 ? (
             <Pressable
               onPress={() => setAllMonths(true)}

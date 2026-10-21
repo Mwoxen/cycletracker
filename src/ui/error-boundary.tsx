@@ -1,15 +1,17 @@
 import type { ErrorBoundaryProps } from 'expo-router';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, ScrollView, Share, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, Share, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useStore } from '@/store/store';
-import { colors, spacing } from '@/ui/colors';
-import { Button, Icon, Txt } from '@/ui/primitives';
+import { colors, phaseColor, phaseSoft, radius, spacing } from '@/ui/colors';
+import { Button, Card, Icon, Txt } from '@/ui/primitives';
 
 /**
- * Shown when a screen throws. Offers retry, and wiping local data as a last resort so a
- * corrupt store can never lock the user out for good.
+ * Shown when a screen throws: one solid "try again", the report as a secondary button, the
+ * technical details folded away, and wiping local data as a small last resort at the bottom so
+ * a corrupt store can never lock the user out for good.
  */
 export function AppErrorBoundary({
   error,
@@ -19,6 +21,7 @@ export function AppErrorBoundary({
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const resetAll = useStore((s) => s.resetAll);
+  const [open, setOpen] = useState(false);
 
   const wipe = () => {
     Alert.alert(t('settings.resetConfirmTitle'), t('settings.resetConfirmBody'), [
@@ -40,55 +43,99 @@ export function AppErrorBoundary({
   };
 
   return (
-    <View
-      style={[
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={[
         styles.container,
-        { paddingTop: insets.top + spacing.xl, paddingBottom: insets.bottom + spacing.lg },
+        { paddingTop: insets.top + 64, paddingBottom: insets.bottom + spacing.lg },
       ]}>
-      <Icon name="exclamationmark.triangle.fill" size={40} color={colors.orange} />
-      <Txt variant="title" style={{ textAlign: 'center' }}>
-        {t('error.title')}
-      </Txt>
-      <Txt color={colors.secondaryLabel} style={{ textAlign: 'center' }}>
-        {t('error.body')}
-      </Txt>
-      <Txt
-        variant="caption"
-        color={colors.tertiaryLabel}
-        style={{ textAlign: 'center' }}
-        numberOfLines={4}>
-        {error.message}
-      </Txt>
-      {details ? (
-        <ScrollView style={styles.details} contentContainerStyle={{ padding: spacing.sm }}>
-          <Txt variant="caption" color={colors.tertiaryLabel} style={styles.mono}>
-            {details}
-          </Txt>
-        </ScrollView>
-      ) : null}
-      <View style={{ alignSelf: 'stretch', gap: spacing.sm, marginTop: spacing.md }}>
-        <Button title={t('error.retry')} onPress={() => void retry()} />
-        <Button title={t('error.share')} variant="plain" onPress={share} />
-        <Button title={t('settings.resetAll')} variant="plain" onPress={wipe} />
+      <View style={styles.badge}>
+        <Icon name="exclamationmark.triangle" size={34} color={phaseColor.ovulation} />
       </View>
-    </View>
+      <View style={styles.text}>
+        <Txt variant="hero" style={styles.center} accessibilityRole="header">
+          {t('error.title')}
+        </Txt>
+        <Txt color={colors.secondaryLabel} style={[styles.center, { maxWidth: 300 }]}>
+          {t('error.body')}
+        </Txt>
+      </View>
+      <View style={styles.buttons}>
+        <Button title={t('error.retry')} variant="filled" onPress={() => void retry()} />
+        <Button title={t('error.share')} variant="secondary" onPress={share} />
+      </View>
+      <Card style={styles.details}>
+        <Pressable
+          onPress={() => setOpen((o) => !o)}
+          accessibilityRole="button"
+          accessibilityState={{ expanded: open }}
+          style={styles.detailsHead}>
+          <View style={{ flex: 1, flexShrink: 1, gap: 2 }}>
+            <Txt>{t('error.details')}</Txt>
+            <Txt
+              variant="footnote"
+              color={colors.tertiaryLabel}
+              numberOfLines={open ? undefined : 1}>
+              {error.message}
+            </Txt>
+          </View>
+          <Icon
+            name={open ? 'chevron.down' : 'chevron.right'}
+            size={14}
+            color={colors.tertiaryLabel}
+          />
+        </Pressable>
+        {open ? (
+          <ScrollView style={styles.stack} contentContainerStyle={{ padding: spacing.sm }}>
+            <Txt variant="caption" color={colors.tertiaryLabel} style={styles.mono}>
+              {details ?? error.stack ?? error.message}
+            </Txt>
+          </ScrollView>
+        ) : null}
+      </Card>
+      <View style={{ flex: 1 }} />
+      <Pressable onPress={wipe} accessibilityRole="button" hitSlop={8} style={styles.wipe}>
+        <Txt variant="footnote" color={phaseColor.menstrual}>
+          {t('settings.resetAll')}
+        </Txt>
+      </Pressable>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: colors.background },
   container: {
-    flex: 1,
-    backgroundColor: colors.background,
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    gap: spacing.lg,
+  },
+  badge: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    backgroundColor: phaseSoft.ovulation,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: spacing.lg,
-    gap: spacing.md,
   },
-  details: {
-    alignSelf: 'stretch',
+  text: { gap: 12, alignItems: 'center' },
+  center: { textAlign: 'center' },
+  buttons: { alignSelf: 'stretch', gap: 10, marginTop: spacing.sm },
+  details: { alignSelf: 'stretch', padding: 0, paddingHorizontal: spacing.md },
+  detailsHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 12,
+    minHeight: 44,
+  },
+  stack: {
     maxHeight: 220,
-    borderRadius: 8,
+    borderRadius: radius.cell,
     backgroundColor: colors.cardSecondary,
+    marginBottom: spacing.md,
   },
   mono: { fontFamily: 'Menlo', fontSize: 10, lineHeight: 13 },
+  wipe: { paddingVertical: 8, marginTop: spacing.md },
 });
