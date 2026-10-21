@@ -14,7 +14,6 @@ export default function SettingsLayout() {
       <Stack.Screen name="index" options={{ title: t('settings.title'), headerShown: false }} />
       <Stack.Screen name="profile" options={subScreen} />
       <Stack.Screen name="data" options={subScreen} />
-      <Stack.Screen name="about" options={subScreen} />
     </Stack>
   );
 }

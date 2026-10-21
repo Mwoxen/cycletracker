@@ -484,8 +484,6 @@ const en: Translation = {
     dataHint: 'Export, import or restore from iCloud',
     dataHelp:
       'An export is a file with everything on this phone. Import merges a file in; restore fetches the last iCloud backup.',
-    privacyHint: 'All data stays on the phone',
-    disclaimerHint: 'Not contraception, not medical advice',
     resetHelp:
       "Profile, logs and learning progress are deleted from this phone. Your partner's phone is not affected.",
     languageNames: {

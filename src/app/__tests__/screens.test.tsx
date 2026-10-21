@@ -305,6 +305,7 @@ describe('tabs', () => {
     expect(settings.getByText(upper(da.settings.sharing))).toBeTruthy();
     expect(settings.getByText(da.settings.times)).toBeTruthy();
     expect(settings.getByText(da.settings.data)).toBeTruthy();
+    expect(settings.getByText(da.settings.privacyBody)).toBeTruthy();
     expect(settings.getByText(da.settings.resetAll)).toBeTruthy();
     // Role and language moved to the profile screen.
     expect(settings.queryByText(da.settings.languageNames.en)).toBeNull();
@@ -321,12 +322,10 @@ describe('tabs', () => {
     expect(await settings.findByText('ROLE')).toBeTruthy();
   });
 
-  it('renders the data and about screens', async () => {
+  it('renders the data screen', async () => {
     onboard('tracker');
     await renderApp('/settings/data');
     expect(await settingsTab().findByText(da.settings.export)).toBeTruthy();
-    await renderApp('/settings/about');
-    expect(await settingsTab().findByText(da.settings.privacyBody)).toBeTruthy();
   });
 
   it('sets a reminder time from the times sheet', async () => {
