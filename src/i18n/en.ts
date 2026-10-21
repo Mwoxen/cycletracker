@@ -536,10 +536,26 @@ const en: Translation = {
     joinFailed: 'The link could not be used. Check that it is the right one and that your partner has shared.',
     startFailed: 'Sharing could not be started. Check iCloud and the connection, then try again.',
   },
+  partner: {
+    title: 'Partner',
+    rowConnected: 'Connected with {{name}}',
+    rowNotConnected: 'Not connected yet',
+    connectedWith: 'Connected with {{name}}',
+    introOwner:
+      'Let your partner scan the code with Cycle Tracker: you are then connected, and they get your changes automatically through your own iCloud accounts. There is no server.',
+    introTracker:
+      "Scan the code on your partner's phone: you are then connected, and you get her changes automatically through your own iCloud accounts. There is no server.",
+    ownerHint: 'Your partner scans the code, and you are connected.',
+    codeAgainHint: 'For a new phone, or to make the connection again.',
+    scanHers: "Scan {{name}}'s code",
+    pasteHint: 'Or paste a link she sent you.',
+    showCodeAgain: 'Show code again',
+    scanAgain: 'Scan again',
+  },
   sync: {
     autoJoining: 'Connecting automatic sharing …',
     autoJoined: 'Automatic sharing is connected. You will get their changes from now on.',
-    autoJoinFailed: 'Automatic sharing could not be connected. You can still import the data here and try again under Settings, Automatic sharing.',
+    autoJoinFailed: 'Automatic sharing could not be connected. You can still import the data here and try again under Settings, Partner.',
     shareTitle: 'Share with partner',
     shareBody:
       'Let your partner scan the code with Cycle Tracker, or send the link via AirDrop or Messages. Only cycle data is shared, never your own app settings.',

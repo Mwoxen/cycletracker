@@ -195,12 +195,16 @@ export default function SettingsScreen() {
     label: t(`settings.appearanceNames.${a}`),
   }));
   const languageName = t(`settings.languageNames.${profile.language}`);
-  const connected = !!cloudSync.lastSyncAt && !cloudSync.lastError;
-  const syncSubtitle = cloudSync.lastError
-    ? t(`autoSync.errors.${cloudSync.lastError}`)
-    : cloudSync.lastSyncAt
-      ? `${t('autoSync.connected')} · ${t('autoSync.lastSync', { when: relativeTime(cloudSync.lastSyncAt) })}`
-      : t('autoSync.rowSubtitleOff');
+  // Paired by code or by iCloud; the last sync time is the newest of the two ways.
+  const paired = !!pairing.partnerDeviceId || !!cloudSync.lastSyncAt;
+  const syncedAt = Math.max(pairing.lastSyncAt ?? 0, cloudSync.lastSyncAt ?? 0) || undefined;
+  const partnerSubtitle = !paired
+    ? t('partner.rowNotConnected')
+    : cloudSync.lastError
+      ? t(`autoSync.errors.${cloudSync.lastError}`)
+      : `${t('partner.rowConnected', { name: pairing.partnerName ?? profile.partnerName })}${
+          syncedAt ? ` · ${t('autoSync.lastSync', { when: relativeTime(syncedAt) })}` : ''
+        }`;
 
   return (
     <TabSwipe tab="settings">
@@ -349,39 +353,14 @@ export default function SettingsScreen() {
         <SectionTitle>{t('settings.sharing')}</SectionTitle>
         <Card style={styles.rowsCard}>
           <Row
-            title={t('autoSync.title')}
-            subtitle={syncSubtitle}
+            title={t('partner.title')}
+            subtitle={partnerSubtitle}
             subtitleLead={
-              cloudSync.lastSyncAt ? (
-                <StatusDot color={connected ? colors.green : colors.orange} />
-              ) : undefined
+              paired ? <StatusDot color={cloudSync.lastError ? colors.orange : colors.green} /> : undefined
             }
-            lead={<IconTile symbol="icloud" accent />}
-            onPress={() => router.push('/auto-sync')}
+            lead={<IconTile symbol="person.2" accent />}
+            onPress={() => router.push('/partner')}
           />
-          {isTracker ? (
-            <Row
-              title={t('settings.scan')}
-              subtitle={
-                pairing.partnerDeviceId
-                  ? t('sync.pairedWith', { name: pairing.partnerName ?? '?' })
-                  : t('sync.notPaired')
-              }
-              lead={<IconTile symbol="qrcode.viewfinder" />}
-              onPress={() => router.push('/scan')}
-            />
-          ) : (
-            <Row
-              title={t('settings.share')}
-              subtitle={
-                pairing.partnerDeviceId
-                  ? t('sync.pairedWith', { name: pairing.partnerName ?? '?' })
-                  : t('settings.shareHint')
-              }
-              lead={<IconTile symbol="qrcode" />}
-              onPress={() => router.push('/share')}
-            />
-          )}
           <Row
             title={t('settings.cloudBackup')}
             subtitle={
