@@ -1,4 +1,3 @@
-import { DateTimePicker } from '@expo/ui/community/datetime-picker';
 import Constants from 'expo-constants';
 import * as Updates from 'expo-updates';
 import * as Clipboard from 'expo-clipboard';
@@ -7,27 +6,26 @@ import * as Linking from 'expo-linking';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, AppState, Pressable, StyleSheet, Switch, TextInput } from 'react-native';
+import { Alert, AppState, Pressable, StyleSheet, Switch, View } from 'react-native';
 
-import { APPEARANCES, LANGUAGES, type Language, type Role } from '@/domain/types';
-import { fromISODate, toISODate } from '@/engine/dates';
-import { readCloudBackup } from '@/backup/cloud';
-import { exportSnapshotFile, pickSnapshotFile } from '@/backup/file';
+import { APPEARANCES } from '@/domain/types';
+import { programPosition } from '@/content/program';
+import { toISODate, todayISO } from '@/engine/dates';
 import { useFormat } from '@/hooks/use-format';
 import { relativeTime } from '@/hooks/use-relative-time';
-import { useToday } from '@/hooks/use-today';
 import {
   notificationPermissionState,
   requestNotificationPermission,
   syncNotifications,
   type NotificationPermissionState,
 } from '@/notifications';
-import { previewMerge, selectActivePeriods, selectSnapshotData, useStore } from '@/store';
+import { selectActivePeriods, useStore } from '@/store';
 import { TabSwipe } from '@/ui/tab-swipe';
 import { colors, spacing } from '@/ui/colors';
 import { usePhaseTheme } from '@/ui/theme';
-import { Button, Card, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
+import { Button, Card, Icon, Row, Screen, SectionTitle, Txt } from '@/ui/primitives';
 import { Segmented } from '@/ui/segmented';
+import { Avatar, HelpText, IconTile, Pill, StatusDot } from '@/ui/settings-bits';
 import { Stepper } from '@/ui/stepper';
 import { usePlan } from '@/entitlements';
 import {
@@ -57,27 +55,26 @@ function updateLabel(embedded: string): string {
   return `${id}${stamp}`;
 }
 
+const timeAt = (hour: number, minute: number) => {
+  const d = new Date();
+  d.setHours(hour, minute, 0, 0);
+  return d;
+};
+
 export default function SettingsScreen() {
   const { t } = useTranslation();
   const theme = usePhaseTheme();
   const fmt = useFormat();
   const router = useRouter();
-  const today = useToday();
   const profile = useStore((s) => s.profile);
   const pairing = useStore((s) => s.pairing);
   const backupStatus = useStore((s) => s.backupStatus);
   const cloudSync = useStore((s) => s.cloudSync);
-  const deviceId = useStore((s) => s.deviceId);
-  const applySnapshot = useStore((s) => s.applySnapshot);
   const settings = useStore((s) => s.settings);
-  const updateProfile = useStore((s) => s.updateProfile);
   const updateSettings = useStore((s) => s.updateSettings);
   const updateReminders = useStore((s) => s.updateReminders);
   const resetAll = useStore((s) => s.resetAll);
   const [notifState, setNotifState] = useState<NotificationPermissionState | undefined>();
-  const notifHint = notifState === 'denied' || notifState === 'undetermined';
-  const [name, setName] = useState(profile?.partnerName ?? '');
-  const [openPicker, setOpenPicker] = useState<'start' | 'time' | 'programTime' | null>(null);
   const [updateState, setUpdateState] = useState<'idle' | 'checking' | 'downloading'>('idle');
   const entitlement = useStore((s) => s.entitlement);
   const previewFree = useStore((s) => s.previewFree);
@@ -101,15 +98,8 @@ export default function SettingsScreen() {
   if (!profile) return null;
   const r = settings.reminders;
   const isTracker = profile.role === 'tracker';
+  const position = programPosition(profile.programStartDate, todayISO());
 
-  const setRole = (role: Role) => {
-    void Haptics.selectionAsync();
-    updateProfile({ role });
-  };
-  const setLang = (language: Language) => {
-    void Haptics.selectionAsync();
-    updateProfile({ language });
-  };
   const toggleReminder = async (
     key: 'dailyCard' | 'periodSoon' | 'pmsWindow' | 'weeklyRead' | 'monthWrap',
     value: boolean,
@@ -127,65 +117,10 @@ export default function SettingsScreen() {
     }
     return granted;
   };
-  const reminderTime = new Date();
-  reminderTime.setHours(r.dailyCardHour, r.dailyCardMinute, 0, 0);
-  const programTime = new Date();
-  programTime.setHours(r.programHour, r.programMinute, 0, 0);
-  const locale = profile.language === 'da' ? 'da_DK' : 'en_GB';
-
-  const exportFile = async () => {
-    try {
-      await exportSnapshotFile(selectSnapshotData(useStore.getState()), deviceId, today);
-    } catch (e) {
-      Alert.alert(t('settings.export'), e instanceof Error ? e.message : String(e));
-    }
-  };
-
-  const importFile = async () => {
-    try {
-      const snapshot = await pickSnapshotFile();
-      if (!snapshot) return;
-      const preview = previewMerge(selectSnapshotData(useStore.getState()), snapshot);
-      const own = snapshot.deviceId === deviceId || !!snapshot.profile;
-      Alert.alert(t('settings.import'), t('sync.importSummary', { ...preview }), [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('sync.importButton'),
-          onPress: () => {
-            const r = applySnapshot(snapshot, { includeProfile: own, includeProgress: own });
-            void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            Alert.alert(t('sync.importDone'), t('settings.cloudRestoreDone', r));
-          },
-        },
-      ]);
-    } catch {
-      Alert.alert(t('settings.import'), t('settings.importFailed'));
-    }
-  };
-
-  const restoreFromCloud = async () => {
-    try {
-      const snapshot = await readCloudBackup();
-      if (!snapshot) {
-        Alert.alert(t('settings.cloudRestore'), t('settings.cloudRestoreNone'));
-        return;
-      }
-      const preview = previewMerge(selectSnapshotData(useStore.getState()), snapshot);
-      Alert.alert(t('settings.cloudRestore'), t('sync.importSummary', { ...preview }), [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('sync.importButton'),
-          onPress: () => {
-            const r = applySnapshot(snapshot, { includeProfile: true, includeProgress: true });
-            void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            Alert.alert(t('sync.importDone'), t('settings.cloudRestoreDone', r));
-          },
-        },
-      ]);
-    } catch {
-      Alert.alert(t('settings.cloudRestore'), t('settings.importFailed'));
-    }
-  };
+  const dailyTime = fmt.time(timeAt(r.dailyCardHour, r.dailyCardMinute));
+  const cycleTime = fmt.time(timeAt(r.cycleHour, r.cycleMinute));
+  const programTime = fmt.time(timeAt(r.programHour, r.programMinute));
+  const timesValue = [dailyTime, cycleTime, ...(isTracker ? [programTime] : [])].join(' · ');
 
   /**
    * Fetches the newest OTA update and restarts on it, so TestFlight testers do not have to
@@ -255,92 +190,44 @@ export default function SettingsScreen() {
     ]);
   };
 
-  const roleOptions = [
-    { value: 'tracker' as const, label: t('settings.roleShort.tracker') },
-    { value: 'user' as const, label: t('settings.roleShort.user') },
-  ];
-  const languageOptions = LANGUAGES.map((l) => ({
-    value: l,
-    label: t(`settings.languageNames.${l}`),
-  }));
   const appearanceOptions = APPEARANCES.map((a) => ({
     value: a,
     label: t(`settings.appearanceNames.${a}`),
   }));
+  const languageName = t(`settings.languageNames.${profile.language}`);
+  const connected = !!cloudSync.lastSyncAt && !cloudSync.lastError;
+  const syncSubtitle = cloudSync.lastError
+    ? t(`autoSync.errors.${cloudSync.lastError}`)
+    : cloudSync.lastSyncAt
+      ? `${t('autoSync.connected')} · ${t('autoSync.lastSync', { when: relativeTime(cloudSync.lastSyncAt) })}`
+      : t('autoSync.rowSubtitleOff');
 
   return (
     <TabSwipe tab="settings">
       <Screen title={t('settings.title')}>
-        <SectionTitle>{t('settings.profile')}</SectionTitle>
-        <Card style={styles.rowsCard}>
-          <Row
-            title={t('settings.role')}
-            trailing={<Segmented options={roleOptions} value={profile.role} onChange={setRole} />}
-          />
-          <Row
-            title={profile.role === 'tracker' ? t('settings.partnerName') : t('settings.yourName')}
-            trailing={
-              <TextInput
-                value={name}
-                onChangeText={setName}
-                onEndEditing={() => name.trim() && updateProfile({ partnerName: name.trim() })}
-                placeholder={t('onboarding.namePlaceholder')}
-                placeholderTextColor={colors.tertiaryLabel}
-                style={styles.input}
-                autoCapitalize="words"
-                returnKeyType="done"
-                accessibilityLabel={
-                  profile.role === 'tracker' ? t('settings.partnerName') : t('settings.yourName')
-                }
-              />
-            }
-          />
-          <Row
-            title={t('settings.language')}
-            trailing={
-              <Segmented options={languageOptions} value={profile.language} onChange={setLang} />
-            }
-          />
-          <Row
-            title={t('settings.programStart')}
-            onPress={() => setOpenPicker(openPicker === 'start' ? null : 'start')}
-            chevron={false}
-            last
-            trailing={
-              <Txt color={openPicker === 'start' ? theme.accent : colors.secondaryLabel}>
-                {fmt.long(profile.programStartDate)}
-              </Txt>
-            }
-          />
-          {openPicker === 'start' ? (
-            <DateTimePicker
-              value={fromISODate(profile.programStartDate)}
-              mode="date"
-              display="inline"
-              accentColor={theme.accentHex}
-              onValueChange={(_, d) => updateProfile({ programStartDate: toISODate(d) })}
-              locale={locale}
-              style={styles.picker}
-            />
-          ) : null}
+        <Card onPress={() => router.push('/(tabs)/settings/profile')} style={styles.profileCard}>
+          <Avatar name={profile.partnerName} />
+          <View style={styles.profileText}>
+            <Txt variant="cardTitle">{profile.partnerName}</Txt>
+            <Txt variant="footnote">
+              {isTracker
+                ? t('settings.profileLineTracker', {
+                    name: profile.partnerName,
+                    language: languageName,
+                  })
+                : t('settings.profileLineUser', { language: languageName })}
+            </Txt>
+            <View style={styles.pills}>
+              <Pill label={t('settings.profileDay', { day: position.programDay })} filled />
+              {isTracker ? <Pill label={plan === 'plus' ? t('plus.active') : t('plus.free')} /> : null}
+            </View>
+          </View>
+          <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
         </Card>
 
-        <SectionTitle>{t('settings.appearance')}</SectionTitle>
-        <Card style={styles.rowsCard}>
-          <Row
-            title={t('settings.appearance')}
-            last
-            trailing={
-              <Segmented
-                options={appearanceOptions}
-                value={settings.appearance}
-                onChange={(appearance) => updateSettings({ appearance })}
-              />
-            }
-          />
-        </Card>
-
-        <SectionTitle>{t('settings.cycle')}</SectionTitle>
+        <SectionTitle>
+          {isTracker ? t('settings.cycleOf', { name: profile.partnerName }) : t('settings.yourCycle')}
+        </SectionTitle>
         <Card style={styles.rowsCard}>
           <Row
             title={t('settings.cycleLength')}
@@ -380,15 +267,13 @@ export default function SettingsScreen() {
             }
           />
         </Card>
-        <Txt variant="footnote" style={styles.help}>
-          {t('settings.cycleHelp')}
-        </Txt>
+        <HelpText>{isTracker ? t('settings.cycleHelpTracker') : t('settings.cycleHelp')}</HelpText>
 
         <SectionTitle>{t('settings.reminders')}</SectionTitle>
         <Card style={styles.rowsCard}>
           <Row
             title={isTracker ? t('settings.dailyCard') : t('settings.dailyReminder')}
-            subtitle={isTracker ? undefined : t('settings.dailyReminderHint')}
+            subtitle={t('settings.everyDayAt', { time: dailyTime })}
             trailing={
               <Switch
                 value={r.dailyCard}
@@ -396,37 +281,9 @@ export default function SettingsScreen() {
               />
             }
           />
-          {r.dailyCard ? (
-            <>
-              <Row
-                title={t('settings.dailyCardTime')}
-                onPress={() => setOpenPicker(openPicker === 'time' ? null : 'time')}
-                chevron={false}
-                trailing={
-                  <Txt color={openPicker === 'time' ? theme.accent : colors.secondaryLabel}>
-                    {fmt.time(reminderTime)}
-                  </Txt>
-                }
-              />
-              {openPicker === 'time' ? (
-                <DateTimePicker
-                  value={reminderTime}
-                  mode="time"
-                  display="spinner"
-                  onValueChange={(_, d) =>
-                    updateReminders({
-                      dailyCardHour: d.getHours(),
-                      dailyCardMinute: d.getMinutes(),
-                    })
-                  }
-                  locale={locale}
-                  style={styles.picker}
-                />
-              ) : null}
-            </>
-          ) : null}
           <Row
             title={t('settings.periodSoon')}
+            subtitle={t('settings.atTime', { time: cycleTime })}
             trailing={
               <Switch
                 value={r.periodSoon}
@@ -436,18 +293,19 @@ export default function SettingsScreen() {
           />
           <Row
             title={t('settings.pmsWindow')}
+            subtitle={t('settings.atTime', { time: cycleTime })}
             trailing={
               <Switch
                 value={r.pmsWindow}
                 onValueChange={(v) => void toggleReminder('pmsWindow', v)}
               />
             }
-            last={!notifHint && !isTracker}
           />
           {isTracker ? (
             <>
               <Row
                 title={t('settings.weeklyRead')}
+                subtitle={t('settings.atTime', { time: programTime })}
                 trailing={
                   <Switch
                     value={r.weeklyRead}
@@ -457,49 +315,22 @@ export default function SettingsScreen() {
               />
               <Row
                 title={t('settings.monthWrap')}
+                subtitle={t('settings.atTime', { time: programTime })}
                 trailing={
                   <Switch
                     value={r.monthWrap}
                     onValueChange={(v) => void toggleReminder('monthWrap', v)}
                   />
                 }
-                last={!notifHint && !(r.weeklyRead || r.monthWrap)}
               />
-              {r.weeklyRead || r.monthWrap ? (
-                <>
-                  <Row
-                    title={t('settings.programTime')}
-                    onPress={() =>
-                      setOpenPicker(openPicker === 'programTime' ? null : 'programTime')
-                    }
-                    chevron={false}
-                    trailing={
-                      <Txt
-                        color={openPicker === 'programTime' ? theme.accent : colors.secondaryLabel}>
-                        {fmt.time(programTime)}
-                      </Txt>
-                    }
-                    last={!notifHint && openPicker !== 'programTime'}
-                  />
-                  {openPicker === 'programTime' ? (
-                    <DateTimePicker
-                      value={programTime}
-                      mode="time"
-                      display="spinner"
-                      onValueChange={(_, d) =>
-                        updateReminders({
-                          programHour: d.getHours(),
-                          programMinute: d.getMinutes(),
-                        })
-                      }
-                      locale={locale}
-                      style={styles.picker}
-                    />
-                  ) : null}
-                </>
-              ) : null}
             </>
           ) : null}
+          <Row
+            title={t('settings.times')}
+            value={timesValue}
+            onPress={() => router.push('/reminder-times')}
+            last={notifState === 'granted' || notifState === undefined}
+          />
           {notifState === 'undetermined' ? (
             <Button
               title={t('settings.notificationsAsk')}
@@ -515,8 +346,35 @@ export default function SettingsScreen() {
           ) : null}
         </Card>
 
-        <SectionTitle>{t('settings.backup')}</SectionTitle>
+        <SectionTitle>{t('settings.sharing')}</SectionTitle>
         <Card style={styles.rowsCard}>
+          <Row
+            title={t('autoSync.title')}
+            subtitle={syncSubtitle}
+            subtitleLead={
+              cloudSync.lastSyncAt ? (
+                <StatusDot color={connected ? colors.green : colors.orange} />
+              ) : undefined
+            }
+            lead={<IconTile symbol="icloud" accent />}
+            onPress={() => router.push('/auto-sync')}
+          />
+          <Row
+            title={t('settings.share')}
+            subtitle={t('settings.shareHint')}
+            lead={<IconTile symbol="qrcode" />}
+            onPress={() => router.push('/share')}
+          />
+          <Row
+            title={t('settings.scan')}
+            subtitle={
+              pairing.partnerDeviceId
+                ? t('sync.pairedWith', { name: pairing.partnerName ?? '?' })
+                : t('sync.notPaired')
+            }
+            lead={<IconTile symbol="qrcode.viewfinder" />}
+            onPress={() => router.push('/scan')}
+          />
           <Row
             title={t('settings.cloudBackup')}
             subtitle={
@@ -530,6 +388,7 @@ export default function SettingsScreen() {
                       })
                     : t('settings.cloudBackupNever')
             }
+            lead={<IconTile symbol="icloud.and.arrow.up" />}
             trailing={
               <Switch
                 value={settings.cloudBackup}
@@ -539,61 +398,13 @@ export default function SettingsScreen() {
             }
           />
           <Row
-            title={t('settings.cloudRestore')}
-            symbol="icloud.and.arrow.down"
-            onPress={() => void restoreFromCloud()}
-            chevron={false}
-          />
-          <Row
-            title={t('settings.export')}
-            subtitle={t('settings.exportHelp')}
-            symbol="square.and.arrow.up"
-            onPress={() => void exportFile()}
-            chevron={false}
-          />
-          <Row
-            title={t('settings.import')}
-            symbol="square.and.arrow.down"
-            onPress={() => void importFile()}
-            chevron={false}
-          />
-          <Row
-            title={t('autoSync.title')}
-            subtitle={
-              cloudSync.lastSyncAt
-                ? t('autoSync.lastSync', { when: relativeTime(cloudSync.lastSyncAt) })
-                : t('autoSync.rowSubtitleOff')
-            }
-            symbol="arrow.triangle.2.circlepath.icloud"
-            onPress={() => router.push('/auto-sync')}
-          />
-          <Row
-            title={t('settings.share')}
-            subtitle={
-              pairing.lastSharedAt || cloudSync.lastSyncAt
-                ? t('home.lastShared', {
-                    when: relativeTime(Math.max(pairing.lastSharedAt ?? 0, cloudSync.lastSyncAt ?? 0)),
-                  })
-                : t('home.neverShared')
-            }
-            symbol="qrcode"
-            onPress={() => router.push('/share')}
-          />
-          <Row
-            title={t('settings.scan')}
-            subtitle={
-              pairing.partnerDeviceId
-                ? t('sync.pairedWith', { name: pairing.partnerName ?? '?' })
-                : t('sync.notPaired')
-            }
-            symbol="qrcode.viewfinder"
-            onPress={() => router.push('/scan')}
+            title={t('settings.data')}
+            subtitle={t('settings.dataHint')}
+            lead={<IconTile symbol="doc" />}
+            onPress={() => router.push('/(tabs)/settings/data')}
             last
           />
         </Card>
-        <Txt variant="footnote" style={styles.help}>
-          {t('settings.cloudBackupHelp')}
-        </Txt>
 
         {isTracker ? (
           <>
@@ -617,53 +428,76 @@ export default function SettingsScreen() {
                     { text: t('common.cancel'), style: 'cancel' },
                   ])
                 }>
-                <Row title={t('plus.status')} subtitle={planHint} value={planLabel} />
+                <Row
+                  title={t('plus.status')}
+                  subtitle={planHint}
+                  trailing={
+                    <Txt variant="headline" color={plan === 'plus' ? theme.accent : colors.secondaryLabel}>
+                      {planLabel}
+                    </Txt>
+                  }
+                />
               </Pressable>
               {entitlement.source === 'store' ? (
                 <Row
                   title={t('plus.manage')}
-                  symbol="creditcard"
                   onPress={() => void openManageSubscriptions(entitlement.managementUrl)}
                 />
               ) : plan === 'free' ? (
-                <Row
-                  title={t('plus.upgrade')}
-                  symbol="sparkles"
-                  onPress={() => router.push('/paywall')}
-                />
+                <Row title={t('plus.upgrade')} onPress={() => router.push('/paywall')} />
               ) : null}
-              <Row
-                title={t('plus.restore')}
-                symbol="arrow.clockwise"
-                onPress={() => void restorePurchases()}
-                chevron={false}
-              />
+              <Row title={t('plus.restore')} onPress={() => void restorePurchases()} chevron={false} />
               <Row
                 title={t('plus.redeem')}
-                symbol="gift"
                 onPress={() => void redeemOfferCode()}
                 chevron={false}
                 last
               />
             </Card>
-            {!purchasesAvailable ? (
-              <Txt variant="footnote" style={styles.help}>
-                {t('plus.unavailable')}
-              </Txt>
-            ) : null}
+            {!purchasesAvailable ? <HelpText>{t('plus.unavailable')}</HelpText> : null}
           </>
         ) : null}
 
         <SectionTitle>{t('settings.about')}</SectionTitle>
-        <Card>
-          <Txt variant="headline">{t('settings.privacy')}</Txt>
-          <Txt variant="footnote">{t('settings.privacyBody')}</Txt>
-          <Txt variant="headline" style={{ marginTop: spacing.sm }}>
-            {t('settings.disclaimer')}
-          </Txt>
-          <Txt variant="footnote">{t('settings.disclaimerBody')}</Txt>
-        </Card>
         <Card style={styles.rowsCard}>
+          <Row
+            title={t('settings.appearance')}
+            trailing={
+              <Segmented
+                options={appearanceOptions}
+                value={settings.appearance}
+                onChange={(appearance) => updateSettings({ appearance })}
+              />
+            }
+          />
+          <Row
+            title={t('settings.version')}
+            value={`${appVersionLabel()} · ${updateLabel(t('settings.updateEmbedded'))}`}
+          />
+          {Updates.isEnabled ? (
+            <Row
+              title={t('settings.fetchUpdate')}
+              value={
+                updateState === 'checking'
+                  ? t('settings.updateChecking')
+                  : updateState === 'downloading'
+                    ? t('settings.updateDownloading')
+                    : undefined
+              }
+              onPress={() => void fetchUpdate()}
+            />
+          ) : null}
+          <Row
+            title={t('settings.privacy')}
+            subtitle={t('settings.privacyHint')}
+            onPress={() => router.push('/(tabs)/settings/about')}
+          />
+          <Row
+            title={t('settings.disclaimer')}
+            subtitle={t('settings.disclaimerHint')}
+            onPress={() => router.push('/(tabs)/settings/about')}
+            last={!entitlement.appUserId}
+          />
           {entitlement.appUserId ? (
             <Row
               title={t('plus.supportId')}
@@ -675,44 +509,15 @@ export default function SettingsScreen() {
                 Alert.alert(t('plus.supportId'), t('plus.copied'));
               }}
               chevron={false}
-            />
-          ) : null}
-          <Row title={t('settings.version')} value={appVersionLabel()} />
-          <Row
-            title={t('settings.update')}
-            value={updateLabel(t('settings.updateEmbedded'))}
-            last={!Updates.isEnabled}
-          />
-          {Updates.isEnabled ? (
-            <Row
-              title={t('settings.fetchUpdate')}
-              symbol="arrow.down.circle"
-              value={
-                updateState === 'checking'
-                  ? t('settings.updateChecking')
-                  : updateState === 'downloading'
-                    ? t('settings.updateDownloading')
-                    : undefined
-              }
-              onPress={() => void fetchUpdate()}
-              chevron={false}
               last
             />
           ) : null}
         </Card>
 
-        <SectionTitle>{t('settings.danger')}</SectionTitle>
-        <Card style={styles.rowsCard}>
-          <Row
-            title={t('settings.resetAll')}
-            symbol="trash"
-            symbolColor={colors.red}
-            destructive
-            onPress={confirmReset}
-            chevron={false}
-            last
-          />
+        <Card style={[styles.rowsCard, styles.dangerCard]}>
+          <Row title={t('settings.resetAll')} destructive onPress={confirmReset} chevron={false} last />
         </Card>
+        <HelpText>{t('settings.resetHelp')}</HelpText>
       </Screen>
     </TabSwipe>
   );
@@ -720,13 +525,8 @@ export default function SettingsScreen() {
 
 const styles = StyleSheet.create({
   rowsCard: { padding: 0, paddingHorizontal: spacing.md, gap: 0 },
-  input: {
-    flex: 1,
-    fontSize: 17,
-    color: colors.secondaryLabel,
-    textAlign: 'right',
-    paddingVertical: 4,
-  },
-  picker: { alignSelf: 'stretch', marginBottom: spacing.sm },
-  help: { marginHorizontal: spacing.md, marginTop: -spacing.sm },
+  profileCard: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: spacing.md },
+  profileText: { flex: 1, gap: 3 },
+  pills: { flexDirection: 'row', gap: 6, marginTop: 4, flexWrap: 'wrap' },
+  dangerCard: { marginTop: spacing.sm },
 });

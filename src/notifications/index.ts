@@ -19,7 +19,6 @@ import { addDaysISO, compareISO, fromISODate, todayISO } from '@/engine/dates';
 import { hasDayAccess, type Plan } from '@/entitlements';
 import i18n from '@/i18n';
 
-const REMINDER_HOUR = 9;
 /**
  * iOS keeps at most 64 pending local notifications, so only the next few articles and wraps are
  * scheduled. The schedule is rebuilt every time the app opens.
@@ -217,7 +216,7 @@ export async function syncNotifications(
           },
           trigger: {
             type: Notifications.SchedulableTriggerInputTypes.DATE,
-            date: at(day, REMINDER_HOUR),
+            date: at(day, r.cycleHour, r.cycleMinute),
           },
         });
       }
@@ -234,7 +233,7 @@ export async function syncNotifications(
           },
           trigger: {
             type: Notifications.SchedulableTriggerInputTypes.DATE,
-            date: at(day, REMINDER_HOUR),
+            date: at(day, r.cycleHour, r.cycleMinute),
           },
         });
       }

@@ -296,15 +296,46 @@ describe('tabs', () => {
     expect(calendar.queryByText(da.calendar.hideEarlier)).toBeNull();
   });
 
-  it('renders settings and switches language', async () => {
+  it('renders settings with the profile card, her cycle and the grouped rows', async () => {
     onboard('tracker');
     await renderApp('/settings');
     const settings = settingsTab();
-    expect(await settings.findByText(upper(da.settings.profile))).toBeTruthy();
+    expect(await settings.findByText(upper(da.settings.cycleOf.replace('{{name}}', 'Anna')))).toBeTruthy();
+    expect(settings.getByText(upper(da.settings.profileDay.replace('{{day}}', '1')))).toBeTruthy();
+    expect(settings.getByText(upper(da.settings.sharing))).toBeTruthy();
+    expect(settings.getByText(da.settings.times)).toBeTruthy();
+    expect(settings.getByText(da.settings.data)).toBeTruthy();
+    expect(settings.getByText(da.settings.resetAll)).toBeTruthy();
+    // Role and language moved to the profile screen.
+    expect(settings.queryByText(da.settings.languageNames.en)).toBeNull();
+  });
+
+  it('switches language on the profile screen', async () => {
+    onboard('tracker');
+    await renderApp('/settings/profile');
+    const settings = settingsTab();
+    expect(await settings.findByText(upper(da.settings.role))).toBeTruthy();
     await fireEvent.press(settings.getByText(da.settings.languageNames.en));
     expect(useStore.getState().profile?.language).toBe('en');
     // The root layout follows the profile language, so the UI re-renders in English.
-    expect(await settings.findByText('PROFILE')).toBeTruthy();
+    expect(await settings.findByText('ROLE')).toBeTruthy();
+  });
+
+  it('renders the data and about screens', async () => {
+    onboard('tracker');
+    await renderApp('/settings/data');
+    expect(await settingsTab().findByText(da.settings.export)).toBeTruthy();
+    await renderApp('/settings/about');
+    expect(await settingsTab().findByText(da.settings.privacyBody)).toBeTruthy();
+  });
+
+  it('sets a reminder time from the times sheet', async () => {
+    onboard('tracker');
+    await renderApp('/reminder-times');
+    await fireEvent.press(await screen.findByText(da.settings.timesCycleRow));
+    await fireEvent.press(screen.getByText(/^0?7[.:]00$/));
+    expect(useStore.getState().settings.reminders.cycleHour).toBe(7);
+    expect(useStore.getState().settings.reminders.cycleMinute).toBe(0);
   });
 
   it('fetches the latest update and restarts on it from the About section', async () => {

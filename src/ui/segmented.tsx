@@ -9,10 +9,13 @@ export function Segmented<T extends string>({
   options,
   value,
   onChange,
+  stretch,
 }: {
   options: { value: T; label: string }[];
   value: T;
   onChange: (value: T) => void;
+  /** Fill the available width with equal segments (a control on its own, not in a row). */
+  stretch?: boolean;
 }) {
   const select = (next: T) => {
     if (next === value) return;
@@ -31,6 +34,7 @@ export function Segmented<T extends string>({
             accessibilityState={{ selected }}
             style={({ pressed }) => [
               styles.segment,
+              stretch && styles.stretch,
               selected && styles.selected,
               pressed && !selected && styles.pressed,
             ]}>
@@ -61,6 +65,7 @@ const styles = StyleSheet.create({
     minHeight: 28,
     justifyContent: 'center',
   },
+  stretch: { flex: 1, alignItems: 'center', minHeight: 34 },
   selected: {
     backgroundColor: colors.card,
     borderWidth: 1,
