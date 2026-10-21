@@ -64,7 +64,11 @@ export function Avatar({ name, size = 52 }: { name: string; size?: number }) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <Txt variant="cardTitle" color={theme.accent} style={{ fontSize: size * 0.42 }}>
+      <Txt
+        variant="cardTitle"
+        color={theme.accent}
+        // The variant's fixed line height clips a glyph this big, so it scales with the size.
+        style={{ fontSize: size * 0.42, lineHeight: Math.round(size * 0.42 * 1.3) }}>
         {initial}
       </Txt>
     </View>
