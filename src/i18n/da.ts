@@ -41,6 +41,26 @@ const da = {
     },
   },
   onboarding: {
+    // Redesign: three steps.
+    stepOf: 'Trin {{n}} af {{total}}',
+    continue: 'Fortsæt',
+    back: 'Tilbage',
+    restoreShort: 'Gendan',
+    cycleTitle: '{{name}}s cyklus',
+    cycleTitleOwn: 'Din cyklus',
+    cycleIntro:
+      'Et cirka-bud er fint. Alt kan rettes bagefter, og hendes telefon retter det selv, når I er forbundet.',
+    cycleIntroOwn: 'Et cirka-bud er fint. Alt kan rettes bagefter i kalenderen.',
+    lastPeriodShort: 'Seneste menstruation startede',
+    date: 'Dato',
+    typicalLength: 'Typisk længde',
+    cycleLengthHint: 'Første blødningsdag til næste',
+    periodDays: 'Blødningsdage',
+    lengthHelp: '28 dage er almindeligt, 21–35 er normalt.',
+    programStartShort: 'Programmet starter i dag',
+    programStartBody: 'Dag 1 af 365. Ét kort hver dag, og du kan altid læse tilbage.',
+    nameHelpTracker: 'Navnet bruges i appen, fx "Maria har registreret i dag".',
+    nameHelpOwn: 'Navnet bruges i appen og på din partners telefon.',
     welcomeTitle: 'Velkommen',
     welcomeBody:
       'Cycle Tracker hjælper en partner med at forstå, hvad der sker i cyklussen, og hvad man konkret kan gøre for at hjælpe. Alt gemmes kun på telefonen.',
@@ -186,6 +206,34 @@ const da = {
     localOnly: 'Alt gemmes kun på telefonen.',
   },
   learn: {
+    // Redesign: archive and the personal overview.
+    filterAll: 'Alle',
+    filterCards: 'Kort',
+    filterReads: 'Artikler',
+    filterPhases: 'Faser',
+    filterUnread: 'Ulæste',
+    results: '{{n}} resultater',
+    resultOne: '1 resultat',
+    trySearching: 'Prøv at søge på',
+    suggestions: ['kramper', 'søvn', 'PMS', 'ægløsning', 'samtale'],
+    lastRead: 'Sidst læst',
+    readState: 'læst',
+    unreadState: 'ulæst',
+    readOnShort: 'læst {{date}}',
+    overviewTitle: 'Sådan hjælper jeg {{name}} bedst',
+    overviewLead:
+      'Bygget af hendes registreringer og det, du har gjort. Bliver mere præcist måned for måned.',
+    statDaysLogged: 'dage registreret',
+    statActions: 'handlinger gjort',
+    statCycles: 'cyklusser',
+    phaseDaysLogged: '{{n}} dage registreret',
+    moodShort: 'humør {{mood}}',
+    energyShort: 'energi {{energy}}',
+    worksBest: 'Det virker bedst',
+    actionsInPhase: 'Du har gjort {{n}} handlinger i fasen',
+    seePhase: 'Se fasen',
+    notEnoughData: 'Ikke nok data endnu',
+    phasesNoDataHint: 'Faser uden registreringer viser "Ikke nok data endnu" i stedet for tal.',
     title: 'Lær',
     subtitle: 'Dag {{day}} af 365 · måned {{month}}',
     stats: {
@@ -639,6 +687,18 @@ const da = {
     notPaired: 'Ikke parret endnu',
   },
   plus: {
+    // Redesign of the paywall.
+    lead: 'De første 7 dage af programmet er gratis. Plus låser resten af året op.',
+    perksShort: [
+      'Ét kort hver dag, 358 til gode',
+      'Ugens artikel med et samtalespørgsmål til jer to',
+      '12 opsamlinger med quiz',
+      '"Sådan hjælper jeg bedst": din oversigt pr. fase',
+    ],
+    equalsPerMonth: 'svarer til {{price}} pr. måned',
+    cancelAnytime: 'opsig når som helst',
+    renewsNote: '{{price}} {{period}}. Fornyes automatisk, kan opsiges når som helst.',
+    herSideFree: 'Hendes side af appen er altid gratis. Plus er kun partnerens program.',
     name: 'Cycle Tracker Plus',
     title: 'Hele året, ikke kun den første uge',
     subtitle:
@@ -699,6 +759,7 @@ const da = {
     copied: 'Kopieret',
   },
   error: {
+    details: 'Tekniske detaljer',
     title: 'Noget gik galt',
     body: 'Prøv igen. Hvis det bliver ved, kan du slette appens lokale data som sidste udvej. Har du iCloud-backup, kan alt gendannes bagefter.',
     retry: 'Prøv igen',

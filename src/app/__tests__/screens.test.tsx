@@ -70,15 +70,18 @@ afterEach(() => {
 describe('fresh install', () => {
   it('shows onboarding when there is no profile', async () => {
     const app = await renderApp('/');
-    expect(await screen.findByText(da.onboarding.welcomeTitle)).toBeTruthy();
-    expect(screen.getByText(upper(da.onboarding.chooseRole))).toBeTruthy();
+    expect(await screen.findByText(da.roles.tracker)).toBeTruthy();
+    expect(screen.getByText(da.onboarding.chooseRole)).toBeTruthy();
     expect(app.getPathname()).toBe('/onboarding');
   });
 
   it('completes onboarding from the screen and lands on home', async () => {
     await renderApp('/onboarding');
     await fireEvent.press(await screen.findByText(da.roles.tracker));
+    await fireEvent.press(screen.getByText(da.onboarding.continue));
     await fireEvent.changeText(screen.getByPlaceholderText(da.onboarding.namePlaceholder), 'Anna');
+    await fireEvent.press(screen.getByText(da.onboarding.continue));
+    expect(screen.getByText(da.onboarding.cycleTitle.replace('{{name}}', 'Anna'))).toBeTruthy();
     await fireEvent.press(screen.getByText(da.onboarding.finish));
     expect(await homeTabWhenReady()).toBeTruthy();
     expect(homeTab().getByText(upper(da.home.todaysCardDay.replace('{{day}}', '1')))).toBeTruthy();
@@ -509,8 +512,9 @@ describe('learn sub-screens', () => {
     useStore.getState().upsertLog(todayISO(), { symptoms: ['cramps'], mood: 'low' });
     await renderApp('/learn/overview');
     const learn = learnTab();
-    expect(await learn.findByText(upper(da.learn.yearSummary))).toBeTruthy();
+    expect(await learn.findByText(da.learn.overviewTitle.replace('{{name}}', 'Anna'))).toBeTruthy();
     expect(learn.getByText(content.symptomTips.cramps.doThis)).toBeTruthy();
+    expect(learn.getByText(upper(da.learn.worksBest))).toBeTruthy();
   });
 
   it('locks the overview on the free plan', async () => {
@@ -519,7 +523,7 @@ describe('learn sub-screens', () => {
     const learn = learnTab();
     expect(await learn.findByText(da.plus.lockedTitle)).toBeTruthy();
     expect(learn.getByText(da.plus.lockedOverview)).toBeTruthy();
-    expect(learn.queryByText(upper(da.learn.yearSummary))).toBeNull();
+    expect(learn.queryByText(upper(da.learn.worksBest))).toBeNull();
   });
 });
 

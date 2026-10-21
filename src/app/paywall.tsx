@@ -16,7 +16,7 @@ import {
   restore,
 } from '@/purchases';
 import { colors, fontFor, radius, spacing } from '@/ui/colors';
-import { Bullets, Button, Card, Icon, Txt } from '@/ui/primitives';
+import { Button, Card, Icon, Txt } from '@/ui/primitives';
 import { usePhaseTheme } from '@/ui/theme';
 
 const SITE = 'https://mwoxen.github.io/cycletracker';
@@ -43,6 +43,10 @@ function trialDays(pkg: PurchasesPackage): number | undefined {
   return undefined;
 }
 
+/**
+ * The Plus sheet: what the free week leaves out, the perks as check rows, yearly and monthly
+ * as selectable cards, one solid button, and the small print.
+ */
 export default function PaywallScreen() {
   const { t } = useTranslation();
   const theme = usePhaseTheme();
@@ -104,14 +108,23 @@ export default function PaywallScreen() {
   const open = (path: string) => void WebBrowser.openBrowserAsync(`${SITE}/${path}`);
   const trial = chosen ? trialDays(chosen) : undefined;
 
+  const detail = (pkg: PurchasesPackage) => {
+    const days = trialDays(pkg);
+    const base = `${pkg.product.priceString} ${periodLabel(pkg, t)}`;
+    const extra =
+      pkg.packageType === PACKAGE_TYPE.ANNUAL
+        ? pkg.product.pricePerMonthString
+          ? t('plus.equalsPerMonth', { price: pkg.product.pricePerMonthString })
+          : undefined
+        : t('plus.cancelAnytime');
+    return [base, days ? t('plus.trialDays', { n: days }) : extra].filter(Boolean).join(' · ');
+  };
+
   return (
     <ScrollView style={styles.sheet} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <View style={[styles.badge, { backgroundColor: theme.accent }]}>
-          <Icon name="sparkles" size={24} color={colors.onAccent} />
-        </View>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
-          <Txt variant="headline" color={theme.accent}>
+          <Txt variant="headline" color={theme.accent} style={styles.close}>
             {t('common.close')}
           </Txt>
         </Pressable>
@@ -123,14 +136,27 @@ export default function PaywallScreen() {
         delayLongPress={600}
         accessible={false}
         style={styles.intro}>
-        <Txt variant="boxLabel" color={theme.accent} style={styles.kicker}>
+        <View style={[styles.badge, { backgroundColor: theme.soft }]}>
+          <Icon name="sparkles" size={26} color={theme.accent} />
+        </View>
+        <Txt variant="boxLabel" color={theme.accent}>
           {t('plus.name').toUpperCase()}
         </Txt>
-        <Txt variant="largeTitle">{t('plus.title')}</Txt>
-        <Txt color={colors.secondaryLabel}>{t('plus.subtitle')}</Txt>
+        <Txt variant="hero" accessibilityRole="header">
+          {t('plus.title')}
+        </Txt>
+        <Txt color={colors.secondaryLabel}>{t('plus.lead')}</Txt>
       </Pressable>
-      <Card>
-        <Bullets items={t('plus.perks', { returnObjects: true }) as string[]} />
+
+      <Card style={styles.list}>
+        {(t('plus.perksShort', { returnObjects: true }) as string[]).map((perk, i, all) => (
+          <View key={perk} style={[styles.perk, i < all.length - 1 && styles.perkBorder]}>
+            <View style={[styles.check, { backgroundColor: theme.soft }]}>
+              <Icon name="checkmark" size={12} color={theme.accent} weight="bold" />
+            </View>
+            <Txt style={styles.perkText}>{perk}</Txt>
+          </View>
+        ))}
       </Card>
 
       {!purchasesAvailable ? (
@@ -151,7 +177,6 @@ export default function PaywallScreen() {
           <View style={styles.options}>
             {packages.map((pkg) => {
               const isSelected = pkg.identifier === selected;
-              const days = trialDays(pkg);
               return (
                 <Pressable
                   key={pkg.identifier}
@@ -161,48 +186,61 @@ export default function PaywallScreen() {
                   }}
                   accessibilityRole="radio"
                   accessibilityState={{ selected: isSelected }}
-                  style={[styles.option, isSelected && { borderColor: theme.accent }]}>
-                  <View style={{ flex: 1, flexShrink: 1, marginRight: spacing.sm }}>
-                    <Txt variant="headline">{packageLabel(pkg, t)}</Txt>
-                    <Txt variant="footnote">
-                      {pkg.product.priceString} {periodLabel(pkg, t)}
-                      {days ? ` · ${t('plus.trialDays', { n: days })}` : ''}
-                    </Txt>
-                  </View>
-                  {pkg.packageType === PACKAGE_TYPE.ANNUAL ? (
-                    <View style={styles.best}>
-                      <Txt variant="caption" color={colors.onAccent} style={styles.bestText}>
-                        {t('plus.bestValue')}
-                      </Txt>
+                  style={[
+                    styles.option,
+                    isSelected && { borderColor: theme.accent, borderWidth: 1.5 },
+                  ]}>
+                  <View style={{ flex: 1, flexShrink: 1, marginRight: spacing.sm, gap: 3 }}>
+                    <View style={styles.optionHead}>
+                      <Txt variant="headline">{packageLabel(pkg, t)}</Txt>
+                      {pkg.packageType === PACKAGE_TYPE.ANNUAL ? (
+                        <View style={[styles.best, { backgroundColor: theme.accent }]}>
+                          <Txt variant="tag" color={colors.onAccent}>
+                            {t('plus.bestValue').toUpperCase()}
+                          </Txt>
+                        </View>
+                      ) : null}
                     </View>
-                  ) : null}
+                    <Txt variant="footnote">{detail(pkg)}</Txt>
+                  </View>
                   <Icon
                     name={isSelected ? 'checkmark.circle.fill' : 'circle'}
-                    size={22}
+                    size={24}
                     color={isSelected ? theme.accent : colors.tertiaryLabel}
                   />
                 </Pressable>
               );
             })}
           </View>
+          <Button
+            title={trial ? t('plus.buyTrial', { n: trial }) : t('plus.buy')}
+            variant="filled"
+            onPress={() => void buy()}
+            disabled={busy || !chosen}
+          />
           {chosen ? (
-            <Txt variant="footnote" style={styles.center}>
+            <Txt variant="footnote" style={[styles.center, styles.note]}>
               {trial
                 ? t('plus.trial', {
                     n: trial,
                     price: chosen.product.priceString,
                     period: periodLabel(chosen, t),
                   })
-                : `${chosen.product.priceString} ${periodLabel(chosen, t)}`}
+                : t('plus.renewsNote', {
+                    price: chosen.product.priceString,
+                    period: periodLabel(chosen, t),
+                  })}
             </Txt>
           ) : null}
-          <Button
-            title={trial ? t('plus.buyTrial', { n: trial }) : t('plus.buy')}
-            onPress={() => void buy()}
-            disabled={busy || !chosen}
-          />
         </>
       )}
+
+      <View style={[styles.soft, { backgroundColor: theme.soft }]}>
+        <Icon name="heart" size={20} color={theme.accent} />
+        <Txt variant="footnote" color={colors.label} style={{ flex: 1, flexShrink: 1 }}>
+          {t('plus.herSideFree')}
+        </Txt>
+      </View>
 
       <View style={styles.links}>
         <Button
@@ -231,34 +269,55 @@ export default function PaywallScreen() {
 
 const styles = StyleSheet.create({
   sheet: { flex: 1, backgroundColor: colors.background },
-  content: { padding: spacing.md, paddingTop: spacing.lg, paddingBottom: 60, gap: spacing.md },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  content: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    paddingBottom: 60,
+    gap: spacing.lg - 4,
+  },
+  header: { flexDirection: 'row', justifyContent: 'flex-end' },
+  close: { fontFamily: fontFor(700) },
   badge: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.xs,
+  },
+  intro: { gap: 10, alignItems: 'flex-start' },
+  list: { padding: 0, paddingHorizontal: spacing.card },
+  perk: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10, minHeight: 44 },
+  perkBorder: { borderBottomWidth: 1, borderBottomColor: colors.separator },
+  check: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  intro: { gap: spacing.md },
-  kicker: { marginBottom: -spacing.sm },
-  options: { gap: spacing.sm },
+  perkText: { flex: 1, flexShrink: 1, marginLeft: 12 },
+  options: { gap: 10 },
   option: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.card,
     borderRadius: radius.card,
-    padding: spacing.md,
-    borderWidth: 2,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.card,
+    borderWidth: 1,
     borderColor: colors.separator,
   },
-  bestText: { fontFamily: fontFor(700) },
-  best: {
-    backgroundColor: colors.green,
-    borderRadius: radius.chip,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    marginRight: spacing.sm,
+  optionHead: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  best: { borderRadius: radius.chip, paddingHorizontal: 8, paddingVertical: 3 },
+  note: { marginTop: -spacing.sm },
+  soft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderRadius: radius.card,
+    paddingVertical: 14,
+    paddingHorizontal: spacing.card,
   },
   links: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap' },
   center: { textAlign: 'center' },
