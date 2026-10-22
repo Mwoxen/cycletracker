@@ -15,6 +15,8 @@ module.exports = (config) => ({
     ovulation: { light: '#AA732B', dark: '#E7B369' },
     luteal: { light: '#725CA9', dark: '#AA95E8' },
     label: { light: '#1D161B', dark: '#F2EAEE' },
+    // The ring's track: surface2.
+    track: { light: '#E5DDE1', dark: '#211B24' },
     secondaryLabel: { light: '#665A61', dark: '#A3969E' },
   },
   entitlements: {
