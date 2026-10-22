@@ -405,14 +405,16 @@ const styles = StyleSheet.create({
   yearHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
   track: { height: 6, borderRadius: 3, backgroundColor: colors.fill, overflow: 'hidden' },
   fill: { height: 6, borderRadius: 3 },
-  yearStats: { flexDirection: 'row', gap: spacing.sm, paddingTop: spacing.xs },
-  yearStat: {
-    flex: 1,
-    gap: 2,
-    borderTopWidth: 1,
-    borderTopColor: colors.separator,
+  // One hair line across the row; per-column lines rendered unevenly in dark mode.
+  yearStats: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginTop: spacing.xs,
     paddingTop: 10,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.separator,
   },
+  yearStat: { flex: 1, gap: 2 },
   yearValue: { fontFamily: fontFor(300), fontSize: 27, lineHeight: 30 },
   list: { padding: 0, paddingHorizontal: spacing.md },
   lead: {
