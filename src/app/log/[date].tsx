@@ -156,7 +156,9 @@ export default function LogSheet() {
           <Txt variant="footnote">
             {cycleDay ? t('log.dateLine', { date: fmt.long(date), n: cycleDay }) : fmt.long(date)}
           </Txt>
-          <Txt variant="cardTitle">{t('log.howToday')}</Txt>
+          <Txt variant="cardTitle">
+            {partnerName ? t('log.howTodayPartner', { name: partnerName }) : t('log.howToday')}
+          </Txt>
         </View>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
           <Txt variant="headline" color={theme.accent} style={styles.done}>

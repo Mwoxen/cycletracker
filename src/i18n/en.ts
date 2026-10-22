@@ -457,6 +457,7 @@ const en: Translation = {
     notePlaceholder: 'Something worth remembering…',
     // Redesign of the sheet: a question as the title, segments, body and mind.
     howToday: 'How are you today?',
+    howTodayPartner: 'How is {{name}} today?',
     dateLine: '{{date}} · cycle day {{n}}',
     periodNone: 'None',
     periodStart: 'Starts today',

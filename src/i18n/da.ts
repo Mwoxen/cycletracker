@@ -456,6 +456,7 @@ const da = {
     notePlaceholder: 'Noget der er værd at huske…',
     // Redesign of the sheet: a question as the title, segments, body and mind.
     howToday: 'Hvordan har du det i dag?',
+    howTodayPartner: 'Hvordan har {{name}} det i dag?',
     dateLine: '{{date}} · cyklusdag {{n}}',
     periodNone: 'Ingen',
     periodStart: 'Starter i dag',
