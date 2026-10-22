@@ -127,7 +127,7 @@ export default function Onboarding() {
       <Screen
         contentContainerStyle={{
           paddingHorizontal: spacing.lg,
-          paddingTop: insets.top + spacing.md,
+          paddingTop: spacing.md,
           paddingBottom: insets.bottom + spacing.lg,
           gap: spacing.lg,
           flexGrow: 1,
@@ -209,15 +209,15 @@ export default function Onboarding() {
               />
             </View>
             <View style={{ flex: 1 }} />
+            <Txt variant="caption" style={styles.center}>
+              {t('onboarding.disclaimer')}
+            </Txt>
             <Button
               title={t('onboarding.continue')}
               variant="filled"
               onPress={next}
               disabled={!canContinue}
             />
-            <Txt variant="caption" style={styles.center}>
-              {t('onboarding.disclaimer')}
-            </Txt>
           </>
         ) : step === 1 ? (
           <>
@@ -281,6 +281,7 @@ export default function Onboarding() {
                       minimumDate={fromISODate(addDaysISO(today, -90))}
                       onValueChange={(_, date) => setLastPeriod(toISODate(date))}
                       locale={language === 'da' ? 'da_DK' : 'en_GB'}
+                      accentColor={theme.accentHex}
                       style={{ alignSelf: 'stretch' }}
                     />
                   </>
@@ -437,5 +438,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   roleTitle: { fontFamily: fontFor(500), fontSize: 18, lineHeight: 23 },
-  center: { textAlign: 'center', marginTop: -spacing.sm },
+  center: { textAlign: 'center', marginBottom: -spacing.sm },
 });
