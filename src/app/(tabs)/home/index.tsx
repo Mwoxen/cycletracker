@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, useWindowDimensions } from 'react-native';
 
 import { dailyProgramDay } from '@/content/program';
 import { useDayAccess } from '@/entitlements';
@@ -33,7 +33,9 @@ function BulletsCard({
   return (
     <Card onPress={onPress}>
       <View style={styles.headingRow}>
-        <Txt variant="cardTitle">{heading}</Txt>
+        <Txt variant="cardTitle" accessibilityRole="header">
+          {heading}
+        </Txt>
         <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
       </View>
       <Bullets items={items.slice(0, 3)} />
@@ -41,11 +43,19 @@ function BulletsCard({
   );
 }
 
-/** Small capsule in `soft` with text in the accent, for what she logged today. */
+/**
+ * Small capsule in `soft` with text in the accent, for what she logged today. Grows with the
+ * system text size (padding scales with it, long labels wrap) instead of shrinking the label.
+ */
 function SoftChip({ label }: { label: string }) {
   const theme = usePhaseTheme();
+  const scale = Math.min(useWindowDimensions().fontScale, 2);
   return (
-    <View style={[styles.softChip, { backgroundColor: theme.soft }]}>
+    <View
+      style={[
+        styles.softChip,
+        { backgroundColor: theme.soft, paddingVertical: 5 * scale, paddingHorizontal: 11 * scale },
+      ]}>
       <Txt variant="footnote" color={theme.accent} style={styles.softChipText}>
         {label}
       </Txt>
@@ -152,7 +162,9 @@ export default function HomeScreen() {
           </Reveal>
         ) : (
           <Card>
-            <Txt variant="cardTitle">{t('home.noDataTitle')}</Txt>
+            <Txt variant="cardTitle" accessibilityRole="header">
+              {t('home.noDataTitle')}
+            </Txt>
             <Txt color={colors.secondaryLabel}>
               {isTracker ? t('home.noDataBodyTracker', { name }) : t('home.noDataBodyUser')}
             </Txt>
@@ -180,7 +192,9 @@ export default function HomeScreen() {
             {logChips.length > 0 ? (
               <Reveal index={2}>
                 <Card onPress={openLog}>
-                  <Txt variant="cardTitle">{t('home.sheLogged', { name })}</Txt>
+                  <Txt variant="cardTitle" accessibilityRole="header">
+                    {t('home.sheLogged', { name })}
+                  </Txt>
                   <View style={styles.chips}>
                     {logChips.map((c) => (
                       <SoftChip key={c} label={c} />
@@ -228,12 +242,15 @@ export default function HomeScreen() {
                   </SectionTitle>
                   <Card onPress={() => router.push(`/(tabs)/home/weekly/${program.weekly!.id}`)}>
                     <View style={styles.headingRow}>
-                      <Txt variant="cardTitle" style={styles.weeklyTitle}>
+                      <Txt
+                        variant="cardTitle"
+                        accessibilityRole="header"
+                        style={styles.weeklyTitle}>
                         {program.weekly.title}
                       </Txt>
                       <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
                     </View>
-                    <View style={styles.talkBox}>
+                    <View style={[styles.talkBox, { backgroundColor: theme.soft }]}>
                       <Txt variant="boxLabel" color={theme.accent}>
                         {t('home.talkTogether').toUpperCase()}
                       </Txt>
@@ -269,7 +286,9 @@ export default function HomeScreen() {
 
             {todayLog && todayLog.symptoms.length > 0 ? (
               <Card onPress={openLog}>
-                <Txt variant="cardTitle">{t('home.youLogged')}</Txt>
+                <Txt variant="cardTitle" accessibilityRole="header">
+                  {t('home.youLogged')}
+                </Txt>
                 <View style={styles.chips}>
                   {logChips.map((c) => (
                     <SoftChip key={c} label={c} />
@@ -288,7 +307,9 @@ export default function HomeScreen() {
                 <Card onPress={() => router.push(`/(tabs)/home/daily/${program.card!.id}`)}>
                   <View style={styles.headingRow}>
                     <View style={{ flex: 1, flexShrink: 1, gap: 2, marginRight: spacing.sm }}>
-                      <Txt variant="cardTitle">{program.card.title}</Txt>
+                      <Txt variant="cardTitle" accessibilityRole="header">
+                        {program.card.title}
+                      </Txt>
                       <Txt variant="footnote">
                         {t('home.todaysCardDay', { day: program.position.programDay })}
                       </Txt>
@@ -316,12 +337,11 @@ const styles = StyleSheet.create({
   weeklyTitle: { flex: 1, flexShrink: 1, marginRight: spacing.sm },
   headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 2 },
-  softChip: { borderRadius: radius.chip, paddingVertical: 5, paddingHorizontal: 11 },
+  softChip: { borderRadius: radius.chip, maxWidth: '100%' },
   softChipText: { fontFamily: fontFor(600) },
   tip: { gap: 6, marginTop: spacing.xs },
   bold: { fontFamily: fontFor(700) },
   talkBox: {
-    backgroundColor: colors.cardSecondary,
     borderRadius: radius.cell,
     paddingVertical: 14,
     paddingHorizontal: 16,

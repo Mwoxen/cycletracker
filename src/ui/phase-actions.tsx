@@ -39,7 +39,7 @@ export function PhaseActionsCard({
   return (
     <Card onPress={onOpen}>
       <View style={styles.head}>
-        <Txt variant="cardTitle">{t('home.whatYouCanDo')}</Txt>
+        <Txt variant="cardTitle" accessibilityRole="header">{t('home.whatYouCanDo')}</Txt>
         <Icon name="chevron.right" size={14} color={colors.tertiaryLabel} />
       </View>
       <Txt variant="footnote">{kicker}</Txt>

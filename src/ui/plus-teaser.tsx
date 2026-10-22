@@ -17,7 +17,7 @@ export function PlusTeaserCard({ card, programDay }: { card: DailyCard; programD
         <Icon name="lock.fill" size={12} color={colors.tertiaryLabel} />
       </View>
       <Card>
-        <Txt variant="cardTitle">{card.title}</Txt>
+        <Txt variant="cardTitle" accessibilityRole="header">{card.title}</Txt>
         <Txt variant="callout" color={colors.secondaryLabel}>
           {t('plus.teaser', { day: programDay })}
         </Txt>
