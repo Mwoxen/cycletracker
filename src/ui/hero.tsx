@@ -8,7 +8,7 @@ import type { CycleSnapshot } from '@/engine/cycle';
 import { compareISO, daysBetween } from '@/engine/dates';
 import { useFormat } from '@/hooks/use-format';
 import { selectActiveLogs, useStore } from '@/store/store';
-import { colors, spacing } from '@/ui/colors';
+import { colors, phaseColor, phaseSoft, radius, spacing } from '@/ui/colors';
 import { CycleRing } from '@/ui/cycle-ring';
 import { Txt } from '@/ui/primitives';
 
@@ -127,16 +127,25 @@ export function Hero({
         {t(`phases.short.${phase}`)}
       </Txt>
       <View style={styles.facts}>
-        {facts.slice(0, 3).map((f) => (
-          <View key={f.text} style={styles.fact}>
-            <Txt variant="callout" style={styles.factText}>
-              {f.text}
-            </Txt>
-            <Txt variant="tag" color={f.logged ? colors.label : colors.secondaryLabel}>
-              {(f.logged ? t('home.tagLogged') : `≈ ${t('home.tagEstimate')}`).toUpperCase()}
-            </Txt>
-          </View>
-        ))}
+        <View style={styles.factCard}>
+          {facts.slice(0, 3).map((f, i) => (
+            <View key={f.text} style={[styles.fact, i > 0 && styles.factBorder]}>
+              <Txt style={styles.factText}>{f.text}</Txt>
+              <View
+                style={[
+                  styles.pill,
+                  { backgroundColor: f.logged ? phaseSoft.follicular : colors.fill },
+                ]}>
+                <Txt
+                  variant="tag"
+                  color={f.logged ? phaseColor.follicular : colors.secondaryLabel}
+                  numberOfLines={1}>
+                  {(f.logged ? t('home.tagLogged') : `≈ ${t('home.tagEstimate')}`).toUpperCase()}
+                </Txt>
+              </View>
+            </View>
+          ))}
+        </View>
         <Txt variant="caption" style={styles.note}>
           {t('home.estimateNote')}
         </Txt>
@@ -150,16 +159,23 @@ const styles = StyleSheet.create({
   ringWrap: { marginBottom: 6 },
   headline: { textAlign: 'center', marginTop: 6, paddingHorizontal: spacing.sm },
   phaseLine: { textAlign: 'center', maxWidth: 300, marginTop: spacing.sm },
-  facts: { alignSelf: 'stretch', marginTop: spacing.lg },
+  facts: { alignSelf: 'stretch', marginTop: spacing.lg, marginHorizontal: -spacing.sm },
+  factCard: {
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.separator,
+    borderRadius: radius.card,
+    paddingHorizontal: spacing.card,
+  },
   fact: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderTopWidth: 1,
-    borderTopColor: colors.separator,
     paddingVertical: 12,
-    paddingHorizontal: 2,
+    minHeight: 44,
   },
+  factBorder: { borderTopWidth: 1, borderTopColor: colors.separator },
   factText: { flex: 1, flexShrink: 1, marginRight: spacing.md },
-  note: { marginTop: spacing.sm, paddingHorizontal: 2 },
+  pill: { borderRadius: radius.chip, paddingVertical: 3, paddingHorizontal: 8 },
+  note: { marginTop: spacing.sm + 2, paddingHorizontal: spacing.xs },
 });
