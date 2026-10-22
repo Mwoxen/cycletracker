@@ -61,6 +61,32 @@ describe('syncNotifications', () => {
     expect(scheduled()).toHaveLength(3);
   });
 
+  it('keeps a cycle reminder for today while its time is still ahead', async () => {
+    // PMS window starts 21 Oct; at 06:25 the 09:00 reminder is still due.
+    jest.setSystemTime(new Date('2026-10-21T06:25:00'));
+    await syncNotifications(
+      profile('tracker', '2026-09-29'),
+      { ...DEFAULT_SETTINGS, defaultCycleLength: 25 },
+      [period('2026-10-01')],
+      'free',
+    );
+    let byId = new Map(scheduled().map((s) => [s.id, s.trigger]));
+    expect(byId.get('pms-window')).toEqual({ type: 'date', date: local('2026-10-21', 9) });
+
+    // After 09:00 it has fired; rebuilding the schedule must not plan it again.
+    schedule.mockClear();
+    jest.setSystemTime(new Date('2026-10-21T10:00:00'));
+    await syncNotifications(
+      profile('tracker', '2026-09-29'),
+      { ...DEFAULT_SETTINGS, defaultCycleLength: 25 },
+      [period('2026-10-01')],
+      'free',
+    );
+    byId = new Map(scheduled().map((s) => [s.id, s.trigger]));
+    expect(byId.has('pms-window')).toBe(false);
+    expect(byId.get('period-soon')).toEqual({ type: 'date', date: local('2026-10-24', 9) });
+  });
+
   it('announces the articles and the wrap on Plus', async () => {
     await syncNotifications(
       profile('tracker', '2026-09-29'),

@@ -135,11 +135,25 @@ function at(iso: string, hour: number, minute = 0): Date {
  * Rebuild every scheduled local notification from the current state.
  * Cheap enough to call after any change to periods, settings or profile.
  */
-export async function syncNotifications(
+let chain: Promise<void> = Promise.resolve();
+
+export function syncNotifications(
   profile: Profile | undefined,
   settings: Settings,
   periods: PeriodEvent[],
   plan: Plan = 'free',
+): Promise<void> {
+  // One rebuild at a time: a sync on app activation and one from a data change can overlap,
+  // and the later cancelAll would wipe what the earlier one had just scheduled.
+  chain = chain.then(() => rebuild(profile, settings, periods, plan));
+  return chain;
+}
+
+async function rebuild(
+  profile: Profile | undefined,
+  settings: Settings,
+  periods: PeriodEvent[],
+  plan: Plan,
 ): Promise<void> {
   if (Platform.OS === 'web') return;
   try {
@@ -201,9 +215,13 @@ export async function syncNotifications(
     const prediction = predict(periods, settings, today);
     if (!prediction) return;
 
+    // A reminder for today is kept as long as its time is still ahead: the app is often opened
+    // in the morning, and every open rebuilds the schedule.
+    const stillAhead = (day: string) => at(day, r.cycleHour, r.cycleMinute).getTime() > Date.now();
+
     if (r.periodSoon) {
       const day = addDaysISO(prediction.nextPeriodStart, -2);
-      if (compareISO(day, today) > 0) {
+      if (stillAhead(day)) {
         await Notifications.scheduleNotificationAsync({
           identifier: 'period-soon',
           content: {
@@ -224,7 +242,7 @@ export async function syncNotifications(
 
     if (r.pmsWindow) {
       const day = prediction.pmsWindow.start;
-      if (compareISO(day, today) > 0) {
+      if (stillAhead(day)) {
         await Notifications.scheduleNotificationAsync({
           identifier: 'pms-window',
           content: {
