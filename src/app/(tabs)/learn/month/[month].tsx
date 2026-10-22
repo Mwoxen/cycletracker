@@ -1,6 +1,14 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, View, type ColorValue } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+  type ColorValue,
+} from 'react-native';
 
 import {
   MONTHS_IN_PROGRAM,
@@ -18,6 +26,7 @@ import { readingMinutes } from '@/ui/reading';
 import { usePhaseTheme } from '@/ui/theme';
 
 const GRID_COLUMNS = 6;
+const GRID_GAP = 6;
 
 /**
  * One programme month: its 30 cards as a grid (done, read, unread, locked), the weekly reads
@@ -31,6 +40,12 @@ export default function MonthScreen() {
   const m = Number(monthParam) || 1;
   const { content, position, progress } = useProgram();
   const month = getMonth(content, m);
+  // The grid's width, measured, so each cell is an exact square and nothing is left over;
+  // until the first layout, an estimate from the window width (screen and card padding).
+  const window = useWindowDimensions();
+  const [measured, setMeasured] = useState(0);
+  const gridWidth = measured || window.width - 2 * spacing.md - 2 * spacing.card;
+  const cellSize = Math.floor((gridWidth - GRID_GAP * (GRID_COLUMNS - 1)) / GRID_COLUMNS);
 
   if (!month) {
     return (
@@ -89,45 +104,58 @@ export default function MonthScreen() {
 
         <SectionTitle>{t('learn.daily')}</SectionTitle>
         <Card style={{ gap: spacing.md }}>
-          <View style={styles.grid}>
-            {cards.map((c) => {
-              const unlocked = isDailyUnlocked(position, m, c.day);
-              const read = !!progress[c.id]?.readAt;
-              const done = !!progress[c.id]?.actionDoneAt;
-              const isToday = position.month === m && position.dayInMonth === c.day;
-              const state = !unlocked ? 'locked' : done ? 'done' : read ? 'read' : 'unread';
-              return (
-                <Pressable
-                  key={c.id}
-                  disabled={!unlocked}
-                  onPress={() => router.push(`/(tabs)/learn/daily/${c.id}`)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${c.title}, ${t(`learn.legend${state[0].toUpperCase()}${state.slice(1)}` as 'learn.legendRead')}`}
-                  style={({ pressed }) => [
-                    styles.cell,
-                    state === 'done' && { backgroundColor: theme.accent, borderColor: theme.accent },
-                    state === 'read' && { backgroundColor: theme.soft, borderColor: theme.soft },
-                    state === 'locked' && styles.cellLocked,
-                    isToday && { borderWidth: 2, borderColor: colors.label },
-                    pressed && styles.pressed,
-                  ]}>
-                  <Txt
-                    variant="callout"
-                    color={
-                      state === 'done'
-                        ? colors.onAccent
-                        : state === 'read'
-                          ? theme.accent
-                          : state === 'locked'
-                            ? colors.tertiaryLabel
-                            : colors.label
-                    }
-                    style={styles.cellText}>
-                    {String(c.day)}
-                  </Txt>
-                </Pressable>
-              );
-            })}
+          <View style={styles.grid} onLayout={(e) => setMeasured(e.nativeEvent.layout.width)}>
+            {cellSize > 0
+              ? cards.map((c) => {
+                  const unlocked = isDailyUnlocked(position, m, c.day);
+                  const read = !!progress[c.id]?.readAt;
+                  const done = !!progress[c.id]?.actionDoneAt;
+                  const isToday = position.month === m && position.dayInMonth === c.day;
+                  const state = !unlocked ? 'locked' : done ? 'done' : read ? 'read' : 'unread';
+                  return (
+                    <Pressable
+                      key={c.id}
+                      disabled={!unlocked}
+                      onPress={() => router.push(`/(tabs)/learn/daily/${c.id}`)}
+                      accessibilityRole="button"
+                      accessibilityLabel={`${c.title}, ${t(`learn.legend${state[0].toUpperCase()}${state.slice(1)}` as 'learn.legendRead')}`}
+                      style={({ pressed }) => [
+                        styles.cell,
+                        { width: cellSize, height: cellSize },
+                        state === 'done' && {
+                          backgroundColor: theme.accent,
+                          borderColor: theme.accent,
+                        },
+                        state === 'read' && {
+                          backgroundColor: theme.soft,
+                          borderColor: theme.soft,
+                        },
+                        state === 'locked' && styles.cellLocked,
+                        isToday && { borderWidth: 2, borderColor: colors.label },
+                        pressed && styles.pressed,
+                      ]}>
+                      <Text
+                        allowFontScaling
+                        maxFontSizeMultiplier={1.3}
+                        style={[
+                          styles.cellText,
+                          {
+                            color:
+                              state === 'done'
+                                ? colors.onAccent
+                                : state === 'read'
+                                  ? theme.accent
+                                  : state === 'locked'
+                                    ? colors.tertiaryLabel
+                                    : colors.label,
+                          },
+                        ]}>
+                        {String(c.day)}
+                      </Text>
+                    </Pressable>
+                  );
+                })
+              : null}
           </View>
           <View style={styles.legend}>
             <Legend color={theme.accent} label={t('learn.legendDone')} />
@@ -158,11 +186,7 @@ export default function MonthScreen() {
                     style={[
                       styles.badge,
                       {
-                        backgroundColor: !unlocked
-                          ? colors.fill
-                          : read
-                            ? theme.soft
-                            : theme.accent,
+                        backgroundColor: !unlocked ? colors.fill : read ? theme.soft : theme.accent,
                       },
                     ]}>
                     <Txt
@@ -183,9 +207,12 @@ export default function MonthScreen() {
         </Card>
 
         <Card
-          onPress={wrapUnlocked ? () => router.push(`/(tabs)/learn/wrap/${month.wrap.id}`) : undefined}
+          onPress={
+            wrapUnlocked ? () => router.push(`/(tabs)/learn/wrap/${month.wrap.id}`) : undefined
+          }
           style={styles.wrapCard}>
-          <View style={[styles.badge, { backgroundColor: wrapUnlocked ? theme.soft : colors.fill }]}>
+          <View
+            style={[styles.badge, { backgroundColor: wrapUnlocked ? theme.soft : colors.fill }]}>
             <Icon
               name={wrapUnlocked ? 'star.fill' : 'lock.fill'}
               size={14}
@@ -244,12 +271,8 @@ const styles = StyleSheet.create({
   semibold: { fontFamily: fontFor(600) },
   track: { height: 6, borderRadius: 3, backgroundColor: colors.fill, overflow: 'hidden' },
   fill: { height: 6, borderRadius: 3 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: GRID_GAP },
   cell: {
-    width: `${100 / GRID_COLUMNS}%` as `${number}%`,
-    // The gap takes its share of the row: six cells and five 6 pt gaps.
-    flexBasis: `${(100 - 5 * 1.9) / GRID_COLUMNS}%` as `${number}%`,
-    aspectRatio: 1,
     borderRadius: radius.cell,
     borderWidth: 1,
     borderColor: colors.separator,
@@ -257,7 +280,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cellLocked: { backgroundColor: colors.fill, borderColor: colors.fill },
-  cellText: { fontFamily: fontFor(600), fontVariant: ['tabular-nums'] },
+  cellText: {
+    fontFamily: fontFor(600),
+    fontSize: 16,
+    lineHeight: 20,
+    textAlign: 'center',
+    fontVariant: ['tabular-nums'],
+  },
   pressed: { opacity: 0.6 },
   legend: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   legendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
