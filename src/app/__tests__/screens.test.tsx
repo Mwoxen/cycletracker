@@ -305,7 +305,9 @@ describe('tabs', () => {
     onboard('tracker');
     await renderApp('/settings');
     const settings = settingsTab();
-    expect(await settings.findByText(upper(da.settings.cycleOf.replace('{{name}}', 'Anna')))).toBeTruthy();
+    expect(
+      await settings.findByText(upper(da.settings.cycleOf.replace('{{name}}', 'Anna'))),
+    ).toBeTruthy();
     expect(settings.getByText(upper(da.settings.profileDay.replace('{{day}}', '1')))).toBeTruthy();
     expect(settings.getByText(upper(da.settings.sharing))).toBeTruthy();
     expect(settings.getByText(da.settings.times)).toBeTruthy();
@@ -532,7 +534,9 @@ describe('sheets', () => {
     onboard('tracker');
     const today = todayISO();
     await renderApp(`/log/${today}`);
-    expect(await screen.findByText(da.log.howToday)).toBeTruthy();
+    expect(
+      await screen.findByText(da.log.howTodayPartner.replace('{{name}}', 'Anna')),
+    ).toBeTruthy();
     const before = selectActivePeriods(useStore.getState()).length;
     await fireEvent.press(screen.getByText(da.log.periodStart));
     const periods = selectActivePeriods(useStore.getState());

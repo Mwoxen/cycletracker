@@ -133,6 +133,7 @@ export default function ArchiveScreen() {
       <Stack.Screen
         options={{
           title: t('learn.archive'),
+          headerLargeTitleEnabled: false,
           headerSearchBarOptions: {
             placeholder: t('learn.searchPlaceholder'),
             hideWhenScrolling: false,
