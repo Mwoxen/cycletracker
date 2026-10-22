@@ -43,7 +43,7 @@ export function DailyCardPreview({
       <Card>
         <Link href={`/(tabs)/home/daily/${card.id}`} asChild>
           <Pressable accessibilityRole="button" style={styles.top}>
-            <Txt variant="cardTitle">{card.title}</Txt>
+            <Txt variant="cardTitle" accessibilityRole="header">{card.title}</Txt>
             <Txt variant="callout" numberOfLines={3} color={colors.secondaryLabel}>
               {card.insight}
             </Txt>
