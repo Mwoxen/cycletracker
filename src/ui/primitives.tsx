@@ -384,7 +384,8 @@ const styles = StyleSheet.create({
   tag: { fontFamily: fontFor(600), fontSize: 10, lineHeight: 12, letterSpacing: 1.4 },
   largeTitle: { fontFamily: fontFor(300), fontSize: 28, lineHeight: 30, letterSpacing: -0.3 },
   title: { fontFamily: fontFor(400), fontSize: 21, lineHeight: 25, letterSpacing: -0.2 },
-  headline: { fontFamily: fontFor(600), fontSize: 17, lineHeight: 22 },
+  // Below Manrope's natural height (about 1.36×) iOS pushes the glyphs down in the line box.
+  headline: { fontFamily: fontFor(600), fontSize: 17, lineHeight: 23 },
   body: { fontFamily: fontFor(400), fontSize: 16, lineHeight: 23 },
   callout: { fontFamily: fontFor(400), fontSize: 15, lineHeight: 21 },
   footnote: { fontFamily: fontFor(400), fontSize: 13, lineHeight: 18 },
