@@ -60,11 +60,17 @@ export type Energy = 'high' | 'normal' | 'low';
 export const ENERGIES: Energy[] = ['high', 'normal', 'low'];
 
 /** A record that can be merged between devices and backups. */
+/** Who wrote a record: the cycle owner or her partner. Missing means the cycle owner. */
+export type Author = 'user' | 'tracker';
+export const AUTHORS: Author[] = ['user', 'tracker'];
+
 export interface Syncable {
   id: string;
-  /** Milliseconds since epoch. Last-write-wins on merge. */
+  /** Milliseconds since epoch. Last-write-wins on merge, after the author rule. */
   updatedAt: number;
   deleted?: boolean;
+  /** The cycle owner's records always beat the partner's on merge; she decides. */
+  by?: Author;
 }
 
 export interface PeriodEvent extends Syncable {

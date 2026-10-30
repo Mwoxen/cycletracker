@@ -90,6 +90,10 @@ const en: Translation = {
     daysUnit: '{{n}} days',
   },
   home: {
+    youLoggedFor: 'You logged for {{name}} today',
+    partnerLoggedForYou: '{{name}} logged for you today',
+    tagLoggedByYou: 'Logged by you',
+    tagLoggedByPartner: 'Logged by {{name}}',
     title: 'Today',
     sheIsIn: '{{name}} is in {{phase}}',
     youAreIn: 'You are in {{phase}}',
@@ -408,6 +412,9 @@ const en: Translation = {
     openLog: 'Open log',
   },
   log: {
+    loggedBy: 'Logged by {{name}}',
+    loggedByYou: 'Logged by you',
+    onBehalf: "You are logging on {{name}}'s behalf. If she corrects it later, hers counts.",
     title: 'Log',
     forDate: 'Log for {{date}}',
     period: 'Period',

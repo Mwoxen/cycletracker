@@ -7,15 +7,17 @@ import { pickHeadline } from '@/content';
 import type { CycleSnapshot } from '@/engine/cycle';
 import { compareISO, daysBetween } from '@/engine/dates';
 import { useFormat } from '@/hooks/use-format';
-import { selectActiveLogs, useStore } from '@/store/store';
+import { selectActiveLogs, selectActivePeriods, useStore } from '@/store/store';
 import { colors, phaseColor, phaseSoft, radius, spacing } from '@/ui/colors';
 import { CycleRing } from '@/ui/cycle-ring';
 import { Txt } from '@/ui/primitives';
 
 interface Fact {
   text: string;
-  /** Logged by her, as opposed to a prediction. */
+  /** Logged, as opposed to a prediction. */
   logged: boolean;
+  /** Logged by the partner rather than by her. */
+  byPartner?: boolean;
 }
 
 /**
@@ -36,6 +38,7 @@ export function Hero({
   const fmt = useFormat();
   const settings = useStore((s) => s.settings);
   const logs = useStore(selectActiveLogs);
+  const periods = useStore(selectActivePeriods);
   const today = snapshot.today;
   const prediction = snapshot.prediction;
 
@@ -57,9 +60,11 @@ export function Hero({
 
   const facts: Fact[] = [];
   if (today.isLoggedPeriod) {
+    const period = periods.find((p) => p.startDate === today.cycleStart);
     facts.push({
       text: t('home.periodStarted', { date: fmt.short(today.cycleStart) }),
       logged: true,
+      byPartner: period?.by === 'tracker',
     });
   }
   if (prediction.isLate) {
@@ -140,7 +145,14 @@ export function Hero({
                   variant="tag"
                   color={f.logged ? phaseColor.follicular : colors.secondaryLabel}
                   numberOfLines={1}>
-                  {(f.logged ? t('home.tagLogged') : `≈ ${t('home.tagEstimate')}`).toUpperCase()}
+                  {(f.logged
+                    ? f.byPartner
+                      ? isTracker
+                        ? t('home.tagLoggedByYou')
+                        : t('home.tagLoggedByPartner', { name })
+                      : t('home.tagLogged')
+                    : `≈ ${t('home.tagEstimate')}`
+                  ).toUpperCase()}
                 </Txt>
               </View>
             </View>

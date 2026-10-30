@@ -78,6 +78,14 @@ describe('store', () => {
     expect(useStore.getState().periods[first].endDate).toBe('2026-03-23');
   });
 
+  it('stamps who wrote a period or log', () => {
+    onboard();
+    const id = useStore.getState().startPeriod('2026-03-10');
+    expect(useStore.getState().periods[id].by).toBe('tracker');
+    useStore.getState().upsertLog('2026-03-10', { mood: 'low' });
+    expect(Object.values(useStore.getState().logs)[0].by).toBe('tracker');
+  });
+
   it('upserts one log per date', () => {
     onboard();
     useStore.getState().upsertLog('2026-03-05', { symptoms: ['cramps'] });

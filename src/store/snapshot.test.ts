@@ -170,6 +170,69 @@ describe('mergeSnapshot', () => {
     expect(r.periodsChanged).toBe(2);
   });
 
+  it('lets her record beat his whatever the timestamps say', () => {
+    // His edit of her period is newer, but hers comes back and wins.
+    const current = data({ periods: { a: p('a', '2026-03-02', 20, { by: 'tracker' }) } });
+    const incoming = createSnapshot(
+      data({ periods: { a: p('a', '2026-03-01', 5, { by: 'user' }) } }),
+      'dev2',
+    );
+    const r = mergeSnapshot(current, incoming, { includeProfile: false, includeProgress: false });
+    expect(r.data.periods.a.startDate).toBe('2026-03-01');
+    expect(r.data.periods.a.by).toBe('user');
+    // And his newer copy never replaces hers (a record without an author is hers too).
+    const back = mergeSnapshot(
+      data({ periods: { a: p('a', '2026-03-01', 5) } }),
+      createSnapshot(data({ periods: { a: p('a', '2026-03-02', 50, { by: 'tracker' }) } }), 'dev2'),
+      { includeProfile: false, includeProgress: false },
+    );
+    expect(back.data.periods.a.startDate).toBe('2026-03-01');
+    expect(back.periodsChanged).toBe(0);
+  });
+
+  it('drops his period near hers and his log on her day, as tombstones', () => {
+    const current = data({
+      periods: { his: p('his', '2026-03-03', 10, { by: 'tracker' }) },
+      logs: {
+        hisLog: {
+          id: 'hisLog',
+          date: '2026-03-05',
+          symptoms: ['cramps'],
+          updatedAt: 10,
+          by: 'tracker',
+        },
+      },
+    });
+    const incoming = createSnapshot(
+      data({
+        periods: { hers: p('hers', '2026-03-01', 5, { by: 'user' }) },
+        logs: {
+          herLog: {
+            id: 'herLog',
+            date: '2026-03-05',
+            symptoms: ['fatigue'],
+            updatedAt: 5,
+            by: 'user',
+          },
+        },
+      }),
+      'dev2',
+    );
+    const r = mergeSnapshot(current, incoming, { includeProfile: false, includeProgress: false });
+    expect(r.data.periods.hers.deleted).toBeFalsy();
+    expect(r.data.periods.his.deleted).toBe(true);
+    expect(r.data.periods.his.updatedAt).toBeGreaterThan(10);
+    expect(r.data.logs.herLog.deleted).toBeFalsy();
+    expect(r.data.logs.hisLog.deleted).toBe(true);
+    // His period far from hers stays.
+    const far = mergeSnapshot(
+      data({ periods: { his: p('his', '2026-03-20', 10, { by: 'tracker' }) } }),
+      incoming,
+      { includeProfile: false, includeProgress: false },
+    );
+    expect(far.data.periods.his.deleted).toBeFalsy();
+  });
+
   it('carries deletions', () => {
     const current = data({ periods: { a: p('a', '2026-03-01', 10) } });
     const incoming = createSnapshot(

@@ -3,6 +3,7 @@
  * The same format is used for iCloud backup, manual export/import and partner sync.
  */
 import {
+  AUTHORS,
   APPEARANCES,
   CYCLE_WEEKS,
   DEFAULT_SETTINGS,
@@ -25,7 +26,7 @@ import {
   type WeekFocus,
 } from '@/domain/types';
 import { CYCLE_WEEK_ACTIONS } from '@/content/types';
-import { isValidISODate } from '@/engine/dates';
+import { daysBetween, isValidISODate } from '@/engine/dates';
 
 export const SNAPSHOT_VERSION = 1;
 
@@ -128,6 +129,18 @@ export function createSyncSnapshot(
   };
 }
 
+/** The cycle owner outranks her partner; a record without an author is hers (older apps). */
+const rank = (r: Syncable) => (r.by === 'tracker' ? 0 : 1);
+
+/** True when the incoming copy of a record should replace the one we have. */
+export function incomingWins(existing: Syncable | undefined, incoming: Syncable): boolean {
+  if (!existing) return true;
+  const a = rank(incoming);
+  const b = rank(existing);
+  if (a !== b) return a > b;
+  return incoming.updatedAt > existing.updatedAt;
+}
+
 function mergeSyncable<T extends Syncable>(
   current: Record<string, T>,
   incoming: T[],
@@ -135,8 +148,7 @@ function mergeSyncable<T extends Syncable>(
   const result = { ...current };
   let changed = 0;
   for (const item of incoming) {
-    const existing = result[item.id];
-    if (!existing || item.updatedAt > existing.updatedAt) {
+    if (incomingWins(result[item.id], item)) {
       result[item.id] = item;
       changed += 1;
     }
@@ -207,6 +219,34 @@ function mergeActionsDone<T extends Record<string, Record<string, number[]>>>(
   return result as T;
 }
 
+/** A partner's period this close to one of hers is the same period, told differently. */
+export const PERIOD_CLASH_DAYS = 10;
+
+/**
+ * She decides: after a merge, a partner's record that clashes with one of hers (a log on the
+ * same day, a period start within a few days of hers) is dropped, so the app follows her data.
+ * The drop is a tombstone with a fresh timestamp, so it travels to the other phone too.
+ */
+function withHerDecision<T extends Syncable>(
+  merged: { result: Record<string, T>; changed: number },
+  clashes: (hers: T, his: T) => boolean,
+  now = Date.now(),
+): { result: Record<string, T>; changed: number } {
+  const live = Object.values(merged.result).filter((r) => !r.deleted);
+  const hers = live.filter((r) => rank(r) === 1);
+  const his = live.filter((r) => rank(r) === 0);
+  if (hers.length === 0 || his.length === 0) return merged;
+  let result = merged.result;
+  let changed = merged.changed;
+  for (const record of his) {
+    if (!hers.some((h) => clashes(h, record))) continue;
+    if (result === merged.result) result = { ...result };
+    result[record.id] = { ...record, deleted: true, updatedAt: now };
+    changed += 1;
+  }
+  return { result, changed };
+}
+
 export interface MergeResult {
   data: SnapshotData;
   periodsChanged: number;
@@ -218,8 +258,15 @@ export function mergeSnapshot(
   snapshot: Snapshot,
   options: MergeOptions,
 ): MergeResult {
-  const periods = mergeSyncable(current.periods, snapshot.periods);
-  const logs = mergeSyncable(current.logs, snapshot.logs);
+  const merged = {
+    periods: mergeSyncable(current.periods, snapshot.periods),
+    logs: mergeSyncable(current.logs, snapshot.logs),
+  };
+  const periods = withHerDecision(
+    merged.periods,
+    (a, b) => Math.abs(daysBetween(a.startDate, b.startDate)) <= PERIOD_CLASH_DAYS,
+  );
+  const logs = withHerDecision(merged.logs, (a, b) => a.date === b.date);
   const progress = options.includeProgress
     ? mergeProgress(current.progress, snapshot.progress)
     : current.progress;
@@ -274,7 +321,7 @@ export function parseSnapshot(text: string): Snapshot {
     profile: sanitizeProfile(obj.profile),
     settings: sanitizeSettings(obj.settings),
     cycleSettings: sanitizeCycleSettings(obj.cycleSettings),
-    periods: arr(obj.periods).filter(isPeriod),
+    periods: arr(obj.periods).filter(isPeriod).map(withAuthor),
     logs: arr(obj.logs)
       .filter(isSyncable)
       .flatMap((l) => sanitizeLog(l)),
@@ -310,13 +357,21 @@ function isPeriod(v: unknown): v is PeriodEvent {
   return isDate(p.startDate) && (p.endDate === undefined || isDate(p.endDate));
 }
 
+/** The author field as written, or dropped when it is not one of ours. */
+function withAuthor<T extends Syncable>(r: T): T {
+  if (r.by === undefined) return r;
+  if ((AUTHORS as string[]).includes(r.by as string)) return r;
+  const { by: _by, ...rest } = r;
+  return rest as T;
+}
+
 function sanitizeLog(v: Syncable): DayLog[] {
   const l = v as Partial<DayLog> & Syncable;
   if (!isDate(l.date)) return [];
   const symptoms = (Array.isArray(l.symptoms) ? l.symptoms : []).filter((x): x is Symptom =>
     (SYMPTOMS as string[]).includes(x as string),
   );
-  return [{ ...l, date: l.date, symptoms } as DayLog];
+  return [withAuthor({ ...l, date: l.date, symptoms } as DayLog)];
 }
 
 const isCycleWeek = (v: unknown): v is CycleWeek => (CYCLE_WEEKS as unknown[]).includes(v);
@@ -462,7 +517,7 @@ export function previewMerge(current: SnapshotData, snapshot: Snapshot): MergePr
     for (const item of incoming) {
       const cur = existing[item.id];
       if (!cur) added += 1;
-      else if (item.updatedAt > cur.updatedAt) updated += 1;
+      else if (incomingWins(cur, item)) updated += 1;
     }
     return { added, updated };
   };
