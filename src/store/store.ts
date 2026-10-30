@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import {
+  type Author,
   DEFAULT_SETTINGS,
   FREE_ENTITLEMENT,
   WEEK_FOCUS_MAX_LENGTH,
@@ -90,6 +91,11 @@ export interface AppState extends SnapshotData {
   resetAll: () => void;
 }
 
+/** Who is writing on this phone: the partner, or the cycle owner (also before onboarding). */
+function author(state: { profile?: Profile }): Author {
+  return state.profile?.role === 'tracker' ? 'tracker' : 'user';
+}
+
 const initialData = (): SnapshotData & { deviceId: string } => ({
   profile: undefined,
   settings: DEFAULT_SETTINGS,
@@ -139,7 +145,12 @@ export const useStore = create<AppState>()(
         const periods = { ...get().periods };
         if (input.lastPeriodStart) {
           const id = newId();
-          periods[id] = { id, startDate: input.lastPeriodStart, updatedAt: now };
+          periods[id] = {
+            id,
+            startDate: input.lastPeriodStart,
+            updatedAt: now,
+            by: input.role === 'tracker' ? 'tracker' : 'user',
+          };
         }
         set({ profile, settings, periods });
       },
@@ -161,11 +172,12 @@ export const useStore = create<AppState>()(
 
       startPeriod: (date) => {
         const now = Date.now();
+        const by = author(get());
         const periods = { ...get().periods };
         // A period already starting on this date is revived instead of duplicated.
         const existing = Object.values(periods).find((p) => p.startDate === date);
         if (existing) {
-          periods[existing.id] = { ...existing, deleted: false, updatedAt: now };
+          periods[existing.id] = { ...existing, deleted: false, updatedAt: now, by };
           set({ periods });
           return existing.id;
         }
@@ -173,11 +185,11 @@ export const useStore = create<AppState>()(
         for (const p of Object.values(periods)) {
           if (p.deleted || !p.endDate) continue;
           if (compareISO(p.startDate, date) < 0 && compareISO(p.endDate, date) >= 0) {
-            periods[p.id] = { ...p, endDate: addDaysISO(date, -1), updatedAt: now };
+            periods[p.id] = { ...p, endDate: addDaysISO(date, -1), updatedAt: now, by };
           }
         }
         const id = newId();
-        periods[id] = { id, startDate: date, updatedAt: now };
+        periods[id] = { id, startDate: date, updatedAt: now, by };
         set({ periods });
         return id;
       },
@@ -186,13 +198,18 @@ export const useStore = create<AppState>()(
         const p = get().periods[id];
         if (!p) return;
         if (endDate && compareISO(endDate, p.startDate) < 0) return;
-        set({ periods: { ...get().periods, [id]: { ...p, endDate, updatedAt: Date.now() } } });
+        set({
+          periods: {
+            ...get().periods,
+            [id]: { ...p, endDate, updatedAt: Date.now(), by: author(get()) },
+          },
+        });
       },
 
       updatePeriod: (id, patch) => {
         const p = get().periods[id];
         if (!p) return;
-        const next = { ...p, ...patch, updatedAt: Date.now() };
+        const next = { ...p, ...patch, updatedAt: Date.now(), by: author(get()) };
         if (next.endDate && compareISO(next.endDate, next.startDate) < 0) next.endDate = undefined;
         set({ periods: { ...get().periods, [id]: next } });
       },
@@ -201,12 +218,16 @@ export const useStore = create<AppState>()(
         const p = get().periods[id];
         if (!p) return;
         set({
-          periods: { ...get().periods, [id]: { ...p, deleted: true, updatedAt: Date.now() } },
+          periods: {
+            ...get().periods,
+            [id]: { ...p, deleted: true, updatedAt: Date.now(), by: author(get()) },
+          },
         });
       },
 
       upsertLog: (date, patch) => {
         const now = Date.now();
+        const by = author(get());
         const logs = { ...get().logs };
         const existing = Object.values(logs).find((l) => l.date === date);
         if (existing) {
@@ -214,10 +235,10 @@ export const useStore = create<AppState>()(
           const base = existing.deleted
             ? { id: existing.id, date: existing.date, symptoms: [] as DayLog['symptoms'] }
             : existing;
-          logs[existing.id] = { ...base, ...patch, deleted: false, updatedAt: now };
+          logs[existing.id] = { ...base, ...patch, deleted: false, updatedAt: now, by };
         } else {
           const id = newId();
-          logs[id] = { id, date, symptoms: [], ...patch, updatedAt: now };
+          logs[id] = { id, date, symptoms: [], ...patch, updatedAt: now, by };
         }
         set({ logs });
       },
@@ -226,7 +247,12 @@ export const useStore = create<AppState>()(
         const logs = { ...get().logs };
         const existing = Object.values(logs).find((l) => l.date === date);
         if (!existing) return;
-        logs[existing.id] = { ...existing, deleted: true, updatedAt: Date.now() };
+        logs[existing.id] = {
+          ...existing,
+          deleted: true,
+          updatedAt: Date.now(),
+          by: author(get()),
+        };
         set({ logs });
       },
 

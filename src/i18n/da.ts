@@ -88,6 +88,10 @@ const da = {
     daysUnit: '{{n}} dage',
   },
   home: {
+    youLoggedFor: 'Du har registreret for {{name}} i dag',
+    partnerLoggedForYou: '{{name}} har registreret for dig i dag',
+    tagLoggedByYou: 'Registreret af dig',
+    tagLoggedByPartner: 'Registreret af {{name}}',
     title: 'I dag',
     sheIsIn: '{{name}} er i {{phase}}',
     youAreIn: 'Du er i {{phase}}',
@@ -407,6 +411,9 @@ const da = {
     openLog: 'Åbn logning',
   },
   log: {
+    loggedBy: 'Registreret af {{name}}',
+    loggedByYou: 'Registreret af dig',
+    onBehalf: 'Du registrerer på {{name}}s vegne. Retter hun det senere, gælder hendes.',
     title: 'Registrér',
     forDate: 'Registrér for {{date}}',
     period: 'Menstruation',

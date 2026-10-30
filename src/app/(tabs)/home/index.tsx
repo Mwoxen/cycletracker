@@ -193,7 +193,9 @@ export default function HomeScreen() {
               <Reveal index={2}>
                 <Card onPress={openLog}>
                   <Txt variant="cardTitle" accessibilityRole="header">
-                    {t('home.sheLogged', { name })}
+                    {todayLog?.by === 'tracker'
+                      ? t('home.youLoggedFor', { name })
+                      : t('home.sheLogged', { name })}
                   </Txt>
                   <View style={styles.chips}>
                     {logChips.map((c) => (
@@ -287,7 +289,9 @@ export default function HomeScreen() {
             {todayLog && todayLog.symptoms.length > 0 ? (
               <Card onPress={openLog}>
                 <Txt variant="cardTitle" accessibilityRole="header">
-                  {t('home.youLogged')}
+                  {todayLog.by === 'tracker'
+                    ? t('home.partnerLoggedForYou', { name })
+                    : t('home.youLogged')}
                 </Txt>
                 <View style={styles.chips}>
                   {logChips.map((c) => (

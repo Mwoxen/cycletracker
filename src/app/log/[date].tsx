@@ -58,9 +58,9 @@ export default function LogSheet() {
   const periods = useStore(selectActivePeriods);
   const settings = useStore((s) => s.settings);
   const log = useStore(selectLogForDate(date));
-  const partnerName = useStore((s) =>
-    s.profile?.role === 'tracker' ? s.profile.partnerName : undefined,
-  );
+  const role = useStore((s) => s.profile?.role);
+  const otherName = useStore((s) => s.profile?.partnerName ?? '');
+  const partnerName = role === 'tracker' ? otherName : undefined;
   const shared = useStore((s) => !!s.cloudSync.lastSyncAt);
   const startPeriod = useStore((s) => s.startPeriod);
   const endPeriod = useStore((s) => s.endPeriod);
@@ -82,6 +82,17 @@ export default function LogSheet() {
   );
   const endsHere = !!ongoing && ongoing.endDate === date;
   const hasData = !!log || !!startingHere || endsHere;
+  /** Who wrote this day: the log first, else the period start or end on it. */
+  const writtenBy = hasData
+    ? ((log ?? startingHere ?? (endsHere ? ongoing : undefined))?.by ?? 'user')
+    : undefined;
+  const byLine = !writtenBy
+    ? role === 'tracker'
+      ? t('log.onBehalf', { name: otherName })
+      : undefined
+    : writtenBy === role
+      ? t('log.loggedByYou')
+      : t('log.loggedBy', { name: otherName });
   const cycleDay = useMemo(
     () => dayStatus(periods, settings, date)?.cycleDay,
     [periods, settings, date],
@@ -159,6 +170,13 @@ export default function LogSheet() {
           <Txt variant="cardTitle">
             {partnerName ? t('log.howTodayPartner', { name: partnerName }) : t('log.howToday')}
           </Txt>
+          {byLine ? (
+            <Txt
+              variant="footnote"
+              color={writtenBy && writtenBy !== role ? theme.accent : undefined}>
+              {byLine}
+            </Txt>
+          ) : null}
         </View>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
           <Txt variant="headline" color={theme.accent} style={styles.done}>
