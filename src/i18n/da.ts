@@ -1,5 +1,6 @@
 const da = {
   common: {
+    you: 'dig',
     appName: 'Cycle Tracker',
     save: 'Gem',
     cancel: 'Annuller',
@@ -411,6 +412,23 @@ const da = {
     openLog: 'Åbn logning',
   },
   log: {
+    howOnDay: 'Hvordan havde du det den dag?',
+    howOnDayPartner: 'Hvordan havde {{name}} det den dag?',
+    // Redesign 2: title first, pills, four cards, undo instead of a confirmation.
+    dayPill: '{{date}} · dag {{n}}',
+    loggedPill: '{{name}} · {{time}}',
+    howSheFeels: 'Sådan har hun det',
+    howYouFeel: 'Sådan har du det',
+    mostOften: 'Hun registrerer oftest',
+    mostOftenOwn: 'Du registrerer oftest',
+    startedOn: 'Startede {{date}} · dag {{n}}',
+    flowWhenPeriod: 'Blødning (når der er menstruation)',
+    flowShort: { spotting: 'Plet', light: 'Let', medium: 'Middel', heavy: 'Kraftig' },
+    savedAt: 'Gemt {{time}}',
+    savedAtShared: 'Gemt {{time}} · sendt til {{name}}',
+    cleared: 'Dagen er ryddet',
+    periodRemoved: 'Menstruationsstarten er fjernet',
+    undo: 'Fortryd',
     loggedBy: 'Registreret af {{name}}',
     loggedByYou: 'Registreret af dig',
     onBehalf: 'Du registrerer på {{name}}s vegne. Retter hun det senere, gælder hendes.',

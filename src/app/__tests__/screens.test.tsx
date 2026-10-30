@@ -544,8 +544,15 @@ describe('sheets', () => {
     expect(periods.some((p) => p.startDate === today)).toBe(true);
     await fireEvent.press(screen.getByText(da.log.symptomNames.cramps));
     expect(Object.values(useStore.getState().logs)[0]?.symptoms).toEqual(['cramps']);
-    expect(screen.getByText(da.log.saved)).toBeTruthy();
+    expect(screen.getByText(/^Gemt /)).toBeTruthy();
     expect(screen.getByText(da.log.clearDay)).toBeTruthy();
+    // Clearing is immediate, with an undo bar instead of a confirmation.
+    await fireEvent.press(screen.getByText(da.log.clearDay));
+    expect(await screen.findByText(da.log.cleared)).toBeTruthy();
+    expect(Object.values(useStore.getState().logs)[0]?.deleted).toBe(true);
+    await fireEvent.press(screen.getByText(da.log.undo));
+    expect(Object.values(useStore.getState().logs)[0]?.symptoms).toEqual(['cramps']);
+    expect(selectActivePeriods(useStore.getState()).some((p) => p.startDate === today)).toBe(true);
   });
 
   it('renders the partner sheet with her code', async () => {

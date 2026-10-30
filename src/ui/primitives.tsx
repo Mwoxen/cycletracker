@@ -311,12 +311,18 @@ export function Chip({
   onPress,
   color,
   style,
+  lead,
+  textColor,
 }: {
   label: string;
   selected?: boolean;
   onPress?: PressableProps['onPress'];
   color?: ColorValue;
   style?: StyleProp<ViewStyle>;
+  /** Rendered before the label, e.g. an icon or an initial. */
+  lead?: ReactNode;
+  /** Label colour when not selected. */
+  textColor?: ColorValue;
 }) {
   const theme = usePhaseTheme();
   const fill = color ?? theme.accent;
@@ -333,9 +339,10 @@ export function Chip({
           : { backgroundColor: 'transparent', borderColor: colors.separator },
         style,
       ]}>
+      {lead}
       <Txt
         variant="callout"
-        color={selected ? colors.onAccent : colors.label}
+        color={selected ? colors.onAccent : (textColor ?? colors.label)}
         // A label is never split across lines: it keeps to one line and, if the chip is too
         // narrow (large text sizes), shrinks a little before it would be cut.
         numberOfLines={1}
@@ -427,6 +434,9 @@ const styles = StyleSheet.create({
   },
   plainText: { fontFamily: fontFor(600) },
   chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     paddingVertical: 9,
     paddingHorizontal: 13,
     borderRadius: radius.chip,
