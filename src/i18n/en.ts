@@ -2,6 +2,7 @@ import type { Translation } from './da';
 
 const en: Translation = {
   common: {
+    you: 'you',
     appName: 'Cycle Tracker',
     save: 'Save',
     cancel: 'Cancel',
@@ -412,6 +413,23 @@ const en: Translation = {
     openLog: 'Open log',
   },
   log: {
+    howOnDay: 'How did you feel that day?',
+    howOnDayPartner: 'How did {{name}} feel that day?',
+    // Redesign 2: title first, pills, four cards, undo instead of a confirmation.
+    dayPill: '{{date}} · day {{n}}',
+    loggedPill: '{{name}} · {{time}}',
+    howSheFeels: 'How she feels',
+    howYouFeel: 'How you feel',
+    mostOften: 'She logs most often',
+    mostOftenOwn: 'You log most often',
+    startedOn: 'Started {{date}} · day {{n}}',
+    flowWhenPeriod: 'Bleeding (when there is a period)',
+    flowShort: { spotting: 'Spot', light: 'Light', medium: 'Medium', heavy: 'Heavy' },
+    savedAt: 'Saved {{time}}',
+    savedAtShared: 'Saved {{time}} · sent to {{name}}',
+    cleared: 'The day was cleared',
+    periodRemoved: 'The period start was removed',
+    undo: 'Undo',
     loggedBy: 'Logged by {{name}}',
     loggedByYou: 'Logged by you',
     onBehalf: "You are logging on {{name}}'s behalf. If she corrects it later, hers counts.",
